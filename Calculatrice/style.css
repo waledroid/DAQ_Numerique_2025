@@ -98,3 +98,18 @@ button:active {
 .btn-clear    { background-color: red;    color: white; }
 .btn-equal    { background-color: green;  color: white; }
 .btn-number   { background-color: #444;   color: white; }
+
+@media screen and (max-width: 768px) {
+    .hero {
+        width: 90%;          
+        height: auto;        
+        padding: 2rem 1rem;     
+        margin: 0 auto;      
+    }
+
+    .hero h2 {
+        font-size: 1.4rem;   
+        text-align: center;  
+        line-height: 1.3;    
+    }
+}
