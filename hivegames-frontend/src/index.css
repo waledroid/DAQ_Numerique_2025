@@ -1,0 +1,20 @@
+@import "tailwindcss";
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+
+@keyframes panBackground {
+    0% {
+      transform: scale(1.1) translateX(0px);
+    }
+    50% {
+      transform: scale(1.1) translateX(-20px);
+    }
+    100% {
+      transform: scale(1.1) translateX(0px);
+    }
+  }
+  
+  .animate-pan {
+    animation: panBackground 10s infinite alternate linear;
+  }
+  
