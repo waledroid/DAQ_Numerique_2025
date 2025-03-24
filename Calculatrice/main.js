@@ -4,6 +4,10 @@ class Calculator {
         this.reset();
         // Tracks whether the last action displayed a final result.
         this.resultDisplayed = false;
+
+        // Digit limits configuration
+        this.MAX_INPUT_DIGITS = 10;
+        this.MAX_RESULT_DIGITS = 10;
     }
 
     reset() {
@@ -18,19 +22,29 @@ class Calculator {
         if (this.resultDisplayed && !isNaN(value)) {
             this.reset();
         }
-
+        
         // If display is '0' and user presses a digit (not '.'), clear it.
         if (this.displayElement.textContent === '0' && value !== '.') {
             this.currentInput = '';
         }
-
-        // Append the incoming value to current input.
+    
+        // Limit digits per number, not whole expression
+        if (!isNaN(value)) {
+            const currentNumberMatch = this.currentInput.match(/(\d+\.?\d*)$/);
+            const currentNumber = currentNumberMatch ? currentNumberMatch[0] : '';
+            
+            if (currentNumber.replace(/\D/g, '').length >= this.MAX_INPUT_DIGITS) {
+                return;  // Ignore input if digit limit per number is reached
+            }
+        }
+        
+         // Append the incoming value to current input.
         this.currentInput += value;
         this.displayElement.textContent = this.currentInput;
-
         // Once a user presses anything after result, we consider it new input.
         this.resultDisplayed = false;
     }
+    
 
     delete() {
         this.currentInput = this.currentInput.slice(0, -1);
@@ -40,9 +54,17 @@ class Calculator {
     calculate() {
         try {
             const result = this.evaluateExpression(this.currentInput);
-            // Round the result to 4 decimal places to avoid precision issues.
-            const roundedResult = parseFloat(result.toFixed(4));
-            this.currentInput = roundedResult.toString();
+            let formattedResult;
+    
+            const digitCount = result.toString().replace(/[-.]/g, '').length;
+            if (digitCount > this.MAX_RESULT_DIGITS) {
+                formattedResult = result.toExponential(4);
+            } else {
+                // Round the result to 4 decimal places to avoid precision issues.
+                formattedResult = parseFloat(result.toFixed(4)).toString();
+            }
+    
+            this.currentInput = formattedResult;
             this.displayElement.textContent = this.currentInput;
             // After displaying the result, set flag.
             this.resultDisplayed = true;
@@ -51,6 +73,7 @@ class Calculator {
             this.currentInput = '';
         }
     }
+    
 
     evaluateExpression(expression) {
         // Simple left-to-right split
