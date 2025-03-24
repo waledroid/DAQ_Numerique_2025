@@ -1,0 +1,1 @@
+## Portfolio Frontend et Backend JavaScript avec développement de mini-applications réalisé pendant la formation DAQ Numérique à l'IRFA de Chalon-sur-Saône, mars 2025 — en préparation pour intégrer la formation Titre Professionnel Développeur Web au Creusot, 2025.
