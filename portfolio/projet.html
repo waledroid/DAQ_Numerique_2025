@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portfolio | Atanda Adewale</title>
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" />
+  <link href="https://db.onlinewebfonts.com/c/b8cc7a4c2204f4530415a8552c2d827d?family=ANAPOLINO" rel="stylesheet">
+    
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  
+
+</head>
+<body class="bg-neutral-950 text-white">
+
+  <!-- Header -->
+  <header class="w-full bg-black/30 backdrop-blur-md py-4 px-8 sticky top-0 z-50">
+    <div class="max-w-4xl mx-auto flex justify-between items-center">
+      <h1 class="text-lime-500 font-['ANAPOLINO'] text-xl">ABDOUL</h1>
+      <a href="index.html" class="bg-lime-100 text-black font-semibold text-sm px-4 py-2 rounded-full hover:bg-lime-500 hover:text-white transition duration-200 flex items-center gap-2"> 
+        <i class="fa-solid fa-arrow-left">
+        "></i>Retour à l’accueil</a>
+
+    </div>
+  </header>
+
+  <!-- Projects Section -->
+  <section class="max-w-4xl mx-auto py-16 px-4">
+    <h2 class="text-2xl font-['ANAPOLINO'] text-lime-500 mb-8">Projets web</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Project Item -->
+      <div class="bg-neutral-800 rounded-lg p-8 m-2  cursor-pointer hover:ring-2 hover:ring-lime-500" onclick="openProject(1)">
+        <h3 class="text-xl font-bold mb-6">Calculatrice</h3>
+        <p class="text-sm text-gray-400">Une application de calculatrice classique développée avec JavaScript pendant le programme DaQ Numérique, à Chalon-sur-Saône en 202S</p>
+      </div>
+      <div class="bg-neutral-800 rounded-lg p-8 m-2 cursor-pointer hover:ring-2 hover:ring-lime-500" onclick="openProject(2)">
+        <h3 class="text-xl font-bold mb-6">CodaQ Formation</h3>
+        <p class="text-sm text-gray-400">Une maquette d'une interface Figma UI/UX intitulée "CodaQ", un design d’une école de codage en ligne basée à Chalon-sur-Saône, en 2025.</p>
+      </div>
+      <div class="bg-neutral-800 rounded-lg p-8 m-2 cursor-pointer hover:ring-2 hover:ring-lime-500" onclick="openProject(3)">
+        <h3 class="text-xl font-bold mb-6">HiveGAmes UI</h3>
+        <p class="text-sm text-gray-400">Un design front-end basé sur React JS, conçu pour être utilisé avec l’API HivesGames, fourni par l’instructeur SAMI lors du programme DaQ Numérique à Chalon-sur-Saône en 2025.</p>
+      </div>
+
+    </div>
+
+    <!-- Project Details Modal -->
+    <div id="project-modal" class="fixed inset-0 bg-black/80 z-50 hidden items-center justify-center">
+      <div class="bg-white text-black max-w-3xl w-full rounded-xl p-6 relative">
+        <button onclick="closeModal()" class="absolute top-2 right-4 text-2xl text-gray-700 hover:text-red-500">&times;</button>
+        <h3 id="project-title" class="text-2xl font-bold mb-4"></h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+          <img id="project-img1" src="" alt="Screenshot 1" class="rounded shadow">
+          <img id="project-img2" src="" alt="Screenshot 2" class="rounded shadow">
+        </div>
+        <a id="project-link" href="#" target="_blank" class="inline-block mt-2 px-4 py-2 rounded bg-lime-500 text-white font-semibold hover:bg-lime-600">Voir le projet</a>
+      </div>
+    </div>
+
+  </section>
+
+    <footer class="bg-black py-12">
+        <div class="max-w-4xl mx-auto px-4">
+            <!-- Top: Navigation Links -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
+                <!-- Navigation Column 1 -->
+                <div>
+                    <h3 class="text-lime-500 font-bold mb-4">Navigation</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-lime-500 transition-colors">Home</a></li>
+                        <li><a href="#about" class="text-gray-400 hover:text-lime-500 transition-colors">À Propos</a></li>
+                        <li><a href="#skills" class="text-gray-400 hover:text-lime-500 transition-colors">Compétences</a></li>
+                        <li><a href="#projects" class="text-gray-400 hover:text-lime-500 transition-colors">Projets</a></li>
+                    </ul>
+                </div>
+                <!-- Navigation Column 2 -->
+                <div>
+                    <h3 class="text-lime-500 font-bold mb-4">Plus</h3>
+                    <ul class="space-y-2">
+                        <li><a href="#experience" class="text-gray-400 hover:text-lime-500 transition-colors">Expérience</a></li>
+                        <li><a href="#education" class="text-gray-400 hover:text-lime-500 transition-colors">Formation</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-lime-500 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <!-- Social Media Links -->
+                <div>
+                    <h3 class="text-lime-500 font-bold mb-4">Suivez-moi</h3>
+                    <ul class="space-y-2">
+                        <li><a href="https://linkedin.com/in/waledroid" class="text-gray-400 hover:text-lime-500 transition-colors">LinkedIn</a></li>
+                        <li><a href="https://github.com/waledroid" class="text-gray-400 hover:text-lime-500 transition-colors">GitHub</a></li>
+                        <li><a href="mailto:waledroid@gmail.com" class="text-gray-400 hover:text-lime-500 transition-colors">Email</a></li>
+                    </ul>
+                </div>
+                <!-- Location or Additional Info -->
+                <div>
+                    <h3 class="text-lime-500 font-bold mb-4">Localisation</h3>
+                    <p class="text-gray-400">Le Creusot, 71200<br>Bourgogne, France</p>
+                </div>
+            </div>
+            <!-- Bottom: Copyright -->
+            <div class="text-center border-t border-gray-700 pt-8">
+                <p class="text-gray-500">© 2025 Atanda Abdullahi. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const projects = {
+            1: {
+                title: "Calculatrice",
+                img1: "assets/img/calc2.png",
+                img2: "assets/img/calc1.png",
+                link: "https://calculatrice-daq.netlify.app/"
+            },
+            2: {
+                title: "CodaQ Formation",
+                img1: "assets/img/codaq1.png",
+                img2: "assets/img/codaq2.png",
+                link: "https://codaq-siteweb.netlify.app/"
+            },
+            3: {
+                title: "HiveGames UI",
+                img1: "assets/img/hives1.png",
+                img2: "assets/img/hives2.png",
+                link: "https://hivegames.netlify.app/"
+            }
+        }
+
+        function openProject(id) {
+        const modal = document.getElementById('project-modal');
+        document.getElementById('project-title').innerText = projects[id].title;
+        document.getElementById('project-img1').src = projects[id].img1;
+        document.getElementById('project-img2').src = projects[id].img2;
+        document.getElementById('project-link').href = projects[id].link;
+        modal.classList.remove('hidden');
+        modal.classList.add('flex');
+        }
+
+        function closeModal() {
+        document.getElementById('project-modal').classList.add('hidden');
+        }
+    </script>
+
+
+    <script> // MENU SCRIPT
+        // Get DOM elements
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const overlay = document.getElementById('overlay');
+        
+        // Toggle menu function
+        function toggleMenu() {
+            // Toggle menu visibility
+            mobileMenu.classList.toggle('-translate-x-full');
+            
+            // Toggle overlay
+            overlay.classList.toggle('opacity-0');
+            overlay.classList.toggle('invisible');
+            overlay.classList.toggle('opacity-50');
+            
+            // Prevent body scrolling when menu is open
+            document.body.classList.toggle('overflow-hidden');
+        }
+        
+        // Add event listeners
+        hamburgerBtn.addEventListener('click', toggleMenu);
+        closeMenuBtn.addEventListener('click', toggleMenu);
+        overlay.addEventListener('click', toggleMenu);
+        
+        // Close menu when a link is clicked
+        const menuLinks = document.querySelectorAll('#mobile-menu a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', toggleMenu);
+        });
+        
+        // Close menu when window is resized to desktop view
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 768 && !mobileMenu.classList.contains('-translate-x-full')) {
+                toggleMenu();
+            }
+        });
+    </script>
+
+    <!-- GSAP CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+
+    <script> 
+        // Floating box animation
+        document.addEventListener('mousemove', (e) => {
+            const box = document.getElementById('floating-box');
+        
+            // Calculate mouse position relative to window center
+            const xOffset = (window.innerWidth / 2 - e.clientX) / 20;  // Adjust divisor for sensitivity
+            const yOffset = (window.innerHeight / 2 - e.clientY) / 20;
+        
+            // Smoothly animate the movement using GSAP
+            gsap.to(box, { x: xOffset, y: yOffset, duration: 0.5, ease: 'power2.out' });
+        });
+    </script>
+
+
+</body>
+</html>
