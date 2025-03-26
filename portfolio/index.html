@@ -255,24 +255,29 @@
                     />
                 </svg>
 
-                <!-- Télécharger  & Face  -->
-                <div class="flex items-center gap-4">
-                    <!-- Télécharger CV Button -->
+                <button id="view-cv-btn"
+                class="bg-lime-100 text-black font-semibold text-sm px-4 py-2 rounded-full hover:bg-lime-500 hover:text-white transition duration-200 flex items-center gap-2">
+                <i class="fa-solid fa-download"></i>
+                Télécharger CV
+                </button>
+
+                
+                <!-- <div class="flex items-center gap-4">
+           
                     <button id="view-cv-btn"
                     class="bg-lime-100 text-black font-semibold text-sm px-4 py-2 rounded-full hover:bg-lime-500 hover:text-white transition duration-200 flex items-center gap-2">
                     <i class="fa-solid fa-download"></i>
                     Télécharger CV
                     </button>
                 
-                    <!-- Face Toggle -->
                     <label class="relative inline-flex items-center cursor-pointer scale-110">
                     <input type="checkbox" id="toggle-face-detection" class="sr-only peer">
                     <div class="w-14 h-8 bg-gray-700 rounded-full peer-checked:bg-green-600 transition-all duration-300"></div>
                     <div
-                        class="absolute left-1 top-1 w-6 h-6 bg-lime-100 rounded-full shadow-md transition-transform duration-300 peer-checked:translate-x-6">
+                        class="absolute left-1 top-1 w-6 h-6 bg-white rounded-full shadow-md transition-transform duration-300 peer-checked:translate-x-6">
                     </div>
                     </label>
-                </div>
+                </div>  -->
 
             
             </nav>
@@ -888,7 +893,7 @@
         });
     </script>
     
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
@@ -968,7 +973,7 @@
                 }
             });
         });
-    </script>
+    </script> -->
 
     
 
@@ -989,25 +994,6 @@
         gsap.to(scrollIndicator, { y: 10, duration: 1, repeat: -1, yoyo: true });
     </script>
 
-    <!-- <script>
-        // Scroll to top button
-        const scrollToTop = document.querySelector('.scroll-to-top');
-
-        scrollToTop.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        // Show/hide the button based on scroll position
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                scrollToTop.classList.add('visible');
-            } else {
-                scrollToTop.classList.remove('visible');
-            }
-        });
-    </script> -->
+    
 </body>
 </html>
