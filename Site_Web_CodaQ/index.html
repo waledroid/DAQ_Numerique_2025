@@ -8,8 +8,12 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
 
   <script src="https://cdn.jsdelivr.net/npm/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+
+
 
 </head>
 <body>
@@ -75,103 +79,38 @@
       <p class="section-subtitle">« Du débutant à l'expert, construisons ensemble votre avenir numérique »</p>
       
 
-      <form class="search-form" >
-        <div class="input-group">
-          <input type="text" placeholder="Saisir un mot-clé ">
-          <i class="fi fi-sr-search"></i>
-        </div>
-    
-        <div class="input-group">
-          <select>
-            <option value="" disabled selected hidden>Lieu(x) ville </option>
-            <option value="paris">Paris</option>
-            <option value="lyon">Lyon</option>
-            <option value="marseille">Marseille</option>
-          </select>
-          <i class="fi fi-sr-angle-small-down"></i>
-        </div>
-    
-        <button type="submit">Rechercher</button>
-      </form>
-
-      <div class="courses-grid">
-        <!-- Row 1 -->
-        <div class="course-card">
-          <div class="course-image">
-            <img src="assets/img/course1.png" alt="DevOps Course">
-          </div>
-          <div class="course-info">
-            <span class="course-badge">Bac + 2        10 mois</span>
-            <h3 class="course-title">Bachelor Administrateur système DevOps</h3>
-          </div>
-        </div>
-        
-        <div class="course-card">
-          <div class="course-image">
-            <img src="assets/img/course2.png" alt="Systems Course">
-          </div>
-          <div class="course-info">
-            <span class="course-badge">Bac + 2        10 mois</span>
-            <h3 class="course-title">Graduate Technicien supérieur systèmes et réseaux</h3>
-          </div>
-        </div>
-        
-        <div class="course-card">
-          <div class="course-image">
-            <img src="assets/img/course3.png" alt="Cloud Course">
-          </div>
-          <div class="course-info">
-            <span class="course-badge">Bac + 2        10 mois</span>
-            <h3 class="course-title">Automatiser le déploiement d'une infrastructure dans le cloud</h3>
-          </div>
-        </div>
-        
-        <div class="course-card">
-          <div class="course-image">
-            <img src="assets/img/course4.png" alt="DevOps Course">
-          </div>
-          <div class="course-info">
-            <span class="course-badge">Bac + 2        10 mois</span>
-            <h3 class="course-title">Bachelor Administrateur système DevOps</h3>
-          </div>
-        </div>
-        
-        <!-- Row 2 -->
-        <div class="course-card">
-          <div class="course-image">
-            <img src="assets/img/course4.png" alt="Cloud & AI Course">
-          </div>
-          <div class="course-info">
-            <span class="course-badge">Bac + 2        10 mois</span>
-            <h3 class="course-title">Cloud & IA</h3>
-          </div>
-        </div>
-        
-        <div class="course-card">
-          <div class="course-image">
-            <img src="assets/img/course5.png" alt="Web Fundamentals Course">
-          </div>
-          <div class="course-info">
-            <span class="course-badge">Bac + 2        10 mois</span>
-            <h3 class="course-title">Fondamentaux du Web</h3>
-          </div>
-        </div>
-        
-        <div class="course-card">
-          <div class="course-image">
-            <img src="assets/img/course6.png" alt="Backend Course">
-          </div>
-          <div class="course-info">
-            <span class="course-badge">Bac + 2        10 mois</span>
-            <h3 class="course-title">Back-End & DevOps</h3>
-          </div>
-        </div>
+      <!-- Search Form -->
+    <form class="search-form">
+      <div class="input-group">
+        <input type="text" placeholder="Saisir un mot-clé">
+        <i class="fi fi-sr-search"></i>
       </div>
+
+      <div class="input-group">
+        <select>
+          <option value="" disabled selected hidden>Lieu(x) ville</option>
+          <option value="chalon">Chalon-sur-Saône</option>
+          <option value="dijon">Dijon</option>
+          <option value="marseille">Marseille</option>
+        </select>
+        <i class="fi fi-sr-angle-small-down"></i>
+      </div>
+
+      <button type="submit">Rechercher</button>
+    </form>
+
+    
+    <div id="search-results" class="courses-grid">
+      <!-- Injected here -->
+    </div>
+
+ 
     </section>
 
     <!-- Partners Section -->
     <section id="about" class="partners-section">
       <div class="partners-content">
+        
         <div class="partners-text">
           <h2 class="partners-title">Nos Partenaires et <span class="gradient-text">notre Équipe</span></h2>
           <p class="partners-subtitle">Ensemble, nous façonnons l'écosystème numérique de demain</p>
@@ -183,11 +122,22 @@
             Rejoignez CoDaQ et façonnez dès aujourd'hui votre avenir numérique !
           </p>
         </div>
+        
         <div class="partners-image">
-          <div class="ytvid" style=" background: url('assets/img/yt_video.png') no-repeat center center / cover; ">
-            <img src="https://cdn.codia.ai/copilot/assets/92a7c140-dcc4-4165-9951-234ba5c482f6.png" alt="Team" class="team-icon">
+          <div class="ytvid">
+            <iframe
+              width="100%"
+              height="315"
+              src="https://www.youtube.com/embed/yS0cqXiBZUo"
+              title="YouTube video player"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen>
+            </iframe>
           </div>
         </div>
+        
+
       </div>
     </section>
 
@@ -258,11 +208,23 @@
     <!-- Contact Section -->
 
     <section id="contact" class="testimonials-section">
+      <div class="contact-inner"> <h2 class="testimonials-title"><span class="gradient-text"> Contactez-nous </span></h2> </div>
       <div class="contact-inner">
-        <img src="assets/img/contact_img.png" alt="" class="contact">
+
+        <div class="map-container">
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2716.998194275156!2d4.850611476512318!3d46.78644027113008!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x47f2f82dcf313fd1%3A0x9a346c2f8b393d89!2sIRFA%20Bourgogne%20Franche-Comt%C3%A9%20-%20Chalon-sur-Sa%C3%B4ne!5e0!3m2!1sfr!2sfr!4v1711459561055!5m2!1sfr!2sfr"
+            width="100%"
+            height="100%"
+            style="border:0;"
+            allowfullscreen=""
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+        
 
         <div class="contact_form">
-          <h2 class="testimonials-title"><span class="gradient-text">Formulaire</span> <span class="gradient-text"> de Contact.</span></h2>
           <div class="contact-card">
             <form class="contact-form">
               <div class="form-group">
@@ -290,6 +252,11 @@
           </div>
         </div>
       </div>
+      <div class="contact-info">
+        <p><i class="fas fa-phone-alt"></i> +33 7 49 49 99 78</p>
+        <p><i class="fas fa-envelope"></i> contact@codaq-formation.fr</p>
+      </div>
+      
     </section>
 
     <footer class="footer">
@@ -378,5 +345,117 @@
       easing: 'easeInOutCubic'
     });
   </script>
+
+
+  <script>
+  const allCourses = [
+    {
+      title: "Bachelor Administrateur Système DevOps",
+      location: "chalon",
+      duration: "10 mois",
+      level: "Bac +2",
+      image: "assets/img/course1.png"
+    },
+    {
+      title: "Technicien Supérieur Réseaux",
+      location: "dijon",
+      duration: "12 mois",
+      level: "Bac +2",
+      image: "assets/img/course2.png"
+    },
+    {
+      title: "Fondamentaux du Web",
+      location: "marseille",
+      duration: "8 mois",
+      level: "Bac",
+      image: "assets/img/course5.png"
+    },
+    {
+      title: "Cloud & IA",
+      location: "dijon",
+      duration: "9 mois",
+      level: "Bac +3",
+      image: "assets/img/course4.png"
+    },
+    {
+      title: "Bachelor Administrateur Système DevOps",
+      location: "chalon",
+      duration: "10 mois",
+      level: "Bac +2",
+      image: "assets/img/course1.png"
+    },
+    {
+      title: "Technicien Supérieur Réseaux",
+      location: "dijon",
+      duration: "12 mois",
+      level: "Bac +2",
+      image: "assets/img/course2.png"
+    },
+    {
+      title: "Fondamentaux du Web",
+      location: "marseille",
+      duration: "8 mois",
+      level: "Bac",
+      image: "assets/img/course5.png"
+    },
+    {
+      title: "Cloud & IA",
+      location: "dijon",
+      duration: "9 mois",
+      level: "Bac +3",
+      image: "assets/img/course4.png"
+    }
+  ];
+  
+  const resultsContainer = document.getElementById('search-results');
+  
+  // Function to render course cards
+  function displayCourses(courses) {
+    resultsContainer.innerHTML = ''; // Clear existing
+  
+    if (courses.length === 0) {
+      resultsContainer.innerHTML = `<p style="text-align: center;">Aucun résultat trouvé.</p>`;
+      return;
+    }
+  
+    courses.forEach(course => {
+      const card = document.createElement('div');
+      card.className = 'course-card';
+      card.innerHTML = `
+        <div class="course-image">
+          <img src="${course.image}" alt="${course.title}">
+        </div>
+        <div class="course-info">
+          <span class="course-badge">${course.level} &nbsp;&nbsp; ${course.duration}</span>
+          <h3 class="course-title">${course.title}</h3>
+        </div>
+      `;
+      resultsContainer.appendChild(card);
+    });
+  }
+  
+  // Show all courses on initial load
+  window.addEventListener('DOMContentLoaded', () => {
+    displayCourses(allCourses);
+  });
+  
+  // Filter courses on form submit
+  document.querySelector('.search-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+  
+    const keyword = document.querySelector('input[type="text"]').value.toLowerCase().trim();
+    const selectedLocation = document.querySelector('select').value;
+  
+    const filtered = allCourses.filter(course => {
+      const matchKeyword = course.title.toLowerCase().includes(keyword);
+      const matchLocation = !selectedLocation || course.location === selectedLocation;
+      return matchKeyword && matchLocation;
+    });
+  
+    displayCourses(filtered);
+  });
+  </script>
+  
+  
 </body>
 </html>
