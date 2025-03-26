@@ -989,6 +989,25 @@
         gsap.to(scrollIndicator, { y: 10, duration: 1, repeat: -1, yoyo: true });
     </script>
 
-    
+    <!-- <script>
+        // Scroll to top button
+        const scrollToTop = document.querySelector('.scroll-to-top');
+
+        scrollToTop.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Show/hide the button based on scroll position
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                scrollToTop.classList.add('visible');
+            } else {
+                scrollToTop.classList.remove('visible');
+            }
+        });
+    </script> -->
 </body>
 </html>
