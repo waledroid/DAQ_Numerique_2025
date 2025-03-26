@@ -28,16 +28,13 @@
         <!-- Transparent Sticky Header (Glass effect, absolute on top) -->
         <header class="absolute top-0 left-0 w-full z-50 bg-black/20 backdrop-blur-md shadow">
             <nav class="max-w-4xl mx-auto flex items-center justify-between py-0 px-4 text-white">
-                <!-- Left: Hamburger Menu -->
-                <!-- <button class="hover:opacity-80 text-2xl">
-                    <img src="assets/img/hb.png" alt="Menu Icon" class="h-8 w-8 object-contain">
-                </button> -->
+                
                 <button id="hamburger-btn" class="hover:opacity-80 text-2xl">
                     <img src="assets/img/hb.png" alt="Menu Icon" class="h-8 w-8 object-contain">
                 </button>
 
 
-                <!-- Center: Animated Signature Logo -->
+                <!-- Signature -->
                 <svg class="w-40 h-auto" transform="scale(1, -1)" id="signature" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9500 4500">    
                     <path 
                             fill="none" 
@@ -258,12 +255,24 @@
                     />
                 </svg>
 
-                <!-- 📄 Télécharger CV Button -->
-                <button id="view-cv-btn"
-                class="bg-lime-100 text-black font-semibold text-sm px-4 py-2 rounded-full hover:bg-lime-500 hover:text-white transition duration-200 flex items-center gap-2">
-                <i class="fa-solid fa-download"></i>
-                Télécharger CV
-                </button>
+                <!-- Télécharger  & Face  -->
+                <div class="flex items-center gap-4">
+                    <!-- Télécharger CV Button -->
+                    <button id="view-cv-btn"
+                    class="bg-lime-100 text-black font-semibold text-sm px-4 py-2 rounded-full hover:bg-lime-500 hover:text-white transition duration-200 flex items-center gap-2">
+                    <i class="fa-solid fa-download"></i>
+                    Télécharger CV
+                    </button>
+                
+                    <!-- Face Toggle -->
+                    <label class="relative inline-flex items-center cursor-pointer scale-110">
+                    <input type="checkbox" id="toggle-face-detection" class="sr-only peer">
+                    <div class="w-14 h-8 bg-gray-700 rounded-full peer-checked:bg-green-600 transition-all duration-300"></div>
+                    <div
+                        class="absolute left-1 top-1 w-6 h-6 bg-white rounded-full shadow-md transition-transform duration-300 peer-checked:translate-x-6">
+                    </div>
+                    </label>
+                </div>
 
             
             </nav>
@@ -840,7 +849,7 @@
 
     </script>
 
-    <!-- 📑 PDF Modal Viewer -->
+    <!-- PDF Modal Viewer -->
     <div id="cv-modal" class="fixed inset-0 bg-black/80 z-50 hidden">
 
         <!-- Absolutely Centered Modal Box -->
@@ -858,7 +867,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfobject/2.2.11/pdfobject.min.js"></script>
 
-    <!-- 📜 JS Logic -->
+    <!-- JS Logic -->
     <script>
         const btn = document.getElementById('view-cv-btn');
         const modal = document.getElementById('cv-modal');
@@ -878,9 +887,7 @@
         if (e.target === modal) modal.classList.add("hidden");
         });
     </script>
-
     
-   
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/control_utils/control_utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/drawing_utils/drawing_utils.js"></script>
@@ -888,70 +895,83 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-        // Initialize MediaPipe Face Mesh
-        const faceMesh = new FaceMesh({
-            locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`,
-        });
+            let camera = null;
+            let detectionEnabled = false;
 
-        // Set options for Face Mesh
-        faceMesh.setOptions({
-            maxNumFaces: 1, // Detect only one face
-            minDetectionConfidence: 0.5, // Confidence threshold for detection
-            minTrackingConfidence: 0.5, // Confidence threshold for tracking
-        });
+            const floatingImg = document.getElementById('floating-img');
+            const toggleSwitch = document.getElementById('toggle-face-detection');
+            const videoElement = document.getElementById('input-video');
 
-        // Get the floating image element
-        const floatingImg = document.getElementById('floating-img');
+            // Initialize MediaPipe Face Mesh
+            const faceMesh = new FaceMesh({
+                locateFile: (file) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/${file}`,
+            });
 
-        // Function to calculate rotation angle based on face landmarks
-        function calculateRotation(landmarks) {
-            // Use the nose tip (landmark 1) and face center (landmark 168) to calculate rotation
-            const noseTip = landmarks[1]; // Nose tip landmark
-            const faceCenter = landmarks[168]; // Center of the face
+            faceMesh.setOptions({
+                maxNumFaces: 1,
+                minDetectionConfidence: 0.5,
+                minTrackingConfidence: 0.5,
+            });
 
-            // Calculate the horizontal and vertical differences
-            const dx = noseTip.x - faceCenter.x;
-            const dy = noseTip.y - faceCenter.y;
-
-            // Calculate the rotation angle in radians and convert to degrees
-            let angle = Math.atan2(dy, dx) * (180 / Math.PI);
-
-            // Adjust for webcam orientation and mirror-like behavior
-            ; // Invert the angle to match head movement
-
-            // Normalize the initial rotation (start at 0 degrees)
-            angle -= 90; // Subtract 90 degrees to align with the webcam's default orientation
-
-            return -angle * 0.8;
-        }
-
-        // Function to rotate the image
-        function rotateImage(angle) {
-            floatingImg.style.transform = `rotate(${angle}deg)`;
-        }
-
-        // Process face detection results
-        faceMesh.onResults((results) => {
-            if (results.multiFaceLandmarks && results.multiFaceLandmarks.length > 0) {
-            const landmarks = results.multiFaceLandmarks[0]; // Get landmarks for the first face
-            const angle = calculateRotation(landmarks); // Calculate rotation angle
-            rotateImage(angle); // Rotate the image
+            function calculateRotation(landmarks) {
+                const noseTip = landmarks[1];
+                const faceCenter = landmarks[168];
+                const dx = noseTip.x - faceCenter.x;
+                const dy = noseTip.y - faceCenter.y;
+                let angle = Math.atan2(dy, dx) * (180 / Math.PI);
+                angle -= 90;
+                return -angle * 0.8;
             }
-        });
 
-        // Set up the camera
-        const camera = new Camera(document.getElementById('input-video'), {
-            onFrame: async () => {
-            await faceMesh.send({ image: document.getElementById('input-video') });
-            },
-            width: 640,
-            height: 480,
-        });
+            function rotateImage(angle) {
+                floatingImg.style.transform = `rotate(${angle}deg)`;
+            }
 
-        // Start the camera
-        camera.start();
+            faceMesh.onResults((results) => {
+                if (detectionEnabled && results.multiFaceLandmarks?.length > 0) {
+                    const landmarks = results.multiFaceLandmarks[0];
+                    const angle = calculateRotation(landmarks);
+                    rotateImage(angle);
+                }
+            });
+
+            async function startCamera() {
+                if (!camera) {
+                    camera = new Camera(videoElement, {
+                        onFrame: async () => {
+                            if (detectionEnabled) {
+                                await faceMesh.send({ image: videoElement });
+                            }
+                        },
+                        width: 640,
+                        height: 480,
+                    });
+                }
+                await camera.start();
+            }
+
+            async function stopCamera() {
+                if (videoElement.srcObject) {
+                    const tracks = videoElement.srcObject.getTracks();
+                    tracks.forEach(track => track.stop());
+                    videoElement.srcObject = null;
+                }
+            }
+
+            toggleSwitch.addEventListener('change', async (e) => {
+                detectionEnabled = e.target.checked;
+                if (detectionEnabled) {
+                    await startCamera();
+                } else {
+                    await stopCamera();
+                    floatingImg.style.transform = `rotate(0deg)`; // Reset image rotation
+                }
+            });
         });
     </script>
+
+    
+
     <script>
         // Scroll to section on click
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -969,25 +989,6 @@
         gsap.to(scrollIndicator, { y: 10, duration: 1, repeat: -1, yoyo: true });
     </script>
 
-    <!-- <script>
-        // Scroll to top button
-        const scrollToTop = document.querySelector('.scroll-to-top');
-
-        scrollToTop.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        // Show/hide the button based on scroll position
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 100) {
-                scrollToTop.classList.add('visible');
-            } else {
-                scrollToTop.classList.remove('visible');
-            }
-        });
-    </script> -->
+    
 </body>
 </html>
