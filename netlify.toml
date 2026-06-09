@@ -1,0 +1,7 @@
+# Netlify configuration for the DAQ_Numerique_2025 monorepo.
+# The portfolio is a static site (no build step) living in the portfolio/ subfolder,
+# so we publish that directory directly. Netlify serves portfolio/index.html as the
+# site root ("/"); all asset/page links in the portfolio are relative, so they resolve.
+[build]
+  publish = "portfolio"
+  command = ""
