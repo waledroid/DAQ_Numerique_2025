@@ -1,7 +1,11 @@
 # Netlify configuration for the DAQ_Numerique_2025 monorepo.
-# The portfolio is a static site (no build step) living in the portfolio/ subfolder,
-# so we publish that directory directly. Netlify serves portfolio/index.html as the
-# site root ("/"); all asset/page links in the portfolio are relative, so they resolve.
+# The portfolio is a static site (no build step) living in the portfolio/ subfolder.
+#
+# IMPORTANT: this Netlify site's base directory is "portfolio", and the `publish`
+# path is resolved RELATIVE TO base. So publish must be "." (the base dir itself),
+# NOT "portfolio" — otherwise Netlify looks for portfolio/portfolio and the deploy
+# fails with "Deploy directory 'portfolio/portfolio' does not exist".
 [build]
-  publish = "portfolio"
+  base = "portfolio"
+  publish = "."
   command = ""
