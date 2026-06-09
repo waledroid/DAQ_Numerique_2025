@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Vision Lab interactif d'Atanda Abdullahi : nuage de points 3D, détection temps réel, démo webcam locale. Reflet de ses travaux ViT, edge Jetson et robotique ROS." />
+  <title>Lab — Atanda Abdullahi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/tw-config.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://db.onlinewebfonts.com/c/b8cc7a4c2204f4530415a8552c2d827d?family=ANAPOLINO" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+</head>
+<body class="bg-ink text-mist">
+  <div id="cursor-dot"></div><div id="cursor-ring"></div>
+  <header data-site-nav></header>
+
+  <main>
+    <!-- ====== HERO ====== -->
+    <section class="relative pt-32 pb-16 sm:pb-24 overflow-hidden">
+      <div class="grid-bg absolute inset-0 -z-10" aria-hidden="true"></div>
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <p class="label" data-reveal>Vision Lab · Console interactive</p>
+        <h1 class="font-display font-bold tracking-tight mt-5 leading-[0.95]" style="font-size:clamp(2.6rem,7vw,5.5rem)" data-reveal data-delay="1">
+          <span data-scramble>VISION LAB</span><span class="text-accent">.</span>
+        </h1>
+        <p class="text-muted mt-6 max-w-2xl text-base sm:text-lg leading-relaxed" data-reveal data-delay="2">
+          Une démonstration vivante du travail d'Atanda Abdullahi : distillation de
+          <span class="text-mist">Vision Transformers</span>, segmentation
+          <span class="text-mist">temps réel</span>, inférence sur l'<span class="text-mist">edge</span>
+          (Nvidia Jetson Orin Nano) et robotique <span class="text-mist">ROS</span>.
+          Tout tourne <span class="text-gradient font-medium">localement, dans votre navigateur</span>.
+        </p>
+        <div class="flex flex-wrap items-center gap-4 mt-9" data-reveal data-delay="3">
+          <a href="#lab-detect" class="btn" data-magnetic><i class="fa-solid fa-vector-square" aria-hidden="true"></i> Lancer la démo</a>
+          <a href="projects.html" class="btn btn--ghost" data-magnetic><i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Voir les projets</a>
+        </div>
+
+        <!-- telemetry strip -->
+        <dl class="grid grid-cols-2 sm:grid-cols-4 gap-px mt-12 border border-line rounded-2xl overflow-hidden bg-line" data-reveal data-delay="4">
+          <div class="bg-ink p-5">
+            <dt class="font-mono text-[0.62rem] tracking-widest uppercase text-muted">Modèle</dt>
+            <dd class="font-display text-lg sm:text-xl mt-1 text-mist">ViT-distilled</dd>
+          </div>
+          <div class="bg-ink p-5">
+            <dt class="font-mono text-[0.62rem] tracking-widest uppercase text-muted">Détection</dt>
+            <dd class="stat__num text-2xl sm:text-3xl mt-1 text-gradient">+25 %</dd>
+          </div>
+          <div class="bg-ink p-5">
+            <dt class="font-mono text-[0.62rem] tracking-widest uppercase text-muted">Inférence Jetson</dt>
+            <dd class="stat__num text-2xl sm:text-3xl mt-1 text-gradient">−40 %</dd>
+          </div>
+          <div class="bg-ink p-5">
+            <dt class="font-mono text-[0.62rem] tracking-widest uppercase text-muted">Cible edge</dt>
+            <dd class="font-display text-lg sm:text-xl mt-1 text-mist">Orin Nano 8 Go</dd>
+          </div>
+        </dl>
+      </div>
+    </section>
+
+    <!-- ====== (A) POINT-CLOUD STAGE ====== -->
+    <section class="py-12 sm:py-16">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <div class="flex flex-wrap items-end justify-between gap-4 mb-6" data-reveal>
+          <div>
+            <p class="label">Console 01 · Champ de points</p>
+            <h2 class="font-display text-2xl sm:text-3xl font-semibold mt-3">Nuage de points neuronal</h2>
+          </div>
+          <p class="font-mono text-xs text-muted max-w-sm">
+            Représentation 3D temps réel — une métaphore des nuages de points exploités en perception robotique et segmentation 3D.
+          </p>
+        </div>
+
+        <figure class="panel hud scanline relative overflow-hidden rounded-[18px]" data-reveal data-delay="1">
+          <!-- telemetry header -->
+          <figcaption class="flex items-center justify-between gap-3 px-4 sm:px-5 py-3 border-b border-line font-mono text-[0.68rem] text-muted">
+            <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald inline-block"></span> STAGE · WebGL</span>
+            <span class="hidden sm:inline">render: GPU · dpr≤2</span>
+            <span>FPS ~60 · latence ~16 ms</span>
+          </figcaption>
+
+          <!-- 3D container (lab.js → #lab-stage). Fallback inside in case WebGL is unavailable. -->
+          <div id="lab-stage" class="relative w-full" style="height:70vh;min-height:420px">
+            <div class="absolute inset-0 grid place-items-center text-center p-8 pointer-events-none" aria-hidden="true">
+              <div class="font-mono text-xs text-muted">
+                <i class="fa-solid fa-cube text-accent text-2xl mb-3 block" aria-hidden="true"></i>
+                Initialisation du moteur 3D…<br>
+                <span class="text-[0.65rem]">Si WebGL est indisponible, cette console reste un panneau statique.</span>
+              </div>
+            </div>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ====== (B) DETECTION OVERLAY ====== -->
+    <section id="lab-detect" class="py-12 sm:py-16 scroll-mt-24">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <div class="grid lg:grid-cols-[1.3fr_1fr] gap-8 lg:gap-12 items-start">
+          <!-- media with detection overlay -->
+          <figure class="panel hud scanline relative overflow-hidden rounded-[18px]" data-reveal>
+            <figcaption class="flex items-center justify-between gap-3 px-4 sm:px-5 py-3 border-b border-line font-mono text-[0.68rem] text-muted">
+              <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-accent inline-block"></span> DETECT · live</span>
+              <span class="hidden sm:inline">modèle: ViT-distilled</span>
+              <span>FPS ~30 · latence ~33 ms</span>
+            </figcaption>
+            <!-- lab.js attaches a bounding-box canvas over [data-detect] -->
+            <div class="relative">
+              <img src="assets/img/ti.jpg" data-detect alt="Banc de matériel robotique et edge servant de support à la démonstration de détection d'objets en temps réel" class="block w-full h-auto object-cover grayscale hover:grayscale-0 transition duration-700" loading="lazy" />
+            </div>
+          </figure>
+
+          <!-- explanation -->
+          <div data-reveal data-delay="1">
+            <p class="label">Console 02 · Détection</p>
+            <h2 class="font-display text-2xl sm:text-3xl font-semibold mt-3 mb-5">Boîtes englobantes en temps réel</h2>
+            <p class="text-muted leading-relaxed">
+              Cette surcouche simule un pipeline de détection : boîtes englobantes, scores de confiance et balayage de scan, rendus directement sur l'image. Elle illustre le travail mené chez
+              <span class="text-mist">WASORIA</span> — distillation de connaissances de ViT lourds vers des modèles compacts, pour
+              <span class="text-mist">+25 % de vitesse de détection</span> et de précision de segmentation.
+            </p>
+            <ul class="mt-6 space-y-3 font-mono text-sm">
+              <li class="flex gap-3"><span class="text-accent" aria-hidden="true">▸</span><span class="text-muted">Tête de détection — boîtes + confiance par objet</span></li>
+              <li class="flex gap-3"><span class="text-accent" aria-hidden="true">▸</span><span class="text-muted">Segmentation temps réel — masques compressés</span></li>
+              <li class="flex gap-3"><span class="text-accent" aria-hidden="true">▸</span><span class="text-muted">Optimisation edge — TensorRT sur Jetson Orin Nano</span></li>
+            </ul>
+            <p class="hud relative panel rounded-2xl p-4 mt-7 font-mono text-xs text-muted leading-relaxed">
+              Démo simulée à des fins d'illustration : les boîtes sont générées côté navigateur, sans envoyer de données vers un serveur.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== (C) WEBCAM ====== -->
+    <section class="py-12 sm:py-16">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <div class="grid lg:grid-cols-[1fr_1.3fr] gap-8 lg:gap-12 items-start">
+          <!-- explanation -->
+          <div data-reveal>
+            <p class="label">Console 03 · Webcam</p>
+            <h2 class="font-display text-2xl sm:text-3xl font-semibold mt-3 mb-5">Inférence sur votre flux caméra</h2>
+            <p class="text-muted leading-relaxed">
+              Activez votre webcam pour superposer une détection temps réel sur votre propre flux vidéo — exactement le type de traitement déployé sur l'edge en robotique.
+            </p>
+            <p class="hud relative panel rounded-2xl p-4 mt-6 font-mono text-xs text-muted leading-relaxed">
+              <i class="fa-solid fa-shield-halved text-accent mr-1" aria-hidden="true"></i>
+              Le navigateur demandera l'autorisation d'accès à la caméra. Tout s'exécute <span class="text-mist">localement</span> : aucune image n'est enregistrée ni transmise.
+            </p>
+            <button id="lab-webcam-btn" type="button" aria-pressed="false" aria-label="Activer ou arrêter la webcam pour la démonstration de détection" class="btn mt-7" data-magnetic>
+              <i class="fa-solid fa-video" aria-hidden="true"></i> <span data-label>Activer la webcam</span>
+            </button>
+          </div>
+
+          <!-- webcam stage (lab.js → #lab-webcam container + #lab-webcam-btn) -->
+          <figure class="panel hud scanline relative overflow-hidden rounded-[18px]" data-reveal data-delay="1">
+            <figcaption class="flex items-center justify-between gap-3 px-4 sm:px-5 py-3 border-b border-line font-mono text-[0.68rem] text-muted">
+              <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald inline-block"></span> WEBCAM · local</span>
+              <span class="hidden sm:inline">modèle: ViT-distilled</span>
+              <span>FPS ~24 · latence ~41 ms</span>
+            </figcaption>
+            <!-- container queried by lab.js; video + overlay are injected on activation -->
+            <div id="lab-webcam" class="relative w-full bg-surface" style="aspect-ratio:16/9;min-height:280px">
+              <div class="absolute inset-0 grid place-items-center text-center p-8 pointer-events-none" aria-hidden="true">
+                <div class="font-mono text-xs text-muted">
+                  <i class="fa-solid fa-camera text-accent text-2xl mb-3 block" aria-hidden="true"></i>
+                  Caméra en veille<br>
+                  <span class="text-[0.65rem]">Cliquez sur « Activer la webcam ». Sans caméra ou autorisation, cette console reste statique.</span>
+                </div>
+              </div>
+            </div>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== STACK STRIP ====== -->
+    <section class="py-12 sm:py-16">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <p class="label mb-6" data-reveal>Stack du lab</p>
+        <div class="panel rounded-2xl py-7" data-reveal data-delay="1" aria-label="Technologies utilisées : TensorRT, OpenMMLab, Roboflow, Jetson, ROS, PyTorch">
+          <div class="marquee">
+            <div class="marquee__track font-mono text-sm uppercase tracking-widest text-muted" aria-hidden="true">
+              <span>TensorRT</span><span class="text-accent">/</span><span>OpenMMLab</span><span class="text-accent">/</span><span>Roboflow</span><span class="text-accent">/</span><span>Jetson</span><span class="text-accent">/</span><span>ROS</span><span class="text-accent">/</span><span>PyTorch</span><span class="text-accent">/</span>
+            </div>
+            <div class="marquee__track font-mono text-sm uppercase tracking-widest text-muted" aria-hidden="true">
+              <span>TensorRT</span><span class="text-accent">/</span><span>OpenMMLab</span><span class="text-accent">/</span><span>Roboflow</span><span class="text-accent">/</span><span>Jetson</span><span class="text-accent">/</span><span>ROS</span><span class="text-accent">/</span><span>PyTorch</span><span class="text-accent">/</span>
+            </div>
+          </div>
+        </div>
+        <p class="text-muted text-sm mt-6 max-w-2xl leading-relaxed" data-reveal data-delay="2">
+          Ce lab reflète des travaux réels : compression de ViT lourds pour l'edge (thèse M2 / WASORIA),
+          tri des déchets par segmentation temps réel, et communication inter-robots autonome avec
+          <span class="text-mist">ROSBot Harmony</span>.
+          <a href="projects.html" class="link-u text-accent">Explorer les projets</a>.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer data-site-footer></footer>
+
+  <!-- libs (order matters) -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script type="importmap">
+  { "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  } }
+  </script>
+  <script type="module" src="assets/js/lab.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
