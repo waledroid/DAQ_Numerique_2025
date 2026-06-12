@@ -1,0 +1,178 @@
+{
+  "identity": {
+    "name": "Atanda Abdullahi",
+    "title": "Ingénieur Vision par Ordinateur & Edge-AI",
+    "tagline": "10 ans de systèmes IT, désormais au service du deep learning déployé sur du hardware embarqué et robotique."
+  },
+  "contact": [
+    {
+      "label": "E-mail",
+      "value": "waledroid@gmail.com"
+    },
+    {
+      "label": "Téléphone",
+      "value": "+33 7 49 49 99 78"
+    },
+    {
+      "label": "Adresse",
+      "value": "Le Creusot, 71200 — Bourgogne, France"
+    },
+    {
+      "label": "LinkedIn",
+      "value": "linkedin.com/in/waledroid"
+    },
+    {
+      "label": "GitHub",
+      "value": "github.com/waledroid"
+    },
+    {
+      "label": "Statut",
+      "value": "Disponible pour un entretien"
+    }
+  ],
+  "profile": "Ingénieur Vision par Ordinateur & Edge-AI, fort de 10 ans d'expérience en systèmes informatiques et support. Je fais le pont entre la recherche en deep learning et le matériel réel : modèles compressés, déployés et orchestrés sur des systèmes embarqués et robotiques.",
+  "experience": [
+    {
+      "role": "Technicien Informatique",
+      "company": "AlloPanas Ordi",
+      "location": "Chalon-sur-Saône",
+      "dates": "Oct. 2024 – Nov. 2024",
+      "points": [
+        "Diagnostic et réparation matériel/logiciel, imprimantes et appareils mobiles, à distance et sur site.",
+        "Documentation de l'état des dispositifs."
+      ]
+    },
+    {
+      "role": "Ingénieur en Apprentissage Automatique",
+      "company": "WASORIA",
+      "location": "Le Creusot",
+      "dates": "Fév. 2024 – Juil. 2024",
+      "points": [
+        "Distillation de connaissances sur Vision Transformers (ViT) lourds : +25 % de vitesse de détection et de précision de segmentation.",
+        "−40 % de temps d'inférence sur Nvidia Jetson Orin Nano 8 Go."
+      ]
+    },
+    {
+      "role": "Responsable Informatique",
+      "company": "Radio Nigeria",
+      "location": "Ikoyi, Lagos",
+      "dates": "Janv. 2013 – Fév. 2023",
+      "points": [
+        "Gestion Active Directory (utilisateurs, sécurité, déploiements) ; dépannage IT avec haute satisfaction client.",
+        "Création d'un site web optimisé SEO : +20 % d'engagement."
+      ]
+    },
+    {
+      "role": "Analyste en Recherche Consommateur",
+      "company": "Cadbury Nigeria Plc",
+      "location": "Ikeja, Lagos",
+      "dates": "Oct. 2011 – Sept. 2012",
+      "points": [
+        "Analyse de données et optimisation des processus avec SAP & Excel."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "DAQ 2.0 (Dispositif en Amont à la Qualification)",
+      "school": "APOR, Le Creusot",
+      "dates": "En cours"
+    },
+    {
+      "degree": "Master (M2) — Vision par Ordinateur",
+      "school": "Université de Bourgogne, Le Creusot",
+      "dates": "Juillet 2024"
+    },
+    {
+      "degree": "Diplôme d'études supérieures en Informatique",
+      "school": "University of Lagos",
+      "dates": "Mai 2015"
+    }
+  ],
+  "skills": [
+    {
+      "category": "Langages",
+      "items": [
+        "Python",
+        "JavaScript / React",
+        "SQL"
+      ]
+    },
+    {
+      "category": "Vision & ML",
+      "items": [
+        "PyTorch",
+        "ViT / distillation",
+        "TensorRT",
+        "OpenMMLab",
+        "Roboflow",
+        "ROS"
+      ]
+    },
+    {
+      "category": "Cloud / MLOps",
+      "items": [
+        "AWS SageMaker",
+        "Google Cloud",
+        "Docker",
+        "VMware",
+        "Git"
+      ]
+    },
+    {
+      "category": "Systèmes & Réseaux",
+      "items": [
+        "Windows",
+        "macOS",
+        "Linux",
+        "VLAN",
+        "VPN",
+        "pare-feu",
+        "Centreon",
+        "GLPI"
+      ]
+    },
+    {
+      "category": "Support technique",
+      "items": [
+        "N2 & N3",
+        "TeamViewer",
+        "AnyDesk",
+        "Jira"
+      ]
+    }
+  ],
+  "languages": [
+    {
+      "name": "Anglais",
+      "level": "Langue maternelle"
+    },
+    {
+      "name": "Français",
+      "level": "Niveau B1"
+    }
+  ],
+  "certifications": [
+    {
+      "name": "Certificat Professionnel Google en Support Informatique",
+      "year": "2024"
+    }
+  ],
+  "projects": [
+    {
+      "name": "ROSBot Harmony",
+      "stack": "Python · ROS · PyTorch",
+      "desc": "Système autonome de communication inter-robots."
+    },
+    {
+      "name": "Tri des déchets en temps réel",
+      "stack": "PyTorch · TensorRT · OpenMMLab",
+      "desc": "Précision de segmentation améliorée par compression de modèles."
+    },
+    {
+      "name": "Compression de ViT pour l'edge",
+      "stack": "Distillation · TensorRT · Jetson",
+      "desc": "Thèse M2 / travaux WASORIA."
+    }
+  ]
+}

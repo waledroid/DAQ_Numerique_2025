@@ -35,7 +35,7 @@
         '</a>' +
         '<div class="hidden md:flex items-center gap-8">' + links + '</div>' +
         '<div class="flex items-center gap-3">' +
-          '<a href="assets/cv.pdf" target="_blank" rel="noopener" class="hidden sm:inline-flex btn" data-magnetic><i class="fa-solid fa-download"></i> CV</a>' +
+          '<a href="cv.html" class="hidden sm:inline-flex btn" data-magnetic><i class="fa-solid fa-file-lines"></i> CV</a>' +
           '<button id="nav-burger" class="md:hidden text-mist text-2xl w-10 h-10 grid place-items-center" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>' +
         '</div>' +
       '</nav>';
@@ -49,7 +49,7 @@
         var active = p.href === current ? ' text-volt' : ' text-muted';
         return '<a href="' + p.href + '" class="block py-4 text-2xl font-display border-b border-line' + active + '">' + p.label + '</a>';
       }).join('') +
-      '<a href="assets/cv.pdf" target="_blank" rel="noopener" class="btn mt-8"><i class="fa-solid fa-download"></i> Télécharger le CV</a>';
+      '<a href="cv.html" class="btn mt-8"><i class="fa-solid fa-file-lines"></i> Voir le CV</a>';
     document.body.appendChild(drawer);
 
     function toggle(open) { drawer.classList.toggle('is-closed', !open); document.body.classList.toggle('overflow-hidden', open); }

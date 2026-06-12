@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="CV interactif d'Atanda Abdullahi — Ingénieur Vision par Ordinateur & Edge-AI. Éditable dans le navigateur et imprimable en PDF (A4, une page)." />
+  <title>CV — Atanda Abdullahi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/tw-config.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <style>
+    /* ====== CV sheet — print-exact styles (mm units), website theme on white ====== */
+    :root {
+      --paper: #ffffff;
+      --paper2: #f5f7f1;     /* sidebar tint — faint volt-green wash */
+      --inkx: #11151a;
+      --mutedx: #5b6470;
+      --linex: #e2e6dc;
+      --accentx: #a3e635;    /* volt — graphic elements only */
+      --greenx: #2f7a4d;     /* deep emerald — readable accent text on white */
+    }
+    .sheet-wrap { padding: 6.5rem 1rem 4rem; display: grid; place-items: center; }
+    .sheet {
+      width: 210mm; height: 297mm; flex: none; position: relative;
+      background: var(--paper); color: var(--inkx);
+      font-family: 'Inter', sans-serif; font-size: 9pt; line-height: 1.45;
+      display: grid; grid-template-columns: 62mm 1fr;
+      overflow: hidden; border-radius: 6px;
+      box-shadow: 0 40px 90px rgba(0,0,0,.55), 0 0 0 1px rgba(163,230,53,.12);
+    }
+    /* brand signature: volt→emerald bar across the top of the sheet */
+    .sheet::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1.6mm;
+      background: linear-gradient(90deg, var(--accentx), #34d399); z-index: 1;
+    }
+    /* --sp is the auto-spacing factor cv.js computes per column so the
+       content breathes into exactly one page (1 = authored rhythm) */
+    .side { position: relative; background: var(--paper2); border-right: 1px solid var(--linex); padding: 10mm 6.5mm 8mm; overflow: hidden; }
+    .mainc { position: relative; padding: 10mm 8mm 8mm; overflow: hidden; }
+
+    .cv-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22pt; line-height: 1.04; letter-spacing: -0.02em; }
+    .cv-name::after { content: '.'; color: var(--greenx); }
+    .cv-title { font-family: 'JetBrains Mono', monospace; font-size: 8pt; letter-spacing: .14em; text-transform: uppercase; color: var(--greenx); margin-top: 2mm; }
+    .cv-tagline { color: var(--mutedx); font-size: 8.5pt; margin-top: 2mm; max-width: 120mm; }
+
+    .sec {
+      font-family: 'JetBrains Mono', monospace; font-size: 6.6pt; font-weight: 500;
+      letter-spacing: .24em; text-transform: uppercase; color: #39414d;
+      display: flex; align-items: center; gap: 2.2mm; margin: calc(5.5mm * var(--sp, 1)) 0 calc(2.6mm * var(--sp, 1));
+    }
+    .sec::before { content: ''; width: 4mm; height: 0.8mm; background: var(--accentx); flex: none; }
+
+    .photo { width: 31mm; height: 31mm; border-radius: 50%; background: #e9ede2; border: 1.5px solid var(--accentx); overflow: hidden; margin: 0 auto calc(2mm * var(--sp, 1)); box-shadow: 0 0 0 1.2mm #fff inset; }
+    .photo img { width: 100%; height: 100%; object-fit: cover; object-position: top; filter: grayscale(35%); }
+
+    .crow { display: flex; flex-direction: column; gap: 0.4mm; margin-bottom: calc(2.2mm * var(--sp, 1)); }
+    .crow .clabel { font-family: 'JetBrains Mono', monospace; font-size: 6pt; letter-spacing: .18em; text-transform: uppercase; color: var(--mutedx); }
+    .crow .cvalue { font-size: 8pt; word-break: break-word; }
+
+    .skill { margin-bottom: calc(2.6mm * var(--sp, 1)); }
+    .skill .scat { font-weight: 600; font-size: 8pt; }
+    .skill .sitems { color: var(--mutedx); font-size: 7.8pt; line-height: 1.5; }
+
+    .langrow { display: flex; justify-content: space-between; gap: 3mm; font-size: 8pt; margin-bottom: calc(1.4mm * var(--sp, 1)); }
+    .langrow .level { color: var(--mutedx); text-align: right; }
+
+    .cert { font-size: 8pt; margin-bottom: calc(1.4mm * var(--sp, 1)); }
+    .cert .year { color: var(--mutedx); }
+
+    .item { position: relative; margin-bottom: calc(3.4mm * var(--sp, 1)); }
+    .item .row { display: flex; justify-content: space-between; align-items: baseline; gap: 4mm; }
+    .item h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 10pt; }
+    .item .dates { font-family: 'JetBrains Mono', monospace; font-size: 6.8pt; letter-spacing: .06em; color: var(--mutedx); white-space: nowrap; }
+    .item .org { font-size: 8.2pt; color: var(--greenx); font-weight: 500; margin-top: 0.3mm; }
+    .points { margin-top: 1mm; padding-left: 3.6mm; }
+    .points li { font-size: 8.2pt; color: #2c333d; list-style: none; position: relative; margin-bottom: calc(0.7mm * var(--sp, 1)); }
+    .points li::before { content: ''; position: absolute; left: -3.6mm; top: 1.5mm; width: 1.8mm; height: 0.7mm; background: var(--accentx); }
+
+    .proj { margin-bottom: calc(2mm * var(--sp, 1)); font-size: 8.2pt; }
+    .proj .pname { font-weight: 600; }
+    .proj .pstack { font-family: 'JetBrains Mono', monospace; font-size: 6.4pt; letter-spacing: .08em; color: var(--mutedx); text-transform: uppercase; margin-left: 1.5mm; }
+    .proj .pdesc { color: #2c333d; }
+
+    /* ====== Edit mode ====== */
+    .edit-only { display: none; }
+    body.editing .edit-only { display: inline-flex; }
+    body.editing [contenteditable="true"] { outline: 1px dashed rgba(47,122,77,.5); outline-offset: 2px; border-radius: 2px; min-width: 4mm; }
+    body.editing [contenteditable="true"]:focus { outline-color: var(--greenx); background: rgba(163,230,53,.08); }
+    .rm {
+      position: absolute; top: -1mm; right: -1mm; width: 4.5mm; height: 4.5mm;
+      align-items: center; justify-content: center; border-radius: 50%;
+      background: #fee2e2; color: #b91c1c; font-size: 8pt; line-height: 1; border: 1px solid #fca5a5; cursor: pointer; z-index: 2;
+    }
+    .crow, .skill, .langrow, .cert, .proj { position: relative; }
+    .add {
+      align-items: center; gap: 1.5mm; font-family: 'JetBrains Mono', monospace; font-size: 6.6pt;
+      letter-spacing: .12em; text-transform: uppercase; color: var(--greenx);
+      border: 1px dashed rgba(47,122,77,.5); border-radius: 999px; padding: 0.8mm 2.6mm; margin: 1mm 0 2mm; cursor: pointer; background: transparent;
+    }
+    .add:hover { background: rgba(163,230,53,.12); }
+
+    /* ====== Print: A4 exact, sheet only ====== */
+    @page { size: A4; margin: 0; }
+    @media print {
+      body { background: #fff !important; }
+      .no-print { display: none !important; }
+      .edit-only { display: none !important; }
+      .sheet-wrap { padding: 0; display: block; }
+      .sheet { box-shadow: none; border-radius: 0; width: 210mm; height: 297mm; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body class="bg-ink text-mist">
+
+  <!-- ====== Toolbar (screen only) ====== -->
+  <header class="no-print fixed top-0 inset-x-0 z-50 border-b border-line bg-ink/85 backdrop-blur">
+    <div class="max-w-shell mx-auto px-5 sm:px-8 h-16 flex items-center justify-between gap-4">
+      <a href="index.html" class="font-mono text-xs tracking-widest text-muted hover:text-accent transition inline-flex items-center gap-2">
+        <i aria-hidden="true">←</i> RETOUR AU SITE
+      </a>
+      <p class="hidden sm:block font-mono text-[0.65rem] tracking-[0.25em] uppercase text-muted">
+        CV — Éditeur · <span id="srv-status" class="text-emerald">…</span>
+      </p>
+      <div class="flex items-center gap-2">
+        <span id="overflow-warn" hidden class="font-mono text-[0.62rem] tracking-widest uppercase text-red-400 border border-red-400/40 rounded-full px-3 py-1.5">⚠ Dépasse 1 page</span>
+        <button id="btn-edit" type="button" class="font-mono text-xs tracking-widest uppercase border border-line rounded-full px-4 py-2 text-mist hover:border-accent hover:text-accent transition">
+          ✎ Modifier
+        </button>
+        <button id="btn-cancel" type="button" hidden class="font-mono text-xs tracking-widest uppercase border border-line rounded-full px-4 py-2 text-muted hover:text-mist transition">
+          Annuler
+        </button>
+        <button id="btn-save" type="button" hidden class="font-mono text-xs tracking-widest uppercase rounded-full px-4 py-2 bg-accent text-ink font-medium hover:bg-volt transition">
+          ✓ Enregistrer
+        </button>
+        <button id="btn-print" type="button" class="font-mono text-xs tracking-widest uppercase rounded-full px-4 py-2 bg-surface2 border border-line text-mist hover:border-accent hover:text-accent transition">
+          ⎙ Imprimer / PDF
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ====== A4 sheet ====== -->
+  <main class="sheet-wrap">
+    <div class="sheet" id="cv-sheet">
+
+      <!-- Sidebar -->
+      <aside class="side">
+        <div class="photo no-overflow">
+          <img src="assets/img/meme_no_bg.png" alt="Portrait d'Atanda Abdullahi" />
+        </div>
+
+        <h2 class="sec">Contact</h2>
+        <div id="contact-list"></div>
+        <button type="button" class="add edit-only" data-add="contact">+ ligne</button>
+
+        <h2 class="sec">Compétences</h2>
+        <div id="skills-list"></div>
+        <button type="button" class="add edit-only" data-add="skills">+ catégorie</button>
+
+        <h2 class="sec">Langues</h2>
+        <div id="lang-list"></div>
+        <button type="button" class="add edit-only" data-add="languages">+ langue</button>
+
+        <h2 class="sec">Certification</h2>
+        <div id="cert-list"></div>
+        <button type="button" class="add edit-only" data-add="certifications">+ certification</button>
+      </aside>
+
+      <!-- Main column -->
+      <section class="mainc">
+        <header>
+          <h1 class="cv-name" data-edit="identity.name"></h1>
+          <p class="cv-title" data-edit="identity.title"></p>
+          <p class="cv-tagline" data-edit="identity.tagline"></p>
+        </header>
+
+        <h2 class="sec">Profil</h2>
+        <p style="font-size:8.6pt;color:#2c333d;" data-edit="profile"></p>
+
+        <h2 class="sec">Expérience professionnelle</h2>
+        <div id="exp-list"></div>
+        <button type="button" class="add edit-only" data-add="experience">+ expérience</button>
+
+        <h2 class="sec">Formation</h2>
+        <div id="edu-list"></div>
+        <button type="button" class="add edit-only" data-add="education">+ formation</button>
+
+        <h2 class="sec">Projets</h2>
+        <div id="proj-list"></div>
+        <button type="button" class="add edit-only" data-add="projects">+ projet</button>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- toast -->
+  <div id="toast" hidden class="no-print fixed bottom-6 left-1/2 -translate-x-1/2 z-50 font-mono text-xs tracking-wider px-5 py-3 rounded-full border border-line bg-surface text-mist shadow-xl"></div>
+
+  <!-- ====== Micro-templates ====== -->
+  <template id="tpl-contact">
+    <div class="crow" data-item>
+      <button type="button" class="rm edit-only" data-rm aria-label="Supprimer">×</button>
+      <span class="clabel" data-field="label">{{label}}</span>
+      <span class="cvalue" data-field="value">{{value}}</span>
+    </div>
+  </template>
+
+  <template id="tpl-skill">
+    <div class="skill" data-item>
+      <button type="button" class="rm edit-only" data-rm aria-label="Supprimer">×</button>
+      <p class="scat" data-field="category">{{category}}</p>
+      <p class="sitems" data-field="items">{{items}}</p>
+    </div>
+  </template>
+
+  <template id="tpl-lang">
+    <div class="langrow" data-item>
+      <button type="button" class="rm edit-only" data-rm aria-label="Supprimer">×</button>
+      <span data-field="name">{{name}}</span>
+      <span class="level" data-field="level">{{level}}</span>
+    </div>
+  </template>
+
+  <template id="tpl-cert">
+    <p class="cert" data-item>
+      <button type="button" class="rm edit-only" data-rm aria-label="Supprimer">×</button>
+      <span data-field="name">{{name}}</span> — <span class="year" data-field="year">{{year}}</span>
+    </p>
+  </template>
+
+  <template id="tpl-exp">
+    <article class="item" data-item>
+      <button type="button" class="rm edit-only" data-rm aria-label="Supprimer">×</button>
+      <div class="row">
+        <h3 data-field="role">{{role}}</h3>
+        <span class="dates" data-field="dates">{{dates}}</span>
+      </div>
+      <p class="org"><span data-field="company">{{company}}</span> · <span data-field="location" style="color:var(--mutedx);font-weight:400;">{{location}}</span></p>
+      <ul class="points" data-points></ul>
+      <button type="button" class="add edit-only" data-addpoint>+ puce</button>
+    </article>
+  </template>
+
+  <template id="tpl-point">
+    <li data-field="point">{{text}}</li>
+  </template>
+
+  <template id="tpl-edu">
+    <article class="item" data-item>
+      <button type="button" class="rm edit-only" data-rm aria-label="Supprimer">×</button>
+      <div class="row">
+        <h3 style="font-size:9pt;" data-field="degree">{{degree}}</h3>
+        <span class="dates" data-field="dates">{{dates}}</span>
+      </div>
+      <p class="org" data-field="school">{{school}}</p>
+    </article>
+  </template>
+
+  <template id="tpl-proj">
+    <p class="proj" data-item>
+      <button type="button" class="rm edit-only" data-rm aria-label="Supprimer">×</button>
+      <span class="pname" data-field="name">{{name}}</span><span class="pstack" data-field="stack">{{stack}}</span><br>
+      <span class="pdesc" data-field="desc">{{desc}}</span>
+    </p>
+  </template>
+
+  <script src="assets/js/cv.js"></script>
+</body>
+</html>

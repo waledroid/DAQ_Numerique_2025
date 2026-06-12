@@ -12,6 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link href="https://db.onlinewebfonts.com/c/b8cc7a4c2204f4530415a8552c2d827d?family=ANAPOLINO" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="stylesheet" href="assets/css/site.css" />
 </head>
 <body class="bg-ink text-mist">
@@ -244,10 +245,60 @@
       <p class="label max-w-shell mx-auto px-5 sm:px-8 mb-8" data-reveal>Stack technique</p>
       <div class="marquee" aria-label="Outils et technologies maîtrisés">
         <div class="marquee__track font-display text-2xl sm:text-3xl font-semibold text-muted">
-          <span>Python</span><span>PyTorch</span><span>ROS</span><span>TensorRT</span><span>Jetson</span><span>Docker</span><span>OpenMMLab</span><span>Roboflow</span><span>AWS</span><span>Git</span>
+          <span>Python</span><span>PyTorch</span><span>ROS</span><span>TensorRT</span><span>Jetson</span><span>Docker</span><span>OpenMMLab</span><span>Roboflow</span><span>AWS SageMaker</span><span>React</span><span>SQL</span><span>Linux</span><span>Git</span>
         </div>
         <div class="marquee__track font-display text-2xl sm:text-3xl font-semibold text-muted" aria-hidden="true">
-          <span>Python</span><span>PyTorch</span><span>ROS</span><span>TensorRT</span><span>Jetson</span><span>Docker</span><span>OpenMMLab</span><span>Roboflow</span><span>AWS</span><span>Git</span>
+          <span>Python</span><span>PyTorch</span><span>ROS</span><span>TensorRT</span><span>Jetson</span><span>Docker</span><span>OpenMMLab</span><span>Roboflow</span><span>AWS SageMaker</span><span>React</span><span>SQL</span><span>Linux</span><span>Git</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== VISION LAB TEASER ====== -->
+    <section id="vision-lab" class="border-t border-line bg-surface/30">
+      <div class="max-w-shell mx-auto px-5 sm:px-8 py-24">
+        <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
+
+          <!-- Copy -->
+          <div>
+            <p class="label" data-reveal>Vision Lab</p>
+            <h2 class="font-display font-bold tracking-tight text-[clamp(2rem,4.5vw,3.2rem)] mt-4 leading-tight" data-reveal data-delay="1">
+              Voyez la vision <span class="text-gradient" data-scramble>en direct</span>
+            </h2>
+            <p class="text-muted mt-6 max-w-xl leading-relaxed" data-reveal data-delay="2">
+              Un laboratoire interactif dans le navigateur : nuage de points 3D, boîtes de
+              détection animées et un mode webcam optionnel — les motifs du quotidien d'un
+              ingénieur vision, rendus tangibles.
+            </p>
+            <ul class="flex flex-wrap gap-2 mt-8 font-mono text-[0.65rem] uppercase tracking-wider text-muted" data-reveal data-delay="3">
+              <li class="px-2.5 py-1 border border-line rounded-full">Point cloud 3D</li>
+              <li class="px-2.5 py-1 border border-line rounded-full">Détection simulée</li>
+              <li class="px-2.5 py-1 border border-line rounded-full">Mode webcam</li>
+            </ul>
+            <div class="mt-10" data-reveal data-delay="4">
+              <a href="lab.html" class="btn" data-magnetic>
+                <i class="fa-solid fa-flask" aria-hidden="true"></i> Entrer dans le Lab
+              </a>
+            </div>
+          </div>
+
+          <!-- Faux HUD frame -->
+          <div data-reveal data-delay="2">
+            <div class="hud panel relative overflow-hidden aspect-[4/3]" aria-hidden="true">
+              <div class="grid-bg absolute inset-0" ></div>
+              <div class="scanline absolute inset-0"></div>
+              <span class="absolute top-4 left-4 font-mono text-[0.6rem] tracking-widest text-accent/80">● LIVE FEED — SIM</span>
+              <span class="absolute top-4 right-4 font-mono text-[0.6rem] tracking-widest text-muted">FPS 60 · INT8</span>
+              <!-- faux detection boxes -->
+              <div class="absolute left-[14%] top-[28%] w-[34%] h-[42%] border border-accent/70 rounded-sm">
+                <span class="absolute -top-5 left-0 font-mono text-[0.6rem] tracking-widest text-accent">ROBOT 0.97</span>
+              </div>
+              <div class="absolute right-[12%] top-[48%] w-[26%] h-[30%] border border-emerald/60 rounded-sm">
+                <span class="absolute -top-5 left-0 font-mono text-[0.6rem] tracking-widest text-emerald">OBJET 0.88</span>
+              </div>
+              <span class="absolute bottom-4 left-4 font-mono text-[0.6rem] tracking-widest text-muted">JETSON ORIN NANO · TENSORRT</span>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

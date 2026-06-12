@@ -11,6 +11,9 @@
    - Reflective grid floor, soft fog, dark metallic materials.
    - Base yaw + shoulder pitch ease toward the cursor; idle breathing
      sway when the mouse is still.
+   - End effector is a stereo camera head: two big lens barrels with
+     glowing irises and a faint scan frustum — the arm "looks" at
+     the cursor rather than gripping.
    - A floating wireframe scan-ring + bounding box reinforce the
      vision-lab theme.
    - Robust: no-ops silently if container missing or WebGL absent.
@@ -61,6 +64,17 @@ function init() {
   renderer.domElement.style.width = '100%';
   renderer.domElement.style.height = '100%';
   renderer.domElement.setAttribute('aria-hidden', 'true');
+  // WebGL works — hide the HTML fallback so it doesn't show through the
+  // transparent canvas, and overlay the canvas on the full container
+  // (the container is a grid; stacked children would clip the scene).
+  for (const child of Array.from(container.children)) {
+    child.style.display = 'none';
+  }
+  if (!container.style.position && getComputedStyle(container).position === 'static') {
+    container.style.position = 'relative';
+  }
+  renderer.domElement.style.position = 'absolute';
+  renderer.domElement.style.inset = '0';
   container.appendChild(renderer.domElement);
 
   // ---- Scene + fog -------------------------------------------------------
@@ -68,8 +82,8 @@ function init() {
   scene.fog = new THREE.FogExp2(INK, 0.05);
 
   const camera = new THREE.PerspectiveCamera(38, width / height, 0.1, 100);
-  camera.position.set(5.2, 3.6, 7.4);
-  camera.lookAt(0, 1.6, 0);
+  camera.position.set(6.0, 4.3, 8.8);
+  camera.lookAt(0, 2.1, 0);
 
   // ---- Lighting ----------------------------------------------------------
   const ambient = new THREE.AmbientLight(0x20262e, 1.1);
@@ -147,7 +161,7 @@ function init() {
 
   // ---- Build the robotic arm --------------------------------------------
   // Hierarchy: yawBase → shoulder(pitch) → upperArm → elbow(pitch) →
-  //            forearm → wrist(pitch) → gripper(2 claws)
+  //            forearm → wrist(pitch) → camera head (2 lenses + frustum)
   const armRoot = new THREE.Group();
   scene.add(armRoot);
 
@@ -255,40 +269,122 @@ function init() {
   );
   wristJoint.rotation.z = Math.PI / 2;
 
-  // Gripper base
-  const gripper = new THREE.Group();
-  gripper.position.y = 0.2;
-  wrist.add(gripper);
-  const gripBase = addMesh(
-    new THREE.BoxGeometry(0.46, 0.28, 0.34),
-    metalMid,
-    gripper
-  );
-  gripBase.position.y = 0.1;
+  // Stereo camera head (end effector) — the arm "sees" instead of grips.
+  // Mount plate + wide housing, two big lens barrels exiting along the
+  // arm axis (+y), each with a dark glass element, a glowing iris and an
+  // accent focus ring; a status LED and a faint scan frustum complete it.
+  const head = new THREE.Group();
+  head.position.y = 0.2;
+  wrist.add(head);
 
-  // Two claws (animated open/close)
-  function makeClaw(side) {
-    const clawPivot = new THREE.Group();
-    clawPivot.position.set(side * 0.18, 0.24, 0);
-    gripper.add(clawPivot);
-    const finger = addMesh(
-      new THREE.BoxGeometry(0.1, 0.5, 0.22),
+  const lensGlassMat = new THREE.MeshStandardMaterial({
+    color: 0x05070a,
+    metalness: 0.6,
+    roughness: 0.08,
+  });
+  const irisMat = new THREE.MeshStandardMaterial({
+    color: EMERALD,
+    emissive: EMERALD,
+    emissiveIntensity: 0.9,
+    metalness: 0.2,
+    roughness: 0.4,
+  });
+
+  // Mount plate connecting wrist to housing
+  const mount = addMesh(
+    new THREE.CylinderGeometry(0.18, 0.22, 0.12, 20),
+    jointMat,
+    head
+  );
+  mount.position.y = 0.06;
+
+  // Housing — wide stereo body (think depth camera), lenses on top face
+  const housing = addMesh(
+    new THREE.BoxGeometry(0.92, 0.3, 0.42),
+    metalMid,
+    head
+  );
+  housing.position.y = 0.27;
+  const housingStripe = addMesh(
+    new THREE.BoxGeometry(0.94, 0.05, 0.03),
+    accentMat,
+    head,
+    false
+  );
+  housingStripe.position.set(0, 0.27, 0.21);
+
+  // Status LED on the housing corner (pulses while tracking)
+  const led = addMesh(
+    new THREE.SphereGeometry(0.035, 12, 12),
+    irisMat,
+    head,
+    false
+  );
+  led.position.set(0.38, 0.27, 0.23);
+
+  function makeLens(x, r) {
+    // Barrel
+    const barrel = addMesh(
+      new THREE.CylinderGeometry(r, r * 0.9, 0.34, 28),
       metalDark,
-      clawPivot
+      head
     );
-    finger.position.y = 0.25;
-    const tip = addMesh(
-      new THREE.BoxGeometry(0.1, 0.22, 0.22),
+    barrel.position.set(x, 0.59, 0);
+    // Accent focus ring at the rim
+    const focusRing = addMesh(
+      new THREE.TorusGeometry(r * 1.02, 0.028, 12, 36),
       accentMat,
-      clawPivot,
+      head,
       false
     );
-    tip.position.set(side * -0.06, 0.5, 0);
-    tip.rotation.z = side * 0.5;
-    return clawPivot;
+    focusRing.position.set(x, 0.74, 0);
+    focusRing.rotation.x = Math.PI / 2;
+    // Dark glass element
+    const glass = addMesh(
+      new THREE.CylinderGeometry(r * 0.82, r * 0.82, 0.04, 28),
+      lensGlassMat,
+      head,
+      false
+    );
+    glass.position.set(x, 0.765, 0);
+    // Glowing iris at the center
+    const iris = addMesh(
+      new THREE.CylinderGeometry(r * 0.3, r * 0.3, 0.05, 20),
+      irisMat,
+      head,
+      false
+    );
+    iris.position.set(x, 0.77, 0);
   }
-  const clawL = makeClaw(-1);
-  const clawR = makeClaw(1);
+  makeLens(-0.23, 0.2);
+  makeLens(0.23, 0.2);
+
+  // Faint scan frustum projecting from between the lenses (apex at head)
+  const beam = new THREE.Mesh(
+    new THREE.ConeGeometry(0.65, 2.1, 4, 1, true),
+    new THREE.MeshBasicMaterial({
+      color: ACCENT,
+      transparent: true,
+      opacity: 0.04,
+      side: THREE.DoubleSide,
+      depthWrite: false,
+    })
+  );
+  beam.position.y = 0.78 + 1.05;
+  beam.rotation.x = Math.PI; // apex toward the lenses, opening outward
+  beam.rotation.y = Math.PI / 4; // square frustum aligned with the housing
+  head.add(beam);
+  const beamEdges = new THREE.LineSegments(
+    new THREE.EdgesGeometry(beam.geometry),
+    new THREE.LineBasicMaterial({
+      color: ACCENT,
+      transparent: true,
+      opacity: 0.16,
+    })
+  );
+  beamEdges.position.copy(beam.position);
+  beamEdges.rotation.copy(beam.rotation);
+  head.add(beamEdges);
 
   // ---- HUD detail: floating wireframe scan-ring + bounding box ----------
   const hud = new THREE.Group();
@@ -340,15 +436,26 @@ function init() {
   scene.add(points);
 
   // ---- Cursor tracking ---------------------------------------------------
-  // Normalised pointer (-1..1). Target angles ease toward these.
+  // Normalised pointer (-1..1). The cursor ray is projected onto a virtual
+  // plane in front of the arm; the head aims at that 3D point like a
+  // tracked object (base yaw + posture + an analytic wrist solve).
   const pointer = { x: 0, y: 0 };
   let lastMove = performance.now();
 
+  const raycaster = new THREE.Raycaster();
+  const ndc = new THREE.Vector2();
+  const aimPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -2.2); // z = 2.2
+  const targetPt = new THREE.Vector3(0, 2.6, 2.2);
+  const headPos = new THREE.Vector3();
+  const headDir = new THREE.Vector3();
+
   function onPointerMove(e) {
+    // Canvas-relative NDC, deliberately unclamped: over the canvas the head
+    // looks exactly at the cursor; outside it the aim extrapolates so the
+    // arm still reacts anywhere on the page.
     const rect = container.getBoundingClientRect();
-    // Use viewport coords so the arm reacts even when cursor is off the canvas
-    pointer.x = (e.clientX / window.innerWidth) * 2 - 1;
-    pointer.y = (e.clientY / window.innerHeight) * 2 - 1;
+    pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    pointer.y = ((e.clientY - rect.top) / rect.height) * 2 - 1;
     lastMove = performance.now();
   }
   if (!reduceMotion) {
@@ -360,43 +467,75 @@ function init() {
   let visible = true;
   let frameId = null;
 
-  // Eased current angles
-  const cur = { yaw: 0, shoulder: 0.25, elbow: -0.6, wrist: 0.35, claw: 0.3 };
+  // Eased current angles (focus drives the lens iris / scan-beam pulse).
+  // Wrist rests around 1.0 so the lens face tilts toward the viewer
+  // instead of pointing straight up.
+  const cur = { yaw: 0, shoulder: 0.25, elbow: -0.6, wrist: 1.0, focus: 0.9 };
 
   function update(dt, t) {
     // Idle if cursor hasn't moved in ~1.4s
     const idle = t - lastMove > 1400;
     const breathe = Math.sin(t * 0.0012) * 0.06;
-    const sway = Math.sin(t * 0.0008) * 0.12;
 
-    // Target angles from pointer
-    let tgtYaw = pointer.x * 0.9;
-    let tgtShoulder = 0.25 + pointer.y * 0.35;
-    let tgtElbow = -0.6 - pointer.y * 0.3;
-    let tgtWrist = 0.35 + pointer.y * 0.2;
-    let tgtClaw = 0.3;
-
+    // ---- Where to look ----
     if (idle || reduceMotion) {
-      tgtYaw = sway;
-      tgtShoulder = 0.25 + breathe;
-      tgtElbow = -0.6 + breathe * 1.5;
-      tgtWrist = 0.35 - breathe;
-      tgtClaw = 0.3 + Math.sin(t * 0.0016) * 0.18; // gentle grip pulse
+      // Roam: a slow figure-eight in front of the arm
+      targetPt.set(
+        Math.sin(t * 0.00035) * 2.6,
+        2.4 + Math.sin(t * 0.00078) * 1.1,
+        2.2
+      );
+    } else {
+      ndc.set(pointer.x, -pointer.y);
+      raycaster.setFromCamera(ndc, camera);
+      if (!raycaster.ray.intersectPlane(aimPlane, targetPt)) {
+        targetPt.set(0, 2.6, 2.2);
+      }
+      targetPt.x = THREE.MathUtils.clamp(targetPt.x, -4.5, 4.5);
+      targetPt.y = THREE.MathUtils.clamp(targetPt.y, 0.25, 5.2);
     }
+
+    // ---- Posture: yaw faces the target, shoulder/elbow adopt the reach ----
+    const tgtYaw = Math.atan2(targetPt.x, targetPt.z);
+    const hN = THREE.MathUtils.clamp((targetPt.y - 0.25) / 5, 0, 1); // 0 low → 1 high
+    const tgtShoulder = 0.55 - hN * 0.45 + (idle ? breathe : 0);
+    const tgtElbow = -0.95 + hN * 0.5 + (idle ? breathe * 1.5 : 0);
+    const tgtFocus = idle || reduceMotion
+      ? 0.7 + Math.sin(t * 0.0016) * 0.3 // slow autofocus pulse
+      : 1.1; // tracking: irises glow hot, beam stays lit
 
     const k = reduceMotion ? 1 : 1 - Math.pow(0.0001, dt); // frame-rate independent ease
     cur.yaw += (tgtYaw - cur.yaw) * k;
     cur.shoulder += (tgtShoulder - cur.shoulder) * k;
     cur.elbow += (tgtElbow - cur.elbow) * k;
-    cur.wrist += (tgtWrist - cur.wrist) * k;
-    cur.claw += (tgtClaw - cur.claw) * k;
+    cur.focus += (tgtFocus - cur.focus) * k;
 
     yawBase.rotation.y = cur.yaw;
     shoulder.rotation.x = cur.shoulder;
     elbow.rotation.x = cur.elbow;
+
+    // ---- Aim the head: solve the wrist pitch so the lens axis (+y of the
+    // head) points at the target, then ease toward it (gaze leads slightly).
+    wrist.getWorldPosition(headPos);
+    headDir.copy(targetPt).sub(headPos);
+    const sy = Math.sin(cur.yaw);
+    const cy = Math.cos(cur.yaw);
+    const depthInPlane = headDir.x * sy + headDir.z * cy; // along the arm's facing
+    const phi = Math.atan2(depthInPlane, headDir.y); // desired pitch from vertical
+    const tgtWrist = THREE.MathUtils.clamp(
+      phi - (cur.shoulder + cur.elbow),
+      -0.25,
+      2.2
+    );
+    const kHead = reduceMotion ? 1 : 1 - Math.pow(0.00001, dt); // snappier than the body
+    cur.wrist += (tgtWrist - cur.wrist) * kHead;
     wrist.rotation.x = cur.wrist;
-    clawL.rotation.z = cur.claw;
-    clawR.rotation.z = -cur.claw;
+    // Camera-head life: iris/LED glow follows focus, scan beam breathes
+    irisMat.emissiveIntensity = 0.5 + cur.focus * 0.6;
+    beam.material.opacity = 0.015 + cur.focus * 0.025;
+    beamEdges.material.opacity = 0.06 + cur.focus * 0.08;
+    beam.rotation.y = Math.PI / 4 + t * 0.0003; // slow frustum sweep
+    beamEdges.rotation.y = beam.rotation.y;
 
     // HUD motion
     if (!reduceMotion) {

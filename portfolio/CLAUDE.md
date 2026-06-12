@@ -6,8 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 A static, multi-page personal portfolio for **Atanda Abdullahi** (handle `waledroid`) — a
 Computer Vision / Edge-AI & Robotics engineer with a decade of IT systems background. Content is
-in **French**. There is **no build step**, no package manager, and no backend: plain HTML + Tailwind
-(CDN) + a shared design system, with Three.js / GSAP / Lenis loaded from CDNs.
+in **French**. There is **no build step** and no package manager: plain HTML + Tailwind (CDN) + a
+shared design system, with Three.js / GSAP / Lenis loaded from CDNs. The only server-side piece
+is the optional zero-dependency `server.js` (Node) that persists the CV editor's JSON — there is
+no database.
 
 The design language is **"EDGE VISION"** — a lab-grade dark UI (near-black + volt-green/emerald
 accent) with computer-vision motifs (HUD brackets, detection bounding boxes, scanlines, mono
@@ -20,7 +22,8 @@ Serve over HTTP so the Three.js ES-module importmap, the CV PDF, and relative `a
 resolve (the 3D modules will not load from a `file://` origin):
 
 ```bash
-python3 -m http.server 8000   # then open http://localhost:8000/index.html
+node server.js                # http://localhost:8000 — full site + CV save API (/api/cv)
+python3 -m http.server 8000   # read-only alternative; the CV editor falls back to localStorage
 ```
 
 Nothing to build, lint, or test — changes are verified by eye in the browser (check the console
@@ -32,6 +35,15 @@ Six pages, all sharing the same skeleton (see `DESIGN_BRIEF.md` §3): `index.htm
 hero), `about.html`, `experience.html` (career timeline + education + certs), `projects.html`
 (filterable case studies + web-project modal), `lab.html` (interactive Vision Lab), `contact.html`
 (mailto-based form). The nav link set lives in **one place**: the `PAGES` array in `assets/js/main.js`.
+
+There is also **`cv.html`** — the interactive CV editor. It is deliberately a standalone tool page
+(own light "paper" styling, no injected nav/footer, NOT in the `PAGES` array); every "Voir le CV"
+button across the site links to it. It renders `data/cv.json` into a strict one-page A4 two-column
+French CV via the micro template engine in `assets/js/cv.js` (`{{path}}` interpolation +
+`<template>` clones), supports in-place editing (Modifier/Enregistrer, add/remove list items,
+one-page overflow warning), saves through `PUT /api/cv` when `server.js` runs (atomic write to
+`data/cv.json`; localStorage draft fallback on static hosting), and prints to PDF via the browser
+with exact `@page A4` CSS.
 
 ## Architecture — the shared design system
 
