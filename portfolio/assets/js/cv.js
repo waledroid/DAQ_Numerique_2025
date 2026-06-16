@@ -261,6 +261,8 @@
     state = data;
     $('#srv-status').textContent = serverOk ? 'serveur connecté' : 'mode local';
     $('#srv-status').classList.toggle('text-emerald', serverOk);
+    const resetBtn = $('#btn-reset');
+    if (resetBtn) resetBtn.hidden = !localStorage.getItem(DRAFT_KEY);
     render();
   }
 
@@ -269,6 +271,13 @@
   $('#btn-cancel').addEventListener('click', () => { setEditing(false); render(); });
   $('#btn-save').addEventListener('click', save);
   $('#btn-print').addEventListener('click', () => window.print());
+  $('#btn-reset').addEventListener('click', async () => {
+    if (!confirm('Effacer le brouillon enregistré dans ce navigateur et recharger le CV publié ?')) return;
+    localStorage.removeItem(DRAFT_KEY);
+    setEditing(false);
+    await load();
+    toast('Brouillon local effacé — CV publié rechargé ✓');
+  });
 
   document.addEventListener('click', (e) => {
     const rm = e.target.closest('[data-rm]');
