@@ -72,15 +72,6 @@
         "Gestion Active Directory (utilisateurs, sécurité, déploiements) ; dépannage IT avec haute satisfaction client.",
         "Création d'un site web optimisé SEO : +20 % d'engagement."
       ]
-    },
-    {
-      "role": "Analyste en Recherche Consommateur",
-      "company": "Cadbury Nigeria Plc",
-      "location": "Ikeja, Lagos",
-      "dates": "Oct. 2011 – Sept. 2012",
-      "points": [
-        "Analyse de données et optimisation des processus avec SAP & Excel."
-      ]
     }
   ],
   "education": [
@@ -179,11 +170,6 @@
       "name": "ROSBot Harmony",
       "stack": "Python · ROS · PyTorch",
       "desc": "Système autonome de communication inter-robots."
-    },
-    {
-      "name": "Tri des déchets en temps réel",
-      "stack": "PyTorch · TensorRT · OpenMMLab",
-      "desc": "Précision de segmentation améliorée par compression de modèles."
     },
     {
       "name": "Compression de ViT pour l'edge",
