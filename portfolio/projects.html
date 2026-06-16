@@ -109,8 +109,44 @@
             </div>
           </article>
 
+          <!-- IsiDetector — Détection edge & MLOps -->
+          <article class="proj-card panel hud overflow-hidden flex flex-col" data-category="ia robotique" data-reveal data-delay="1">
+            <div class="scanline relative aspect-[16/10] overflow-hidden bg-ink grid-bg" aria-hidden="true">
+              <span class="absolute top-3 left-3 font-mono text-[0.6rem] tracking-widest text-accent">● LIVE — CONVOYEUR</span>
+              <span class="absolute top-3 right-3 chip bg-ink/70 backdrop-blur">Edge-AI</span>
+              <!-- ligne de comptage -->
+              <div class="absolute left-1/2 top-6 bottom-6 w-px border-l border-dashed border-accent/50"></div>
+              <!-- boîtes de détection -->
+              <div class="absolute left-[15%] top-[34%] w-[29%] h-[34%] border border-accent/70 rounded-sm">
+                <span class="absolute -top-4 left-0 font-mono text-[0.58rem] tracking-wide text-accent whitespace-nowrap">carton 0.98</span>
+              </div>
+              <div class="absolute right-[13%] top-[46%] w-[27%] h-[30%] border border-emerald/60 rounded-sm">
+                <span class="absolute -top-4 left-0 font-mono text-[0.58rem] tracking-wide text-emerald whitespace-nowrap">polybag 0.95</span>
+              </div>
+              <span class="absolute bottom-3 left-3 font-mono text-[0.58rem] tracking-widest text-muted">INT8 · ONNX · OpenVINO · TensorRT</span>
+              <span class="absolute bottom-3 right-3 font-mono text-[0.58rem] tracking-widest text-accent">⟶ UDP · seq 42</span>
+            </div>
+            <div class="p-6 flex flex-col flex-1">
+              <h2 class="font-display text-xl font-semibold">IsiDetector</h2>
+              <p class="text-muted text-sm mt-3 leading-relaxed flex-1">
+                Moteur de segmentation d'instances configurable (YOLO &amp; RF-DETR) pour la détection de
+                colis sur convoyeur. Comptage par franchissement de ligne (ByteTrack) déclenchant un
+                trigger UDP vers l'automate de tri ; pipeline entraînement → compression INT8/FP16 →
+                déploiement multi-backend (ONNX, OpenVINO, TensorRT). Mission Isitec.
+              </p>
+              <div class="flex flex-wrap gap-2 mt-5">
+                <span class="chip">Python</span><span class="chip">YOLO</span><span class="chip">RF-DETR</span>
+                <span class="chip">ONNX/TensorRT</span><span class="chip">OpenVINO</span><span class="chip">ByteTrack</span><span class="chip">FastAPI</span>
+              </div>
+              <a href="https://github.com/waledroid/IsiDetector" target="_blank" rel="noopener"
+                 class="link-u w-fit mt-6 font-mono text-sm text-accent inline-flex items-center gap-2">
+                <i class="fa-brands fa-github" aria-hidden="true"></i> Voir le dépôt
+              </a>
+            </div>
+          </article>
+
           <!-- ROSBot Harmony — Robotique / IA -->
-          <article class="proj-card panel hud overflow-hidden flex flex-col" data-category="robotique ia" data-reveal>
+          <article class="proj-card panel hud overflow-hidden flex flex-col" data-category="robotique ia" data-reveal data-delay="2">
             <div class="scanline relative aspect-[16/10] overflow-hidden group">
               <img src="assets/img/ti.jpg" alt="Matériel robotique et systèmes embarqués du projet ROSBot Harmony"
                    loading="lazy" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700" />
