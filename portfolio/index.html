@@ -211,6 +211,30 @@
 
           <!-- Two stacked -->
           <a href="projects.html" class="panel hud group relative overflow-hidden" data-reveal data-delay="2">
+            <div class="scanline relative overflow-hidden rounded-t-[18px] aspect-[16/9] bg-ink grid-bg" aria-hidden="true">
+              <span class="absolute top-3 left-3 font-mono text-[0.6rem] tracking-widest text-accent">● LIVE — CONVOYEUR</span>
+              <span class="absolute top-3 right-3 font-mono text-[0.6rem] tracking-widest text-muted">YOLO · RF-DETR</span>
+              <div class="absolute left-1/2 top-6 bottom-6 w-px border-l border-dashed border-accent/50"></div>
+              <div class="absolute left-[15%] top-[32%] w-[28%] h-[36%] border border-accent/70 rounded-sm">
+                <span class="absolute -top-4 left-0 font-mono text-[0.58rem] tracking-wide text-accent whitespace-nowrap">carton 0.98</span>
+              </div>
+              <div class="absolute right-[13%] top-[44%] w-[26%] h-[32%] border border-emerald/60 rounded-sm">
+                <span class="absolute -top-4 left-0 font-mono text-[0.58rem] tracking-wide text-emerald whitespace-nowrap">polybag 0.95</span>
+              </div>
+              <span class="absolute bottom-3 left-3 font-mono text-[0.58rem] tracking-widest text-muted">INT8 · OpenVINO · TensorRT</span>
+              <span class="absolute bottom-3 right-3 font-mono text-[0.58rem] tracking-widest text-accent">⟶ UDP · seq 42</span>
+            </div>
+            <div class="p-7">
+              <p class="font-mono text-xs uppercase tracking-widest text-accent">YOLO/RF-DETR · ONNX/TensorRT · UDP</p>
+              <h3 class="font-display text-xl font-semibold mt-3">IsiDetector</h3>
+              <p class="text-muted text-sm leading-relaxed mt-3">
+                Détection edge de colis sur convoyeur : pipeline entraînement → compression → déploiement
+                multi-backend, avec trigger UDP vers l'automate de tri. Mission Isitec.
+              </p>
+            </div>
+          </a>
+
+          <a href="projects.html" class="panel hud group relative overflow-hidden" data-reveal data-delay="3">
             <div class="scanline overflow-hidden rounded-t-[18px] aspect-[16/9]">
               <img src="assets/img/ti.jpg" alt="Bras robotique et matériel embarqué du projet ROSBot Harmony" loading="lazy"
                    class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 scale-105 group-hover:scale-100" />
@@ -220,20 +244,6 @@
               <h3 class="font-display text-xl font-semibold mt-3">ROSBot Harmony</h3>
               <p class="text-muted text-sm leading-relaxed mt-3">
                 Système autonome de communication inter-robots, orchestrant la coordination en temps réel sous ROS.
-              </p>
-            </div>
-          </a>
-
-          <a href="projects.html" class="panel hud group relative overflow-hidden" data-reveal data-delay="3">
-            <div class="scanline overflow-hidden rounded-t-[18px] aspect-[16/9]">
-              <img src="assets/img/ai.png" alt="Détection et segmentation des déchets en temps réel par vision par ordinateur" loading="lazy"
-                   class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 scale-105 group-hover:scale-100" />
-            </div>
-            <div class="p-7">
-              <p class="font-mono text-xs uppercase tracking-widest text-accent">PyTorch · TensorRT · OpenMMLab</p>
-              <h3 class="font-display text-xl font-semibold mt-3">Tri des déchets temps réel</h3>
-              <p class="text-muted text-sm leading-relaxed mt-3">
-                Précision de segmentation améliorée par compression de modèles, déployée pour le tri en temps réel.
               </p>
             </div>
           </a>
