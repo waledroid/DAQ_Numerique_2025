@@ -33,6 +33,17 @@
   "profile": "Ingénieur Vision par Ordinateur & Edge-AI, fort de 10 ans d'expérience en systèmes informatiques et support. Je fais le pont entre la recherche en deep learning et le matériel réel : modèles compressés, déployés et orchestrés sur des systèmes embarqués et robotiques.",
   "experience": [
     {
+      "role": "Ingénieur ML & Vision par Ordinateur",
+      "company": "Isitec",
+      "location": "Millery (Lyon)",
+      "dates": "Mars 2026 – présent",
+      "points": [
+        "Système de vision industrielle multi-caméras : suivi métrique 2D/3D (homographie, fusion, triangulation DLT).",
+        "Détecteurs edge YOLO/RF-DETR (ONNX/TensorRT, Jetson) + génération de données synthétiques (SDXL/ControlNet/SAM2).",
+        "Dashboard FastAPI + jumeau numérique 3D (Three.js)."
+      ]
+    },
+    {
       "role": "Technicien Informatique",
       "company": "AlloPanas Ordi",
       "location": "Chalon-sur-Saône",
@@ -159,6 +170,11 @@
     }
   ],
   "projects": [
+    {
+      "name": "ISI Monitor 3D — Vision industrielle",
+      "stack": "Python · YOLO/RF-DETR · ONNX/TensorRT · OpenCV · FastAPI · Three.js",
+      "desc": "Suivi métrique 2D/3D multi-caméras d'entrepôt avec jumeau numérique 3D temps réel. Isitec."
+    },
     {
       "name": "ROSBot Harmony",
       "stack": "Python · ROS · PyTorch",

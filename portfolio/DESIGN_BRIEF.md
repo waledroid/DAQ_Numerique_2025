@@ -15,10 +15,11 @@ design system already exists. Your page MUST look and feel like it belongs to th
 - **Status:** *Disponible pour un entretien.*
 
 ### Experience (most recent first — exact)
-1. **Technicien Informatique** — AlloPanas Ordi, Chalon-sur-Saône (Oct 2024 – Nov 2024). Diagnostic & réparation matériel/logiciel, imprimantes, appareils mobiles, à distance et sur site; documentation de l'état des dispositifs.
-2. **Ingénieur en Apprentissage Automatique** — WASORIA, Le Creusot (Fév 2024 – Juil 2024). Distillation de connaissances sur Vision Transformers (ViT) lourds → **+25 % vitesse de détection et précision de segmentation**; **−40 % temps d'inférence** sur **Nvidia Jetson Orin Nano 8 Go**.
-3. **Responsable Informatique** — Radio Nigeria, Ikoyi, Lagos (Janv 2013 – Fév 2023). Dépannage IT, haute satisfaction client; gestion **Active Directory** (utilisateurs, sécurité, déploiements); création d'un site web avec SEO (**+20 % engagement**).
-4. **Analyste en Recherche Consommateur** — Cadbury Nigeria Plc, Ikeja, Lagos (Oct 2011 – Sept 2012). Analyse de données et optimisation des processus avec SAP & Excel.
+1. **Ingénieur ML & Vision par Ordinateur** — Isitec, Millery (Lyon) (Mars 2026 – présent, poste actuel). Système de vision industrielle multi-caméras (entrepôt) : suivi métrique 2D/3D temps réel (homographie, fusion multi-caméras, triangulation DLT); détecteurs edge interchangeables (YOLO/RF-DETR, ONNX/OpenVINO/TensorRT, Jetson Orin) + pipeline de données synthétiques (SDXL/ControlNet/SAM2); dashboard opérateur FastAPI + jumeau numérique 3D (Three.js). *Projet propriétaire — pas de lien de dépôt public, ne pas nommer le client.*
+2. **Technicien Informatique** — AlloPanas Ordi, Chalon-sur-Saône (Oct 2024 – Nov 2024). Diagnostic & réparation matériel/logiciel, imprimantes, appareils mobiles, à distance et sur site; documentation de l'état des dispositifs.
+3. **Ingénieur en Apprentissage Automatique** — WASORIA, Le Creusot (Fév 2024 – Juil 2024). Distillation de connaissances sur Vision Transformers (ViT) lourds → **+25 % vitesse de détection et précision de segmentation**; **−40 % temps d'inférence** sur **Nvidia Jetson Orin Nano 8 Go**.
+4. **Responsable Informatique** — Radio Nigeria, Ikoyi, Lagos (Janv 2013 – Fév 2023). Dépannage IT, haute satisfaction client; gestion **Active Directory** (utilisateurs, sécurité, déploiements); création d'un site web avec SEO (**+20 % engagement**).
+5. **Analyste en Recherche Consommateur** — Cadbury Nigeria Plc, Ikeja, Lagos (Oct 2011 – Sept 2012). Analyse de données et optimisation des processus avec SAP & Excel.
 
 ### Education
 - **DAQ 2.0** (Dispositif en Amont à la Qualification) — APOR, Le Creusot — *En cours*.
@@ -36,6 +37,7 @@ design system already exists. Your page MUST look and feel like it belongs to th
 - **Savoir-être:** collaboration agile, communication technique claire, gestion des priorités sous pression, résolution de problèmes complexes, adaptabilité.
 
 ### Projects (real — link them)
+- **ISI Monitor 3D — Vision industrielle** — Système de vision multi-caméras d'entrepôt : suivi métrique 2D/3D (homographie, fusion multi-caméras, triangulation), détecteurs edge YOLO/RF-DETR, génération de données synthétiques (SDXL/ControlNet/SAM2), dashboard FastAPI + jumeau numérique 3D (Three.js). *Python, OpenCV, ONNX/TensorRT, FastAPI, Three.js.* **Isitec (proprietary) — do NOT link a repo, do NOT name the client (Celio); screenshot `assets/img/isimonitor1.png` only (no client footage).**
 - **ROSBot Harmony** — Système autonome de communication inter-robots. *Python, ROS, PyTorch.* Repo: https://git.new/XptbXPB
 - **Système de tri des déchets en temps réel** — Amélioration de la précision de segmentation par compression. *Roboflow, PyTorch, Transformers, TensorRT, OpenMMLab.* Repo: https://git.new/s5dJOD9
 - **Compression de ViT lourds pour l'edge** — thèse M2 / travaux WASORIA (knowledge distillation, TensorRT, Jetson).
