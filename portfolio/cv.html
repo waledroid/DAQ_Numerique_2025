@@ -15,92 +15,96 @@
     /* ====== CV sheet — print-exact styles (mm units), website theme on white ====== */
     :root {
       --paper: #ffffff;
-      --paper2: #f5f7f1;     /* sidebar tint — faint volt-green wash */
+      --paper2: #dbeed5;     /* sidebar tint — light green matching PDF */
       --inkx: #11151a;
-      --mutedx: #5b6470;
-      --linex: #e2e6dc;
-      --accentx: #a3e635;    /* volt — graphic elements only */
-      --greenx: #2f7a4d;     /* deep emerald — readable accent text on white */
+      --mutedx: #4a5461;
+      --linex: #c8d6cb;
+      --accentx: #1f6b40;    /* green — graphic elements */
+      --greenx: #1b5935;     /* deep green */
     }
     .sheet-wrap { padding: 6.5rem 1rem 4rem; display: grid; place-items: center; }
     .sheet {
       width: 210mm; height: 297mm; flex: none; position: relative;
       background: var(--paper); color: var(--inkx);
       font-family: 'Inter', sans-serif; font-size: 9pt; line-height: 1.45;
-      display: grid; grid-template-columns: 62mm 1fr;
+      display: grid; grid-template-columns: 75mm 1fr;
       overflow: hidden; border-radius: 6px;
-      box-shadow: 0 40px 90px rgba(0,0,0,.55), 0 0 0 1px rgba(163,230,53,.12);
+      box-shadow: 0 40px 90px rgba(0,0,0,.55), 0 0 0 1px rgba(0,0,0,.08);
     }
-    /* brand signature: volt→emerald bar across the top of the sheet */
-    .sheet::before {
-      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1.6mm;
-      background: linear-gradient(90deg, var(--accentx), #34d399); z-index: 1;
-    }
-    /* --sp is the auto-spacing factor cv.js computes per column so the
-       content breathes into exactly one page (1 = authored rhythm) */
-    .side { position: relative; background: var(--paper2); border-right: 1px solid var(--linex); padding: 10mm 6.5mm 8mm; overflow: hidden; }
-    .mainc { position: relative; padding: 10mm 8mm 8mm; overflow: hidden; }
+    
+    .side { position: relative; background: var(--paper2); padding: 12mm 8mm 8mm; overflow: hidden; }
+    .mainc { position: relative; padding: 12mm 10mm 8mm; overflow: hidden; }
 
-    .cv-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22pt; line-height: 1.04; letter-spacing: -0.02em; }
-    .cv-name::after { content: '.'; color: var(--greenx); }
-    .cv-title { font-family: 'JetBrains Mono', monospace; font-size: 8pt; letter-spacing: .14em; text-transform: uppercase; color: var(--greenx); margin-top: 2mm; }
-    .cv-tagline { color: var(--mutedx); font-size: 8.5pt; margin-top: 2mm; max-width: 120mm; }
+    .cv-header { margin-bottom: 6mm; }
+    .cv-name { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 26pt; line-height: 1.1; letter-spacing: -0.01em; color: #111; }
+    .cv-title { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 13pt; color: var(--greenx); margin-top: 2mm; }
+    .cv-tagline { display: none; } /* Hidden as per new design */
+
+    .cv-contacts { display: flex; flex-wrap: wrap; column-gap: 4mm; row-gap: 1mm; margin-top: 3mm; font-size: 8.5pt; font-weight: 500; color: #111; }
+    .cv-contacts .crow { display: inline-flex; align-items: baseline; gap: 1.5mm; margin-bottom: 0; }
+    .cv-contacts .clabel { display: none; }
+    .cv-contacts .cvalue { display: inline-block; color: #222; }
 
     .sec {
-      font-family: 'JetBrains Mono', monospace; font-size: 6.6pt; font-weight: 500;
-      letter-spacing: .24em; text-transform: uppercase; color: #39414d;
-      display: flex; align-items: center; gap: 2.2mm; margin: calc(5.5mm * var(--sp, 1)) 0 calc(2.6mm * var(--sp, 1));
+      font-family: 'Inter', sans-serif; font-size: 11pt; font-weight: 700;
+      letter-spacing: .05em; text-transform: uppercase; color: var(--accentx);
+      display: flex; align-items: center; margin: calc(5.5mm * var(--sp, 1)) 0 calc(3mm * var(--sp, 1));
+      border-bottom: 1.5px solid var(--accentx); padding-bottom: 1.2mm; width: max-content; min-width: 40mm;
     }
-    .sec::before { content: ''; width: 4mm; height: 0.8mm; background: var(--accentx); flex: none; }
-
-    .photo { width: 31mm; height: 31mm; border-radius: 50%; background: #e9ede2; border: 1.5px solid var(--accentx); overflow: hidden; margin: 0 auto calc(2mm * var(--sp, 1)); box-shadow: 0 0 0 1.2mm #fff inset; }
-    .photo img { width: 100%; height: 100%; object-fit: cover; object-position: top; filter: grayscale(35%); }
-
+    .side .sec { min-width: 100%; border-bottom-width: 1.5px; }
+    
     .crow { display: flex; flex-direction: column; gap: 0.4mm; margin-bottom: calc(2.2mm * var(--sp, 1)); }
-    .crow .clabel { font-family: 'JetBrains Mono', monospace; font-size: 6pt; letter-spacing: .18em; text-transform: uppercase; color: var(--mutedx); }
-    .crow .cvalue { font-size: 8pt; word-break: break-word; }
+    .crow .clabel { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 7.5pt; text-transform: uppercase; color: var(--mutedx); }
+    .crow .cvalue { font-size: 8.5pt; word-break: break-word; }
 
-    .skill { margin-bottom: calc(2.6mm * var(--sp, 1)); }
-    .skill .scat { font-weight: 600; font-size: 8pt; }
-    .skill .sitems { color: var(--mutedx); font-size: 7.8pt; line-height: 1.5; }
+    .skill { margin-bottom: calc(2.6mm * var(--sp, 1)); display: grid; grid-template-columns: 24mm 1fr; gap: 2mm; align-items: baseline; }
+    .skill .scat { font-weight: 500; font-size: 8pt; color: #333; text-align: right; }
+    .skill .sitems { color: #111; font-size: 8.2pt; line-height: 1.4; }
 
-    .langrow { display: flex; justify-content: space-between; gap: 3mm; font-size: 8pt; margin-bottom: calc(1.4mm * var(--sp, 1)); }
-    .langrow .level { color: var(--mutedx); text-align: right; }
+    .langrow { display: flex; align-items: baseline; gap: 2mm; font-size: 8.5pt; margin-bottom: calc(1mm * var(--sp, 1)); }
+    .langrow::before { content: '•'; color: var(--accentx); font-size: 10pt; }
+    .langrow .level { color: var(--mutedx); }
 
-    .cert { font-size: 8pt; margin-bottom: calc(1.4mm * var(--sp, 1)); }
+    .cert { font-size: 8.5pt; margin-bottom: calc(1mm * var(--sp, 1)); display: flex; gap: 1.5mm; align-items: baseline; }
+    .cert::before { content: '•'; color: var(--accentx); font-size: 10pt; }
     .cert .year { color: var(--mutedx); }
 
-    .item { position: relative; margin-bottom: calc(3.4mm * var(--sp, 1)); }
+    .item { position: relative; margin-bottom: calc(4mm * var(--sp, 1)); }
     .item .row { display: flex; justify-content: space-between; align-items: baseline; gap: 4mm; }
-    .item h3 { font-family: 'Space Grotesk', sans-serif; font-weight: 600; font-size: 10pt; }
-    .item .dates { font-family: 'JetBrains Mono', monospace; font-size: 6.8pt; letter-spacing: .06em; color: var(--mutedx); white-space: nowrap; }
-    .item .org { font-size: 8.2pt; color: var(--greenx); font-weight: 500; margin-top: 0.3mm; }
-    .points { margin-top: 1mm; padding-left: 3.6mm; }
-    .points li { font-size: 8.2pt; color: #2c333d; list-style: none; position: relative; margin-bottom: calc(0.7mm * var(--sp, 1)); }
-    .points li::before { content: ''; position: absolute; left: -3.6mm; top: 1.5mm; width: 1.8mm; height: 0.7mm; background: var(--accentx); }
+    .item h3 { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 9.5pt; color: #111; }
+    .item .dates { font-family: 'Inter', sans-serif; font-size: 8pt; color: var(--greenx); white-space: nowrap; }
+    .item .org { font-size: 9.5pt; color: #111; font-weight: 700; margin-top: 0.3mm; }
+    .points { margin-top: 1.5mm; padding-left: 3mm; }
+    .points li { font-size: 8.5pt; color: #111; list-style: none; position: relative; margin-bottom: calc(0.8mm * var(--sp, 1)); line-height: 1.4; }
+    .points li::before { content: '•'; position: absolute; left: -3mm; top: 0; font-size: 10pt; color: #111; }
 
-    .proj { margin-bottom: calc(2mm * var(--sp, 1)); font-size: 8.2pt; }
-    .proj .pname { font-weight: 600; }
-    .proj .pstack { font-family: 'JetBrains Mono', monospace; font-size: 6.4pt; letter-spacing: .08em; color: var(--mutedx); text-transform: uppercase; margin-left: 1.5mm; }
-    .proj .pdesc { color: #2c333d; }
+    .proj { margin-bottom: calc(2.5mm * var(--sp, 1)); font-size: 8.5pt; position: relative; padding-left: 3mm; }
+    .proj::before { content: '•'; position: absolute; left: 0; top: 0; font-size: 10pt; color: var(--accentx); }
+    .proj .pname { font-weight: 700; color: #111; }
+    .proj .pstack { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 8pt; color: var(--greenx); margin-left: 1.5mm; }
+    .proj .pdesc { color: #222; display: block; margin-top: 0.5mm; line-height: 1.4; }
+    
+    .side .item h3 { font-size: 9pt; }
+    .side .item .org { font-weight: 400; color: var(--accentx); }
+    .side .item .dates { font-family: 'Inter', sans-serif; font-size: 8pt; color: var(--mutedx); font-style: italic; }
 
     /* ====== Edit mode ====== */
     .edit-only { display: none; }
     body.editing .edit-only { display: inline-flex; }
-    body.editing [contenteditable="true"] { outline: 1px dashed rgba(47,122,77,.5); outline-offset: 2px; border-radius: 2px; min-width: 4mm; }
-    body.editing [contenteditable="true"]:focus { outline-color: var(--greenx); background: rgba(163,230,53,.08); }
+    body.editing [contenteditable="true"] { outline: 1px dashed rgba(31,107,64,.5); outline-offset: 2px; border-radius: 2px; min-width: 4mm; }
+    body.editing [contenteditable="true"]:focus { outline-color: var(--greenx); background: rgba(31,107,64,.08); }
     .rm {
       position: absolute; top: -1mm; right: -1mm; width: 4.5mm; height: 4.5mm;
       align-items: center; justify-content: center; border-radius: 50%;
       background: #fee2e2; color: #b91c1c; font-size: 8pt; line-height: 1; border: 1px solid #fca5a5; cursor: pointer; z-index: 2;
     }
-    .crow, .skill, .langrow, .cert, .proj { position: relative; }
+    .crow, .skill, .langrow, .cert, .proj, .item { position: relative; }
     .add {
-      align-items: center; gap: 1.5mm; font-family: 'JetBrains Mono', monospace; font-size: 6.6pt;
-      letter-spacing: .12em; text-transform: uppercase; color: var(--greenx);
-      border: 1px dashed rgba(47,122,77,.5); border-radius: 999px; padding: 0.8mm 2.6mm; margin: 1mm 0 2mm; cursor: pointer; background: transparent;
+      align-items: center; gap: 1.5mm; font-family: 'Inter', sans-serif; font-size: 7pt; font-weight: 600;
+      letter-spacing: .05em; text-transform: uppercase; color: var(--greenx);
+      border: 1px dashed rgba(31,107,64,.5); border-radius: 999px; padding: 0.8mm 2.6mm; margin: 1mm 0 2mm; cursor: pointer; background: transparent;
     }
-    .add:hover { background: rgba(163,230,53,.12); }
+    .add:hover { background: rgba(31,107,64,.12); }
 
     /* ====== Print: A4 exact, sheet only ====== */
     @page { size: A4; margin: 0; }
@@ -152,42 +156,6 @@
 
       <!-- Sidebar -->
       <aside class="side">
-        <div class="photo no-overflow">
-          <img src="assets/img/meme_no_bg.png" alt="Portrait d'Atanda Abdullahi" />
-        </div>
-
-        <h2 class="sec">Contact</h2>
-        <div id="contact-list"></div>
-        <button type="button" class="add edit-only" data-add="contact">+ ligne</button>
-
-        <h2 class="sec">Compétences</h2>
-        <div id="skills-list"></div>
-        <button type="button" class="add edit-only" data-add="skills">+ catégorie</button>
-
-        <h2 class="sec">Langues</h2>
-        <div id="lang-list"></div>
-        <button type="button" class="add edit-only" data-add="languages">+ langue</button>
-
-        <h2 class="sec">Certification</h2>
-        <div id="cert-list"></div>
-        <button type="button" class="add edit-only" data-add="certifications">+ certification</button>
-      </aside>
-
-      <!-- Main column -->
-      <section class="mainc">
-        <header>
-          <h1 class="cv-name" data-edit="identity.name"></h1>
-          <p class="cv-title" data-edit="identity.title"></p>
-          <p class="cv-tagline" data-edit="identity.tagline"></p>
-        </header>
-
-        <h2 class="sec">Profil</h2>
-        <p style="font-size:8.6pt;color:#2c333d;" data-edit="profile"></p>
-
-        <h2 class="sec">Expérience professionnelle</h2>
-        <div id="exp-list"></div>
-        <button type="button" class="add edit-only" data-add="experience">+ expérience</button>
-
         <h2 class="sec">Formation</h2>
         <div id="edu-list"></div>
         <button type="button" class="add edit-only" data-add="education">+ formation</button>
@@ -195,6 +163,39 @@
         <h2 class="sec">Projets</h2>
         <div id="proj-list"></div>
         <button type="button" class="add edit-only" data-add="projects">+ projet</button>
+
+        <h2 class="sec">Langues</h2>
+        <div id="lang-list"></div>
+        <button type="button" class="add edit-only" data-add="languages">+ langue</button>
+
+        <h2 class="sec">Intérêts</h2>
+        <div id="cert-list"></div>
+        <button type="button" class="add edit-only" data-add="certifications">+ intérêt</button>
+      </aside>
+
+      <!-- Main column -->
+      <section class="mainc">
+        <header class="cv-header">
+          <h1 class="cv-name" data-edit="identity.name"></h1>
+          <p class="cv-title" data-edit="identity.title"></p>
+          <div class="cv-contacts-wrap">
+            <div id="contact-list" class="cv-contacts"></div>
+            <button type="button" class="add edit-only" data-add="contact" style="margin-top:0;">+ contact</button>
+          </div>
+          <!-- Not using tagline in new design, but keeping for data -->
+          <p class="cv-tagline" data-edit="identity.tagline" style="display:none;"></p>
+        </header>
+
+        <h2 class="sec">Profil</h2>
+        <p style="font-size:9.5pt;color:#222;line-height:1.5;" data-edit="profile"></p>
+
+        <h2 class="sec">Compétences Clés</h2>
+        <div id="skills-list"></div>
+        <button type="button" class="add edit-only" data-add="skills">+ catégorie</button>
+
+        <h2 class="sec">Expérience Professionnelle</h2>
+        <div id="exp-list"></div>
+        <button type="button" class="add edit-only" data-add="experience">+ expérience</button>
       </section>
 
     </div>
@@ -242,7 +243,7 @@
         <h3 data-field="role">{{role}}</h3>
         <span class="dates" data-field="dates">{{dates}}</span>
       </div>
-      <p class="org"><span data-field="company">{{company}}</span> · <span data-field="location" style="color:var(--mutedx);font-weight:400;">{{location}}</span></p>
+      <p class="org"><span data-field="company">{{company}}</span> &nbsp; <span data-field="location" style="color:var(--mutedx);font-weight:400;">{{location}}</span></p>
       <ul class="points" data-points></ul>
       <button type="button" class="add edit-only" data-addpoint>+ puce</button>
     </article>
@@ -256,7 +257,7 @@
     <article class="item" data-item>
       <button type="button" class="rm edit-only" data-rm aria-label="Supprimer">×</button>
       <div class="row">
-        <h3 style="font-size:9pt;" data-field="degree">{{degree}}</h3>
+        <h3 data-field="degree">{{degree}}</h3>
         <span class="dates" data-field="dates">{{dates}}</span>
       </div>
       <p class="org" data-field="school">{{school}}</p>
