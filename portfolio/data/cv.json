@@ -39,7 +39,7 @@
       "dates": "Mars 2026 – présent",
       "points": [
         "Système de vision industrielle multi-caméras : suivi métrique 2D/3D (homographie, fusion, triangulation DLT).",
-        "Détecteurs edge YOLO/RF-DETR (ONNX/TensorRT) + génération de données synthétiques (StableDiffusionXL/ControlNet/SAM2).",
+        "Détecteurs edge YOLO/RF-DETR (ONNX/TensorRT) + génération de données synthétiques (StableDiffusionXL).",
         "Dashboard FastAPI + jumeau numérique 3D (Three.js)."
       ]
     },
