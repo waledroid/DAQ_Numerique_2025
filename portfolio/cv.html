@@ -48,7 +48,7 @@
     .sec {
       font-family: 'Inter', sans-serif; font-size: 11pt; font-weight: 700;
       letter-spacing: .05em; text-transform: uppercase; color: var(--accentx);
-      display: flex; align-items: center; margin: calc(5.5mm * var(--sp, 1)) 0 calc(3mm * var(--sp, 1));
+      display: flex; align-items: center; margin: calc(5mm * var(--sp, 1)) 0 calc(2.5mm * var(--sp, 1));
       border-bottom: 1.5px solid var(--accentx); padding-bottom: 1.2mm; width: max-content; min-width: 40mm;
     }
     .side .sec { min-width: 100%; border-bottom-width: 1.5px; }
@@ -57,36 +57,37 @@
     .crow .clabel { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 7.5pt; text-transform: uppercase; color: var(--mutedx); }
     .crow .cvalue { font-size: 8.5pt; word-break: break-word; }
 
-    .skill { margin-bottom: calc(2.6mm * var(--sp, 1)); display: grid; grid-template-columns: 24mm 1fr; gap: 2mm; align-items: baseline; }
-    .skill .scat { font-weight: 500; font-size: 8pt; color: #333; text-align: right; }
-    .skill .sitems { color: #111; font-size: 8.2pt; line-height: 1.4; }
+    .skill { margin-bottom: calc(3mm * var(--sp, 1)); display: grid; grid-template-columns: 32mm 1fr; gap: 3.5mm; align-items: baseline; }
+    .skill .scat { font-weight: 700; font-size: 8.5pt; color: var(--accentx); text-align: right; text-transform: uppercase; letter-spacing: 0.02em; }
+    .skill .sitems { color: #111; font-size: 8.5pt; line-height: 1.45; }
 
-    .langrow { display: flex; align-items: baseline; gap: 2mm; font-size: 8.5pt; margin-bottom: calc(1mm * var(--sp, 1)); }
+    .langrow { display: flex; align-items: baseline; gap: 2mm; font-size: 8.5pt; margin-bottom: calc(1.5mm * var(--sp, 1)); }
     .langrow::before { content: '•'; color: var(--accentx); font-size: 10pt; }
     .langrow .level { color: var(--mutedx); }
 
-    .cert { font-size: 8.5pt; margin-bottom: calc(1mm * var(--sp, 1)); display: flex; gap: 1.5mm; align-items: baseline; }
+    .cert { font-size: 8.5pt; margin-bottom: calc(1.5mm * var(--sp, 1)); display: flex; gap: 1.5mm; align-items: baseline; }
     .cert::before { content: '•'; color: var(--accentx); font-size: 10pt; }
     .cert .year { color: var(--mutedx); }
 
-    .item { position: relative; margin-bottom: calc(4mm * var(--sp, 1)); }
+    .item { position: relative; margin-bottom: calc(4.5mm * var(--sp, 1)); }
     .item .row { display: flex; justify-content: space-between; align-items: baseline; gap: 4mm; }
-    .item h3 { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 9.5pt; color: #111; }
-    .item .dates { font-family: 'Inter', sans-serif; font-size: 8pt; color: var(--greenx); white-space: nowrap; }
-    .item .org { font-size: 9.5pt; color: #111; font-weight: 700; margin-top: 0.3mm; }
-    .points { margin-top: 1.5mm; padding-left: 3mm; }
-    .points li { font-size: 8.5pt; color: #111; list-style: none; position: relative; margin-bottom: calc(0.8mm * var(--sp, 1)); line-height: 1.4; }
-    .points li::before { content: '•'; position: absolute; left: -3mm; top: 0; font-size: 10pt; color: #111; }
+    .item h3 { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10pt; color: #111; }
+    .item .dates { font-family: 'Inter', sans-serif; font-size: 8.5pt; color: var(--greenx); font-weight: 600; white-space: nowrap; }
+    .item .org { font-size: 9pt; color: #111; font-weight: 700; margin-top: 0.5mm; }
+    .points { margin-top: 1.5mm; padding-left: 4mm; }
+    .points li { font-size: 8.5pt; color: #111; list-style: none; position: relative; margin-bottom: calc(1mm * var(--sp, 1)); line-height: 1.45; }
+    .points li::before { content: '•'; position: absolute; left: -4mm; top: 0; font-size: 10pt; color: var(--accentx); }
 
-    .proj { margin-bottom: calc(2.5mm * var(--sp, 1)); font-size: 8.5pt; position: relative; padding-left: 3mm; }
-    .proj::before { content: '•'; position: absolute; left: 0; top: 0; font-size: 10pt; color: var(--accentx); }
-    .proj .pname { font-weight: 700; color: #111; }
-    .proj .pstack { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 8pt; color: var(--greenx); margin-left: 1.5mm; }
-    .proj .pdesc { color: #222; display: block; margin-top: 0.5mm; line-height: 1.4; }
+    .proj { margin-bottom: calc(3.5mm * var(--sp, 1)); font-size: 8.5pt; position: relative; padding-left: 3.5mm; }
+    .proj::before { content: '•'; position: absolute; left: 0; top: 0.2mm; font-size: 10pt; color: var(--accentx); }
+    .proj .pname { font-weight: 700; color: #111; display: block; font-size: 9pt; line-height: 1.35; }
+    .proj .pstack { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 7.5pt; color: var(--greenx); display: block; margin-top: 0.5mm; line-height: 1.3; }
+    .proj .pdesc { color: #333; display: block; margin-top: 0.8mm; line-height: 1.4; font-size: 8pt; }
     
-    .side .item h3 { font-size: 9pt; }
-    .side .item .org { font-weight: 400; color: var(--accentx); }
-    .side .item .dates { font-family: 'Inter', sans-serif; font-size: 8pt; color: var(--mutedx); font-style: italic; }
+    .side .item h3 { font-size: 9pt; font-weight: 700; color: #111; line-height: 1.35; }
+    .side .item .row { display: block; }
+    .side .item .dates { display: block; font-family: 'Inter', sans-serif; font-size: 8pt; color: var(--greenx); font-weight: 600; margin-top: 0.5mm; }
+    .side .item .org { font-size: 8.5pt; color: var(--mutedx); font-weight: 400; margin-top: 0.5mm; line-height: 1.3; }
 
     /* ====== Edit mode ====== */
     .edit-only { display: none; }
@@ -265,11 +266,12 @@
   </template>
 
   <template id="tpl-proj">
-    <p class="proj" data-item>
+    <div class="proj" data-item>
       <button type="button" class="rm edit-only" data-rm aria-label="Supprimer">×</button>
-      <span class="pname" data-field="name">{{name}}</span><span class="pstack" data-field="stack">{{stack}}</span><br>
+      <span class="pname" data-field="name">{{name}}</span>
+      <span class="pstack" data-field="stack">{{stack}}</span>
       <span class="pdesc" data-field="desc">{{desc}}</span>
-    </p>
+    </div>
   </template>
 
   <script src="assets/js/cv.js"></script>
