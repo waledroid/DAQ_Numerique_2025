@@ -15,7 +15,7 @@
     },
     {
       "label": "Adresse",
-      "value": "Oullins, Lyon"
+      "value": "Oullins 69600, Lyon"
     },
     {
       "label": "LinkedIn",
@@ -95,7 +95,7 @@
     {
       "category": "Langages",
       "items": [
-        "Python",
+        "Python / Pytorch",
         "JavaScript / React",
         "SQL"
       ]
