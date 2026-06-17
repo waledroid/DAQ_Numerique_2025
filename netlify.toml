@@ -9,3 +9,7 @@
   base = "portfolio"
   publish = "."
   command = ""
+  # Resolved relative to base → portfolio/netlify/functions.
+  # The CV save function holds the GitHub token; set GITHUB_TOKEN and
+  # EDITOR_PASSWORD in Site settings → Environment variables.
+  functions = "netlify/functions"

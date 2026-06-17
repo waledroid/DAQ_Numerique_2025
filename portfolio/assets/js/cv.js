@@ -16,22 +16,17 @@
   const $ = (s, r) => (r || document).querySelector(s);
   const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
 
-  const API = 'api/cv';
+  const API = 'api/cv';                      // local node server.js (dev only)
+  const SAVE_API = '/.netlify/functions/cv'; // hosted proxy — holds the GitHub token server-side
   const SEED = 'data/cv.json';
   const DRAFT_KEY = 'edge-vision-cv-draft-v1';
 
-  // ---- Direct-to-GitHub persistence (no backend needed on a live host) ----
-  // The editor commits data/cv.json to the repo through the GitHub Contents
-  // API, authenticated with a fine-grained token you paste once (kept only in
-  // this browser's localStorage — never hardcode it here, the repo is public).
-  const GH = {
-    owner: 'waledroid', repo: 'DAQ_Numerique_2025',
-    branch: 'main', path: 'portfolio/data/cv.json',
-  };
-  const GH_TOKEN_KEY = 'edge-vision-gh-token';
-  const ghToken = () => localStorage.getItem(GH_TOKEN_KEY) || '';
-  // UTF-8-safe base64 (the CV has accented characters)
-  const b64 = (s) => btoa(String.fromCharCode(...new TextEncoder().encode(s)));
+  // ---- Online editing from any device (phone included) --------------------
+  // The Netlify function at SAVE_API keeps the GitHub token in its server-side
+  // env (never shipped to the browser). Writes require the editor password,
+  // which you type once per device; it lives only in this browser.
+  const PW_KEY = 'edge-vision-cv-password';
+  const pw = () => localStorage.getItem(PW_KEY) || '';
 
   let state = null;
   let editing = false;
@@ -246,60 +241,37 @@
   }
 
   // ---- Persistence --------------------------------------------------------
-  // Commit data/cv.json straight to the repo via the GitHub Contents API.
-  // Returns { ok, error }. Read the current file's sha first (404 = create).
-  async function commitToGitHub(data) {
-    const url = `https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${GH.path}`;
-    const headers = {
-      Authorization: `Bearer ${ghToken()}`,
-      Accept: 'application/vnd.github+json',
-      'X-GitHub-Api-Version': '2022-11-28',
-    };
-    let sha;
-    try {
-      const cur = await fetch(`${url}?ref=${GH.branch}`, { headers, cache: 'no-store' });
-      if (cur.ok) sha = (await cur.json()).sha;
-      else if (cur.status !== 404) {
-        const e = await cur.json().catch(() => ({}));
-        return { ok: false, error: e.message || `HTTP ${cur.status}` };
-      }
-    } catch (err) {
-      return { ok: false, error: 'réseau indisponible' };
-    }
-    // Byte-for-byte match server.js so git diffs stay clean
-    const json = JSON.stringify(data, null, 2) + '\n';
-    try {
-      const r = await fetch(url, {
-        method: 'PUT',
-        headers,
-        body: JSON.stringify({
-          message: 'CV: mise à jour via l’éditeur',
-          content: b64(json),
-          sha,
-          branch: GH.branch,
-        }),
-      });
-      if (r.ok) return { ok: true };
-      const e = await r.json().catch(() => ({}));
-      return { ok: false, error: e.message || `HTTP ${r.status}` };
-    } catch (err) {
-      return { ok: false, error: 'réseau indisponible' };
-    }
-  }
-
   async function save() {
     const data = collect();
     state = data;
 
-    // 1. Direct-to-GitHub when a token is configured (works on any host)
-    if (ghToken()) {
-      const { ok, error } = await commitToGitHub(data);
-      if (ok) {
+    // 1. Hosted proxy when logged in (password set) — saves from any device
+    if (pw()) {
+      let result;
+      try {
+        const r = await fetch(SAVE_API, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'X-CV-Password': pw() },
+          body: JSON.stringify(data),
+        });
+        result = r.ok
+          ? { ok: true }
+          : { ok: false, status: r.status, ...(await r.json().catch(() => ({}))) };
+      } catch (err) {
+        result = { ok: false, error: 'réseau indisponible' };
+      }
+      if (result.ok) {
         localStorage.removeItem(DRAFT_KEY);
         toast('Enregistré sur GitHub ✓');
       } else {
         try { localStorage.setItem(DRAFT_KEY, JSON.stringify(data)); } catch (err) {}
-        toast('GitHub : ' + error + ' — brouillon gardé', true);
+        if (result.status === 401) {
+          localStorage.removeItem(PW_KEY);
+          updateStatus();
+          toast('Mot de passe incorrect — reconnectez-vous (⚙ Connexion)', true);
+        } else {
+          toast('Échec : ' + (result.error || 'erreur') + ' — brouillon gardé', true);
+        }
       }
       setEditing(false);
       render();
@@ -329,18 +301,26 @@
 
   async function load() {
     let data = null;
-    // 1. Live server data (node server.js)
+    // 1. Hosted proxy — freshest committed CV, even right after a phone edit
     try {
-      const r = await fetch(API, { cache: 'no-store' });
+      const r = await fetch(SAVE_API, { cache: 'no-store' });
       const ct = r.headers.get('content-type') || '';
-      if (r.ok && ct.includes('json')) { data = await r.json(); serverOk = true; }
-    } catch (err) { /* static hosting */ }
-    // 2. Local draft (static hosting after an edit)
+      if (r.ok && ct.includes('json')) { data = await r.json(); }
+    } catch (err) { /* not on Netlify */ }
+    // 2. Live server data (node server.js, local dev)
+    if (!data) {
+      try {
+        const r = await fetch(API, { cache: 'no-store' });
+        const ct = r.headers.get('content-type') || '';
+        if (r.ok && ct.includes('json')) { data = await r.json(); serverOk = true; }
+      } catch (err) { /* static hosting */ }
+    }
+    // 3. Local draft (offline after an edit)
     if (!data) {
       const draft = localStorage.getItem(DRAFT_KEY);
       if (draft) { try { data = JSON.parse(draft); } catch (err) {} }
     }
-    // 3. Seed file
+    // 4. Seed file
     if (!data) {
       const r = await fetch(SEED, { cache: 'no-store' });
       data = await r.json();
@@ -352,35 +332,35 @@
     render();
   }
 
-  // ---- GitHub connection --------------------------------------------------
+  // ---- Online login (password) --------------------------------------------
   function updateStatus() {
     const el = $('#srv-status');
     if (!el) return;
-    const gh = !!ghToken();
-    el.textContent = gh ? 'GitHub connecté' : serverOk ? 'serveur connecté' : 'mode local';
-    el.classList.toggle('text-emerald', gh || serverOk);
+    const online = !!pw();
+    el.textContent = online ? 'connecté (en ligne)' : serverOk ? 'serveur connecté' : 'mode local';
+    el.classList.toggle('text-emerald', online || serverOk);
   }
 
-  function connectGitHub() {
-    const current = ghToken();
+  function login() {
+    const current = pw();
     const msg = current
-      ? 'Jeton GitHub connecté. Collez un nouveau jeton pour le remplacer, ou laissez vide pour vous déconnecter.'
-      : 'Collez votre jeton GitHub (fine-grained, dépôt DAQ_Numerique_2025, Contents : lecture/écriture) pour enregistrer le CV directement en ligne.';
+      ? 'Connecté. Entrez un nouveau mot de passe pour le remplacer, ou laissez vide pour vous déconnecter.'
+      : 'Entrez le mot de passe d’édition pour enregistrer le CV en ligne depuis cet appareil.';
     const input = prompt(msg, '');
     if (input === null) return; // cancelled — no change
-    const token = input.trim();
-    if (token) {
-      localStorage.setItem(GH_TOKEN_KEY, token);
-      toast('GitHub connecté ✓ — les enregistrements iront sur le dépôt');
+    const password = input.trim();
+    if (password) {
+      localStorage.setItem(PW_KEY, password);
+      toast('Connecté ✓ — les enregistrements iront sur GitHub');
     } else {
-      localStorage.removeItem(GH_TOKEN_KEY);
-      toast('GitHub déconnecté', true);
+      localStorage.removeItem(PW_KEY);
+      toast('Déconnecté', true);
     }
     updateStatus();
   }
 
   // ---- Wiring -------------------------------------------------------------
-  $('#btn-github').addEventListener('click', connectGitHub);
+  $('#btn-login').addEventListener('click', login);
   $('#btn-edit').addEventListener('click', () => setEditing(true));
   $('#btn-cancel').addEventListener('click', () => { setEditing(false); render(); });
   $('#btn-save').addEventListener('click', save);

@@ -7,9 +7,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 A static, multi-page personal portfolio for **Atanda Abdullahi** (handle `waledroid`) — a
 Computer Vision / Edge-AI & Robotics engineer with a decade of IT systems background. Content is
 in **French**. There is **no build step** and no package manager: plain HTML + Tailwind (CDN) + a
-shared design system, with Three.js / GSAP / Lenis loaded from CDNs. The only server-side piece
-is the optional zero-dependency `server.js` (Node) that persists the CV editor's JSON — there is
-no database.
+shared design system, with Three.js / GSAP / Lenis loaded from CDNs. Server-side pieces are both
+zero-dependency and optional: `server.js` (Node) persists the CV editor's JSON for **local** dev,
+and `netlify/functions/cv.js` does the same on the **deployed** Netlify site by committing
+`data/cv.json` to GitHub (password-gated, token held in Netlify env vars). There is no database.
 
 The design language is **"EDGE VISION"** — a lab-grade dark UI (near-black + volt-green/emerald
 accent) with computer-vision motifs (HUD brackets, detection bounding boxes, scanlines, mono
