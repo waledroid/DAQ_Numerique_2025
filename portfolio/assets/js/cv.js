@@ -354,10 +354,10 @@
     input.value = '';
     input.type = 'password';
     $('#login-show').checked = false;
-    loginModal.hidden = false;
+    loginModal.style.display = 'flex';
     setTimeout(() => input.focus(), 30);
   }
-  function closeLogin() { loginModal.hidden = true; }
+  function closeLogin() { loginModal.style.display = 'none'; }
 
   $('#login-form').addEventListener('submit', (e) => {
     e.preventDefault();
@@ -382,7 +382,7 @@
     if (e.target.matches('[data-login-backdrop]')) closeLogin();
   });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !loginModal.hidden) closeLogin();
+    if (e.key === 'Escape' && loginModal.style.display !== 'none') closeLogin();
   });
 
   // ---- Wiring -------------------------------------------------------------
