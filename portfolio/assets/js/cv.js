@@ -20,6 +20,19 @@
   const SEED = 'data/cv.json';
   const DRAFT_KEY = 'edge-vision-cv-draft-v1';
 
+  // ---- Direct-to-GitHub persistence (no backend needed on a live host) ----
+  // The editor commits data/cv.json to the repo through the GitHub Contents
+  // API, authenticated with a fine-grained token you paste once (kept only in
+  // this browser's localStorage — never hardcode it here, the repo is public).
+  const GH = {
+    owner: 'waledroid', repo: 'DAQ_Numerique_2025',
+    branch: 'main', path: 'portfolio/data/cv.json',
+  };
+  const GH_TOKEN_KEY = 'edge-vision-gh-token';
+  const ghToken = () => localStorage.getItem(GH_TOKEN_KEY) || '';
+  // UTF-8-safe base64 (the CV has accented characters)
+  const b64 = (s) => btoa(String.fromCharCode(...new TextEncoder().encode(s)));
+
   let state = null;
   let editing = false;
   let serverOk = false;
@@ -80,6 +93,22 @@
     if (key === 'experience') {
       const ul = $('[data-points]', node);
       (data.points || []).forEach((p) => ul.appendChild(tpl('tpl-point', { text: p })));
+    }
+    if (key === 'contact') {
+      const a = $('.cvalue', node);
+      if (a) {
+        const label = (data.label || '').toLowerCase();
+        const val = (data.value || '').trim();
+        if (label.includes('email') || label.includes('e-mail')) {
+          a.setAttribute('href', 'mailto:' + val);
+        } else if (label.includes('téléphone') || label.includes('phone') || label.includes('tel')) {
+          a.setAttribute('href', 'tel:' + val.replace(/\s+/g, ''));
+        } else if (label.includes('linkedin') || label.includes('github') || label.includes('portfolio') || label.includes('site') || label.includes('website')) {
+          let url = val;
+          if (!/^https?:\/\//i.test(url)) url = 'https://' + url;
+          a.setAttribute('href', url);
+        }
+      }
     }
     $(cfg.host).appendChild(node);
     return node;
@@ -217,9 +246,67 @@
   }
 
   // ---- Persistence --------------------------------------------------------
+  // Commit data/cv.json straight to the repo via the GitHub Contents API.
+  // Returns { ok, error }. Read the current file's sha first (404 = create).
+  async function commitToGitHub(data) {
+    const url = `https://api.github.com/repos/${GH.owner}/${GH.repo}/contents/${GH.path}`;
+    const headers = {
+      Authorization: `Bearer ${ghToken()}`,
+      Accept: 'application/vnd.github+json',
+      'X-GitHub-Api-Version': '2022-11-28',
+    };
+    let sha;
+    try {
+      const cur = await fetch(`${url}?ref=${GH.branch}`, { headers, cache: 'no-store' });
+      if (cur.ok) sha = (await cur.json()).sha;
+      else if (cur.status !== 404) {
+        const e = await cur.json().catch(() => ({}));
+        return { ok: false, error: e.message || `HTTP ${cur.status}` };
+      }
+    } catch (err) {
+      return { ok: false, error: 'réseau indisponible' };
+    }
+    // Byte-for-byte match server.js so git diffs stay clean
+    const json = JSON.stringify(data, null, 2) + '\n';
+    try {
+      const r = await fetch(url, {
+        method: 'PUT',
+        headers,
+        body: JSON.stringify({
+          message: 'CV: mise à jour via l’éditeur',
+          content: b64(json),
+          sha,
+          branch: GH.branch,
+        }),
+      });
+      if (r.ok) return { ok: true };
+      const e = await r.json().catch(() => ({}));
+      return { ok: false, error: e.message || `HTTP ${r.status}` };
+    } catch (err) {
+      return { ok: false, error: 'réseau indisponible' };
+    }
+  }
+
   async function save() {
     const data = collect();
     state = data;
+
+    // 1. Direct-to-GitHub when a token is configured (works on any host)
+    if (ghToken()) {
+      const { ok, error } = await commitToGitHub(data);
+      if (ok) {
+        localStorage.removeItem(DRAFT_KEY);
+        toast('Enregistré sur GitHub ✓');
+      } else {
+        try { localStorage.setItem(DRAFT_KEY, JSON.stringify(data)); } catch (err) {}
+        toast('GitHub : ' + error + ' — brouillon gardé', true);
+      }
+      setEditing(false);
+      render();
+      return;
+    }
+
+    // 2. Local node server.js, else localStorage draft (unchanged)
     let saved = false;
     try {
       const r = await fetch(API, {
@@ -259,14 +346,41 @@
       data = await r.json();
     }
     state = data;
-    $('#srv-status').textContent = serverOk ? 'serveur connecté' : 'mode local';
-    $('#srv-status').classList.toggle('text-emerald', serverOk);
+    updateStatus();
     const resetBtn = $('#btn-reset');
     if (resetBtn) resetBtn.hidden = !localStorage.getItem(DRAFT_KEY);
     render();
   }
 
+  // ---- GitHub connection --------------------------------------------------
+  function updateStatus() {
+    const el = $('#srv-status');
+    if (!el) return;
+    const gh = !!ghToken();
+    el.textContent = gh ? 'GitHub connecté' : serverOk ? 'serveur connecté' : 'mode local';
+    el.classList.toggle('text-emerald', gh || serverOk);
+  }
+
+  function connectGitHub() {
+    const current = ghToken();
+    const msg = current
+      ? 'Jeton GitHub connecté. Collez un nouveau jeton pour le remplacer, ou laissez vide pour vous déconnecter.'
+      : 'Collez votre jeton GitHub (fine-grained, dépôt DAQ_Numerique_2025, Contents : lecture/écriture) pour enregistrer le CV directement en ligne.';
+    const input = prompt(msg, '');
+    if (input === null) return; // cancelled — no change
+    const token = input.trim();
+    if (token) {
+      localStorage.setItem(GH_TOKEN_KEY, token);
+      toast('GitHub connecté ✓ — les enregistrements iront sur le dépôt');
+    } else {
+      localStorage.removeItem(GH_TOKEN_KEY);
+      toast('GitHub déconnecté', true);
+    }
+    updateStatus();
+  }
+
   // ---- Wiring -------------------------------------------------------------
+  $('#btn-github').addEventListener('click', connectGitHub);
   $('#btn-edit').addEventListener('click', () => setEditing(true));
   $('#btn-cancel').addEventListener('click', () => { setEditing(false); render(); });
   $('#btn-save').addEventListener('click', save);
