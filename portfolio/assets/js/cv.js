@@ -268,7 +268,8 @@
         if (result.status === 401) {
           localStorage.removeItem(PW_KEY);
           updateStatus();
-          toast('Mot de passe incorrect — reconnectez-vous (⚙ Connexion)', true);
+          toast('Mot de passe incorrect — reconnectez-vous', true);
+          openLogin();
         } else {
           toast('Échec : ' + (result.error || 'erreur') + ' — brouillon gardé', true);
         }
@@ -341,26 +342,51 @@
     el.classList.toggle('text-emerald', online || serverOk);
   }
 
-  function login() {
-    const current = pw();
-    const msg = current
-      ? 'Connecté. Entrez un nouveau mot de passe pour le remplacer, ou laissez vide pour vous déconnecter.'
-      : 'Entrez le mot de passe d’édition pour enregistrer le CV en ligne depuis cet appareil.';
-    const input = prompt(msg, '');
-    if (input === null) return; // cancelled — no change
-    const password = input.trim();
-    if (password) {
-      localStorage.setItem(PW_KEY, password);
-      toast('Connecté ✓ — les enregistrements iront sur GitHub');
-    } else {
-      localStorage.removeItem(PW_KEY);
-      toast('Déconnecté', true);
-    }
-    updateStatus();
+  const loginModal = $('#login-modal');
+
+  function openLogin() {
+    const connected = !!pw();
+    $('#login-desc').textContent = connected
+      ? 'Vous êtes connecté sur cet appareil. Entrez un nouveau mot de passe pour le remplacer, ou déconnectez-vous.'
+      : 'Entrez le mot de passe d’édition pour enregistrer le CV directement sur GitHub depuis cet appareil.';
+    $('#login-disconnect').hidden = !connected;
+    const input = $('#login-input');
+    input.value = '';
+    input.type = 'password';
+    $('#login-show').checked = false;
+    loginModal.hidden = false;
+    setTimeout(() => input.focus(), 30);
   }
+  function closeLogin() { loginModal.hidden = true; }
+
+  $('#login-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const password = $('#login-input').value.trim();
+    if (!password) { $('#login-input').focus(); return; }
+    localStorage.setItem(PW_KEY, password);
+    closeLogin();
+    updateStatus();
+    toast('Connecté ✓ — les enregistrements iront sur GitHub');
+  });
+  $('#login-disconnect').addEventListener('click', () => {
+    localStorage.removeItem(PW_KEY);
+    closeLogin();
+    updateStatus();
+    toast('Déconnecté', true);
+  });
+  $('#login-cancel').addEventListener('click', closeLogin);
+  $('#login-show').addEventListener('change', (e) => {
+    $('#login-input').type = e.target.checked ? 'text' : 'password';
+  });
+  loginModal.addEventListener('click', (e) => {
+    if (e.target.matches('[data-login-backdrop]')) closeLogin();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !loginModal.hidden) closeLogin();
+  });
 
   // ---- Wiring -------------------------------------------------------------
-  $('#btn-login').addEventListener('click', login);
+  $('#btn-login').addEventListener('click', openLogin);
   $('#btn-edit').addEventListener('click', () => setEditing(true));
   $('#btn-cancel').addEventListener('click', () => { setEditing(false); render(); });
   $('#btn-save').addEventListener('click', save);
