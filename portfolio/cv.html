@@ -120,14 +120,14 @@
     .item .dates { font-family: 'Inter', sans-serif; font-size: 8.5pt; color: var(--greenx); font-weight: 600; white-space: nowrap; }
     .item .org { font-size: 9pt; color: #111; font-weight: 700; margin-top: 0.5mm; }
     .points { margin-top: 1.5mm; padding-left: 4mm; }
-    .points li { font-size: 8.5pt; color: #111; list-style: none; position: relative; margin-bottom: calc(1mm * var(--sp, 1)); line-height: 1.45; }
+    .points li { font-size: 8.5pt; color: #111; list-style: none; position: relative; margin-bottom: calc(1mm * var(--sp, 1)); line-height: 1.45; text-align: justify; text-justify: auto; }
     .points li::before { content: '•'; position: absolute; left: -4mm; top: 0; font-size: 10pt; color: var(--accentx); }
 
     .proj { margin-bottom: calc(3.5mm * var(--sp, 1)); font-size: 8.5pt; position: relative; padding-left: 3.5mm; }
     .proj::before { content: '•'; position: absolute; left: 0; top: 0.2mm; font-size: 10pt; color: var(--accentx); }
     .proj .pname { font-weight: 700; color: #111; display: block; font-size: 9pt; line-height: 1.35; }
     .proj .pstack { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 7.5pt; color: var(--greenx); display: block; margin-top: 0.5mm; line-height: 1.3; }
-    .proj .pdesc { color: #333; display: block; margin-top: 0.8mm; line-height: 1.4; font-size: 8pt; }
+    .proj .pdesc { color: #333; display: block; margin-top: 0.8mm; line-height: 1.4; font-size: 8pt; text-align: justify; text-justify: auto; }
     
     .side .item h3 { font-size: 9pt; font-weight: 700; color: #111; line-height: 1.35; }
     .side .item .row { display: block; }
@@ -236,7 +236,7 @@
         </header>
 
         <h2 class="sec">Profil</h2>
-        <p style="font-size:9.5pt;color:#222;line-height:1.5;" data-edit="profile"></p>
+        <p style="font-size:9.5pt;color:#222;line-height:1.5;text-align:justify;text-justify:auto;" data-edit="profile"></p>
 
         <h2 class="sec">Compétences Clés</h2>
         <div id="skills-list"></div>
