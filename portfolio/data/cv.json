@@ -162,7 +162,7 @@
   ],
   "projects": [
     {
-      "name": "ISI Monitor 3D — Vision industrielle",
+      "name": "IsiMonitor 3D — Vision industrielle",
       "stack": "OpenCV · YOLOv26/RF-DETR · ONNX · FastAPI · Three.js",
       "desc": "Suivi métrique 2D/3D multi-caméras d'entrepôt avec jumeau numérique 3D temps réel. Isitec."
     },
