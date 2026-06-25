@@ -163,12 +163,12 @@
   "projects": [
     {
       "name": "IsiMonitor 3D — Vision industrielle",
-      "stack": "OpenCV · YOLOv26/RF-DETR · ONNX · FastAPI · Three.js",
+      "stack": "OpenCV · YOLOv26/RF-DETR · ONNX · FastAPI · Multical · MqTT",
       "desc": "Suivi métrique 2D/3D multi-caméras d'entrepôt avec jumeau numérique 3D temps réel. Isitec."
     },
     {
       "name": "IsiDetector — Détection edge & MLOps",
-      "stack": "Python · YOLO/RF-DETR · ONNX/TensorRT/OpenVINO · ByteTrack · FastAPI · Docker",
+      "stack": "YOLO/RF-DETR ·ONNX/TensorRT/OpenVINO · ByteTrack · FastAPI · Docker",
       "desc": "Segmentation de colis sur convoyeur : entraînement, compression INT8/FP16, déploiement multi-backend et trigger UDP vers automate de tri. Isitec."
     },
     {
