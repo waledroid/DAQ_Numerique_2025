@@ -173,7 +173,7 @@
     },
     {
       "name": "ROSBot Harmony",
-      "stack": "Python · ROS · PyTorch",
+      "stack": "Python · ROS · PyTorch · MoveIt",
       "desc": "Système autonome de communication inter-robots."
     },
     {
