@@ -103,11 +103,11 @@
     {
       "category": "Vision & ML",
       "items": [
-        "YOLO / RF-DETR",
-        "ViT / distillation",
-        "ONNX Runtime / TensorRT / OpenVINO",
+        "ViT distillation",
+        "ONNX / TensorRT / OpenVINO",
         "Quantification INT8 / FP16",
-        "OpenCV · calibration multi-caméras",
+        "OpenCV",
+        "calibration multi-caméras",
         "SDXL / ControlNet / SAM2",
         "OpenMMLab / Roboflow"
       ]
@@ -136,8 +136,7 @@
       "items": [
         "Linux / Windows / macOS",
         "VLAN / VPN / pare-feu",
-        "Centreon / GLPI",
-        "Support N2 & N3 (Jira, TeamViewer)"
+        "Support N2 & N3"
       ]
     }
   ],
