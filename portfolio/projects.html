@@ -95,13 +95,15 @@
             <div class="p-6 flex flex-col flex-1">
               <h2 class="font-display text-xl font-semibold">ISI Monitor 3D</h2>
               <p class="text-muted text-sm mt-3 leading-relaxed flex-1">
-                Système de vision industrielle multi-caméras pour entrepôt : suivi métrique 2D/3D en
-                temps réel — homographie, fusion multi-caméras et triangulation — avec jumeau
-                numérique 3D pour l'opérateur.
+                Système de vision industrielle multi-caméras pour entrepôt : ingestion RTSP, suivi
+                métrique 2D/3D en temps réel — homographie, fusion multi-caméras, triangulation DLT —
+                publication UDP/MQTT vers AGV/WMS et jumeau numérique 3D pour l'opérateur. Avec
+                <span class="text-mist">isiCal</span> (studio de calibration guidée ChArUco/Multical) et
+                <span class="text-mist">isiGen</span> (données synthétiques SDXL + ControlNet + SAM2).
               </p>
               <div class="flex flex-wrap gap-2 mt-5">
-                <span class="chip">Python</span><span class="chip">YOLO/RF-DETR</span><span class="chip">ONNX/TensorRT</span>
-                <span class="chip">OpenCV</span><span class="chip">FastAPI</span><span class="chip">Three.js</span>
+                <span class="chip">Python</span><span class="chip">YOLO11/RF-DETR</span><span class="chip">ONNX Runtime/OpenVINO</span>
+                <span class="chip">OpenCV</span><span class="chip">GStreamer</span><span class="chip">MQTT</span><span class="chip">Three.js</span>
               </div>
               <span class="mt-6 font-mono text-xs text-muted inline-flex items-center gap-2">
                 <i class="fa-solid fa-lock" aria-hidden="true"></i> Projet propriétaire — Isitec
@@ -130,13 +132,52 @@
               <h2 class="font-display text-xl font-semibold">IsiDetector</h2>
               <p class="text-muted text-sm mt-3 leading-relaxed flex-1">
                 Moteur de segmentation d'instances configurable (YOLO &amp; RF-DETR) pour la détection de
-                colis sur convoyeur. Comptage par franchissement de ligne (ByteTrack) déclenchant un
-                trigger UDP vers l'automate de tri ; pipeline entraînement → compression INT8/FP16 →
-                déploiement multi-backend (ONNX, OpenVINO, TensorRT). Mission Isitec.
+                colis sur convoyeur — mAP@50 ≈ 0,96 en validation. Comptage par franchissement de ligne
+                (ByteTrack) déclenchant un trigger UDP vers l'automate de tri ; pipeline entraînement →
+                compression INT8/FP16 → déploiement multi-backend (ONNX, OpenVINO, TensorRT). Mission Isitec.
               </p>
               <div class="flex flex-wrap gap-2 mt-5">
                 <span class="chip">Python</span><span class="chip">YOLO</span><span class="chip">RF-DETR</span>
                 <span class="chip">ONNX/TensorRT</span><span class="chip">OpenVINO</span><span class="chip">ByteTrack</span><span class="chip">FastAPI</span>
+              </div>
+              <a href="https://github.com/waledroid/IsiDetector" target="_blank" rel="noopener"
+                 class="link-u w-fit mt-6 font-mono text-sm text-accent inline-flex items-center gap-2">
+                <i class="fa-brands fa-github" aria-hidden="true"></i> Voir le dépôt
+              </a>
+            </div>
+          </article>
+
+          <!-- Compression & benchmark de modèles — IA / MLOps -->
+          <article class="proj-card panel hud overflow-hidden flex flex-col" data-category="ia" data-reveal data-delay="2">
+            <div class="scanline relative aspect-[16/10] overflow-hidden bg-ink grid-bg" aria-hidden="true">
+              <span class="absolute top-3 left-3 font-mono text-[0.6rem] tracking-widest text-accent">● PIPELINE — COMPRESSION</span>
+              <span class="absolute top-3 right-3 chip bg-ink/70 backdrop-blur">MLOps</span>
+              <!-- flux de stages -->
+              <div class="absolute inset-x-5 top-[30%] flex items-center justify-between font-mono text-[0.6rem]">
+                <span class="border border-line rounded px-2 py-1 text-mist">FP32</span>
+                <span class="text-accent">⟶</span>
+                <span class="border border-accent/60 rounded px-2 py-1 text-accent">FP16 · ~½</span>
+                <span class="text-accent">⟶</span>
+                <span class="border border-emerald/60 rounded px-2 py-1 text-emerald">INT8 QDQ · ~¼</span>
+              </div>
+              <div class="absolute inset-x-5 top-[56%] font-mono text-[0.58rem] text-muted leading-relaxed">
+                bench&nbsp;: médiane · p95 · FPS · provider<br>
+                validate&nbsp;: IoU ≥ 0.5 · dérive bbox · Δ confiance
+              </div>
+              <span class="absolute bottom-3 left-3 font-mono text-[0.58rem] tracking-widest text-muted">onnxsim · QDQ per-channel · OpenVINO IR</span>
+              <span class="absolute bottom-3 right-3 font-mono text-[0.58rem] tracking-widest text-emerald">VERDICT : GOOD ≥ 97 %</span>
+            </div>
+            <div class="p-6 flex flex-col flex-1">
+              <h2 class="font-display text-xl font-semibold">Compression &amp; benchmark de modèles</h2>
+              <p class="text-muted text-sm mt-3 leading-relaxed flex-1">
+                Outil interactif (TUI Rich) et scriptable pour préparer les modèles au déploiement
+                edge : conversion FP16, quantification INT8 (dynamique &amp; QDQ statique par canal),
+                simplification de graphe et export OpenVINO IR — puis benchmark (médiane/p95/FPS) et
+                validation d'accuracy contre la référence FP32. Architecture à plugins. Mission Isitec.
+              </p>
+              <div class="flex flex-wrap gap-2 mt-5">
+                <span class="chip">Python</span><span class="chip">ONNX Runtime</span><span class="chip">INT8/FP16</span>
+                <span class="chip">OpenVINO</span><span class="chip">onnxsim</span><span class="chip">Rich</span>
               </div>
               <a href="https://github.com/waledroid/IsiDetector" target="_blank" rel="noopener"
                  class="link-u w-fit mt-6 font-mono text-sm text-accent inline-flex items-center gap-2">

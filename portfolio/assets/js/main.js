@@ -72,7 +72,7 @@
         '<div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">' +
           '<div>' +
             '<a href="index.html" class="font-display text-2xl font-bold">Atanda Abdullahi<span class="text-accent">.</span></a>' +
-            '<p class="text-muted mt-3 max-w-xs text-sm leading-relaxed">Ingénieur Vision par Ordinateur &amp; Edge-AI, fondé sur 10 ans d\'infrastructure IT. Le Creusot, Bourgogne.</p>' +
+            '<p class="text-muted mt-3 max-w-xs text-sm leading-relaxed">Ingénieur Vision par Ordinateur &amp; Edge-AI, fondé sur 10 ans d\'infrastructure IT. Oullins, Lyon.</p>' +
             '<p class="label mt-5 text-emerald"><span class="w-2 h-2 rounded-full bg-emerald inline-block"></span>Disponible pour un entretien</p>' +
           '</div>' +
           '<div><h4 class="font-mono text-xs uppercase tracking-widest text-muted mb-4">Navigation</h4>' +
@@ -86,7 +86,7 @@
           '<div><h4 class="font-mono text-xs uppercase tracking-widest text-muted mb-4">Contact</h4>' +
             '<p class="text-muted py-1">waledroid@gmail.com</p>' +
             '<p class="text-muted py-1">+33 7 49 49 99 78</p>' +
-            '<p class="text-muted py-1">Le Creusot, 71200</p>' +
+            '<p class="text-muted py-1">33 boulevard de l\'Europe, Montmein Sud<br>69600 Oullins — Lyon</p>' +
           '</div>' +
         '</div>' +
         '<div class="divider my-10"></div>' +

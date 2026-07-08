@@ -15,7 +15,7 @@
     },
     {
       "label": "Adresse",
-      "value": "Oullins 69600, Lyon"
+      "value": "33 bd de l'Europe, 69600 Oullins, Lyon"
     },
     {
       "label": "LinkedIn",
@@ -38,9 +38,9 @@
       "location": "Millery (Lyon)",
       "dates": "Mars 2026 – présent",
       "points": [
-        "Système de vision industrielle multi-caméras : suivi métrique 2D/3D (homographie, fusion, triangulation DLT).",
-        "Détecteurs edge YOLO/RF-DETR (ONNX/TensorRT) + génération de données synthétiques (StableDiffusionXL).",
-        "Dashboard FastAPI + jumeau numérique 3D (Three.js)."
+        "Backbone de vision multi-caméras temps réel : RTSP/GStreamer, YOLO11/RF-DETR (ONNX Runtime, CUDA/OpenVINO), suivi métrique 2D/3D (homographie, triangulation DLT), publication UDP/MQTT vers AGV/WMS ; dashboard FastAPI + jumeau numérique 3D (Three.js).",
+        "Outillage : isiCal (studio de calibration guidée ChArUco/Multical) et isiGen (données synthétiques SDXL + ControlNet + SAM2 : 50–100 photos/classe → dataset segmentation auto-annoté).",
+        "IsiDetector : segmentation de colis sur convoyeur (mAP@50 ≈ 0,96), compression FP16/INT8 et déploiement multi-backend (ONNX/OpenVINO/TensorRT), comptage ByteTrack + trigger UDP vers l'automate de tri."
       ]
     },
     {
@@ -95,7 +95,7 @@
     {
       "category": "Langages",
       "items": [
-        "Python / Pytorch",
+        "Python / PyTorch",
         "JavaScript / React",
         "SQL"
       ]
@@ -103,44 +103,41 @@
     {
       "category": "Vision & ML",
       "items": [
-        "PyTorch",
+        "YOLO / RF-DETR",
         "ViT / distillation",
-        "TensorRT",
-        "OpenMMLab",
-        "Roboflow",
-        "ROS2"
+        "ONNX Runtime / TensorRT / OpenVINO",
+        "Quantification INT8 / FP16",
+        "OpenCV · calibration multi-caméras",
+        "SDXL / ControlNet / SAM2",
+        "OpenMMLab / Roboflow"
+      ]
+    },
+    {
+      "category": "Edge & Robotique",
+      "items": [
+        "Jetson Orin",
+        "ROS2",
+        "GStreamer / RTSP",
+        "MQTT / UDP"
       ]
     },
     {
       "category": "Cloud / MLOps",
       "items": [
+        "Docker",
+        "FastAPI",
         "AWS SageMaker",
         "Google Cloud",
-        "Docker",
-        "VMware",
         "Git"
       ]
     },
     {
-      "category": "Systèmes & Réseaux",
+      "category": "Systèmes & Support",
       "items": [
-        "Windows",
-        "macOS",
-        "Linux",
-        "VLAN",
-        "VPN",
-        "pare-feu",
-        "Centreon",
-        "GLPI"
-      ]
-    },
-    {
-      "category": "Support technique",
-      "items": [
-        "N2 & N3",
-        "TeamViewer",
-        "AnyDesk",
-        "Jira"
+        "Linux / Windows / macOS",
+        "VLAN / VPN / pare-feu",
+        "Centreon / GLPI",
+        "Support N2 & N3 (Jira, TeamViewer)"
       ]
     }
   ],
@@ -163,13 +160,13 @@
   "projects": [
     {
       "name": "IsiMonitor 3D — Vision industrielle",
-      "stack": "OpenCV · YOLOv26/RF-DETR · ONNX · FastAPI · Multical · MqTT",
-      "desc": "Suivi métrique 2D/3D multi-caméras d'entrepôt avec jumeau numérique 3D temps réel. Isitec."
+      "stack": "OpenCV · YOLOv26/RF-DETR · ONNX Runtime/OpenVINO · Multical · MQTT · Three.js",
+      "desc": "Suivi métrique 2D/3D multi-caméras d'entrepôt avec jumeau numérique 3D temps réel + calibration guidée (isiCal) et données synthétiques SDXL/SAM2 (isiGen). Isitec."
     },
     {
       "name": "IsiDetector — Détection edge & MLOps",
-      "stack": "YOLO/RF-DETR ·ONNX/TensorRT/OpenVINO · ByteTrack · FastAPI · Docker",
-      "desc": "Segmentation de colis sur convoyeur : entraînement, compression INT8/FP16, déploiement multi-backend et trigger UDP vers automate de tri. Isitec."
+      "stack": "YOLO/RF-DETR · ONNX/TensorRT/OpenVINO · ByteTrack · FastAPI · Docker",
+      "desc": "Segmentation de colis sur convoyeur (mAP@50 ≈ 0,96) : entraînement, compression INT8/FP16 + outil de benchmark/validation, déploiement multi-backend et trigger UDP vers automate de tri. Isitec."
     },
     {
       "name": "ROSBot Harmony",
