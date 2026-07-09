@@ -38,9 +38,9 @@
       "location": "Millery (Lyon)",
       "dates": "Mars 2026 – présent",
       "points": [
-        "Backbone de vision multi-caméras temps réel : RTSP/GStreamer, YOLO11/RF-DETR (ONNX Runtime, CUDA/OpenVINO), suivi métrique 2D/3D (homographie, triangulation DLT), publication UDP/MQTT vers AGV/WMS ; dashboard FastAPI + jumeau numérique 3D (Three.js).",
-        "Outillage : isiCal (studio de calibration guidée ChArUco/Multical) et isiGen (données synthétiques SDXL + ControlNet + SAM2 : 50–100 photos/classe → dataset segmentation auto-annoté).",
-        "IsiDetector : segmentation de colis sur convoyeur (mAP@50 ≈ 0,96), compression FP16/INT8 et déploiement multi-backend (ONNX/OpenVINO/TensorRT), comptage ByteTrack + trigger UDP vers l'automate de tri."
+        "Backbone de vision multi-caméras temps réel : YOLO11/RF-DETR (ONNX Runtime), suivi métrique 2D/3D, publication UDP/MQTT vers AGV/WMS ; jumeau numérique 3D.",
+        "Outillage : isiCal (calibration guidée ChArUco/Multical) et isiGen (données synthétiques SDXL/SAM2 auto-annotées).",
+        "IsiDetector : segmentation de colis convoyeur (mAP@50 ≈ 0,96), compression FP16/INT8, déploiement ONNX/OpenVINO/TensorRT + trigger UDP vers automate de tri."
       ]
     },
     {
@@ -103,13 +103,10 @@
     {
       "category": "Vision & ML",
       "items": [
-        "ViT distillation",
-        "ONNX / TensorRT / OpenVINO",
-        "Quantification INT8 / FP16",
-        "OpenCV",
-        "calibration multi-caméras",
-        "SDXL / ControlNet / SAM2",
-        "OpenMMLab / Roboflow"
+        "Détection & segmentation temps réel (YOLO, RF-DETR)",
+        "Compression de modèles : distillation ViT, INT8/FP16 (ONNX, TensorRT, OpenVINO)",
+        "Calibration multi-caméras & suivi métrique 3D (OpenCV)",
+        "Données synthétiques auto-annotées (SDXL, SAM2)"
       ]
     },
     {
