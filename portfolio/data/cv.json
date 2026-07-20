@@ -159,7 +159,7 @@
   "projects": [
     {
       "name": "IsiMonitor 3D — Vision industrielle",
-      "stack": "OpenCV · YOLOv26/RF-DETR · ONNX Runtime/OpenVINO · Multical · MQTT · Three.js",
+      "stack": "OpenCV · ONNX Runtime/OpenVINO · Multical · MQTT · Three.js",
       "desc": "Suivi métrique 2D/3D multi-caméras d'entrepôt avec jumeau numérique 3D temps réel + calibration guidée (isiCal) et données synthétiques SDXL/SAM2 (isiGen). Isitec."
     },
     {
