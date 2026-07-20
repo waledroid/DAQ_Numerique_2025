@@ -101,14 +101,14 @@
     {
       "category": "Vision & ML",
       "items": [
-        "Détection & segmentation temps réel (YOLO",
+        "Détection en temps réel (YOLO",
         "RF-DETR)",
-        "Compression de modèles : distillation ViT",
+        "Distillation\nViT",
         "INT8/FP16 (ONNX",
         "TensorRT",
         "OpenVINO)",
-        "Calibration multi-caméras & suivi métrique 3D (OpenCV)",
-        "Données synthétiques auto-annotées (SDXL",
+        "Vision\nstéréo & Perception 3D",
+        "Données synthétiques autoannotées (SDXL",
         "SAM2)"
       ]
     },
