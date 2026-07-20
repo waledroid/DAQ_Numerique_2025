@@ -15,7 +15,7 @@
     },
     {
       "label": "Adresse",
-      "value": "69600 Oullins, Lyon"
+      "value": "33 bd de l'Europe, 69600 Oullins, Lyon"
     },
     {
       "label": "LinkedIn",
@@ -38,8 +38,8 @@
       "location": "Millery (Lyon)",
       "dates": "Mars 2026 – présent",
       "points": [
-        "Pipeline multi-caméra 60 FPS pour 8 flux RTSP, latence <50 ms, publication MQTT vers AGV.",
-        "Développement d'isiCal (calibration guidée ChArUco/Multical) et isiGen (données synthétiques / auto-annotées).",
+        "Pipeline multi-caméra 60 FPS : YOLO11/RF-DETR (ONNX Runtime), suivi métrique 2D/3D, publication UDP/MQTT vers AGV/WMS.",
+        "Outillage: développement d'isiCal (calibration guidée ChArUco/Multical) et isiGen (données synthétiques / auto-annotées)",
         "IsiDetector : segmentation de colis convoyeur (mAP@50 ≈ 0,96), compression FP16/INT8, déploiement OpenVINO/TensorRT + trigger vers automate de tri."
       ]
     },
@@ -49,8 +49,7 @@
       "location": "Chalon-sur-Saône",
       "dates": "Oct. 2024 – Nov. 2024",
       "points": [
-        "Diagnostic et réparation matériel/logiciel, imprimantes et appareils mobiles, à distance et sur site.",
-        "Documentation de l'état des dispositifs."
+        "Diagnostic et réparation matériel/logiciel, imprimantes et appareils mobiles, à distance et sur site."
       ]
     },
     {
@@ -59,8 +58,7 @@
       "location": "Le Creusot",
       "dates": "Fév. 2024 – Juil. 2024",
       "points": [
-        "Distillation de connaissances sur Vision Transformers (ViT) lourds : +25 % de vitesse de détection et de précision de segmentation.",
-        "−40 % de temps d'inférence sur Nvidia Jetson Orin Nano 8 Go."
+        "NanoSAM -Compression de ViT lourds: +25 % de vitesse de segmentation, −40 % d'inférence sur Jetson Orin Nano."
       ]
     },
     {
@@ -69,8 +67,8 @@
       "location": "Ikoyi, Lagos",
       "dates": "Janv. 2013 – Fév. 2023",
       "points": [
-        "Gestion Active Directory (utilisateurs, sécurité, déploiements) ; dépannage IT avec haute satisfaction client.",
-        "Création d'un site web optimisé SEO : +20 % d'engagement."
+        "Administration Active Directory, gestion de plus de 300 postes",
+        "Support informatique N2/N3 et administration réseau"
       ]
     }
   ],
@@ -95,49 +93,44 @@
     {
       "category": "Langages",
       "items": [
-        "Python (PyTorch)",
-        "JavaScript (React)",
+        "Python / PyTorch",
+        "JavaScript / React",
         "SQL"
       ]
     },
     {
       "category": "Vision & ML",
       "items": [
-        "Détection en temps réel (YOLO",
-        "RF-DETR)",
-        "Distillation ViT",
-        "INT8/FP16 (ONNX",
-        "TensorRT",
-        "OpenVINO)",
-        "Vision stéréo & Perception 3D",
-        "Données synthétiques auto-annotées (SDXL",
-        "SAM2)"
+        "Détection & segmentation temps réel (YOLO, RF-DETR)",
+        "Compression de modèles : distillation ViT, INT8/FP16 (ONNX, TensorRT, OpenVINO)",
+        "Calibration multi-caméras & suivi métrique 3D (OpenCV)",
+        "Données synthétiques auto-annotées (SDXL, SAM2)"
       ]
     },
     {
       "category": "Edge & Robotique",
       "items": [
-        "DeepStream",
         "Jetson Orin",
         "ROS2",
-        "MoveIT",
-        "MQTT"
+        "GStreamer / RTSP",
+        "MQTT / UDP"
       ]
     },
     {
       "category": "Cloud / MLOps",
       "items": [
         "Docker",
-        "Git",
-        "FastAPI AWS",
+        "FastAPI",
+        "AWS SageMaker",
         "Google Cloud",
-        "CI/CD"
+        "Git"
       ]
     },
     {
-      "category": "Systèmes",
+      "category": "Systèmes & Support",
       "items": [
         "Linux / Windows / macOS",
+        "VLAN / VPN / pare-feu",
         "Support N2 & N3"
       ]
     }
@@ -162,7 +155,7 @@
     {
       "name": "IsiMonitor 3D — Vision industrielle",
       "stack": "OpenCV · YOLOv26/RF-DETR · ONNX Runtime/OpenVINO · Multical · MQTT · Three.js",
-      "desc": "Suivi métrique 2D/3D multi-caméras d'entrepôt avec jumeau numérique 3D temps réel + calibration guidée (isiCal) et données synthétiques. Isitec."
+      "desc": "Suivi métrique 2D/3D multi-caméras d'entrepôt avec jumeau numérique 3D temps réel + calibration guidée (isiCal) et données synthétiques SDXL/SAM2 (isiGen). Isitec."
     },
     {
       "name": "IsiDetector — Détection edge & MLOps",
