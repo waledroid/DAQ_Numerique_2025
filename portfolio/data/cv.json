@@ -95,8 +95,7 @@
     {
       "category": "Langages",
       "items": [
-        "Python (PyTorch",
-        "FastAPi)",
+        "Python (PyTorch)",
         "JavaScript (React)",
         "SQL"
       ]
@@ -130,7 +129,7 @@
       "items": [
         "Docker",
         "Git",
-        "AWS",
+        "FastAPI AWS",
         "Google Cloud",
         "CI/CD"
       ]
