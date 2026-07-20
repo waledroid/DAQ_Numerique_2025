@@ -38,9 +38,9 @@
       "location": "Millery (Lyon)",
       "dates": "Mars 2026 – présent",
       "points": [
-        "Backbone de vision multi-caméras temps réel : YOLO11/RF-DETR (ONNX Runtime), suivi métrique 2D/3D, publication UDP/MQTT vers AGV/WMS ; jumeau numérique 3D.",
+        "Backbone de vision multi-caméras temps réel : YOLO11/RF-DETR, suivi métrique 2D/3D, publication MQTT vers AGV/WMS.",
         "Outillage : isiCal (calibration guidée ChArUco/Multical) et isiGen (données synthétiques SDXL/SAM2 auto-annotées).",
-        "IsiDetector : segmentation de colis convoyeur (mAP@50 ≈ 0,96), compression FP16/INT8, déploiement ONNX/OpenVINO/TensorRT + trigger UDP vers automate de tri."
+        "IsiDetector : segmentation de colis convoyeur (mAP@50 ≈ 0,96), compression FP16/INT8, déploiement OpenVINO/TensorRT + trigger vers automate de tri."
       ]
     },
     {
@@ -105,11 +105,11 @@
       "items": [
         "Détection & segmentation temps réel (YOLO",
         "RF-DETR)",
-        "Compression de modèles : distillation ViT",
+        "Distillation ViT",
         "INT8/FP16 (ONNX",
         "TensorRT",
         "OpenVINO)",
-        "Calibration multi-caméras & suivi métrique 3D (OpenCV)",
+        "Vision stéréo & Perception 3D",
         "Données synthétiques auto-annotées (SDXL",
         "SAM2)"
       ]
@@ -119,8 +119,8 @@
       "items": [
         "Jetson Orin",
         "ROS2",
-        "GStreamer / RTSP",
-        "MQTT / UDP"
+        "GStreamer",
+        "MQTT"
       ]
     },
     {
@@ -137,8 +137,7 @@
       "category": "Systèmes & Support",
       "items": [
         "Linux / Windows / macOS",
-        "VLAN / VPN / pare-feu",
-        "Support N2 & N3"
+        "VLAN / VPN /Support N2 & N3"
       ]
     }
   ],
