@@ -39,7 +39,7 @@
       "dates": "Mars 2026 – présent",
       "points": [
         "Pipeline multi-caméra 60 FPS pour 8 flux RTSP, latence <50 ms, publication MQTT vers AGV.",
-        "Outillage : isiCal (calibration guidée ChArUco/Multical) et isiGen (données synthétiques / auto-annotées).",
+        "Développement d'isiCal (calibration guidée ChArUco/Multical) et isiGen (données synthétiques / auto-annotées).",
         "IsiDetector : segmentation de colis convoyeur (mAP@50 ≈ 0,96), compression FP16/INT8, déploiement OpenVINO/TensorRT + trigger vers automate de tri."
       ]
     },
