@@ -15,7 +15,7 @@
     },
     {
       "label": "Adresse",
-      "value": "33 bd de l'Europe, 69600 Oullins, Lyon"
+      "value": "69600 Oullins, Lyon"
     },
     {
       "label": "LinkedIn",
@@ -101,10 +101,15 @@
     {
       "category": "Vision & ML",
       "items": [
-        "Détection & segmentation temps réel (YOLO, RF-DETR)",
-        "Compression de modèles : distillation ViT, INT8/FP16 (ONNX, TensorRT, OpenVINO)",
+        "Détection & segmentation temps réel (YOLO",
+        "RF-DETR)",
+        "Compression de modèles : distillation ViT",
+        "INT8/FP16 (ONNX",
+        "TensorRT",
+        "OpenVINO)",
         "Calibration multi-caméras & suivi métrique 3D (OpenCV)",
-        "Données synthétiques auto-annotées (SDXL, SAM2)"
+        "Données synthétiques auto-annotées (SDXL",
+        "SAM2)"
       ]
     },
     {
