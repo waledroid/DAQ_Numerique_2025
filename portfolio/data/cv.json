@@ -95,8 +95,9 @@
     {
       "category": "Langages",
       "items": [
-        "Python / PyTorch",
-        "JavaScript / React",
+        "Python (PyTorch",
+        "FastAPi)",
+        "JavaScript (React)",
         "SQL"
       ]
     },
@@ -129,13 +130,13 @@
       "items": [
         "Docker",
         "Git",
-        "FastAPI",
         "AWS",
-        "Google Cloud"
+        "Google Cloud",
+        "CI/CD"
       ]
     },
     {
-      "category": "Systèmes & Support",
+      "category": "Systèmes",
       "items": [
         "Linux / Windows / macOS",
         "Support N2 & N3"
