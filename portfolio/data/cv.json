@@ -35,7 +35,7 @@
     {
       "role": "Ingénieur ML & Vision par Ordinateur",
       "company": "Isitec International",
-      "location": "Millery (Lyon)",
+      "location": "Millery, Lyon",
       "dates": "Mars 2026 – présent",
       "points": [
         "Pipeline multi-caméra 60 FPS : YOLO11/RF-DETR (ONNX Runtime), suivi métrique 2D/3D, publication UDP/MQTT vers AGV/WMS.",
