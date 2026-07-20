@@ -117,9 +117,10 @@
     {
       "category": "Edge & Robotique",
       "items": [
+        "DeepStream",
         "Jetson Orin",
         "ROS2",
-        "GStreamer",
+        "MoveIT",
         "MQTT"
       ]
     },
