@@ -103,7 +103,7 @@
     {
       "category": "Vision & ML",
       "items": [
-        "Détection & segmentation temps réel (YOLO",
+        "Détection en temps réel (YOLO",
         "RF-DETR)",
         "Distillation ViT",
         "INT8/FP16 (ONNX",
