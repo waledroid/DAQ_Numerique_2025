@@ -93,8 +93,8 @@
     {
       "category": "Langages",
       "items": [
-        "Python / PyTorch",
-        "JavaScript / React",
+        "Python (PyTorch)",
+        "JavaScript (React)",
         "SQL"
       ]
     },
@@ -115,27 +115,28 @@
     {
       "category": "Edge & Robotique",
       "items": [
+        "DeepStream",
         "Jetson Orin",
         "ROS2",
-        "GStreamer / RTSP",
-        "MQTT / UDP"
+        "MoveIT",
+        "MQTT"
       ]
     },
     {
       "category": "Cloud / MLOps",
       "items": [
         "Docker",
-        "FastAPI",
-        "AWS SageMaker",
+        "Git",
+        "FastAPi",
+        "AWS",
         "Google Cloud",
-        "Git"
+        "CI/CD"
       ]
     },
     {
-      "category": "Systèmes & Support",
+      "category": "Systèmes",
       "items": [
         "Linux / Windows / macOS",
-        "VLAN / VPN / pare-feu",
         "Support N2 & N3"
       ]
     }
