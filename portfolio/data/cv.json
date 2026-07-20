@@ -58,7 +58,7 @@
       "location": "Le Creusot",
       "dates": "Fév. 2024 – Juil. 2024",
       "points": [
-        "NanoSAM -Compression de ViT lourds: +25 % de vitesse de segmentation, −40 % d'inférence sur Jetson Orin Nano."
+        "NanoSAM - Compression de ViT lourds: +25 % de vitesse de segmentation, −40 % d'inférence sur Jetson Orin Nano."
       ]
     },
     {
