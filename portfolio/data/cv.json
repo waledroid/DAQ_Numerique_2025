@@ -119,7 +119,7 @@
       "items": [
         "Docker",
         "FastAPI",
-        "AWS SageMaker",
+        "AWS",
         "Google Cloud",
         "Git / CI-CD"
       ]
