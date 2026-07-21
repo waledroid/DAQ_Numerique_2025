@@ -127,9 +127,9 @@
     {
       "category": "Systèmes & Réseaux",
       "items": [
-        "Linux (Ubuntu/Debian)",
+        "Linux",
         "Windows Server",
-        "VLAN / VPN / Sécurité réseau"
+        "Sécurité réseau"
       ]
     }
   ],
