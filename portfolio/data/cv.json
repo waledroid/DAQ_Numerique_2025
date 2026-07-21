@@ -46,7 +46,7 @@
     {
       "role": "Ingénieur en Apprentissage Automatique",
       "company": "WASORIA",
-      "location": "Le Creusot",
+      "location": "Le Creusot 71200",
       "dates": "Fév. 2024 – Juil. 2024",
       "points": [
         "NanoSAM — Compression de Vision Transformers (ViT) : +25 % de vitesse de segmentation, −40 % de temps d'inférence sur Jetson Orin Nano via distillation et TensorRT."
