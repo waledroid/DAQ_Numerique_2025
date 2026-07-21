@@ -2,7 +2,7 @@
   "identity": {
     "name": "Atanda Abdullahi",
     "title": "Ingénieur Vision par Ordinateur & Edge-AI",
-    "tagline": "10 ans de systèmes IT, désormais au service du deep learning déployé sur du hardware embarqué et robotique."
+    "tagline": "Spécialiste en Deep Learning embarqué, compression de modèles (INT8/FP16) et déploiement temps réel sur matériel industriel et robotique."
   },
   "contact": [
     {
@@ -15,7 +15,7 @@
     },
     {
       "label": "Adresse",
-      "value": "69600 Oullins, Lyon"
+      "value": "33 bd de l'Europe, 69600 Oullins, Lyon"
     },
     {
       "label": "LinkedIn",
@@ -30,26 +30,17 @@
       "value": "portfolio-waledroid.netlify.app"
     }
   ],
-  "profile": "Ingénieur Vision par Ordinateur & Edge-AI, fort de 10 ans d'expérience en systèmes informatiques et support. Je fais le pont entre la recherche en deep learning et le matériel réel : modèles compressés, déployés et orchestrés sur des systèmes embarqués et robotiques.",
+  "profile": "Ingénieur Vision par Ordinateur & Edge-AI titulaire de deux Masters M2. Fort d'une solide expertise en infrastructure système et en apprentissage automatique, je conçois et déploie des pipelines de vision temps réel optimisés (YOLO11, ViT, TensorRT) sur des architectures embarquées (Nvidia Jetson, ROS2, automates industriels).",
   "experience": [
     {
       "role": "Ingénieur ML & Vision par Ordinateur",
       "company": "Isitec International",
-      "location": "Millery, Lyon",
+      "location": "Millery (Lyon)",
       "dates": "Mars 2026 – présent",
       "points": [
-        "Pipeline multi-caméra 60 FPS : YOLO11/RF-DETR (ONNX Runtime), suivi métrique 2D/3D, publication MQTT vers AGV/WMS.",
-        "Outillage: développement d'isiCal (calibration guidée Multical) et isiGen (données synthétiques / auto-annotées)",
-        "IsiDetector : segmentation de colis convoyeur (mAP@50 ≈ 0,96), compression FP16/INT8, déploiement OpenVINO/TensorRT + trigger vers automate de tri."
-      ]
-    },
-    {
-      "role": "Technicien Informatique",
-      "company": "AlloPanas Ordi",
-      "location": "Chalon-sur-Saône",
-      "dates": "Oct. 2024 – Nov. 2024",
-      "points": [
-        "Diagnostic et réparation matériel/logiciel, imprimantes et appareils mobiles, à distance et sur site."
+        "Pipeline multi-caméra 60 FPS : YOLO11/RF-DETR (ONNX Runtime), suivi métrique 2D/3D, publication UDP/MQTT vers AGV/WMS.",
+        "Outillage : Développement d'isiCal (calibration guidée ChArUco/Multical) et isiGen (données synthétiques auto-annotées via SDXL/SAM2).",
+        "IsiDetector : Segmentation de colis convoyeur (mAP@50 ≈ 0,96), compression FP16/INT8, déploiement OpenVINO/TensorRT + intégration automate de tri."
       ]
     },
     {
@@ -58,33 +49,33 @@
       "location": "Le Creusot",
       "dates": "Fév. 2024 – Juil. 2024",
       "points": [
-        "NanoSAM - Compression de ViT lourds: +25% de vitesse de segmentation, −40 % d'inférence sur Jetson Orin Nano."
+        "NanoSAM — Compression de Vision Transformers (ViT) : +25 % de vitesse de segmentation, −40 % de temps d'inférence sur Jetson Orin Nano via distillation et TensorRT."
       ]
     },
     {
-      "role": "Responsable Informatique",
+      "role": "Responsable Infrastructure & Systèmes IT",
       "company": "Radio Nigeria",
       "location": "Ikoyi, Lagos",
       "dates": "Janv. 2013 – Fév. 2023",
       "points": [
-        "Administration Active Directory, gestion de plus de 300 postes",
-        "Support informatique N2/N3 et administration réseau"
+        "Administration réseau et serveurs (Active Directory, Linux, VPN, pare-feu) pour plus de 300 postes.",
+        "Gestion de la haute disponibilité des infrastructures et automatisation des procédures système."
       ]
     }
   ],
   "education": [
     {
-      "degree": "Master (M2) — AI for One Health",
-      "school": "Université de Grenoble, 38000 Grenoble",
+      "degree": "Master 2 (M2) — AI for One Health",
+      "school": "Université Grenoble Alpes (UGA)",
       "dates": "Juillet 2026"
     },
     {
-      "degree": "Master (M2) — Vision par Ordinateur",
-      "school": "Université de Bourgogne, 21000 Dijon",
+      "degree": "Master 2 (M2) — Vision par Ordinateur",
+      "school": "Université de Bourgogne",
       "dates": "Juillet 2024"
     },
     {
-      "degree": "Diplôme d'études supérieures en Informatique",
+      "degree": "Diplôme d'Études Supérieures en Informatique",
       "school": "University of Lagos",
       "dates": "Mai 2015"
     }
@@ -93,90 +84,75 @@
     {
       "category": "Langages",
       "items": [
-        "Python (PyTorch)",
-        "JavaScript (React)",
-        "SQL"
+        "Python",
+        "C++",
+        "PyTorch",
+        "SQL",
+        "JavaScript"
       ]
     },
     {
-      "category": "Vision & ML",
+      "category": "Vision & Deep Learning",
       "items": [
-        "Détection en temps réel (YOLO",
-        "RF-DETR)",
-        "Distillation\nViT",
-        "INT8/FP16 (ONNX",
-        "TensorRT",
-        "OpenVINO)",
-        "Vision\nstéréo & Perception 3D",
-        "Données synthétiques autoannotées (SDXL",
-        "SAM2)"
+        "Détection & segmentation temps réel (YOLO11, RF-DETR, SAM2)",
+        "Compression de modèles : Distillation ViT, Quantification INT8/FP16 (TensorRT, OpenVINO, ONNX)",
+        "Calibration multi-caméras & Suivi métrique 3D (OpenCV, ChArUco)",
+        "Génération de données synthétiques (SDXL)"
       ]
     },
     {
       "category": "Edge & Robotique",
       "items": [
-        "DeepStream",
-        "Jetson Orin",
-        "ROS2",
-        "MoveIT",
-        "MQTT"
+        "Nvidia Jetson Orin",
+        "ROS2 / MoveIt",
+        "GStreamer / RTSP",
+        "MQTT / UDP"
       ]
     },
     {
-      "category": "Cloud / MLOps",
+      "category": "MLOps & Cloud",
       "items": [
         "Docker",
-        "Git",
-        "FastAPi",
-        "AWS",
+        "FastAPI",
+        "AWS SageMaker",
         "Google Cloud",
-        "CI/CD"
+        "Git / CI-CD"
       ]
     },
     {
-      "category": "Systèmes",
+      "category": "Systèmes & Réseaux",
       "items": [
-        "Linux / Windows / macOS",
-        "Support N2 & N3"
+        "Linux (Ubuntu/Debian)",
+        "Windows Server",
+        "VLAN / VPN / Sécurité réseau"
       ]
     }
   ],
   "languages": [
     {
       "name": "Anglais",
-      "level": "Langue maternelle"
+      "level": "Langue maternelle / Bilingue"
     },
     {
       "name": "Français",
-      "level": "Niveau B2"
-    }
-  ],
-  "certifications": [
-    {
-      "name": "Certificat Professionnel Google en Support Informatique",
-      "year": "2024"
+      "level": "Niveau B2 (Professionnel)"
     }
   ],
   "projects": [
     {
-      "name": "IsiMonitor 3D — Vision industrielle",
-      "stack": "GStreamer · ONNX Runtime · Multical · MQTT · Three.js",
-      "desc": "Suivi métrique 2D/3D multi-caméras d'entrepôt avec jumeau numérique 3D temps réel + calibration guidée (isiCal) et données synthétiques SDXL/SAM2 (isiGen). Isitec."
+      "name": "IsiMonitor 3D — Vision industrielle & Jumeau Numérique",
+      "stack": "OpenCV · YOLO11/RF-DETR · ONNX Runtime/OpenVINO · Multical · MQTT · Three.js",
+      "desc": "Suivi métrique 2D/3D multi-caméras d'entrepôt avec jumeau numérique 3D temps réel, calibration guidée (isiCal) et données synthétiques (isiGen)."
     },
     {
-      "name": "IsiDetector — Détection edge & MLOps",
-      "stack": "YOLO/RF-DETR · ONNX/TensorRT/OpenVINO · ByteTrack · FastAPI · Docker",
-      "desc": "Segmentation de colis sur convoyeur (mAP@50 ≈ 0,96) : entraînement, compression INT8/FP16 + outil de benchmark/validation, déploiement multi-backend et trigger UDP vers automate de tri. Isitec."
+      "name": "IsiDetector — Détection Edge & Pipeline MLOps",
+      "stack": "YOLO11/RF-DETR · TensorRT/OpenVINO · ByteTrack · FastAPI · Docker",
+      "desc": "Segmentation de colis sur convoyeur (mAP@50 ≈ 0,96) avec benchmark multi-backend, compression INT8/FP16 et déclenchement automate de tri."
     },
     {
-      "name": "ROSBot Harmony",
-      "stack": "Python · ROS · PyTorch · MoveIt",
-      "desc": "Système autonome de communication inter-robots."
-    },
-    {
-      "name": "Compression de ViT pour l'edge",
-      "stack": "Distillation · TensorRT · Jetson",
-      "desc": "Thèse M2 / travaux WASORIA."
+      "name": "ROSBot Harmony — Flotte Robotique Autonome",
+      "stack": "Python · C++ · ROS2 · MoveIt · PyTorch",
+      "desc": "Système autonome de navigation et de communication inter-robots."
     }
   ]
 }
