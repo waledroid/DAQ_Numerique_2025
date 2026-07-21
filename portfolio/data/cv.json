@@ -156,7 +156,7 @@
     },
     {
       "name": "ROSBot Harmony — Flotte Robotique Autonome",
-      "stack": "Python · C++ · ROS2 · MoveIt · PyTorch",
+      "stack": "C++ · ROS2 · MoveIt · PyTorch",
       "desc": "Système autonome de navigation et de communication inter-robots."
     }
   ],
