@@ -15,7 +15,7 @@
     },
     {
       "label": "Adresse",
-      "value": "33 bd de l'Europe, 69600 Oullins, Lyon"
+      "value": "69600 Oullins, Lyon"
     },
     {
       "label": "LinkedIn",
@@ -94,9 +94,15 @@
     {
       "category": "Vision & Deep Learning",
       "items": [
-        "Détection & segmentation temps réel (YOLO11, RF-DETR, SAM2)",
-        "Compression de modèles : Distillation ViT, Quantification INT8/FP16 (TensorRT, OpenVINO, ONNX)",
-        "Calibration multi-caméras & Suivi métrique 3D (OpenCV, ChArUco)",
+        "Détection & segmentation temps réel (YOLO11",
+        "RF-DETR",
+        "SAM2)",
+        "Compression de modèles : Distillation ViT",
+        "Quantification INT8/FP16 (TensorRT",
+        "OpenVINO",
+        "ONNX)",
+        "Calibration multi-caméras & Suivi métrique 3D (OpenCV",
+        "ChArUco)",
         "Génération de données synthétiques (SDXL)"
       ]
     },
@@ -154,5 +160,6 @@
       "stack": "Python · C++ · ROS2 · MoveIt · PyTorch",
       "desc": "Système autonome de navigation et de communication inter-robots."
     }
-  ]
+  ],
+  "certifications": []
 }
