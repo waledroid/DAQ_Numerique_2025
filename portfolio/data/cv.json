@@ -94,16 +94,15 @@
     {
       "category": "Vision & Deep Learning",
       "items": [
-        "Détection & segmentation temps réel (YOLO11",
-        "RF-DETR",
-        "SAM2)",
-        "Compression de modèles : Distillation ViT",
-        "Quantification INT8/FP16 (TensorRT",
-        "OpenVINO",
-        "ONNX)",
-        "Calibration multi-caméras & Suivi métrique 3D (OpenCV",
-        "ChArUco)",
-        "Génération de données synthétiques (SDXL)"
+        "Détection en temps réel (YOLO",
+        "RF-DETR)",
+        "Distillation\nViT",
+        "INT8/FP16 (ONNX",
+        "TensorRT",
+        "OpenVINO)",
+        "Vision\nstéréo & Perception 3D",
+        "Données synthétiques\nautoannotées (SDXL",
+        "SAM2)"
       ]
     },
     {
