@@ -38,7 +38,7 @@
       "location": "Millery, Lyon 69390",
       "dates": "Mars 2026 – présent",
       "points": [
-        "Pipeline multi-caméra ~60 FPS : YOLO11/RF-DETR (ONNX Runtime), suivi métrique 2D/3D, publication UDP/MQTT vers AGV/WMS.",
+        "Pipeline multi-caméra ~60 FPS : YOLO11/RF-DETR (ONNX Runtime), suivi métrique 2D/3D, publication MQTT vers AGV.",
         "Outillage : Développement d'isiCal (calibration guidée ChArUco/Multical) et isiGen (données synthétiques auto-annotées via SDXL/SAM2).",
         "IsiDetector : Segmentation de colis convoyeur (mAP@50 ≈ 0,96), compression FP16/INT8, déploiement OpenVINO/TensorRT + intégration automate de tri."
       ]
