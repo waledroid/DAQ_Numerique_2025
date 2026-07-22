@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Atanda Abdullahi — Ingénieur Vision par Ordinateur &amp; Edge-AI. Conception, compression et déploiement de modèles Deep Learning sur NVIDIA Jetson, ROS2 et automates industriels." />
+  <meta name="description"
+    content="Atanda Abdullahi — Ingénieur Vision par Ordinateur &amp; Edge-AI. Conception, compression et déploiement de modèles Deep Learning sur NVIDIA Jetson, ROS2 et automates industriels." />
   <title>Accueil — Atanda Abdullahi</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/js/tw-config.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
   <link href="https://db.onlinewebfonts.com/c/b8cc7a4c2204f4530415a8552c2d827d?family=ANAPOLINO" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="stylesheet" href="assets/css/site.css" />
 </head>
+
 <body class="bg-ink text-mist">
-  <div id="cursor-dot"></div><div id="cursor-ring"></div>
+  <div id="cursor-dot"></div>
+  <div id="cursor-ring"></div>
   <header data-site-nav></header>
 
   <main>
@@ -28,28 +34,34 @@
 
           <!-- Left: copy -->
           <div class="order-2 lg:order-1">
-            <p class="label" data-reveal>Vision par Ordinateur · Edge-AI · Lyon</p>
+            <!-- <p class="label" data-reveal>Vision par Ordinateur · Edge-AI · Lyon</p> -->
 
-            <h1 class="font-display font-bold tracking-tight mt-6 leading-[0.95] text-[clamp(2.6rem,7vw,5.4rem)]" data-reveal data-delay="1">
+            <h1 class="font-display font-bold tracking-tight mt-6 leading-[0.95] text-[clamp(2.6rem,7vw,5.4rem)]"
+              data-reveal data-delay="1">
               Atanda Abdullahi
             </h1>
-            <p class="font-display font-semibold tracking-tight mt-1 text-[clamp(2rem,5.5vw,4rem)] leading-[0.95]" data-reveal data-delay="2">
+            <p class="font-display font-semibold tracking-tight mt-1 text-[clamp(2rem,5.5vw,4rem)] leading-[0.95]"
+              data-reveal data-delay="2">
               <span class="text-muted">Je déploie la </span><span class="text-gradient" data-scramble>vision</span>
             </p>
 
             <p class="text-muted mt-7 max-w-xl text-base sm:text-lg leading-relaxed" data-reveal data-delay="2">
-              Conception, compression et déploiement de modèles Deep Learning sur hardware embarqué &amp; robotique (NVIDIA Jetson, ROS2).
+              Conception, compression et déploiement de modèles Deep Learning sur hardware embarqué &amp; robotique
+              (NVIDIA Jetson, ROS2).
             </p>
 
             <!-- telemetry chips -->
             <div class="flex flex-wrap gap-3 mt-8" data-reveal data-delay="3">
-              <span class="font-mono text-[0.68rem] tracking-widest px-3 py-2 border border-line rounded-full text-muted inline-flex items-center">
+              <span
+                class="font-mono text-[0.68rem] tracking-widest px-3 py-2 border border-line rounded-full text-muted inline-flex items-center">
                 <i class="fa-solid fa-location-dot text-accent mr-2" aria-hidden="true"></i>OULLINS · LYON · FR
               </span>
-              <span class="font-mono text-[0.68rem] tracking-widest px-3 py-2 border border-line rounded-full text-muted inline-flex items-center">
+              <span
+                class="font-mono text-[0.68rem] tracking-widest px-3 py-2 border border-line rounded-full text-muted inline-flex items-center">
                 <span class="w-2 h-2 rounded-full bg-emerald inline-block mr-2"></span>DISPONIBLE
               </span>
-              <span class="font-mono text-[0.68rem] tracking-widest px-3 py-2 border border-line rounded-full text-muted inline-flex items-center">
+              <span
+                class="font-mono text-[0.68rem] tracking-widest px-3 py-2 border border-line rounded-full text-muted inline-flex items-center">
                 M2 VISION · 2024
               </span>
             </div>
@@ -68,14 +80,16 @@
           <!-- Right: 3D robot canvas -->
           <div class="order-1 lg:order-2 relative" data-reveal data-delay="2">
             <div class="hud relative rounded-2xl overflow-hidden">
-              <div id="hero-canvas" class="scanline w-full h-[42vh] sm:h-[52vh] lg:h-[60vh] lg:w-[50vw] lg:max-w-[640px] panel grid place-items-center">
+              <div id="hero-canvas"
+                class="scanline w-full h-[42vh] sm:h-[52vh] lg:h-[60vh] lg:w-[50vw] lg:max-w-[640px] panel grid place-items-center">
                 <!-- Graceful fallback if WebGL is unavailable -->
                 <div class="text-center px-6">
                   <i class="fa-solid fa-robot text-5xl text-accent/70" aria-hidden="true"></i>
                   <p class="font-mono text-xs uppercase tracking-widest text-muted mt-4">Robotic Vision Module</p>
                 </div>
               </div>
-              <span class="absolute top-3 right-3 font-mono text-[0.6rem] tracking-widest text-accent/80 z-10">● TRACKING</span>
+              <span class="absolute top-3 right-3 font-mono text-[0.6rem] tracking-widest text-accent/80 z-10">●
+                TRACKING</span>
             </div>
           </div>
 
@@ -83,7 +97,9 @@
       </div>
 
       <!-- scroll-down chevron -->
-      <a href="#stats" class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted hover:text-accent transition" aria-label="Défiler vers le bas">
+      <a href="#stats"
+        class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted hover:text-accent transition"
+        aria-label="Défiler vers le bas">
         <span class="font-mono text-[0.6rem] tracking-[0.3em] uppercase">Défiler</span>
         <span class="animate-floaty"><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></span>
       </a>
@@ -123,12 +139,14 @@
       <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
         <div>
           <p class="label" data-reveal>Domaines d'expertise</p>
-          <h2 class="font-display font-bold tracking-tight text-[clamp(2rem,4.5vw,3.2rem)] mt-4 leading-tight" data-reveal data-delay="1">
+          <h2 class="font-display font-bold tracking-tight text-[clamp(2rem,4.5vw,3.2rem)] mt-4 leading-tight"
+            data-reveal data-delay="1">
             De la recherche au <span class="text-gradient">hardware déployé</span>
           </h2>
         </div>
         <p class="text-muted max-w-sm text-sm leading-relaxed" data-reveal data-delay="2">
-          Un pont entre le deep learning et le réel : modèles compressés, embarqués et orchestrés sur des systèmes robotiques.
+          Un pont entre le deep learning et le réel : modèles compressés, embarqués et orchestrés sur des systèmes
+          robotiques.
         </p>
       </div>
 
@@ -137,7 +155,8 @@
           <i class="fa-solid fa-eye text-2xl text-accent" aria-hidden="true"></i>
           <h3 class="font-display text-xl font-semibold mt-6">Vision par Ordinateur</h3>
           <p class="text-muted text-sm leading-relaxed mt-3">
-            Vision Transformers (ViT), segmentation et distillation de connaissances pour des modèles plus rapides et précis.
+            Vision Transformers (ViT), segmentation et distillation de connaissances pour des modèles plus rapides et
+            précis.
           </p>
           <ul class="flex flex-wrap gap-2 mt-6 font-mono text-[0.65rem] uppercase tracking-wider text-muted">
             <li class="px-2.5 py-1 border border-line rounded-full">ViT</li>
@@ -163,7 +182,8 @@
           <i class="fa-solid fa-robot text-2xl text-accent" aria-hidden="true"></i>
           <h3 class="font-display text-xl font-semibold mt-6">Robotique &amp; Systèmes</h3>
           <p class="text-muted text-sm leading-relaxed mt-3">
-            Communication inter-robots sous ROS, sur une base solide de 10 ans en administration AD, réseaux et support IT.
+            Communication inter-robots sous ROS, sur une base solide de 10 ans en administration AD, réseaux et support
+            IT.
           </p>
           <ul class="flex flex-wrap gap-2 mt-6 font-mono text-[0.65rem] uppercase tracking-wider text-muted">
             <li class="px-2.5 py-1 border border-line rounded-full">ROS</li>
@@ -180,30 +200,38 @@
         <div class="flex items-end justify-between gap-6 mb-14">
           <div>
             <p class="label" data-reveal>Travaux sélectionnés</p>
-            <h2 class="font-display font-bold tracking-tight text-[clamp(2rem,4.5vw,3.2rem)] mt-4" data-reveal data-delay="1">
+            <h2 class="font-display font-bold tracking-tight text-[clamp(2rem,4.5vw,3.2rem)] mt-4" data-reveal
+              data-delay="1">
               Projets <span class="text-gradient">phares</span>
             </h2>
           </div>
-          <a href="projects.html" class="hidden sm:inline-flex link-u font-mono text-sm text-muted hover:text-accent shrink-0" data-reveal data-delay="2">
+          <a href="projects.html"
+            class="hidden sm:inline-flex link-u font-mono text-sm text-muted hover:text-accent shrink-0" data-reveal
+            data-delay="2">
             Tous les projets <i class="fa-solid fa-arrow-right ml-2" aria-hidden="true"></i>
           </a>
         </div>
 
         <div class="grid lg:grid-cols-2 gap-6">
           <!-- Featured large -->
-          <a href="projects.html" class="panel hud group relative overflow-hidden lg:row-span-2 flex flex-col" data-reveal data-delay="1">
+          <a href="projects.html" class="panel hud group relative overflow-hidden lg:row-span-2 flex flex-col"
+            data-reveal data-delay="1">
             <div class="scanline overflow-hidden rounded-t-[18px] aspect-[16/11] lg:flex-1">
-              <img src="assets/img/isimonitor1.png" alt="Jumeau numérique 3D d'un entrepôt : suivi métrique de palettes et zones d'occupation en temps réel" loading="lazy"
-                   class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 scale-105 group-hover:scale-100" />
+              <img src="assets/img/isimonitor1.png"
+                alt="Jumeau numérique 3D d'un entrepôt : suivi métrique de palettes et zones d'occupation en temps réel"
+                loading="lazy"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 scale-105 group-hover:scale-100" />
             </div>
             <div class="p-8">
-              <p class="font-mono text-xs uppercase tracking-widest text-accent">Vision multi-caméras · ONNX/TensorRT · Three.js</p>
+              <p class="font-mono text-xs uppercase tracking-widest text-accent">Vision multi-caméras · ONNX/TensorRT ·
+                Three.js</p>
               <h3 class="font-display text-2xl font-semibold mt-3">ISI Monitor 3D</h3>
               <p class="text-muted text-sm leading-relaxed mt-3 max-w-md">
                 Vision industrielle multi-caméras : suivi métrique 2D/3D en temps réel et jumeau
                 numérique 3D pour l'opérateur. Mission Isitec.
               </p>
-              <span class="inline-flex items-center gap-2 mt-6 font-mono text-sm text-mist group-hover:text-accent transition">
+              <span
+                class="inline-flex items-center gap-2 mt-6 font-mono text-sm text-mist group-hover:text-accent transition">
                 Explorer le projet <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
               </span>
             </div>
@@ -211,18 +239,27 @@
 
           <!-- Two stacked -->
           <a href="projects.html" class="panel hud group relative overflow-hidden" data-reveal data-delay="2">
-            <div class="scanline relative overflow-hidden rounded-t-[18px] aspect-[16/9] bg-ink grid-bg" aria-hidden="true">
-              <span class="absolute top-3 left-3 font-mono text-[0.6rem] tracking-widest text-accent">● LIVE — CONVOYEUR</span>
-              <span class="absolute top-3 right-3 font-mono text-[0.6rem] tracking-widest text-muted">YOLO · RF-DETR</span>
+            <div class="scanline relative overflow-hidden rounded-t-[18px] aspect-[16/9] bg-ink grid-bg"
+              aria-hidden="true">
+              <span class="absolute top-3 left-3 font-mono text-[0.6rem] tracking-widest text-accent">● LIVE —
+                CONVOYEUR</span>
+              <span class="absolute top-3 right-3 font-mono text-[0.6rem] tracking-widest text-muted">YOLO ·
+                RF-DETR</span>
               <div class="absolute left-1/2 top-6 bottom-6 w-px border-l border-dashed border-accent/50"></div>
               <div class="absolute left-[15%] top-[32%] w-[28%] h-[36%] border border-accent/70 rounded-sm">
-                <span class="absolute -top-4 left-0 font-mono text-[0.58rem] tracking-wide text-accent whitespace-nowrap">carton 0.98</span>
+                <span
+                  class="absolute -top-4 left-0 font-mono text-[0.58rem] tracking-wide text-accent whitespace-nowrap">carton
+                  0.98</span>
               </div>
               <div class="absolute right-[13%] top-[44%] w-[26%] h-[32%] border border-emerald/60 rounded-sm">
-                <span class="absolute -top-4 left-0 font-mono text-[0.58rem] tracking-wide text-emerald whitespace-nowrap">polybag 0.95</span>
+                <span
+                  class="absolute -top-4 left-0 font-mono text-[0.58rem] tracking-wide text-emerald whitespace-nowrap">polybag
+                  0.95</span>
               </div>
-              <span class="absolute bottom-3 left-3 font-mono text-[0.58rem] tracking-widest text-muted">INT8 · OpenVINO · TensorRT</span>
-              <span class="absolute bottom-3 right-3 font-mono text-[0.58rem] tracking-widest text-accent">⟶ UDP · seq 42</span>
+              <span class="absolute bottom-3 left-3 font-mono text-[0.58rem] tracking-widest text-muted">INT8 · OpenVINO
+                · TensorRT</span>
+              <span class="absolute bottom-3 right-3 font-mono text-[0.58rem] tracking-widest text-accent">⟶ UDP · seq
+                42</span>
             </div>
             <div class="p-7">
               <p class="font-mono text-xs uppercase tracking-widest text-accent">YOLO/RF-DETR · ONNX/TensorRT · UDP</p>
@@ -236,8 +273,9 @@
 
           <a href="projects.html" class="panel hud group relative overflow-hidden" data-reveal data-delay="3">
             <div class="scanline overflow-hidden rounded-t-[18px] aspect-[16/9]">
-              <img src="assets/img/ti.jpg" alt="Bras robotique et matériel embarqué du projet ROSBot Harmony" loading="lazy"
-                   class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 scale-105 group-hover:scale-100" />
+              <img src="assets/img/ti.jpg" alt="Bras robotique et matériel embarqué du projet ROSBot Harmony"
+                loading="lazy"
+                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 scale-105 group-hover:scale-100" />
             </div>
             <div class="p-7">
               <p class="font-mono text-xs uppercase tracking-widest text-accent">Python · ROS · PyTorch</p>
@@ -256,10 +294,12 @@
       <p class="label max-w-shell mx-auto px-5 sm:px-8 mb-8" data-reveal>Stack technique</p>
       <div class="marquee" aria-label="Outils et technologies maîtrisés">
         <div class="marquee__track font-display text-2xl sm:text-3xl font-semibold text-muted">
-          <span>Python</span><span>PyTorch</span><span>ROS</span><span>TensorRT</span><span>Jetson</span><span>Docker</span><span>OpenMMLab</span><span>Roboflow</span><span>AWS SageMaker</span><span>React</span><span>SQL</span><span>Linux</span><span>Git</span>
+          <span>Python</span><span>PyTorch</span><span>ROS</span><span>TensorRT</span><span>Jetson</span><span>Docker</span><span>OpenMMLab</span><span>Roboflow</span><span>AWS
+            SageMaker</span><span>React</span><span>SQL</span><span>Linux</span><span>Git</span>
         </div>
         <div class="marquee__track font-display text-2xl sm:text-3xl font-semibold text-muted" aria-hidden="true">
-          <span>Python</span><span>PyTorch</span><span>ROS</span><span>TensorRT</span><span>Jetson</span><span>Docker</span><span>OpenMMLab</span><span>Roboflow</span><span>AWS SageMaker</span><span>React</span><span>SQL</span><span>Linux</span><span>Git</span>
+          <span>Python</span><span>PyTorch</span><span>ROS</span><span>TensorRT</span><span>Jetson</span><span>Docker</span><span>OpenMMLab</span><span>Roboflow</span><span>AWS
+            SageMaker</span><span>React</span><span>SQL</span><span>Linux</span><span>Git</span>
         </div>
       </div>
     </section>
@@ -272,7 +312,8 @@
           <!-- Copy -->
           <div>
             <p class="label" data-reveal>Vision Lab</p>
-            <h2 class="font-display font-bold tracking-tight text-[clamp(2rem,4.5vw,3.2rem)] mt-4 leading-tight" data-reveal data-delay="1">
+            <h2 class="font-display font-bold tracking-tight text-[clamp(2rem,4.5vw,3.2rem)] mt-4 leading-tight"
+              data-reveal data-delay="1">
               Voyez la vision <span class="text-gradient" data-scramble>en direct</span>
             </h2>
             <p class="text-muted mt-6 max-w-xl leading-relaxed" data-reveal data-delay="2">
@@ -280,7 +321,8 @@
               détection animées et un mode webcam optionnel — les motifs du quotidien d'un
               ingénieur vision, rendus tangibles.
             </p>
-            <ul class="flex flex-wrap gap-2 mt-8 font-mono text-[0.65rem] uppercase tracking-wider text-muted" data-reveal data-delay="3">
+            <ul class="flex flex-wrap gap-2 mt-8 font-mono text-[0.65rem] uppercase tracking-wider text-muted"
+              data-reveal data-delay="3">
               <li class="px-2.5 py-1 border border-line rounded-full">Point cloud 3D</li>
               <li class="px-2.5 py-1 border border-line rounded-full">Détection simulée</li>
               <li class="px-2.5 py-1 border border-line rounded-full">Mode webcam</li>
@@ -295,18 +337,23 @@
           <!-- Faux HUD frame -->
           <div data-reveal data-delay="2">
             <div class="hud panel relative overflow-hidden aspect-[4/3]" aria-hidden="true">
-              <div class="grid-bg absolute inset-0" ></div>
+              <div class="grid-bg absolute inset-0"></div>
               <div class="scanline absolute inset-0"></div>
-              <span class="absolute top-4 left-4 font-mono text-[0.6rem] tracking-widest text-accent/80">● LIVE FEED — SIM</span>
-              <span class="absolute top-4 right-4 font-mono text-[0.6rem] tracking-widest text-muted">FPS 60 · INT8</span>
+              <span class="absolute top-4 left-4 font-mono text-[0.6rem] tracking-widest text-accent/80">● LIVE FEED —
+                SIM</span>
+              <span class="absolute top-4 right-4 font-mono text-[0.6rem] tracking-widest text-muted">FPS 60 ·
+                INT8</span>
               <!-- faux detection boxes -->
               <div class="absolute left-[14%] top-[28%] w-[34%] h-[42%] border border-accent/70 rounded-sm">
-                <span class="absolute -top-5 left-0 font-mono text-[0.6rem] tracking-widest text-accent">ROBOT 0.97</span>
+                <span class="absolute -top-5 left-0 font-mono text-[0.6rem] tracking-widest text-accent">ROBOT
+                  0.97</span>
               </div>
               <div class="absolute right-[12%] top-[48%] w-[26%] h-[30%] border border-emerald/60 rounded-sm">
-                <span class="absolute -top-5 left-0 font-mono text-[0.6rem] tracking-widest text-emerald">OBJET 0.88</span>
+                <span class="absolute -top-5 left-0 font-mono text-[0.6rem] tracking-widest text-emerald">OBJET
+                  0.88</span>
               </div>
-              <span class="absolute bottom-4 left-4 font-mono text-[0.6rem] tracking-widest text-muted">JETSON ORIN NANO · TENSORRT</span>
+              <span class="absolute bottom-4 left-4 font-mono text-[0.6rem] tracking-widest text-muted">JETSON ORIN NANO
+                · TENSORRT</span>
             </div>
           </div>
 
@@ -320,7 +367,8 @@
         <div class="grid-bg absolute inset-0 opacity-40" aria-hidden="true"></div>
         <div class="relative">
           <p class="label justify-center">Construisons ensemble</p>
-          <h2 class="font-display font-bold tracking-tight text-[clamp(2rem,5vw,3.8rem)] mt-6 leading-tight max-w-3xl mx-auto">
+          <h2
+            class="font-display font-bold tracking-tight text-[clamp(2rem,5vw,3.8rem)] mt-6 leading-tight max-w-3xl mx-auto">
             Prêt à déployer l'IA sur votre <span class="text-gradient">hardware edge</span> ?
           </h2>
           <p class="text-muted mt-6 max-w-xl mx-auto leading-relaxed">
@@ -352,4 +400,5 @@
   <script type="module" src="assets/js/three-scene.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
+
 </html>
