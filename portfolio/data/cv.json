@@ -98,6 +98,7 @@
         "RF-DETR)",
         "Distillation\nViT",
         "OpenVINO",
+        "LoRA",
         "Vision\nstéréo & Perception 3D",
         "Données synthétiques\nautoannotées (SDXL",
         "SAM2)"
