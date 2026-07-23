@@ -22,6 +22,7 @@
   <main>
     <!-- ====== HERO / INTRO ====== -->
     <section class="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden">
+      <div data-glass-bg class="absolute inset-0 -z-10"></div>
       <div class="grid-bg absolute inset-0 pointer-events-none" aria-hidden="true"></div>
       <div class="max-w-shell mx-auto px-5 sm:px-8 relative">
         <div class="grid lg:grid-cols-[1.15fr_0.85fr] gap-12 lg:gap-16 items-center">
@@ -280,6 +281,13 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script type="importmap">
+  { "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  } }
+  </script>
+  <script type="module" src="assets/js/glass-bg.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>
