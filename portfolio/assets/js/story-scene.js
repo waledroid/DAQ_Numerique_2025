@@ -113,6 +113,7 @@ function init() {
   // PMREM RoomEnvironment lights the physical glass/metal materials.
   const pmrem = new THREE.PMREMGenerator(renderer);
   scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+  pmrem.dispose(); // env texture stays alive; the generator is no longer needed
 
   const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
   camera.position.set(0, 2.5, 12);
@@ -273,7 +274,9 @@ function init() {
     // Kill any inherited transition so per-frame writes aren't smeared.
     el.style.transition = 'none';
     const win = CARD_WINDOWS[idx] || CARD_WINDOWS[CARD_WINDOWS.length - 1];
-    return { el, w0: win[0], w1: win[1], base: '', lastK: -1, live: false };
+    // A window that starts at 0 is the landing hero: it must be fully visible
+    // on first paint, so suppress its leading-edge fade (trailing fade stays).
+    return { el, w0: win[0], w1: win[1], noLeadIn: win[0] === 0, base: '', lastK: -1, live: false };
   });
 
   function computeCardBases() {
@@ -295,9 +298,9 @@ function init() {
   function updateCards(p) {
     for (const c of cards) {
       // k = smooth ease-in near w0, ease-out near w1; 0 outside the window.
-      const k =
-        smoothstep(c.w0, c.w0 + CARD_FADE, p) *
-        (1 - smoothstep(c.w1 - CARD_FADE, c.w1, p));
+      // Hero card (w0===0) skips the ease-in so it's fully lit at p=0.
+      const lead = c.noLeadIn ? 1 : smoothstep(c.w0, c.w0 + CARD_FADE, p);
+      const k = lead * (1 - smoothstep(c.w1 - CARD_FADE, c.w1, p));
 
       // Skip DOM writes for a card that's dark this frame and was last frame.
       if (k === 0 && c.lastK === 0) continue;
