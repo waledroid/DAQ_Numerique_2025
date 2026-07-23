@@ -11,10 +11,10 @@
 import * as THREE from 'three';
 
 /* ---------- Shared helpers / tokens ---------- */
-const VOLT = 0xb4ff39;
+const VOLT = 0x34d3a6;
 const EMERALD = 0x34d399;
-const ACCENT_CSS = '#A3E635';
-const VOLT_CSS = '#B4FF39';
+const ACCENT_CSS = '#34D3A6';
+const VOLT_CSS = '#34D3A6';
 const EMERALD_CSS = '#34D399';
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -102,7 +102,7 @@ function initStage() {
     const mat = new THREE.PointsMaterial({
       size: 0.06, map: sprite, vertexColors: true,
       transparent: true, depthWrite: false,
-      blending: THREE.AdditiveBlending, opacity: 0.95,
+      blending: THREE.AdditiveBlending, opacity: 0.8,
     });
     const points = new THREE.Points(geo, mat);
     scene.add(points);
@@ -253,17 +253,23 @@ function attachOverlay(el) {
 
   function drawBox(b) {
     const x = b.x * W, y = b.y * H, w = b.w * W, h = b.h * H;
-    // box
+    // glass tint fill (subtle accent wash, softly blurred like frosted glass)
+    ctx.save();
+    ctx.filter = 'blur(2px)';
+    ctx.fillStyle = 'rgba(52,211,166,0.10)';
+    ctx.fillRect(x, y, w, h);
+    ctx.restore();
+    // box — 1px accent border
     ctx.strokeStyle = ACCENT_CSS;
-    ctx.lineWidth = 1.5;
-    ctx.shadowColor = 'rgba(163,230,53,0.6)';
-    ctx.shadowBlur = 8;
+    ctx.lineWidth = 1;
+    ctx.shadowColor = 'rgba(52,211,166,0.5)';
+    ctx.shadowBlur = 6;
     ctx.strokeRect(x, y, w, h);
     ctx.shadowBlur = 0;
     // corner ticks (HUD feel)
     const c = 10;
     ctx.strokeStyle = VOLT_CSS;
-    ctx.lineWidth = 2;
+    ctx.lineWidth = 1.5;
     ctx.beginPath();
     ctx.moveTo(x, y + c); ctx.lineTo(x, y); ctx.lineTo(x + c, y);
     ctx.moveTo(x + w - c, y + h); ctx.lineTo(x + w, y + h); ctx.lineTo(x + w, y + h - c);
@@ -272,7 +278,7 @@ function attachOverlay(el) {
     const text = b.label + ' ' + b.conf.toFixed(2);
     ctx.font = '11px "JetBrains Mono", monospace';
     const tw = ctx.measureText(text).width + 12;
-    ctx.fillStyle = ACCENT_CSS;
+    ctx.fillStyle = 'rgba(52,211,166,0.88)';
     ctx.fillRect(x, y - 16, tw, 16);
     ctx.fillStyle = '#07140a';
     ctx.fillText(text, x + 6, y - 4);
@@ -288,12 +294,12 @@ function attachOverlay(el) {
     if (scan > 1) scan = 0;
     const sy = scan * H;
     const grad = ctx.createLinearGradient(0, sy - 24, 0, sy + 24);
-    grad.addColorStop(0, 'rgba(180,255,57,0)');
-    grad.addColorStop(0.5, 'rgba(180,255,57,0.35)');
-    grad.addColorStop(1, 'rgba(180,255,57,0)');
+    grad.addColorStop(0, 'rgba(52,211,166,0)');
+    grad.addColorStop(0.5, 'rgba(52,211,166,0.35)');
+    grad.addColorStop(1, 'rgba(52,211,166,0)');
     ctx.fillStyle = grad;
     ctx.fillRect(0, sy - 24, W, 48);
-    ctx.strokeStyle = 'rgba(180,255,57,0.7)';
+    ctx.strokeStyle = 'rgba(52,211,166,0.7)';
     ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(0, sy); ctx.lineTo(W, sy); ctx.stroke();
 
@@ -315,7 +321,7 @@ function attachOverlay(el) {
 
     // telemetry corner
     ctx.font = '10px "JetBrains Mono", monospace';
-    ctx.fillStyle = 'rgba(163,230,53,0.85)';
+    ctx.fillStyle = 'rgba(52,211,166,0.85)';
     ctx.fillText('EDGE-VISION · ' + boxes.length + ' obj · ' + (REDUCED ? 'static' : 'live'), 8, H - 8);
   }
 
@@ -432,9 +438,9 @@ function initWebcam() {
     scan += 0.006; if (scan > 1) scan = 0;
     const sy = scan * H;
     const grad = ctx.createLinearGradient(0, sy - 24, 0, sy + 24);
-    grad.addColorStop(0, 'rgba(180,255,57,0)');
-    grad.addColorStop(0.5, 'rgba(180,255,57,0.3)');
-    grad.addColorStop(1, 'rgba(180,255,57,0)');
+    grad.addColorStop(0, 'rgba(52,211,166,0)');
+    grad.addColorStop(0.5, 'rgba(52,211,166,0.3)');
+    grad.addColorStop(1, 'rgba(52,211,166,0)');
     ctx.fillStyle = grad; ctx.fillRect(0, sy - 24, W, 48);
 
     for (const b of boxes) {
@@ -443,17 +449,22 @@ function initWebcam() {
       if (b.y < 0.04 || b.y + b.h > 0.98) b.vy *= -1;
       b.conf = Math.min(0.99, Math.max(0.6, b.conf + rnd(-0.01, 0.01)));
       const x = b.x * W, y = b.y * H, w = b.w * W, h = b.h * H;
-      ctx.strokeStyle = ACCENT_CSS; ctx.lineWidth = 1.5;
-      ctx.shadowColor = 'rgba(163,230,53,0.6)'; ctx.shadowBlur = 8;
+      ctx.save();
+      ctx.filter = 'blur(2px)';
+      ctx.fillStyle = 'rgba(52,211,166,0.10)';
+      ctx.fillRect(x, y, w, h);
+      ctx.restore();
+      ctx.strokeStyle = ACCENT_CSS; ctx.lineWidth = 1;
+      ctx.shadowColor = 'rgba(52,211,166,0.5)'; ctx.shadowBlur = 6;
       ctx.strokeRect(x, y, w, h); ctx.shadowBlur = 0;
       const text = b.label + ' ' + b.conf.toFixed(2);
       ctx.font = '11px "JetBrains Mono", monospace';
       const tw = ctx.measureText(text).width + 12;
-      ctx.fillStyle = ACCENT_CSS; ctx.fillRect(x, y - 16, tw, 16);
+      ctx.fillStyle = 'rgba(52,211,166,0.88)'; ctx.fillRect(x, y - 16, tw, 16);
       ctx.fillStyle = '#07140a'; ctx.fillText(text, x + 6, y - 4);
     }
     ctx.font = '10px "JetBrains Mono", monospace';
-    ctx.fillStyle = 'rgba(163,230,53,0.85)';
+    ctx.fillStyle = 'rgba(52,211,166,0.85)';
     ctx.fillText('LIVE · cam · ' + boxes.length + ' obj', 8, H - 8);
   }
 
