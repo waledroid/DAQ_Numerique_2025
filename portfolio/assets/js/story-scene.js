@@ -236,6 +236,113 @@ function init() {
   scene.add(lens);
 
   /* ==========================================================
+     DÉTECTER (chapter 2) — three drifting dark-glass "objects"
+     orbiting near origin, each wrapped in an accent detection
+     bounding box (LineSegments/EdgesGeometry, additive). Boxes
+     lock in with a staggered opacity ramp + scale-pop as p crosses
+     each threshold (0.30 / 0.35 / 0.40). All geometry/materials
+     built once here; every visual is a pure function of p in
+     updateChapter2 → reverse scroll replays it backwards.
+     ========================================================== */
+  const detectGroup = new THREE.Group();
+  detectGroup.visible = false;
+  // One shared dark-glass material — the three objects fade together.
+  const glassMat = new THREE.MeshPhysicalMaterial({
+    color: 0x0b0e12,
+    metalness: 0.1,
+    roughness: 0.12,
+    transmission: 0.7,
+    ior: 1.45,
+    thickness: 0.4,
+    transparent: true,
+    opacity: 0,
+  });
+  const _detGeo = [
+    new THREE.IcosahedronGeometry(0.34, 0),
+    new THREE.BoxGeometry(0.55, 0.55, 0.55),
+    new THREE.CylinderGeometry(0.3, 0.3, 0.55, 24),
+  ];
+  const _detBox = [ // bounding-box dims ≈ 1.2× each object's extent
+    [0.82, 0.82, 0.82],
+    [0.66, 0.66, 0.66],
+    [0.72, 0.66, 0.72],
+  ];
+  const _detBase = [ // fixed orbit centres, in front of the ch2 view
+    [-1.2, 0.15, 0.25],
+    [1.15, 0.7, -0.3],
+    [0.2, -0.55, 0.5],
+  ];
+  const _detLock = [0.30, 0.35, 0.40]; // per-box lock thresholds (stagger)
+  const detects = [];
+  for (let i = 0; i < 3; i++) {
+    const mesh = new THREE.Mesh(_detGeo[i], glassMat);
+    detectGroup.add(mesh);
+    const bd = _detBox[i];
+    const boxMat = new THREE.LineBasicMaterial({
+      color: ACCENT,
+      transparent: true,
+      opacity: 0,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    });
+    const box = new THREE.LineSegments(
+      new THREE.EdgesGeometry(new THREE.BoxGeometry(bd[0], bd[1], bd[2])),
+      boxMat
+    );
+    detectGroup.add(box);
+    detects.push({
+      mesh,
+      box,
+      boxMat,
+      bx: _detBase[i][0],
+      by: _detBase[i][1],
+      bz: _detBase[i][2],
+      lock: _detLock[i],
+      phase: i * 2.1, // desync the idle orbits
+    });
+  }
+  scene.add(detectGroup);
+
+  /* ==========================================================
+     COMPRESSER (chapter 3) — the chip the compressed field docks
+     into: a dark physical slab with an emissive accent top plane
+     and accent edge-glow lines. Hidden (scale 0) until m2 crosses
+     0.5, then pops to 1. Task 5c re-docks this group — hence the
+     persistent `chipGroup` reference (mirrors `lens`).
+     ========================================================== */
+  const chipGroup = new THREE.Group();
+  chipGroup.position.set(0, 0.6, 0);
+  chipGroup.scale.setScalar(0.0001);
+  chipGroup.visible = false;
+  const chipBodyMat = new THREE.MeshPhysicalMaterial({
+    color: 0x090b0e,
+    metalness: 0.5,
+    roughness: 0.4,
+  });
+  chipGroup.add(new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.12, 1.5), chipBodyMat));
+  const chipTopMat = new THREE.MeshStandardMaterial({
+    color: 0x0a0d10,
+    emissive: ACCENT,
+    emissiveIntensity: 0.9,
+  });
+  const chipTop = new THREE.Mesh(new THREE.PlaneGeometry(1.42, 1.42), chipTopMat);
+  chipTop.rotation.x = -Math.PI / 2;
+  chipTop.position.y = 0.061; // just above the slab's top face
+  chipGroup.add(chipTop);
+  const chipEdges = new THREE.LineSegments(
+    new THREE.EdgesGeometry(new THREE.BoxGeometry(1.5, 0.12, 1.5)),
+    new THREE.LineBasicMaterial({
+      color: ACCENT,
+      transparent: true,
+      opacity: 0.9,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    })
+  );
+  chipGroup.add(chipEdges);
+  scene.add(chipGroup);
+
+  /* ==========================================================
      CAMERA RIG — 5 keyframes, smoothstepped between bounds.
      far-orbit → lens close-up → detection field → chip macro →
      arm wide. Chapters 2–4 content arrives later; the path is
@@ -363,9 +470,53 @@ function init() {
     }
   }
 
-  // Stubs — filled by Task 5b (chapters 2 & 3) and Task 5c (chapter 4).
-  function updateChapter2(_p, _t) {} // DÉTECTER — bounding boxes
-  function updateChapter3(_p, _t) {} // COMPRESSER — cloud→lattice→chip morph
+  // DÉTECTER (chapter 2) — objects drift, boxes lock with a staggered
+  // ramp + scale-pop, then everything fades out over p 0.5–0.56. Pure
+  // function of p (+ time for the idle orbit) → reverse-scroll symmetric.
+  function updateChapter2(p, t) {
+    // Objects fade in 0.25→0.30, fade out 0.50→0.56.
+    const objFade = smoothstep(0.25, 0.3, p) * (1 - smoothstep(0.5, 0.56, p));
+    const vis = objFade > 0.001;
+    detectGroup.visible = vis;
+    if (!vis) return; // fully outside the chapter → skip all writes
+
+    glassMat.opacity = objFade;
+    const outFade = 1 - smoothstep(0.5, 0.56, p);
+    for (let i = 0; i < detects.length; i++) {
+      const d = detects[i];
+      // Slow idle orbit around the fixed centre (small amplitude → stays framed).
+      const ang = t * 0.25 + d.phase;
+      const x = d.bx + Math.cos(ang) * 0.18;
+      const y = d.by + Math.sin(ang * 0.8) * 0.12;
+      const z = d.bz + Math.sin(ang) * 0.18;
+      d.mesh.position.set(x, y, z);
+      d.mesh.rotation.y = t * 0.4 + d.phase;
+      d.mesh.rotation.x = t * 0.25;
+      d.box.position.set(x, y, z); // box is axis-aligned, tracks position only
+
+      // Staggered lock: opacity ramps to 0.7 as p crosses this box's threshold.
+      const lockRamp = smoothstep(d.lock - 0.05, d.lock, p);
+      d.boxMat.opacity = lockRamp * 0.7 * outFade;
+      // Tiny scale-pop right at the lock — a narrow, symmetric p-derived bump.
+      const pop = Math.exp(-Math.pow((p - d.lock) / 0.015, 2)) * 0.15;
+      d.box.scale.setScalar(1 + pop);
+    }
+  }
+
+  // COMPRESSER (chapter 3) — m1/m2 are set in update() before
+  // updateParticles(); here we ease the field's opacity down (mass
+  // "enters" the chip) and pop the chip in as m2 crosses 0.5.
+  function updateChapter3() {
+    // Particle opacity: base 0.75 → 0.15 as the field collapses into the chip.
+    particleMat.opacity = 0.75 + (0.15 - 0.75) * m2;
+
+    // Chip scale pops 0→1 around m2=0.5 with a small overshoot; never negative.
+    const grow = smoothstep(0.5, 0.75, m2);
+    const s = grow * (1 + Math.exp(-Math.pow((m2 - 0.58) / 0.06, 2)) * 0.1);
+    chipGroup.visible = s > 0.001;
+    if (chipGroup.visible) chipGroup.scale.setScalar(s);
+  }
+
   function updateChapter4(_p, _t) {} // DÉPLOYER — arm rise, dock, cursor wake
 
   /* ==========================================================
@@ -382,7 +533,12 @@ function init() {
     setCamera(p);
     updateCards(p);
 
-    // Morph weights (chapter 3 sets these; 0 for now) → field stays cloud.
+    // COMPRESSER morph weights — set here (before updateParticles, which
+    // reads them). Pure functions of p → reverse scroll returns them to 0
+    // and the field relaxes back to `cloud`. The 0.46 start is a deliberate
+    // slight overlap with ch3's card window.
+    m1 = smoothstep(0.46, 0.6, p); // cloud → lattice
+    m2 = smoothstep(0.6, 0.74, p); // lattice → chip
     updateParticles();
 
     updateChapter1(p, t);
