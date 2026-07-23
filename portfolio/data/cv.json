@@ -30,7 +30,7 @@
       "value": "portfolio-waledroid.netlify.app"
     }
   ],
-  "profile": "Spécialisé dans la conception de solutions de vision temps réel pour systèmes embarqués et industriels. Expertise en apprentissage profond (YOLO, ViT), détection d'objets, compression et accélération de modèles avec TensorRT sur plateformes NVIDIA Jetson, ROS2 et automates industriels.",
+  "profile": "Ingénieur Vision par Ordinateur & Edge AI, spécialisé dans la conception de systèmes de vision temps réel pour les environnements embarqués et industriels. Expertise en vision multi-caméra, suivi multi-objets et localisation 3D, accélération de modèles (TensorRT, FP16/INT8) et intégration avec les automates industriels",
   "experience": [
     {
       "role": "Ingénieur ML & Vision par Ordinateur",
@@ -38,7 +38,7 @@
       "location": "Millery, Lyon 69390",
       "dates": "Mars 2026 – présent",
       "points": [
-        "Pipeline multi-caméra 60 FPS : YOLO11/RF-DETR (ONNX Runtime), suivi métrique 2D/3D, publication UDP/MQTT vers AGV/WMS.",
+        "Pipeline multi-caméra ~60 FPS : YOLO11/RF-DETR (ONNX Runtime), suivi métrique 2D/3D, publication MQTT vers AGV.",
         "Outillage : Développement d'isiCal (calibration guidée ChArUco/Multical) et isiGen (données synthétiques auto-annotées via SDXL/SAM2).",
         "IsiDetector : Segmentation de colis convoyeur (mAP@50 ≈ 0,96), compression FP16/INT8, déploiement OpenVINO/TensorRT + intégration automate de tri."
       ]
@@ -97,9 +97,7 @@
         "Détection en temps réel (YOLO",
         "RF-DETR)",
         "Distillation\nViT",
-        "INT8/FP16 (ONNX",
-        "TensorRT",
-        "OpenVINO)",
+        "OpenVINO",
         "Vision\nstéréo & Perception 3D",
         "Données synthétiques\nautoannotées (SDXL",
         "SAM2)"
