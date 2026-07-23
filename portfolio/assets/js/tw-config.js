@@ -4,15 +4,15 @@ tailwind.config = {
   theme: {
     extend: {
       colors: {
-        ink: '#08090B',        // page background
-        surface: '#0F1115',    // cards / panels
-        surface2: '#161A20',   // raised panels
+        ink: '#050607',
+        surface: '#0B0D10',
+        surface2: '#12151A',
         line: 'rgba(255,255,255,0.08)',
-        mist: '#E8EAED',       // primary text
-        muted: '#9BA1A8',      // secondary text
-        accent: '#A3E635',     // volt-lime primary accent
-        volt: '#B4FF39',       // brightest highlight
-        emerald: '#34D399',    // secondary green
+        mist: '#F2F4F7',
+        muted: '#98A2AE',
+        accent: '#34D3A6',
+        volt: '#4BE0B8',      // kept as a lighter accent tint (legacy class name)
+        emerald: '#2FBF97',   // darker accent tint (legacy class name)
       },
       fontFamily: {
         display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
