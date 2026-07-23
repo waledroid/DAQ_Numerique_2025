@@ -178,8 +178,9 @@ h1, h2, h3, h4, .font-display { font-family: 'Space Grotesk', system-ui, sans-se
 .nav { position: fixed; top: 0; left: 0; width: 100%; z-index: 60; display: flex; justify-content: center; padding: 14px 16px 0; pointer-events: none; }
 .glass-nav {
   pointer-events: auto;
-  display: flex; align-items: center; gap: 2px;
-  padding: 6px; border-radius: 999px;
+  display: flex; align-items: center; justify-content: space-between; gap: 2px;
+  width: min(100% - 8px, 72rem);
+  padding: 6px 12px; border-radius: 999px;
   background: rgba(10, 12, 15, 0.55);
   border: 1px solid var(--line);
   backdrop-filter: blur(28px) saturate(150%);
@@ -187,6 +188,7 @@ h1, h2, h3, h4, .font-display { font-family: 'Space Grotesk', system-ui, sans-se
   box-shadow: var(--specular), var(--depth);
   transition: background .4s var(--ease), box-shadow .4s var(--ease);
 }
+@media (min-width: 640px) { .glass-nav { padding: 6px 20px; } }
 .nav--scrolled .glass-nav { background: rgba(8, 9, 11, 0.75); }
 .nav-link {
   position: relative; display: inline-flex; padding: 9px 16px; border-radius: 999px;

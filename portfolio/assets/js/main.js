@@ -29,10 +29,12 @@
     host.className = 'nav';
     host.innerHTML =
       '<nav class="glass-nav">' +
-        '<a href="index.html" class="w-9 h-9 rounded-full bg-white/5 border border-line grid place-items-center font-display font-bold text-mist shrink-0" aria-label="Accueil">AA.</a>' +
-        '<div class="hidden md:flex items-center">' + links + '</div>' +
-        '<a href="cv.html" class="btn hidden sm:inline-flex ml-1" style="padding:7px 16px" data-magnetic><i class="fa-solid fa-file-lines"></i> CV</a>' +
-        '<button id="nav-burger" class="md:hidden w-9 h-9 rounded-full bg-white/5 border border-line grid place-items-center text-mist text-base" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>' +
+        '<a href="index.html" class="font-display font-bold text-mist text-sm sm:text-base tracking-tight shrink-0 whitespace-nowrap" aria-label="Accueil">Atanda Abdullahi<span class="text-accent">.</span></a>' +
+        '<div class="flex items-center gap-2 shrink-0">' +
+          '<div class="hidden md:flex items-center">' + links + '</div>' +
+          '<a href="cv.html" class="btn hidden sm:inline-flex" style="padding:7px 16px" data-magnetic><i class="fa-solid fa-file-lines"></i> CV</a>' +
+          '<button id="nav-burger" class="md:hidden w-9 h-9 rounded-full bg-white/5 border border-line grid place-items-center text-mist text-base" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>' +
+        '</div>' +
       '</nav>';
 
     // mobile drawer
