@@ -10,8 +10,8 @@
    Design notes:
    - ~120 points split across 3 THREE.Points groups (near/mid/far)
      for a cheap parallax-of-depth read; sizes 0.25 / 0.5 / 0.9.
-   - Single CanvasTexture sprite: 64x64 radial gradient, emerald
-     (#34D3A6 family) fading to transparent. Additive blending,
+   - Single CanvasTexture sprite: 64x64 radial gradient, volt-lime
+     (#A3E635 family) fading to transparent. Additive blending,
      depthWrite disabled, opacity kept low (<= 0.35) so the field
      reads as soft bokeh rather than a starfield.
    - Positions randomised in a 14x8x6 box centered on the origin.
@@ -27,7 +27,7 @@
 
 import * as THREE from 'three';
 
-const ACCENT = 'rgba(52,211,166,0.8)'; // #34D3A6 family, radial sprite core
+const ACCENT = 'rgba(163,230,53,0.8)'; // #A3E635 family, radial sprite core
 const BOX = { x: 14, y: 8, z: 6 };
 // ~120 particles total, split across 3 depth groups (near/mid/far).
 const GROUPS = [
@@ -45,7 +45,7 @@ function makeSpriteTexture() {
   if (!ctx) return null;
   const gradient = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
   gradient.addColorStop(0, ACCENT);
-  gradient.addColorStop(1, 'rgba(52,211,166,0)');
+  gradient.addColorStop(1, 'rgba(163,230,53,0)');
   ctx.fillStyle = gradient;
   ctx.fillRect(0, 0, 64, 64);
   const texture = new THREE.CanvasTexture(canvas);

@@ -11,10 +11,10 @@
 import * as THREE from 'three';
 
 /* ---------- Shared helpers / tokens ---------- */
-const VOLT = 0x34d3a6;
+const VOLT = 0xa3e635;
 const EMERALD = 0x34d399;
-const ACCENT_CSS = '#34D3A6';
-const VOLT_CSS = '#34D3A6';
+const ACCENT_CSS = '#A3E635';
+const VOLT_CSS = '#A3E635';
 const EMERALD_CSS = '#34D399';
 const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -256,13 +256,13 @@ function attachOverlay(el) {
     // glass tint fill (subtle accent wash, softly blurred like frosted glass)
     ctx.save();
     ctx.filter = 'blur(2px)';
-    ctx.fillStyle = 'rgba(52,211,166,0.10)';
+    ctx.fillStyle = 'rgba(163,230,53,0.10)';
     ctx.fillRect(x, y, w, h);
     ctx.restore();
     // box — 1px accent border
     ctx.strokeStyle = ACCENT_CSS;
     ctx.lineWidth = 1;
-    ctx.shadowColor = 'rgba(52,211,166,0.5)';
+    ctx.shadowColor = 'rgba(163,230,53,0.5)';
     ctx.shadowBlur = 6;
     ctx.strokeRect(x, y, w, h);
     ctx.shadowBlur = 0;
@@ -278,7 +278,7 @@ function attachOverlay(el) {
     const text = b.label + ' ' + b.conf.toFixed(2);
     ctx.font = '11px "JetBrains Mono", monospace';
     const tw = ctx.measureText(text).width + 12;
-    ctx.fillStyle = 'rgba(52,211,166,0.88)';
+    ctx.fillStyle = 'rgba(163,230,53,0.88)';
     ctx.fillRect(x, y - 16, tw, 16);
     ctx.fillStyle = '#07140a';
     ctx.fillText(text, x + 6, y - 4);
@@ -294,12 +294,12 @@ function attachOverlay(el) {
     if (scan > 1) scan = 0;
     const sy = scan * H;
     const grad = ctx.createLinearGradient(0, sy - 24, 0, sy + 24);
-    grad.addColorStop(0, 'rgba(52,211,166,0)');
-    grad.addColorStop(0.5, 'rgba(52,211,166,0.35)');
-    grad.addColorStop(1, 'rgba(52,211,166,0)');
+    grad.addColorStop(0, 'rgba(163,230,53,0)');
+    grad.addColorStop(0.5, 'rgba(163,230,53,0.35)');
+    grad.addColorStop(1, 'rgba(163,230,53,0)');
     ctx.fillStyle = grad;
     ctx.fillRect(0, sy - 24, W, 48);
-    ctx.strokeStyle = 'rgba(52,211,166,0.7)';
+    ctx.strokeStyle = 'rgba(163,230,53,0.7)';
     ctx.lineWidth = 1;
     ctx.beginPath(); ctx.moveTo(0, sy); ctx.lineTo(W, sy); ctx.stroke();
 
@@ -321,7 +321,7 @@ function attachOverlay(el) {
 
     // telemetry corner
     ctx.font = '10px "JetBrains Mono", monospace';
-    ctx.fillStyle = 'rgba(52,211,166,0.85)';
+    ctx.fillStyle = 'rgba(163,230,53,0.85)';
     ctx.fillText('EDGE-VISION · ' + boxes.length + ' obj · ' + (REDUCED ? 'static' : 'live'), 8, H - 8);
   }
 
@@ -438,9 +438,9 @@ function initWebcam() {
     scan += 0.006; if (scan > 1) scan = 0;
     const sy = scan * H;
     const grad = ctx.createLinearGradient(0, sy - 24, 0, sy + 24);
-    grad.addColorStop(0, 'rgba(52,211,166,0)');
-    grad.addColorStop(0.5, 'rgba(52,211,166,0.3)');
-    grad.addColorStop(1, 'rgba(52,211,166,0)');
+    grad.addColorStop(0, 'rgba(163,230,53,0)');
+    grad.addColorStop(0.5, 'rgba(163,230,53,0.3)');
+    grad.addColorStop(1, 'rgba(163,230,53,0)');
     ctx.fillStyle = grad; ctx.fillRect(0, sy - 24, W, 48);
 
     for (const b of boxes) {
@@ -451,20 +451,20 @@ function initWebcam() {
       const x = b.x * W, y = b.y * H, w = b.w * W, h = b.h * H;
       ctx.save();
       ctx.filter = 'blur(2px)';
-      ctx.fillStyle = 'rgba(52,211,166,0.10)';
+      ctx.fillStyle = 'rgba(163,230,53,0.10)';
       ctx.fillRect(x, y, w, h);
       ctx.restore();
       ctx.strokeStyle = ACCENT_CSS; ctx.lineWidth = 1;
-      ctx.shadowColor = 'rgba(52,211,166,0.5)'; ctx.shadowBlur = 6;
+      ctx.shadowColor = 'rgba(163,230,53,0.5)'; ctx.shadowBlur = 6;
       ctx.strokeRect(x, y, w, h); ctx.shadowBlur = 0;
       const text = b.label + ' ' + b.conf.toFixed(2);
       ctx.font = '11px "JetBrains Mono", monospace';
       const tw = ctx.measureText(text).width + 12;
-      ctx.fillStyle = 'rgba(52,211,166,0.88)'; ctx.fillRect(x, y - 16, tw, 16);
+      ctx.fillStyle = 'rgba(163,230,53,0.88)'; ctx.fillRect(x, y - 16, tw, 16);
       ctx.fillStyle = '#07140a'; ctx.fillText(text, x + 6, y - 4);
     }
     ctx.font = '10px "JetBrains Mono", monospace';
-    ctx.fillStyle = 'rgba(52,211,166,0.85)';
+    ctx.fillStyle = 'rgba(163,230,53,0.85)';
     ctx.fillText('LIVE · cam · ' + boxes.length + ' obj', 8, H - 8);
   }
 

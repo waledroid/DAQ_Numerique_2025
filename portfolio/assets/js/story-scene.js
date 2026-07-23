@@ -28,7 +28,7 @@ import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 /* ---------- Constants / tokens ------------------------------- */
-const ACCENT = 0x34d3a6; // volt-emerald — the ONE accent, never 0xa3e635
+const ACCENT = 0xa3e635; // bright volt-lime — the ONE accent
 const FOG_COLOR = 0x050607; // near-black lab void
 const FOG_START = 0.09; // chapter-1 fog eases 0.09 → 0.045
 const FOG_FOCUS = 0.045;
@@ -265,7 +265,7 @@ function init() {
     ctx.font = font;
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    ctx.fillStyle = '#34D3A6'; // ACCENT text on transparent background
+    ctx.fillStyle = '#A3E635'; // ACCENT text on transparent background
     ctx.fillText(text, cv.width / 2, cv.height / 2);
     const tex = new THREE.CanvasTexture(cv);
     tex.colorSpace = THREE.SRGBColorSpace;
@@ -418,7 +418,7 @@ function init() {
      ========================================================== */
   const ARM_X = 0; // arm base world position (yaw/dock math is relative to it)
   const ARM_Z = -1;
-  const ARM_SCALE = 0.5; // composes with camera keyframe 5 ("arm wide")
+  const ARM_SCALE = 0.62; // composes with camera keyframe 5 ("arm wide")
 
   const armGroup = new THREE.Group();
   armGroup.position.set(ARM_X, 0, ARM_Z);

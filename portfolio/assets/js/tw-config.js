@@ -10,9 +10,9 @@ tailwind.config = {
         line: 'rgba(255,255,255,0.08)',
         mist: '#F2F4F7',
         muted: '#98A2AE',
-        accent: '#34D3A6',
-        volt: '#4BE0B8',      // kept as a lighter accent tint (legacy class name)
-        emerald: '#2FBF97',   // darker accent tint (legacy class name)
+        accent: '#A3E635',
+        volt: '#B4FF39',      // bright volt-lime accent tint
+        emerald: '#34D399',   // green accent tint
       },
       fontFamily: {
         display: ['"Space Grotesk"', 'system-ui', 'sans-serif'],
