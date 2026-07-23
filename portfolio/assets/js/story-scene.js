@@ -236,36 +236,50 @@ function init() {
   scene.add(lens);
 
   /* ==========================================================
-     DÉTECTER (chapter 2) — three drifting dark-glass "objects"
-     orbiting near origin, each wrapped in an accent detection
-     bounding box (LineSegments/EdgesGeometry, additive). Boxes
-     lock in with a staggered opacity ramp + scale-pop as p crosses
-     each threshold (0.30 / 0.35 / 0.40). All geometry/materials
-     built once here; every visual is a pure function of p in
+     DÉTECTER (chapter 2) — three drifting celestial "objects"
+     (ringed planet, moon, star) orbiting near origin, each wrapped
+     in an accent detection bounding box (LineSegments/EdgesGeometry,
+     additive) with a class-name + confidence label sprite above its
+     top edge. Boxes lock in with a staggered opacity ramp + scale-pop
+     as p crosses each threshold (0.30 / 0.35 / 0.40); the labels
+     appear and fade with their boxes. All geometry/materials/label
+     textures built once here; every visual is a pure function of p in
      updateChapter2 → reverse scroll replays it backwards.
      ========================================================== */
   const detectGroup = new THREE.Group();
   detectGroup.visible = false;
-  // One shared dark-glass material — the three objects fade together.
-  const glassMat = new THREE.MeshPhysicalMaterial({
-    color: 0x0b0e12,
-    metalness: 0.1,
-    roughness: 0.12,
-    transmission: 0.7,
-    ior: 1.45,
-    thickness: 0.4,
-    transparent: true,
-    opacity: 0,
-  });
-  const _detGeo = [
-    new THREE.IcosahedronGeometry(0.34, 0),
-    new THREE.BoxGeometry(0.55, 0.55, 0.55),
-    new THREE.CylinderGeometry(0.3, 0.3, 0.55, 24),
-  ];
-  const _detBox = [ // bounding-box dims ≈ 1.2× each object's extent
-    [0.82, 0.82, 0.82],
-    [0.66, 0.66, 0.66],
-    [0.72, 0.66, 0.72],
+
+  // Class-label sprite factory — one static CanvasTexture per label,
+  // rendered at 2× and scaled down so the mono text stays crisp. No
+  // per-frame redraws; only the sprite material opacity is animated.
+  function makeDetectLabel(text) {
+    const SS = 2; // supersample factor for crisp text
+    const font = '500 ' + 48 * SS + 'px "JetBrains Mono", monospace';
+    const cv = document.createElement('canvas');
+    let ctx = cv.getContext('2d');
+    ctx.font = font;
+    const tw = Math.ceil(ctx.measureText(text).width);
+    cv.width = tw + 24 * SS; // horizontal padding
+    cv.height = Math.ceil(72 * SS); // room for ascenders/accents
+    ctx = cv.getContext('2d'); // resizing the canvas cleared its state
+    ctx.font = font;
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = '#34D3A6'; // ACCENT text on transparent background
+    ctx.fillText(text, cv.width / 2, cv.height / 2);
+    const tex = new THREE.CanvasTexture(cv);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    const mat = new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0, depthWrite: false });
+    const sprite = new THREE.Sprite(mat);
+    const h = 0.17; // world height of the label
+    sprite.scale.set(h * (cv.width / cv.height), h, 1);
+    return { sprite, mat };
+  }
+
+  const _detBox = [ // bounding-box dims ≈ 1.2× each celestial object
+    [0.78, 0.78, 0.78], // ringed planet
+    [0.64, 0.64, 0.64], // moon
+    [0.5, 0.5, 0.5], //   star
   ];
   const _detBase = [ // fixed orbit centres, in front of the ch2 view
     [-1.2, 0.15, 0.25],
@@ -273,10 +287,44 @@ function init() {
     [0.2, -0.55, 0.5],
   ];
   const _detLock = [0.30, 0.35, 0.40]; // per-box lock thresholds (stagger)
+  const _detLabelText = ['planète 0.94', 'lune 0.89', 'étoile 0.91'];
+
+  // Object meshes — each returns { obj, mats, ring? }. `obj` is a Group so
+  // the planet's ring drifts/rotates with it; moon/star are lone spheres in
+  // a group for a uniform interface. Materials fade with objFade (below).
+  function makeCelestial(i) {
+    const obj = new THREE.Group();
+    const mats = [];
+    let ring = null;
+    if (i === 0) {
+      // Ringed planet — rusty-orange body + pale sand ring tilted ~25°.
+      const bodyMat = new THREE.MeshStandardMaterial({ color: 0xC97B4A, roughness: 0.8, transparent: true, opacity: 0 });
+      obj.add(new THREE.Mesh(new THREE.SphereGeometry(0.30, 32, 24), bodyMat));
+      ring = new THREE.MeshStandardMaterial({ color: 0xD9C9A8, roughness: 0.9, side: THREE.DoubleSide, transparent: true, opacity: 0 });
+      const ringMesh = new THREE.Mesh(new THREE.RingGeometry(0.37, 0.52, 64), ring);
+      ringMesh.rotation.x = Math.PI / 2 + 0.44; // horizontal, tilted ~25°
+      obj.add(ringMesh);
+      mats.push(bodyMat);
+    } else if (i === 1) {
+      // Moon — pale gray-blue, matte.
+      const moonMat = new THREE.MeshStandardMaterial({ color: 0x9FB2C4, roughness: 0.95, transparent: true, opacity: 0 });
+      obj.add(new THREE.Mesh(new THREE.SphereGeometry(0.26, 32, 24), moonMat));
+      mats.push(moonMat);
+    } else {
+      // Star — small warm white-gold glowing sphere.
+      const starMat = new THREE.MeshStandardMaterial({
+        color: 0xFFE9B8, emissive: 0xFFD27A, emissiveIntensity: 1.2, roughness: 0.5, transparent: true, opacity: 0,
+      });
+      obj.add(new THREE.Mesh(new THREE.SphereGeometry(0.20, 32, 24), starMat));
+      mats.push(starMat);
+    }
+    return { obj, mats, ring };
+  }
+
   const detects = [];
   for (let i = 0; i < 3; i++) {
-    const mesh = new THREE.Mesh(_detGeo[i], glassMat);
-    detectGroup.add(mesh);
+    const { obj, mats, ring } = makeCelestial(i);
+    detectGroup.add(obj);
     const bd = _detBox[i];
     const boxMat = new THREE.LineBasicMaterial({
       color: ACCENT,
@@ -290,10 +338,17 @@ function init() {
       boxMat
     );
     detectGroup.add(box);
+    const { sprite: label, mat: labelMat } = makeDetectLabel(_detLabelText[i]);
+    detectGroup.add(label);
     detects.push({
-      mesh,
+      mesh: obj, // Group: .position / .rotation drive it like the old mesh
+      mats, // object surface materials — fade together with objFade
+      ringMat: ring, // planet ring only (slightly transparent), else null
       box,
       boxMat,
+      label,
+      labelMat,
+      boxTop: bd[1] / 2, // half-height → label sits just above the top edge
       bx: _detBase[i][0],
       by: _detBase[i][1],
       bz: _detBase[i][2],
@@ -345,9 +400,10 @@ function init() {
   /* ==========================================================
      DÉPLOYER (chapter 4) — a cursor-tracking robotic camera-arm.
      Ported hierarchy/pose math from the old hero (three-scene.js),
-     restyled to the lab look: dark physical links, darker joints,
-     thin emissive accent strips, a SINGLE-lens vision head (no
-     stereo pair, no scan beam/frustum, no HUD ring, no floor grid).
+     restyled as a FANUC-style industrial robot: signature yellow
+     painted-metal links, near-black joint covers / motor housings,
+     sparing emissive accent detail, and a WIDE 2-lens stereo 3D
+     camera head (no scan beam/frustum, no HUD ring, no floor grid).
      The compressed chip (ch3) docks onto the head socket here.
 
      Everything is driven from p:
@@ -370,13 +426,16 @@ function init() {
   armGroup.visible = false;
   scene.add(armGroup);
 
-  // Materials — all transparent so the intro can fade the whole arm via a
-  // single shared opacity ramp. Every ref goes into armMats (per-frame loop).
-  const linkMat = new THREE.MeshPhysicalMaterial({
-    color: 0x0c0e11, metalness: 0.92, roughness: 0.3, transparent: true, opacity: 0,
+  // Materials — FANUC industrial look: signature yellow painted-metal body,
+  // near-black joint covers / motor housings, sparing emerald accent detail,
+  // dark head glass, and the shared emerald iris. All transparent so the intro
+  // fades the whole arm via one shared opacity ramp. Every ref goes into
+  // armMats (per-frame loop) → nothing left invisible after the fade.
+  const bodyMat = new THREE.MeshPhysicalMaterial({
+    color: 0xF2A900, metalness: 0.35, roughness: 0.45, transparent: true, opacity: 0,
   });
-  const jointMatA = new THREE.MeshPhysicalMaterial({
-    color: 0x070809, metalness: 0.95, roughness: 0.35, transparent: true, opacity: 0,
+  const jointMat = new THREE.MeshPhysicalMaterial({
+    color: 0x17181a, metalness: 0.6, roughness: 0.4, transparent: true, opacity: 0,
   });
   const accentStripMat = new THREE.MeshStandardMaterial({
     color: 0x0a0d10, emissive: ACCENT, emissiveIntensity: 0.6, transparent: true, opacity: 0,
@@ -387,7 +446,7 @@ function init() {
   const irisMat = new THREE.MeshStandardMaterial({
     color: ACCENT, emissive: ACCENT, emissiveIntensity: 0, transparent: true, opacity: 0,
   });
-  const armMats = [linkMat, jointMatA, accentStripMat, headGlassMat, irisMat];
+  const armMats = [bodyMat, jointMat, accentStripMat, headGlassMat, irisMat];
 
   function armMesh(geo, mat, parent) {
     const m = new THREE.Mesh(geo, mat);
@@ -395,72 +454,92 @@ function init() {
     return m;
   }
 
-  // Static plinth (does not rotate)
-  const plinth = armMesh(new THREE.CylinderGeometry(1.05, 1.25, 0.35, 32), linkMat, armGroup);
-  plinth.position.y = 0.175;
+  // Static base (does not rotate) — wide black bolt-flange at the floor + a
+  // heavy black pedestal the yellow turret sits on.
+  const baseFlange = armMesh(new THREE.CylinderGeometry(1.4, 1.55, 0.12, 40), jointMat, armGroup);
+  baseFlange.position.y = 0.06;
+  const plinth = armMesh(new THREE.CylinderGeometry(0.9, 1.1, 0.42, 32), jointMat, armGroup);
+  plinth.position.y = 0.3;
 
-  // Yawing base turret
+  // Yawing J1 turret — chunky, rounded, low yellow cylinder + one sparing
+  // emerald accent ring.
   const yawBase = new THREE.Group();
   yawBase.position.y = 0.35;
   armGroup.add(yawBase);
-  const turret = armMesh(new THREE.CylinderGeometry(0.85, 0.95, 0.55, 32), linkMat, yawBase);
-  turret.position.y = 0.275;
-  const baseRing = armMesh(new THREE.TorusGeometry(0.86, 0.04, 12, 48), accentStripMat, yawBase);
-  baseRing.position.y = 0.42;
+  const turret = armMesh(new THREE.CylinderGeometry(1.0, 1.08, 0.5, 40), bodyMat, yawBase);
+  turret.position.y = 0.3;
+  const baseRing = armMesh(new THREE.TorusGeometry(1.0, 0.035, 12, 48), accentStripMat, yawBase);
+  baseRing.position.y = 0.5;
   baseRing.rotation.x = Math.PI / 2;
 
-  // Shoulder (pitch)
+  // Shoulder (J2, pitch about x) — broad yellow housing with a big black
+  // circular joint cover on the side (the classic FANUC offset read).
   const shoulder = new THREE.Group();
   shoulder.position.y = 0.62;
   yawBase.add(shoulder);
-  const shoulderJoint = armMesh(new THREE.SphereGeometry(0.42, 24, 24), jointMatA, shoulder);
-  shoulderJoint.scale.set(1, 1, 1.15);
+  const shoulderHousing = armMesh(new THREE.BoxGeometry(0.95, 0.82, 0.66), bodyMat, shoulder);
+  const shoulderCover = armMesh(new THREE.CylinderGeometry(0.5, 0.5, 0.14, 32), jointMat, shoulder);
+  shoulderCover.rotation.z = Math.PI / 2; // disc faces along the J2 axis (+x)
+  shoulderCover.position.set(0.48, 0, 0);
 
-  // Upper arm link
+  // Upper arm (bicep) — broad flat-sided yellow box link, offset to one side.
   const UPPER_LEN = 2.0;
-  const upper = armMesh(new THREE.BoxGeometry(0.42, UPPER_LEN, 0.42), linkMat, shoulder);
-  upper.position.y = UPPER_LEN / 2;
-  const upperStripe = armMesh(new THREE.BoxGeometry(0.46, UPPER_LEN * 0.8, 0.05), accentStripMat, shoulder);
-  upperStripe.position.set(0, UPPER_LEN / 2, 0.22);
+  const upper = armMesh(new THREE.BoxGeometry(0.5, UPPER_LEN, 0.34), bodyMat, shoulder);
+  upper.position.set(0.08, UPPER_LEN / 2, 0);
 
-  // Elbow (pitch)
+  // Elbow (J3, pitch) — black boxy motor housing behind the joint + a black
+  // cylindrical joint cover spanning the axis (circular covers both sides).
   const elbow = new THREE.Group();
   elbow.position.y = UPPER_LEN;
   shoulder.add(elbow);
-  armMesh(new THREE.SphereGeometry(0.32, 24, 24), jointMatA, elbow);
+  const elbowMotor = armMesh(new THREE.BoxGeometry(0.62, 0.56, 0.5), jointMat, elbow);
+  elbowMotor.position.set(0, 0, -0.2);
+  const elbowCover = armMesh(new THREE.CylinderGeometry(0.34, 0.34, 0.6, 28), jointMat, elbow);
+  elbowCover.rotation.z = Math.PI / 2; // spans the elbow axis (+x)
 
-  // Forearm link
+  // Forearm — tapering yellow link + a black cable-conduit cylinder along top.
   const FORE_LEN = 1.7;
-  const fore = armMesh(new THREE.BoxGeometry(0.32, FORE_LEN, 0.32), linkMat, elbow);
+  const fore = armMesh(new THREE.BoxGeometry(0.4, FORE_LEN, 0.3), bodyMat, elbow);
   fore.position.y = FORE_LEN / 2;
-  const foreStripe = armMesh(new THREE.BoxGeometry(0.36, FORE_LEN * 0.75, 0.04), accentStripMat, elbow);
-  foreStripe.position.set(0, FORE_LEN / 2, 0.17);
+  const conduit = armMesh(new THREE.CylinderGeometry(0.07, 0.07, FORE_LEN * 0.82, 16), jointMat, elbow);
+  conduit.position.set(0, FORE_LEN / 2, 0.2); // runs along the forearm's top
 
-  // Wrist (pitch)
+  // Wrist (pitch) — compact black cylinder joint + a small yellow flange.
   const wrist = new THREE.Group();
   wrist.position.y = FORE_LEN;
   elbow.add(wrist);
-  const wristJoint = armMesh(new THREE.CylinderGeometry(0.22, 0.22, 0.3, 20), jointMatA, wrist);
-  wristJoint.rotation.z = Math.PI / 2;
+  const wristJoint = armMesh(new THREE.CylinderGeometry(0.2, 0.2, 0.3, 24), jointMat, wrist);
+  const wristFlange = armMesh(new THREE.CylinderGeometry(0.22, 0.22, 0.06, 24), bodyMat, wrist);
+  wristFlange.position.y = 0.16;
 
-  // Single-lens vision head (end effector) — the chip docks onto this.
+  // Stereo 3D camera head (end effector) — a WIDE dark housing on the flange
+  // with TWO lens barrels side by side, each exiting along the arm axis (+y):
+  // dark barrel, near-black glass disc, glowing emerald iris (the "wake"
+  // irises, shared material). The chip (ch3) docks onto this head socket.
   const head = new THREE.Group();
   head.position.y = 0.2;
   wrist.add(head);
-  const mount = armMesh(new THREE.CylinderGeometry(0.18, 0.22, 0.12, 20), jointMatA, head);
-  mount.position.y = 0.06;
-  const housing = armMesh(new THREE.BoxGeometry(0.62, 0.34, 0.42), linkMat, head);
-  housing.position.y = 0.29;
-  const headStripe = armMesh(new THREE.BoxGeometry(0.64, 0.05, 0.03), accentStripMat, head);
-  headStripe.position.set(0, 0.29, 0.21);
-  // One barrel + dark glass disc + accent iris, exiting along the arm axis (+y).
-  const R = 0.26;
-  const barrel = armMesh(new THREE.CylinderGeometry(R, R * 0.9, 0.34, 28), linkMat, head);
-  barrel.position.y = 0.63;
-  const glassDisc = armMesh(new THREE.CylinderGeometry(R * 0.82, R * 0.82, 0.04, 28), headGlassMat, head);
-  glassDisc.position.y = 0.8;
-  const iris = armMesh(new THREE.CylinderGeometry(R * 0.34, R * 0.34, 0.05, 20), irisMat, head);
-  iris.position.y = 0.805; // iris glow is driven via irisMat in updateChapter4
+  const mount = armMesh(new THREE.CylinderGeometry(0.16, 0.2, 0.1, 20), jointMat, head);
+  mount.position.y = 0.05;
+  const housing = armMesh(new THREE.BoxGeometry(0.9, 0.3, 0.4), jointMat, head);
+  housing.position.y = 0.27;
+  const headStripe = armMesh(new THREE.BoxGeometry(0.92, 0.04, 0.03), accentStripMat, head);
+  headStripe.position.set(0, 0.27, 0.2);
+  // A tiny status LED on a housing corner (shares the iris material).
+  const led = armMesh(new THREE.SphereGeometry(0.03, 12, 12), irisMat, head);
+  led.position.set(0.4, 0.27, 0.21);
+  // Two lens barrels side by side; irises share irisMat so BOTH wake together.
+  const R = 0.18;
+  function makeLens(x) {
+    const barrel = armMesh(new THREE.CylinderGeometry(R, R * 0.9, 0.3, 28), jointMat, head);
+    barrel.position.set(x, 0.5, 0);
+    const glassDisc = armMesh(new THREE.CylinderGeometry(R * 0.82, R * 0.82, 0.04, 28), headGlassMat, head);
+    glassDisc.position.set(x, 0.66, 0);
+    const iris = armMesh(new THREE.CylinderGeometry(R * 0.34, R * 0.34, 0.05, 20), irisMat, head);
+    iris.position.set(x, 0.665, 0); // iris glow driven via irisMat in updateChapter4
+  }
+  makeLens(-0.2);
+  makeLens(0.2);
 
   // ---- Chapter-4 rest pose + tracking state (no per-frame alloc) ----------
   const REST = { yaw: 0, shoulder: 0.35, elbow: -0.7, wrist: 0.9 };
@@ -624,10 +703,14 @@ function init() {
     detectGroup.visible = vis;
     if (!vis) return; // fully outside the chapter → skip all writes
 
-    glassMat.opacity = objFade;
     const outFade = 1 - smoothstep(0.5, 0.56, p);
     for (let i = 0; i < detects.length; i++) {
       const d = detects[i];
+      // Object surfaces fade in/out together with objFade (ring kept slightly
+      // transparent for the pale-sand look).
+      for (let m = 0; m < d.mats.length; m++) d.mats[m].opacity = objFade;
+      if (d.ringMat) d.ringMat.opacity = objFade * 0.7;
+
       // Slow idle orbit around the fixed centre (small amplitude → stays framed).
       const ang = t * 0.25 + d.phase;
       const x = d.bx + Math.cos(ang) * 0.18;
@@ -644,6 +727,11 @@ function init() {
       // Tiny scale-pop right at the lock — a narrow, symmetric p-derived bump.
       const pop = Math.exp(-Math.pow((p - d.lock) / 0.015, 2)) * 0.15;
       d.box.scale.setScalar(1 + pop);
+
+      // Label rides just above the box top edge; its opacity follows the same
+      // staggered lock → out-fade curve as the box (appears with it, fades with it).
+      d.label.position.set(x, y + d.boxTop + 0.14, z);
+      d.labelMat.opacity = lockRamp * outFade;
     }
   }
 
