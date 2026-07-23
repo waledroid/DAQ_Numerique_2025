@@ -343,6 +343,150 @@ function init() {
   scene.add(chipGroup);
 
   /* ==========================================================
+     DÉPLOYER (chapter 4) — a cursor-tracking robotic camera-arm.
+     Ported hierarchy/pose math from the old hero (three-scene.js),
+     restyled to the lab look: dark physical links, darker joints,
+     thin emissive accent strips, a SINGLE-lens vision head (no
+     stereo pair, no scan beam/frustum, no HUD ring, no floor grid).
+     The compressed chip (ch3) docks onto the head socket here.
+
+     Everything is driven from p:
+       • group hidden until p>0.72; rises y −1.5→0 + fades in 0.75→0.85
+         (materials transparent, a shared opacity driven per frame)
+       • chip lerps from its ch3 home to the moving head socket over
+         0.78→0.90 while shrinking 1→0.4 (no reparenting)
+       • iris wakes (emissive 0→1.1) over 0.88→0.94
+       • cursor tracking blends in with w = smoothstep(0.9,1) so the
+         arm holds a neutral rest pose below w=0 and un-blends on
+         reverse scrub — no snap at the edges.
+     ========================================================== */
+  const ARM_X = 0; // arm base world position (yaw/dock math is relative to it)
+  const ARM_Z = -1;
+  const ARM_SCALE = 0.5; // composes with camera keyframe 5 ("arm wide")
+
+  const armGroup = new THREE.Group();
+  armGroup.position.set(ARM_X, 0, ARM_Z);
+  armGroup.scale.setScalar(ARM_SCALE);
+  armGroup.visible = false;
+  scene.add(armGroup);
+
+  // Materials — all transparent so the intro can fade the whole arm via a
+  // single shared opacity ramp. Every ref goes into armMats (per-frame loop).
+  const linkMat = new THREE.MeshPhysicalMaterial({
+    color: 0x0c0e11, metalness: 0.92, roughness: 0.3, transparent: true, opacity: 0,
+  });
+  const jointMatA = new THREE.MeshPhysicalMaterial({
+    color: 0x070809, metalness: 0.95, roughness: 0.35, transparent: true, opacity: 0,
+  });
+  const accentStripMat = new THREE.MeshStandardMaterial({
+    color: 0x0a0d10, emissive: ACCENT, emissiveIntensity: 0.6, transparent: true, opacity: 0,
+  });
+  const headGlassMat = new THREE.MeshPhysicalMaterial({
+    color: 0x05070a, metalness: 0.6, roughness: 0.08, transparent: true, opacity: 0,
+  });
+  const irisMat = new THREE.MeshStandardMaterial({
+    color: ACCENT, emissive: ACCENT, emissiveIntensity: 0, transparent: true, opacity: 0,
+  });
+  const armMats = [linkMat, jointMatA, accentStripMat, headGlassMat, irisMat];
+
+  function armMesh(geo, mat, parent) {
+    const m = new THREE.Mesh(geo, mat);
+    parent.add(m);
+    return m;
+  }
+
+  // Static plinth (does not rotate)
+  const plinth = armMesh(new THREE.CylinderGeometry(1.05, 1.25, 0.35, 32), linkMat, armGroup);
+  plinth.position.y = 0.175;
+
+  // Yawing base turret
+  const yawBase = new THREE.Group();
+  yawBase.position.y = 0.35;
+  armGroup.add(yawBase);
+  const turret = armMesh(new THREE.CylinderGeometry(0.85, 0.95, 0.55, 32), linkMat, yawBase);
+  turret.position.y = 0.275;
+  const baseRing = armMesh(new THREE.TorusGeometry(0.86, 0.04, 12, 48), accentStripMat, yawBase);
+  baseRing.position.y = 0.42;
+  baseRing.rotation.x = Math.PI / 2;
+
+  // Shoulder (pitch)
+  const shoulder = new THREE.Group();
+  shoulder.position.y = 0.62;
+  yawBase.add(shoulder);
+  const shoulderJoint = armMesh(new THREE.SphereGeometry(0.42, 24, 24), jointMatA, shoulder);
+  shoulderJoint.scale.set(1, 1, 1.15);
+
+  // Upper arm link
+  const UPPER_LEN = 2.0;
+  const upper = armMesh(new THREE.BoxGeometry(0.42, UPPER_LEN, 0.42), linkMat, shoulder);
+  upper.position.y = UPPER_LEN / 2;
+  const upperStripe = armMesh(new THREE.BoxGeometry(0.46, UPPER_LEN * 0.8, 0.05), accentStripMat, shoulder);
+  upperStripe.position.set(0, UPPER_LEN / 2, 0.22);
+
+  // Elbow (pitch)
+  const elbow = new THREE.Group();
+  elbow.position.y = UPPER_LEN;
+  shoulder.add(elbow);
+  armMesh(new THREE.SphereGeometry(0.32, 24, 24), jointMatA, elbow);
+
+  // Forearm link
+  const FORE_LEN = 1.7;
+  const fore = armMesh(new THREE.BoxGeometry(0.32, FORE_LEN, 0.32), linkMat, elbow);
+  fore.position.y = FORE_LEN / 2;
+  const foreStripe = armMesh(new THREE.BoxGeometry(0.36, FORE_LEN * 0.75, 0.04), accentStripMat, elbow);
+  foreStripe.position.set(0, FORE_LEN / 2, 0.17);
+
+  // Wrist (pitch)
+  const wrist = new THREE.Group();
+  wrist.position.y = FORE_LEN;
+  elbow.add(wrist);
+  const wristJoint = armMesh(new THREE.CylinderGeometry(0.22, 0.22, 0.3, 20), jointMatA, wrist);
+  wristJoint.rotation.z = Math.PI / 2;
+
+  // Single-lens vision head (end effector) — the chip docks onto this.
+  const head = new THREE.Group();
+  head.position.y = 0.2;
+  wrist.add(head);
+  const mount = armMesh(new THREE.CylinderGeometry(0.18, 0.22, 0.12, 20), jointMatA, head);
+  mount.position.y = 0.06;
+  const housing = armMesh(new THREE.BoxGeometry(0.62, 0.34, 0.42), linkMat, head);
+  housing.position.y = 0.29;
+  const headStripe = armMesh(new THREE.BoxGeometry(0.64, 0.05, 0.03), accentStripMat, head);
+  headStripe.position.set(0, 0.29, 0.21);
+  // One barrel + dark glass disc + accent iris, exiting along the arm axis (+y).
+  const R = 0.26;
+  const barrel = armMesh(new THREE.CylinderGeometry(R, R * 0.9, 0.34, 28), linkMat, head);
+  barrel.position.y = 0.63;
+  const glassDisc = armMesh(new THREE.CylinderGeometry(R * 0.82, R * 0.82, 0.04, 28), headGlassMat, head);
+  glassDisc.position.y = 0.8;
+  const iris = armMesh(new THREE.CylinderGeometry(R * 0.34, R * 0.34, 0.05, 20), irisMat, head);
+  iris.position.y = 0.805; // iris glow is driven via irisMat in updateChapter4
+
+  // ---- Chapter-4 rest pose + tracking state (no per-frame alloc) ----------
+  const REST = { yaw: 0, shoulder: 0.35, elbow: -0.7, wrist: 0.9 };
+  const cur = { yaw: REST.yaw, shoulder: REST.shoulder, elbow: REST.elbow, wrist: REST.wrist };
+
+  const pointer = { x: 0, y: 0 };
+  let lastMove = performance.now() - 5000; // start "idle" so it roams before first move
+  const raycaster = new THREE.Raycaster();
+  const ndc = new THREE.Vector2();
+  const aimPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), -2.2); // z = 2.2
+  const aimTarget = new THREE.Vector3(0, 1.8, 2.2);
+  const headPos = new THREE.Vector3();
+  const headDir = new THREE.Vector3();
+  const socketV = new THREE.Vector3();
+  const chipHome = new THREE.Vector3(0, 0.6, 0); // chip's ch3 resting position
+
+  function onPointerMove(e) {
+    const rect = container.getBoundingClientRect();
+    if (!rect.width || !rect.height) return;
+    pointer.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    pointer.y = ((e.clientY - rect.top) / rect.height) * 2 - 1;
+    lastMove = performance.now();
+  }
+  window.addEventListener('mousemove', onPointerMove, { passive: true });
+
+  /* ==========================================================
      CAMERA RIG — 5 keyframes, smoothstepped between bounds.
      far-orbit → lens close-up → detection field → chip macro →
      arm wide. Chapters 2–4 content arrives later; the path is
@@ -517,7 +661,86 @@ function init() {
     if (chipGroup.visible) chipGroup.scale.setScalar(s);
   }
 
-  function updateChapter4(_p, _t) {} // DÉPLOYER — arm rise, dock, cursor wake
+  // DÉPLOYER (chapter 4) — arm rises + fades in, the chip docks onto the
+  // head socket, the iris wakes, and cursor tracking blends in over the last
+  // sliver of scroll. All p-derived except the eased tracking pose (which is
+  // the interactive "wake" and un-blends to rest as p falls — no snap).
+  function updateChapter4(p, t, dt) {
+    const armVisible = p > 0.72;
+    armGroup.visible = armVisible;
+
+    // --- Dock: chip travels from its ch3 home to the moving head socket. ---
+    // Done regardless of arm visibility so reverse scroll always restores the
+    // chip's home position (ch3 owns its scale/visibility below the window).
+    const dockT = smoothstep(0.78, 0.9, p);
+    if (dockT > 0) {
+      head.getWorldPosition(socketV); // preallocated — no alloc
+      chipGroup.position.lerpVectors(chipHome, socketV, dockT);
+      chipGroup.scale.setScalar(1 - 0.6 * dockT); // 1 → 0.4
+      chipGroup.visible = true;
+    } else {
+      chipGroup.position.copy(chipHome); // hand scale/visibility back to ch3
+    }
+
+    if (!armVisible) return;
+
+    // --- Intro: rise y −1.5 → 0 and fade the whole arm in over 0.75–0.85. ---
+    const intro = smoothstep(0.75, 0.85, p);
+    armGroup.position.y = -1.5 + 1.5 * intro;
+    for (let i = 0; i < armMats.length; i++) armMats[i].opacity = intro;
+
+    // --- Iris wake: emissive 0 → 1.1 over 0.88–0.94 (+ a faint tracking flicker). ---
+    const wake = smoothstep(0.88, 0.94, p);
+
+    // --- Cursor-tracking influence: 0 (rest pose) → 1 (fully tracking). ---
+    const w = smoothstep(0.9, 1, p);
+
+    // Target point: raycast the pointer onto plane z=2.2, or an idle figure-8.
+    const idle = performance.now() - lastMove > 1400;
+    if (idle) {
+      aimTarget.set(Math.sin(t * 0.35) * 2.2, 1.8 + Math.sin(t * 0.78) * 0.9, 2.2);
+    } else {
+      ndc.set(pointer.x, -pointer.y);
+      raycaster.setFromCamera(ndc, camera);
+      if (!raycaster.ray.intersectPlane(aimPlane, aimTarget)) aimTarget.set(0, 1.8, 2.2);
+      aimTarget.x = clamp(aimTarget.x, -3.2, 3.2);
+      aimTarget.y = clamp(aimTarget.y, 0.4, 3.6);
+    }
+
+    // Posture solve (relative to the arm base), then blend rest ↔ tracking by w.
+    const tgtYaw = Math.atan2(aimTarget.x - ARM_X, aimTarget.z - ARM_Z);
+    const hN = clamp((aimTarget.y - 0.4) / 3.2, 0, 1); // 0 low → 1 high
+    const tgtShoulder = 0.55 - hN * 0.45;
+    const tgtElbow = -0.95 + hN * 0.5;
+    const desYaw = REST.yaw + (tgtYaw - REST.yaw) * w;
+    const desShoulder = REST.shoulder + (tgtShoulder - REST.shoulder) * w;
+    const desElbow = REST.elbow + (tgtElbow - REST.elbow) * w;
+
+    const k = 1 - Math.pow(0.0001, dt); // frame-rate-independent ease (body)
+    cur.yaw += (desYaw - cur.yaw) * k;
+    cur.shoulder += (desShoulder - cur.shoulder) * k;
+    cur.elbow += (desElbow - cur.elbow) * k;
+    yawBase.rotation.y = cur.yaw;
+    shoulder.rotation.x = cur.shoulder;
+    elbow.rotation.x = cur.elbow;
+
+    // Analytic wrist solve: pitch the head so the lens axis (+y) hits the
+    // target, then blend to rest by w and ease (snappier than the body).
+    wrist.getWorldPosition(headPos);
+    headDir.copy(aimTarget).sub(headPos);
+    const sy = Math.sin(cur.yaw);
+    const cy = Math.cos(cur.yaw);
+    const depthInPlane = headDir.x * sy + headDir.z * cy;
+    const phi = Math.atan2(depthInPlane, headDir.y);
+    const solvedWrist = clamp(phi - (cur.shoulder + cur.elbow), -0.25, 2.2);
+    const desWrist = REST.wrist + (solvedWrist - REST.wrist) * w;
+    const kW = 1 - Math.pow(0.00001, dt);
+    cur.wrist += (desWrist - cur.wrist) * kW;
+    wrist.rotation.x = cur.wrist;
+
+    // Iris life: wake ramp sets the floor; a faint pulse breathes once tracking.
+    irisMat.emissiveIntensity = wake * (1.1 + w * 0.3 * Math.sin(t * 3));
+  }
 
   /* ==========================================================
      MAIN UPDATE — everything derives from pCur (reversible scrub)
@@ -544,7 +767,7 @@ function init() {
     updateChapter1(p, t);
     updateChapter2(p, t);
     updateChapter3(p, t);
-    updateChapter4(p, t);
+    updateChapter4(p, t, dt);
   }
 
   function render() {
