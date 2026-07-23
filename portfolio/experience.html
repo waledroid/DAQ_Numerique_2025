@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Parcours d'Atanda Abdullahi : 10 ans d'infrastructure IT, ingénierie ML & Vision par Ordinateur. Expériences, formations, certification et compétences techniques." />
+  <meta name="description" content="Parcours d'Atanda Abdullahi : dix ans de systèmes IT, trois ans de vision par ordinateur et d'edge-AI. Expériences et formations." />
   <title>Parcours — Atanda Abdullahi</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/js/tw-config.js"></script>
@@ -20,372 +20,129 @@
   <header data-site-nav></header>
 
   <main>
-    <!-- ====== HERO / INTRO ====== -->
-    <section class="pt-32 pb-16 sm:pt-40 sm:pb-20 relative overflow-hidden">
-      <div class="grid-bg absolute inset-0 -z-10" aria-hidden="true"></div>
-      <div class="max-w-shell mx-auto px-5 sm:px-8">
-        <p class="label" data-reveal>Parcours · Career Log</p>
-        <div class="mt-6 grid gap-10 lg:grid-cols-[1.5fr_1fr] lg:items-end">
-          <div>
-            <h1 class="font-display font-bold tracking-tight leading-[0.95]" style="font-size:clamp(2.6rem,7vw,5rem)" data-reveal data-delay="1">
-              Un parcours <span class="text-gradient">hybride</span><br />IT &amp; Edge-AI.
-            </h1>
-            <p class="mt-6 max-w-xl text-muted leading-relaxed" data-reveal data-delay="2">
-              Dix ans d'infrastructure et de support informatique, prolongés par un Master en Vision par Ordinateur
-              et l'ingénierie d'IA embarquée. Voici le journal détaillé — entreprises, formations et compétences.
-            </p>
-          </div>
-          <div class="flex flex-col sm:flex-row lg:flex-col gap-4 lg:items-end" data-reveal data-delay="3">
-            <a href="cv.html" class="btn" data-magnetic>
-              <i class="fa-solid fa-file-lines" aria-hidden="true"></i> Voir le CV
-            </a>
-            <a href="contact.html" class="btn btn--ghost">
-              <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Me contacter
-            </a>
-          </div>
-        </div>
-
-        <!-- signature stats -->
-        <div class="mt-14 grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-px bg-line rounded-2xl overflow-hidden border border-line" data-reveal data-delay="2">
-          <div class="bg-ink p-5">
-            <div class="stat__num text-gradient" style="font-size:clamp(1.8rem,4vw,2.6rem)">10 ans</div>
-            <p class="label label--plain mt-2 text-muted">IT / Infra</p>
-          </div>
-          <div class="bg-ink p-5">
-            <div class="stat__num text-gradient" style="font-size:clamp(1.8rem,4vw,2.6rem)">M2</div>
-            <p class="label label--plain mt-2 text-muted">Vision Ordi.</p>
-          </div>
-          <div class="bg-ink p-5">
-            <div class="stat__num text-gradient" style="font-size:clamp(1.8rem,4vw,2.6rem)">+25 %</div>
-            <p class="label label--plain mt-2 text-muted">Détection</p>
-          </div>
-          <div class="bg-ink p-5">
-            <div class="stat__num text-gradient" style="font-size:clamp(1.8rem,4vw,2.6rem)">−40 %</div>
-            <p class="label label--plain mt-2 text-muted">Inférence Jetson</p>
-          </div>
-          <div class="bg-ink p-5 col-span-2 sm:col-span-1">
-            <div class="stat__num text-gradient" style="font-size:clamp(1.8rem,4vw,2.6rem)">+20 %</div>
-            <p class="label label--plain mt-2 text-muted">Engagement web</p>
-          </div>
-        </div>
+    <!-- ====== HERO ====== -->
+    <section class="relative pt-32 pb-20 sm:pb-28 overflow-hidden">
+      <div data-glass-bg class="absolute inset-0 -z-10"></div>
+      <div class="grid-bg absolute inset-0 pointer-events-none" aria-hidden="true"></div>
+      <div class="max-w-shell mx-auto px-5 sm:px-8 relative">
+        <p class="label" data-reveal>Parcours</p>
+        <h1 class="font-display font-bold tracking-tight mt-5 leading-[0.95]" style="font-size:clamp(2.5rem,6vw,4.5rem)" data-reveal data-delay="1">
+          Dix ans de systèmes.<br />Trois ans de <span class="text-gradient">vision</span>.
+        </h1>
+        <p class="text-muted text-lg leading-relaxed mt-6 max-w-xl" data-reveal data-delay="2">
+          Le journal des postes qui ont mené de l'infrastructure à la vision par ordinateur embarquée.
+        </p>
       </div>
     </section>
 
-    <!-- ====== TIMELINE / EXPERIENCE ====== -->
-    <section class="py-16 sm:py-24" aria-labelledby="xp-title">
+    <!-- ====== TIMELINE ====== -->
+    <section class="pb-20 sm:pb-28">
       <div class="max-w-shell mx-auto px-5 sm:px-8">
-        <div class="flex items-end justify-between gap-6 flex-wrap mb-12">
-          <div>
-            <p class="label" data-reveal>01 — Expériences</p>
-            <h2 id="xp-title" class="font-display font-bold tracking-tight mt-4" style="font-size:clamp(2rem,4.5vw,3rem)" data-reveal data-delay="1">
-              Journal de <span data-scramble>laboratoire</span>
-            </h2>
-          </div>
-          <p class="font-mono text-xs text-muted max-w-xs" data-reveal data-delay="2">
-            5 postes · du support N3 à la vision industrielle 3D.
-          </p>
-        </div>
+        <ol class="relative pl-8 sm:pl-12">
+          <div class="absolute left-0 top-2 bottom-2 w-[2px] bg-gradient-to-b from-accent/60 to-transparent" aria-hidden="true"></div>
 
-        <!-- vertical timeline -->
-        <ol class="relative ml-2 sm:ml-4 border-l border-line/0 pl-0">
-          <!-- accent rail -->
-          <div class="absolute left-0 top-2 bottom-2 w-px bg-gradient-to-b from-accent/70 via-line to-transparent" aria-hidden="true"></div>
-
-          <!-- 1 - Isitec (poste actuel) -->
-          <li class="relative pl-8 sm:pl-12 pb-12" data-reveal>
-            <span class="absolute -left-[7px] top-1.5 w-3.5 h-3.5 rounded-full bg-emerald ring-4 ring-ink shadow-[0_0_14px_var(--glow)]" aria-hidden="true"></span>
-            <div class="panel hud group p-6 sm:p-8">
-              <div class="flex flex-col sm:flex-row sm:items-start gap-5">
-                <div class="shrink-0 w-14 h-14 rounded-xl border border-line bg-surface2 grid place-items-center overflow-hidden p-2">
-                  <img src="assets/logo/isitec.png" alt="Logo Isitec" class="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 transition" loading="lazy" />
-                </div>
-                <div class="min-w-0 flex-1">
-                  <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <h3 class="font-display text-xl font-semibold text-mist">Ingénieur ML &amp; Vision par Ordinateur</h3>
-                    <span class="font-mono text-sm text-accent">Isitec</span>
-                    <span class="label label--plain text-emerald"><span class="w-2 h-2 rounded-full bg-emerald inline-block"></span>Actuel</span>
-                  </div>
-                  <p class="font-mono text-xs text-muted mt-1.5">
-                    <i class="fa-regular fa-calendar mr-1" aria-hidden="true"></i>Mars 2026 – présent
-                    <span class="mx-2 opacity-40">·</span>
-                    <i class="fa-solid fa-location-dot mr-1" aria-hidden="true"></i>Millery (Lyon)
-                  </p>
-                  <ul class="mt-4 space-y-2 text-muted text-sm leading-relaxed">
-                    <li class="flex gap-3"><i class="fa-solid fa-angle-right text-accent mt-1 text-xs" aria-hidden="true"></i>Conception d'un système de vision industrielle multi-caméras : <span class="text-mist">suivi métrique 2D/3D temps réel</span> (homographie, fusion multi-caméras, triangulation DLT).</li>
-                    <li class="flex gap-3"><i class="fa-solid fa-angle-right text-accent mt-1 text-xs" aria-hidden="true"></i>Détection edge interchangeable (YOLO/RF-DETR, ONNX/OpenVINO/TensorRT) ciblant Jetson Orin, et pipeline de données synthétiques (SDXL · ControlNet · SAM2).</li>
-                    <li class="flex gap-3"><i class="fa-solid fa-angle-right text-accent mt-1 text-xs" aria-hidden="true"></i>Dashboard opérateur FastAPI + jumeau numérique 3D (Three.js), validé par <span class="text-mist">plus de 640 tests</span> automatisés.</li>
-                  </ul>
-                  <div class="mt-4 flex flex-wrap gap-2">
-                    <span class="font-mono text-[0.68rem] px-2.5 py-1 rounded-full border border-line text-muted">Vision multi-caméras</span>
-                    <span class="font-mono text-[0.68rem] px-2.5 py-1 rounded-full border border-line text-muted">Triangulation 3D</span>
-                    <span class="font-mono text-[0.68rem] px-2.5 py-1 rounded-full border border-line text-muted">ONNX / TensorRT</span>
-                    <span class="font-mono text-[0.68rem] px-2.5 py-1 rounded-full border border-line text-muted">FastAPI</span>
-                  </div>
-                </div>
+          <!-- Isitec International -->
+          <li class="relative pb-8" data-reveal>
+            <span class="absolute -left-8 sm:-left-12 top-8 w-2.5 h-2.5 -translate-x-1/2 rounded-full bg-accent ring-4 ring-ink" aria-hidden="true"></span>
+            <article class="panel p-7 sm:p-8">
+              <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <h3 class="font-display text-xl font-semibold text-mist">Ingénieur ML &amp; Vision par Ordinateur</h3>
+                <span class="chip">Mars 2026 – présent</span>
               </div>
-            </div>
+              <p class="font-mono text-xs text-muted mt-2">Isitec International · Millery, Lyon 69390</p>
+              <p class="text-muted text-sm leading-relaxed mt-4 max-w-2xl">
+                Pipeline multi-caméra ~60 FPS : YOLO11/RF-DETR (ONNX Runtime), suivi métrique 2D/3D, publication MQTT vers AGV.
+              </p>
+              <div class="flex flex-wrap gap-2 mt-5">
+                <span class="chip">YOLO11 / RF-DETR</span>
+                <span class="chip">ONNX Runtime</span>
+                <span class="chip">TensorRT / OpenVINO</span>
+                <span class="chip">MQTT</span>
+              </div>
+            </article>
           </li>
 
-          <!-- 2 - AlloPanas -->
-          <li class="relative pl-8 sm:pl-12 pb-12" data-reveal>
-            <span class="absolute -left-[7px] top-1.5 w-3.5 h-3.5 rounded-full bg-accent ring-4 ring-ink shadow-[0_0_14px_var(--glow)]" aria-hidden="true"></span>
-            <div class="panel hud p-6 sm:p-8">
-              <div class="flex flex-col sm:flex-row sm:items-start gap-5">
-                <!-- mono monogram tile (no logo available) -->
-                <div class="shrink-0 w-14 h-14 rounded-xl border border-line bg-surface2 grid place-items-center font-display font-bold text-accent text-lg" aria-hidden="true">AP</div>
-                <div class="min-w-0 flex-1">
-                  <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <h3 class="font-display text-xl font-semibold text-mist">Technicien Informatique</h3>
-                    <span class="font-mono text-sm text-accent">AlloPanas Ordi</span>
-                  </div>
-                  <p class="font-mono text-xs text-muted mt-1.5">
-                    <i class="fa-regular fa-calendar mr-1" aria-hidden="true"></i>Oct 2024 – Nov 2024
-                    <span class="mx-2 opacity-40">·</span>
-                    <i class="fa-solid fa-location-dot mr-1" aria-hidden="true"></i>Chalon-sur-Saône
-                  </p>
-                  <ul class="mt-4 space-y-2 text-muted text-sm leading-relaxed">
-                    <li class="flex gap-3"><i class="fa-solid fa-angle-right text-accent mt-1 text-xs" aria-hidden="true"></i>Diagnostic et réparation matériel &amp; logiciel, imprimantes et appareils mobiles, à distance et sur site.</li>
-                    <li class="flex gap-3"><i class="fa-solid fa-angle-right text-accent mt-1 text-xs" aria-hidden="true"></i>Documentation rigoureuse de l'état des dispositifs.</li>
-                  </ul>
-                </div>
+          <!-- WASORIA -->
+          <li class="relative pb-8" data-reveal data-delay="1">
+            <span class="absolute -left-8 sm:-left-12 top-8 w-2.5 h-2.5 -translate-x-1/2 rounded-full bg-accent ring-4 ring-ink" aria-hidden="true"></span>
+            <article class="panel p-7 sm:p-8">
+              <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <h3 class="font-display text-xl font-semibold text-mist">Ingénieur en Apprentissage Automatique</h3>
+                <span class="chip">Fév. 2024 – Juil. 2024</span>
               </div>
-            </div>
+              <p class="font-mono text-xs text-muted mt-2">WASORIA · Le Creusot 71200</p>
+              <p class="text-muted text-sm leading-relaxed mt-4 max-w-2xl">
+                NanoSAM — compression de Vision Transformers (ViT) : +25 % de vitesse de segmentation, −40 % de temps d'inférence sur Jetson Orin Nano.
+              </p>
+              <div class="flex flex-wrap gap-2 mt-5">
+                <span class="chip">ViT</span>
+                <span class="chip">Distillation</span>
+                <span class="chip">TensorRT</span>
+                <span class="chip">Jetson Orin Nano</span>
+              </div>
+            </article>
           </li>
 
-          <!-- 3 - WASORIA -->
-          <li class="relative pl-8 sm:pl-12 pb-12" data-reveal>
-            <span class="absolute -left-[7px] top-1.5 w-3.5 h-3.5 rounded-full bg-accent ring-4 ring-ink shadow-[0_0_14px_var(--glow)]" aria-hidden="true"></span>
-            <div class="panel hud group p-6 sm:p-8">
-              <div class="flex flex-col sm:flex-row sm:items-start gap-5">
-                <div class="shrink-0 w-14 h-14 rounded-xl border border-line bg-surface2 grid place-items-center overflow-hidden p-2">
-                  <img src="assets/logo/wasoria.png" alt="Logo WASORIA" class="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 transition" loading="lazy" />
-                </div>
-                <div class="min-w-0 flex-1">
-                  <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <h3 class="font-display text-xl font-semibold text-mist">Ingénieur en Apprentissage Automatique</h3>
-                    <span class="font-mono text-sm text-accent">WASORIA</span>
-                  </div>
-                  <p class="font-mono text-xs text-muted mt-1.5">
-                    <i class="fa-regular fa-calendar mr-1" aria-hidden="true"></i>Fév 2024 – Juil 2024
-                    <span class="mx-2 opacity-40">·</span>
-                    <i class="fa-solid fa-location-dot mr-1" aria-hidden="true"></i>Le Creusot
-                  </p>
-                  <ul class="mt-4 space-y-2 text-muted text-sm leading-relaxed">
-                    <li class="flex gap-3"><i class="fa-solid fa-angle-right text-accent mt-1 text-xs" aria-hidden="true"></i>Distillation de connaissances sur des Vision Transformers (ViT) lourds : <span class="text-mist">+25 % de vitesse de détection</span> et de précision de segmentation.</li>
-                    <li class="flex gap-3"><i class="fa-solid fa-angle-right text-accent mt-1 text-xs" aria-hidden="true"></i><span class="text-mist">−40 % de temps d'inférence</span> sur Nvidia Jetson Orin Nano 8 Go.</li>
-                  </ul>
-                  <div class="mt-4 flex flex-wrap gap-2">
-                    <span class="font-mono text-[0.68rem] px-2.5 py-1 rounded-full border border-line text-muted">ViT</span>
-                    <span class="font-mono text-[0.68rem] px-2.5 py-1 rounded-full border border-line text-muted">Knowledge Distillation</span>
-                    <span class="font-mono text-[0.68rem] px-2.5 py-1 rounded-full border border-line text-muted">Jetson Orin Nano</span>
-                  </div>
-                </div>
+          <!-- Radio Nigeria -->
+          <li class="relative" data-reveal data-delay="2">
+            <span class="absolute -left-8 sm:-left-12 top-8 w-2.5 h-2.5 -translate-x-1/2 rounded-full bg-accent ring-4 ring-ink" aria-hidden="true"></span>
+            <article class="panel p-7 sm:p-8">
+              <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                <h3 class="font-display text-xl font-semibold text-mist">Responsable Infrastructure &amp; Systèmes IT</h3>
+                <span class="chip">Janv. 2013 – Fév. 2023</span>
               </div>
-            </div>
-          </li>
-
-          <!-- 4 - Radio Nigeria -->
-          <li class="relative pl-8 sm:pl-12 pb-12" data-reveal>
-            <span class="absolute -left-[7px] top-1.5 w-3.5 h-3.5 rounded-full bg-accent ring-4 ring-ink shadow-[0_0_14px_var(--glow)]" aria-hidden="true"></span>
-            <div class="panel hud group p-6 sm:p-8">
-              <div class="flex flex-col sm:flex-row sm:items-start gap-5">
-                <div class="shrink-0 w-14 h-14 rounded-xl border border-line bg-surface2 grid place-items-center overflow-hidden p-2">
-                  <img src="assets/logo/radionigeria.png" alt="Logo Radio Nigeria" class="max-w-full max-h-full object-contain grayscale group-hover:grayscale-0 transition" loading="lazy" />
-                </div>
-                <div class="min-w-0 flex-1">
-                  <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <h3 class="font-display text-xl font-semibold text-mist">Responsable Informatique</h3>
-                    <span class="font-mono text-sm text-accent">Radio Nigeria</span>
-                  </div>
-                  <p class="font-mono text-xs text-muted mt-1.5">
-                    <i class="fa-regular fa-calendar mr-1" aria-hidden="true"></i>Janv 2013 – Fév 2023
-                    <span class="mx-2 opacity-40">·</span>
-                    <i class="fa-solid fa-location-dot mr-1" aria-hidden="true"></i>Ikoyi, Lagos
-                  </p>
-                  <ul class="mt-4 space-y-2 text-muted text-sm leading-relaxed">
-                    <li class="flex gap-3"><i class="fa-solid fa-angle-right text-accent mt-1 text-xs" aria-hidden="true"></i>Dépannage IT avec une haute satisfaction client.</li>
-                    <li class="flex gap-3"><i class="fa-solid fa-angle-right text-accent mt-1 text-xs" aria-hidden="true"></i>Gestion d'Active Directory : utilisateurs, sécurité et déploiements.</li>
-                    <li class="flex gap-3"><i class="fa-solid fa-angle-right text-accent mt-1 text-xs" aria-hidden="true"></i>Création d'un site web optimisé SEO : <span class="text-mist">+20 % d'engagement</span>.</li>
-                  </ul>
-                </div>
+              <p class="font-mono text-xs text-muted mt-2">Radio Nigeria · Ikoyi, Lagos</p>
+              <p class="text-muted text-sm leading-relaxed mt-4 max-w-2xl">
+                Administration réseau et serveurs (Active Directory, Linux, VPN, pare-feu) pour plus de 300 postes.
+              </p>
+              <div class="flex flex-wrap gap-2 mt-5">
+                <span class="chip">Active Directory</span>
+                <span class="chip">Linux</span>
+                <span class="chip">VPN</span>
+                <span class="chip">Pare-feu</span>
               </div>
-            </div>
-          </li>
-
-          <!-- 5 - Cadbury -->
-          <li class="relative pl-8 sm:pl-12" data-reveal>
-            <span class="absolute -left-[7px] top-1.5 w-3.5 h-3.5 rounded-full bg-accent ring-4 ring-ink shadow-[0_0_14px_var(--glow)]" aria-hidden="true"></span>
-            <div class="panel hud p-6 sm:p-8">
-              <div class="flex flex-col sm:flex-row sm:items-start gap-5">
-                <div class="shrink-0 w-14 h-14 rounded-xl border border-line bg-surface2 grid place-items-center font-display font-bold text-accent text-lg" aria-hidden="true">CN</div>
-                <div class="min-w-0 flex-1">
-                  <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                    <h3 class="font-display text-xl font-semibold text-mist">Analyste en Recherche Consommateur</h3>
-                    <span class="font-mono text-sm text-accent">Cadbury Nigeria Plc</span>
-                  </div>
-                  <p class="font-mono text-xs text-muted mt-1.5">
-                    <i class="fa-regular fa-calendar mr-1" aria-hidden="true"></i>Oct 2011 – Sept 2012
-                    <span class="mx-2 opacity-40">·</span>
-                    <i class="fa-solid fa-location-dot mr-1" aria-hidden="true"></i>Ikeja, Lagos
-                  </p>
-                  <ul class="mt-4 space-y-2 text-muted text-sm leading-relaxed">
-                    <li class="flex gap-3"><i class="fa-solid fa-angle-right text-accent mt-1 text-xs" aria-hidden="true"></i>Analyse de données et optimisation des processus avec SAP &amp; Excel.</li>
-                  </ul>
-                </div>
-              </div>
-            </div>
+            </article>
           </li>
         </ol>
       </div>
     </section>
 
-    <!-- ====== EDUCATION + CERTIFICATION ====== -->
-    <section class="py-16 sm:py-24 relative" aria-labelledby="edu-title">
+    <!-- ====== EDUCATION ====== -->
+    <section class="pb-24 sm:pb-32">
       <div class="max-w-shell mx-auto px-5 sm:px-8">
-        <div class="mb-12">
-          <p class="label" data-reveal>02 — Formation</p>
-          <h2 id="edu-title" class="font-display font-bold tracking-tight mt-4" style="font-size:clamp(2rem,4.5vw,3rem)" data-reveal data-delay="1">
-            Études &amp; certification
-          </h2>
-        </div>
-
-        <div class="grid gap-6 lg:grid-cols-3">
-          <!-- DAQ 2.0 -->
-          <article class="panel p-7 flex flex-col" data-reveal>
-            <div class="flex items-center justify-between">
-              <span class="label label--plain text-emerald"><span class="w-2 h-2 rounded-full bg-emerald inline-block"></span>En cours</span>
-              <i class="fa-solid fa-graduation-cap text-accent/70" aria-hidden="true"></i>
-            </div>
-            <h3 class="font-display text-lg font-semibold mt-5">DAQ 2.0</h3>
-            <p class="text-muted text-sm mt-1">Dispositif en Amont à la Qualification</p>
-            <p class="font-mono text-xs text-muted mt-4 pt-4 border-t border-line">APOR, Le Creusot</p>
+        <p class="label" data-reveal>Formation</p>
+        <div class="grid gap-5 sm:grid-cols-3 mt-8">
+          <article class="panel p-6" data-reveal>
+            <i class="fa-solid fa-graduation-cap text-accent/70" aria-hidden="true"></i>
+            <h3 class="font-display text-base font-semibold mt-4">Master 2 — AI for One Health</h3>
+            <p class="text-muted text-sm mt-1">Université Grenoble Alpes</p>
+            <span class="chip mt-4 inline-flex">Juillet 2026</span>
           </article>
-
-          <!-- M2 -->
-          <article class="panel p-7 flex flex-col" data-reveal data-delay="1">
-            <div class="flex items-center justify-between">
-              <span class="font-mono text-xs text-accent">2024</span>
-              <i class="fa-solid fa-eye text-accent/70" aria-hidden="true"></i>
-            </div>
-            <h3 class="font-display text-lg font-semibold mt-5">Master (M2) — Vision par Ordinateur</h3>
-            <p class="text-muted text-sm mt-1">Juillet 2024</p>
-            <p class="font-mono text-xs text-muted mt-4 pt-4 border-t border-line">Université de Bourgogne, Le Creusot</p>
+          <article class="panel p-6" data-reveal data-delay="1">
+            <i class="fa-solid fa-eye text-accent/70" aria-hidden="true"></i>
+            <h3 class="font-display text-base font-semibold mt-4">Master 2 — Vision par Ordinateur</h3>
+            <p class="text-muted text-sm mt-1">Université de Bourgogne</p>
+            <span class="chip mt-4 inline-flex">Juillet 2024</span>
           </article>
-
-          <!-- Diplôme Informatique -->
-          <article class="panel p-7 flex flex-col" data-reveal data-delay="2">
-            <div class="flex items-center justify-between">
-              <span class="font-mono text-xs text-accent">2015</span>
-              <i class="fa-solid fa-microchip text-accent/70" aria-hidden="true"></i>
-            </div>
-            <h3 class="font-display text-lg font-semibold mt-5">Diplôme d'études supérieures en Informatique</h3>
-            <p class="text-muted text-sm mt-1">Mai 2015</p>
-            <p class="font-mono text-xs text-muted mt-4 pt-4 border-t border-line">University of Lagos</p>
+          <article class="panel p-6" data-reveal data-delay="2">
+            <i class="fa-solid fa-microchip text-accent/70" aria-hidden="true"></i>
+            <h3 class="font-display text-base font-semibold mt-4">Diplôme d'Études Supérieures en Informatique</h3>
+            <p class="text-muted text-sm mt-1">University of Lagos</p>
+            <span class="chip mt-4 inline-flex">Mai 2015</span>
           </article>
-        </div>
-
-        <!-- Certification highlight -->
-        <article class="panel hud mt-6 p-7 sm:p-9 flex flex-col sm:flex-row sm:items-center gap-6" data-reveal data-delay="1">
-          <div class="shrink-0 w-16 h-16 rounded-2xl bg-accent/10 border border-accent/30 grid place-items-center">
-            <i class="fa-solid fa-certificate text-accent text-2xl" aria-hidden="true"></i>
-          </div>
-          <div class="flex-1">
-            <p class="label label--plain text-accent">Certification</p>
-            <h3 class="font-display text-xl font-semibold mt-2">Certificat Professionnel Google en Support Informatique</h3>
-            <p class="text-muted text-sm mt-1">Google · 2024</p>
-          </div>
-          <span class="font-mono text-3xl text-gradient stat__num">2024</span>
-        </article>
-      </div>
-    </section>
-
-    <!-- ====== SKILLS MATRIX ====== -->
-    <section class="py-16 sm:py-24 relative overflow-hidden" aria-labelledby="skills-title">
-      <div class="grid-bg absolute inset-0 -z-10" aria-hidden="true"></div>
-      <div class="max-w-shell mx-auto px-5 sm:px-8">
-        <div class="mb-12">
-          <p class="label" data-reveal>03 — Compétences</p>
-          <h2 id="skills-title" class="font-display font-bold tracking-tight mt-4" style="font-size:clamp(2rem,4.5vw,3rem)" data-reveal data-delay="1">
-            Matrice <span class="text-gradient">technique</span>
-          </h2>
-        </div>
-
-        <div class="grid gap-6 md:grid-cols-2">
-          <!-- Systèmes & Réseaux -->
-          <div class="panel p-7" data-reveal>
-            <div class="flex items-center gap-3 mb-5">
-              <i class="fa-solid fa-network-wired text-accent" aria-hidden="true"></i>
-              <h3 class="font-display text-lg font-semibold">Systèmes &amp; Réseaux</h3>
-            </div>
-            <ul class="flex flex-wrap gap-2">
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">Windows</li>
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">macOS</li>
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">Linux</li>
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">VLAN</li>
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">VPN</li>
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">Pare-feu</li>
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">Antivirus</li>
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">Centreon</li>
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">GLPI</li>
-            </ul>
-          </div>
-
-          <!-- Support technique -->
-          <div class="panel p-7" data-reveal data-delay="1">
-            <div class="flex items-center gap-3 mb-5">
-              <i class="fa-solid fa-headset text-accent" aria-hidden="true"></i>
-              <h3 class="font-display text-lg font-semibold">Support technique</h3>
-            </div>
-            <ul class="flex flex-wrap gap-2">
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">Support N2</li>
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">Support N3</li>
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">TeamViewer</li>
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">AnyDesk</li>
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">Jira</li>
-            </ul>
-          </div>
-
-          <!-- Langages -->
-          <div class="panel p-7" data-reveal data-delay="2">
-            <div class="flex items-center gap-3 mb-5">
-              <i class="fa-solid fa-code text-accent" aria-hidden="true"></i>
-              <h3 class="font-display text-lg font-semibold">Langages</h3>
-            </div>
-            <ul class="flex flex-wrap gap-2">
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-accent/40 text-volt">Python <span class="opacity-60">· principal</span></li>
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">JavaScript / React</li>
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">SQL</li>
-            </ul>
-          </div>
-
-          <!-- Cloud / MLOps -->
-          <div class="panel p-7" data-reveal data-delay="3">
-            <div class="flex items-center gap-3 mb-5">
-              <i class="fa-solid fa-cloud text-accent" aria-hidden="true"></i>
-              <h3 class="font-display text-lg font-semibold">Cloud / MLOps</h3>
-            </div>
-            <ul class="flex flex-wrap gap-2">
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">AWS SageMaker</li>
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">Google Cloud</li>
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">Docker</li>
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">VMware</li>
-              <li class="font-mono text-xs px-3 py-1.5 rounded-full border border-line text-muted hover:border-accent hover:text-volt transition">Git</li>
-            </ul>
-          </div>
         </div>
       </div>
     </section>
 
     <!-- ====== CTA ====== -->
-    <section class="py-16 sm:py-24">
+    <section class="pb-24 sm:pb-32">
       <div class="max-w-shell mx-auto px-5 sm:px-8">
-        <div class="panel hud p-8 sm:p-14 text-center relative overflow-hidden scanline" data-reveal>
-          <p class="label justify-center" style="display:inline-flex">Disponible pour un entretien</p>
-          <h2 class="font-display font-bold tracking-tight mt-5" style="font-size:clamp(1.8rem,4.5vw,3rem)">
-            Mon CV complet, <span class="text-gradient">en un clic</span>.
+        <div class="panel p-8 sm:p-14 text-center" data-reveal>
+          <h2 class="font-display font-bold tracking-tight" style="font-size:clamp(1.8rem,4.5vw,3rem)">
+            Le détail, <span class="text-gradient">en un clic</span>.
           </h2>
           <p class="text-muted max-w-lg mx-auto mt-4">
-            Toutes les expériences, formations et compétences détaillées dans un document prêt à partager.
+            Le CV complet — expériences, formations et compétences — prêt à partager.
           </p>
           <div class="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <a href="cv.html" class="btn" data-magnetic>
@@ -406,6 +163,13 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script type="importmap">
+  { "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  } }
+  </script>
+  <script type="module" src="assets/js/glass-bg.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>
