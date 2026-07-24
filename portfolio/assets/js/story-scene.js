@@ -208,36 +208,167 @@ function init() {
   }
 
   /* ==========================================================
-     LENS (chapter 1) — a dark, mirror-metal ring + inner black-glass
-     square plate floating at origin; the "eye" the world focuses
-     through. Base opacities below are the materials' resting alpha;
-     the chapter-1 fade (see p-loop) multiplies into them so both
-     still reach fully transparent at LENS_FADE_OUT.
+     LENS (chapter 1) — a stylised zoom-lens (Canon EF-S look) aimed
+     straight at the ch1 camera: a semi-matte BLACK BARREL whose axis
+     points at the viewer, a KNURLED grip ring near its back, a white
+     ENGRAVED TEXT RING on the front rim, and a mirror-black FRONT GLASS
+     element with faint internal-element lines, a deep octagonal aperture
+     silhouette, and a few coloured coating glints. Two sub-groups drive
+     the subtle scroll sync: `lensInner` telescopes toward the viewer and
+     `lensKnurl` spins. Every base opacity below is the material's resting
+     alpha; the chapter-1 fade (see updateChapter1) multiplies into them
+     via `lensMats` so ALL of it reaches fully transparent at LENS_FADE_OUT.
+     Axis convention: front rim at z≈0, barrel recedes to z≈−1.1.
      ========================================================== */
   const lens = new THREE.Group();
-  const RING_BASE_OPACITY = 0.85;
-  const PLATE_BASE_OPACITY = 0.92;
-  const ringMat = new THREE.MeshPhysicalMaterial({
-    color: 0x0e0f11,
-    metalness: 0.95,
-    roughness: 0.12,
-    clearcoat: 1,
-    transparent: true,
-    opacity: RING_BASE_OPACITY,
+
+  // Base (resting) opacities — the fade multiplies these each frame.
+  const BARREL_BASE = 1.0;
+  const KNURL_BASE = 1.0;
+  const TEXTRING_BASE = 0.92;
+  const GLASS_BASE = 0.94;
+  const INNERLINE_BASE = 0.6;
+  const APERTURE_BASE = 1.0;
+  const GLINT_G_BASE = 0.3;
+  const GLINT_V_BASE = 0.26;
+
+  // --- Black cylindrical barrel (axis → viewer, open-ended tube) ---------
+  const barrelMat = new THREE.MeshPhysicalMaterial({
+    color: 0x0a0a0c, metalness: 0.4, roughness: 0.55, clearcoat: 0.6,
+    transparent: true, opacity: BARREL_BASE,
   });
-  const ring = new THREE.Mesh(new THREE.TorusGeometry(1.6, 0.07, 24, 96), ringMat);
-  lens.add(ring);
-  const plateMat = new THREE.MeshPhysicalMaterial({
-    color: 0x030405,
-    metalness: 1,
-    roughness: 0.05,
-    clearcoat: 1,
-    transparent: true,
-    opacity: PLATE_BASE_OPACITY,
+  const barrel = new THREE.Mesh(
+    new THREE.CylinderGeometry(1.5, 1.5, 1.1, 64, 1, true),
+    barrelMat
+  );
+  barrel.rotation.x = Math.PI / 2; // y-axis cylinder → z-axis (points at viewer)
+  barrel.position.z = -0.55; // front rim z≈0, back rim z≈−1.1
+  lens.add(barrel);
+
+  // --- Knurled grip ring (~48 axial ribs) near the back of the barrel ----
+  const lensKnurl = new THREE.Group();
+  lensKnurl.position.z = -0.85;
+  const knurlMat = new THREE.MeshPhysicalMaterial({
+    color: 0x151517, metalness: 0.5, roughness: 0.6,
+    transparent: true, opacity: KNURL_BASE,
   });
-  const plate = new THREE.Mesh(new THREE.BoxGeometry(2.2, 2.2, 0.05), plateMat);
-  plate.position.z = -0.01;
-  lens.add(plate);
+  const ribGeo = new THREE.BoxGeometry(0.05, 0.09, 0.34); // shared by every rib
+  const RIB_COUNT = 48;
+  const RIB_R = 1.51; // sits just proud of the barrel wall
+  for (let i = 0; i < RIB_COUNT; i++) {
+    const a = (i / RIB_COUNT) * Math.PI * 2;
+    const rib = new THREE.Mesh(ribGeo, knurlMat);
+    rib.position.set(Math.cos(a) * RIB_R, Math.sin(a) * RIB_R, 0);
+    rib.rotation.z = a; // local +y → radial, length (+z) along the barrel axis
+    lensKnurl.add(rib);
+  }
+  lens.add(lensKnurl);
+
+  // --- Front section (telescopes toward the viewer with scroll) ----------
+  const lensInner = new THREE.Group();
+  lens.add(lensInner);
+
+  // Engraved white text ring — text drawn along a circular arc on a
+  // transparent canvas, mapped onto a front-facing flat annulus.
+  function makeLensTextRing() {
+    const S = 1024;
+    const cv = document.createElement('canvas');
+    cv.width = S;
+    cv.height = S;
+    const ctx = cv.getContext('2d');
+    ctx.clearRect(0, 0, S, S);
+    ctx.translate(S / 2, S / 2);
+    ctx.fillStyle = 'rgba(236,240,238,0.92)';
+    ctx.font = '400 40px "JetBrains Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    const radius = 452; // pixel radius → physical ≈1.29 (inside the annulus)
+    const text = 'ATANDA VISION LENS  EF-CV 10× 1:4-5.6 IS  ø58mm  ·  ';
+    const TWO_PI = Math.PI * 2;
+    let angle = -Math.PI / 2; // start at the top of the ring
+    const end = angle + TWO_PI;
+    let guard = 0;
+    while (angle < end && guard < 4000) {
+      const ch = text[guard % text.length];
+      const step = (ctx.measureText(ch).width || 20) / radius;
+      angle += step / 2;
+      ctx.save();
+      ctx.rotate(angle);
+      ctx.translate(0, -radius);
+      ctx.fillText(ch, 0, 0);
+      ctx.restore();
+      angle += step / 2;
+      guard++;
+    }
+    const tex = new THREE.CanvasTexture(cv);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    return tex;
+  }
+  const textRingMat = new THREE.MeshBasicMaterial({
+    map: makeLensTextRing(), transparent: true, opacity: TEXTRING_BASE, depthWrite: false,
+  });
+  const textRing = new THREE.Mesh(new THREE.RingGeometry(1.12, 1.46, 96), textRingMat);
+  textRing.position.z = 0.02; // just proud of the barrel front rim
+  lensInner.add(textRing);
+
+  // Front glass element — mirror-black disc mirroring scene.environment.
+  const glassMat = new THREE.MeshPhysicalMaterial({
+    color: 0x030405, metalness: 1, roughness: 0.05, clearcoat: 1,
+    transparent: true, opacity: GLASS_BASE, depthWrite: false,
+  });
+  const glass = new THREE.Mesh(new THREE.CircleGeometry(1.05, 96), glassMat);
+  lensInner.add(glass);
+
+  // Internal element edges — two faint dark-grey concentric rings, set back.
+  const innerLineMat = new THREE.MeshStandardMaterial({
+    color: 0x24272b, roughness: 0.6, metalness: 0.3,
+    transparent: true, opacity: INNERLINE_BASE,
+  });
+  const innerLine1 = new THREE.Mesh(new THREE.TorusGeometry(0.72, 0.01, 8, 80), innerLineMat);
+  innerLine1.position.z = -0.14;
+  const innerLine2 = new THREE.Mesh(new THREE.TorusGeometry(0.46, 0.008, 8, 72), innerLineMat);
+  innerLine2.position.z = -0.24;
+  lensInner.add(innerLine1, innerLine2);
+
+  // Aperture — small near-black octagon silhouette deep inside the barrel.
+  const apertureMat = new THREE.MeshBasicMaterial({
+    color: 0x010203, transparent: true, opacity: APERTURE_BASE,
+  });
+  const aperture = new THREE.Mesh(new THREE.CircleGeometry(0.35, 8), apertureMat);
+  aperture.position.z = -0.35;
+  aperture.rotation.z = Math.PI / 8; // flat-topped octagon
+  lensInner.add(aperture);
+
+  // Coating glints — faint additive coloured reflections, off-centre + at depth.
+  const glintGeo = new THREE.PlaneGeometry(0.14, 0.14);
+  const glintGreenMat = new THREE.MeshBasicMaterial({
+    color: 0x9fdc6a, transparent: true, opacity: GLINT_G_BASE,
+    blending: THREE.AdditiveBlending, depthWrite: false,
+  });
+  const glintVioletMat = new THREE.MeshBasicMaterial({
+    color: 0x8a7bd8, transparent: true, opacity: GLINT_V_BASE,
+    blending: THREE.AdditiveBlending, depthWrite: false,
+  });
+  const glintA = new THREE.Mesh(glintGeo, glintGreenMat);
+  glintA.position.set(0.34, 0.22, -0.12);
+  const glintB = new THREE.Mesh(glintGeo, glintVioletMat);
+  glintB.position.set(-0.3, -0.16, -0.22);
+  const glintC = new THREE.Mesh(glintGeo, glintGreenMat);
+  glintC.position.set(0.12, -0.34, -0.3);
+  glintC.scale.setScalar(0.6);
+  lensInner.add(glintA, glintB, glintC);
+
+  // Every fade-driven material with its resting opacity (built once → no alloc).
+  const lensMats = [
+    { m: barrelMat, b: BARREL_BASE },
+    { m: knurlMat, b: KNURL_BASE },
+    { m: textRingMat, b: TEXTRING_BASE },
+    { m: glassMat, b: GLASS_BASE },
+    { m: innerLineMat, b: INNERLINE_BASE },
+    { m: apertureMat, b: APERTURE_BASE },
+    { m: glintGreenMat, b: GLINT_G_BASE },
+    { m: glintVioletMat, b: GLINT_V_BASE },
+  ];
   scene.add(lens);
 
   /* ==========================================================
@@ -687,14 +818,21 @@ function init() {
     // Particle field: gentle ambient rotation (VOIR — the world drifts).
     particles.rotation.y = t * 0.02;
 
-    // Lens: subtle rotation, then fade out as the camera passes through it.
+    // Lens: subtle scroll sync + idle tilt, then fade out as the camera
+    // passes through it. All p-derived and reversible.
     const lensOpacity = 1 - smoothstep(LENS_FADE_IN, LENS_FADE_OUT, p);
     lens.visible = lensOpacity > 0.001;
     if (lens.visible) {
-      lens.rotation.z = t * 0.05;
-      lens.rotation.x = Math.sin(t * 0.3) * 0.04;
-      ringMat.opacity = RING_BASE_OPACITY * lensOpacity;
-      plateMat.opacity = PLATE_BASE_OPACITY * lensOpacity;
+      // Scroll sync: front section telescopes toward the viewer, grip spins.
+      const zoomT = smoothstep(0.02, 0.2, p);
+      lensInner.position.z = zoomT * 0.18;
+      lensKnurl.rotation.z = zoomT * 1.2;
+      // Faint idle tilt so the barrel reads as a physical object.
+      lens.rotation.x = Math.sin(t * 0.3) * 0.03;
+      // Fade: every lens material dims from its resting opacity to 0.
+      for (let i = 0; i < lensMats.length; i++) {
+        lensMats[i].m.opacity = lensMats[i].b * lensOpacity;
+      }
     }
   }
 
