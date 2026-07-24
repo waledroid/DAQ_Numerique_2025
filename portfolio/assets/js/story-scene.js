@@ -247,7 +247,7 @@ function init() {
   // recomputes scale (zoom) + position.z (telescope) each frame; rotation.z is
   // the scroll spin, rotation.x a faint idle tilt about its own centre.
   lensStack.position.set(0, 0, -3.5); // centred, 3.5 in front — behind the hero card
-  lensStack.scale.setScalar(0.8); // world rim radius ≈1.26 → rings surround the card
+  lensStack.scale.setScalar(0.32); // rest scale — tucks behind the card (loop drives the bloom)
   lensStack.rotation.y = 0; // dead-on now that it's centred
   camera.add(lensStack);
 
@@ -344,8 +344,8 @@ function init() {
   // A 4th thin near-black rim flange OUTSIDE the outer ring (band 1.50–1.58),
   // set slightly behind the frontmost lip → extends the stacked-ring read.
   const bezelRimMat = new THREE.MeshPhysicalMaterial({
-    color: 0x060607, metalness: 0.3, roughness: 0.6,
-    envMapIntensity: 0.4, transparent: true, opacity: BEZEL_RIM_BASE,
+    color: 0x000000, metalness: 0.3, roughness: 1,
+    envMapIntensity: 0, transparent: true, opacity: BEZEL_RIM_BASE, // light-absorbing
   });
   const bezelRim = new THREE.Mesh(new THREE.RingGeometry(1.5, 1.58, 96), bezelRimMat);
   bezelRim.position.z = 0.06; // just behind the frontmost lip (z 0.10)
@@ -453,8 +453,8 @@ function init() {
   // lensStack is already parented to the camera (added above) — no scene.add.
 
   /* ==========================================================
-     DÉTECTER (chapter 2) — three drifting celestial "objects"
-     (ringed planet, moon, star) orbiting near origin, each wrapped
+     DÉTECTER (chapter 2) — six drifting "objects" (ringed planet, moon,
+     star, robot humanoïde, colis, AGV) orbiting near origin, each wrapped
      in an accent detection bounding box (LineSegments/EdgesGeometry,
      additive) with a class-name + confidence label sprite above its
      top edge. Boxes lock in with a staggered opacity ramp + scale-pop
@@ -493,18 +493,27 @@ function init() {
     return { sprite, mat };
   }
 
-  const _detBox = [ // bounding-box dims ≈ 1.2× each celestial object
+  const _detBox = [ // bounding-box dims ≈ 1.2× each object's extent
     [0.78, 0.78, 0.78], // ringed planet
     [0.64, 0.64, 0.64], // moon
     [0.5, 0.5, 0.5], //   star
+    [0.44, 0.76, 0.24], // robot humanoïde
+    [0.62, 0.62, 0.62], // colis
+    [0.8, 0.4, 0.56], //  AGV
   ];
-  const _detBase = [ // fixed orbit centres, in front of the ch2 view
+  const _detBase = [ // fixed orbit centres, in front of the ch2 view (no overlaps)
     [-1.2, 0.15, 0.25],
     [1.15, 0.7, -0.3],
     [0.2, -0.55, 0.5],
+    [1.55, -0.55, 0.35], // robot
+    [-1.7, -0.6, -0.5], // colis
+    [-0.25, 1.0, 0.15], // AGV
   ];
-  const _detLock = [0.30, 0.35, 0.40]; // per-box lock thresholds (stagger)
-  const _detLabelText = ['planète 0.94', 'lune 0.89', 'étoile 0.91'];
+  const _detLock = [0.30, 0.35, 0.40, 0.32, 0.37, 0.42]; // per-box lock thresholds (stagger)
+  const _detLabelText = [
+    'planète 0.94', 'lune 0.89', 'étoile 0.91',
+    'robot 0.95', 'colis 0.92', 'AGV 0.90',
+  ];
 
   // Object meshes — each returns { obj, mats, ring? }. `obj` is a Group so
   // the planet's ring drifts/rotates with it; moon/star are lone spheres in
@@ -527,19 +536,65 @@ function init() {
       const moonMat = new THREE.MeshStandardMaterial({ color: 0x9FB2C4, roughness: 0.95, transparent: true, opacity: 0 });
       obj.add(new THREE.Mesh(new THREE.SphereGeometry(0.26, 32, 24), moonMat));
       mats.push(moonMat);
-    } else {
+    } else if (i === 2) {
       // Star — small warm white-gold glowing sphere.
       const starMat = new THREE.MeshStandardMaterial({
         color: 0xFFE9B8, emissive: 0xFFD27A, emissiveIntensity: 1.2, roughness: 0.5, transparent: true, opacity: 0,
       });
       obj.add(new THREE.Mesh(new THREE.SphereGeometry(0.20, 32, 24), starMat));
       mats.push(starMat);
+    } else if (i === 3) {
+      // Robot humanoïde — light-grey primitive assembly with darker joints.
+      const rBody = new THREE.MeshStandardMaterial({ color: 0x9aa2ab, roughness: 0.6, metalness: 0.2, transparent: true, opacity: 0 });
+      const rJoint = new THREE.MeshStandardMaterial({ color: 0x3c4249, roughness: 0.7, metalness: 0.3, transparent: true, opacity: 0 });
+      const torso = new THREE.Mesh(new THREE.BoxGeometry(0.18, 0.26, 0.11), rBody);
+      obj.add(torso);
+      const head = new THREE.Mesh(new THREE.SphereGeometry(0.085, 20, 16), rBody);
+      head.position.y = 0.21;
+      obj.add(head);
+      const neck = new THREE.Mesh(new THREE.CylinderGeometry(0.03, 0.03, 0.05, 12), rJoint);
+      neck.position.y = 0.145;
+      obj.add(neck);
+      const armGeo = new THREE.BoxGeometry(0.05, 0.22, 0.05);
+      const armL = new THREE.Mesh(armGeo, rJoint); armL.position.set(-0.13, -0.01, 0); obj.add(armL);
+      const armR = new THREE.Mesh(armGeo, rJoint); armR.position.set(0.13, -0.01, 0); obj.add(armR);
+      const legGeo = new THREE.BoxGeometry(0.06, 0.22, 0.06);
+      const legL = new THREE.Mesh(legGeo, rBody); legL.position.set(-0.05, -0.24, 0); obj.add(legL);
+      const legR = new THREE.Mesh(legGeo, rBody); legR.position.set(0.05, -0.24, 0); obj.add(legR);
+      mats.push(rBody, rJoint);
+    } else if (i === 4) {
+      // Colis — cardboard box with a darker tape stripe across the top face.
+      const cardMat = new THREE.MeshStandardMaterial({ color: 0xA07C50, roughness: 0.9, transparent: true, opacity: 0 });
+      const tapeMat = new THREE.MeshStandardMaterial({ color: 0x6b5436, roughness: 0.8, transparent: true, opacity: 0 });
+      obj.add(new THREE.Mesh(new THREE.BoxGeometry(0.5, 0.5, 0.5), cardMat));
+      const tape = new THREE.Mesh(new THREE.BoxGeometry(0.52, 0.02, 0.12), tapeMat);
+      tape.position.y = 0.25; // sits across the top face
+      obj.add(tape);
+      mats.push(cardMat, tapeMat);
+    } else {
+      // AGV — low flat platform, 4 tiny wheels, a thin emissive accent stripe.
+      const platMat = new THREE.MeshStandardMaterial({ color: 0x3a4048, roughness: 0.6, metalness: 0.4, transparent: true, opacity: 0 });
+      const wheelMat = new THREE.MeshStandardMaterial({ color: 0x15181c, roughness: 0.8, transparent: true, opacity: 0 });
+      const stripeMat = new THREE.MeshStandardMaterial({ color: 0x0a0d10, emissive: ACCENT, emissiveIntensity: 0.8, transparent: true, opacity: 0 });
+      obj.add(new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.18, 0.45), platMat));
+      const stripe = new THREE.Mesh(new THREE.BoxGeometry(0.66, 0.03, 0.06), stripeMat);
+      stripe.position.set(0, 0.055, 0.16); // thin accent bar along the front of the deck
+      obj.add(stripe);
+      const wheelGeo = new THREE.CylinderGeometry(0.06, 0.06, 0.05, 14);
+      const wpos = [[-0.26, -0.11, 0.17], [0.26, -0.11, 0.17], [-0.26, -0.11, -0.17], [0.26, -0.11, -0.17]];
+      for (let w = 0; w < wpos.length; w++) {
+        const wheel = new THREE.Mesh(wheelGeo, wheelMat);
+        wheel.rotation.z = Math.PI / 2; // axle along x → wheels roll
+        wheel.position.set(wpos[w][0], wpos[w][1], wpos[w][2]);
+        obj.add(wheel);
+      }
+      mats.push(platMat, wheelMat, stripeMat);
     }
     return { obj, mats, ring };
   }
 
   const detects = [];
-  for (let i = 0; i < 3; i++) {
+  for (let i = 0; i < 6; i++) {
     const { obj, mats, ring } = makeCelestial(i);
     detectGroup.add(obj);
     const bd = _detBox[i];
@@ -905,8 +960,9 @@ function init() {
     lensStack.visible = lensOpacity > 0.001;
     if (lensStack.visible) {
       const zoomT = smoothstep(0.02, 0.2, p);
-      // Visible zoom: scale grows 0.9×→1.15× of the 0.8 base (max stays framed).
-      lensStack.scale.setScalar(0.8 * (0.9 + zoomT * 0.25));
+      // Bloom: hidden behind the card at rest (0.32), grows out to full framing
+      // (0.85) as the user scrolls — the rings bloom around the hero card.
+      lensStack.scale.setScalar(THREE.MathUtils.lerp(0.32, 0.85, zoomT));
       // Telescope toward the viewer (−z is in front of the camera).
       lensStack.position.z = -3.5 + zoomT * 0.25;
       lensStack.rotation.z = zoomT * 0.25; // scroll spin
