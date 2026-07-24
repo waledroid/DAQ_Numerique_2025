@@ -118,6 +118,7 @@ function init() {
   const camera = new THREE.PerspectiveCamera(42, width / height, 0.1, 100);
   camera.position.set(0, 2.5, 12);
   camera.lookAt(0, 0, 0);
+  scene.add(camera); // camera is in the graph so the ch1 HUD lens can parent to it
 
   // ---- Lighting ---------------------------------------------------------
   scene.add(new THREE.AmbientLight(0x1a2024, 1.0));
@@ -215,14 +216,14 @@ function init() {
      ENGRAVED TEXT RING on the front lip, a big mirror-black DOMED GLASS
      element (with a thin grey retaining ring) carrying large coloured
      coating reflections + a central highlight. The whole body lives in
-     one `lensStack` group that telescopes + rotates together on scroll
-     (the `lensKnurl` grip adds an extra spin). Every base opacity below
-     is the material's resting alpha; the chapter-1 fade (updateChapter1)
-     multiplies into them via `lensMats` so ALL of it reaches fully
-     transparent at LENS_FADE_OUT.
+     one `lensStack` group PARENTED TO THE CAMERA (a camera-space HUD
+     element), so it stays framed while the ch1 camera dollies from far to
+     close. It zooms + telescopes + rotates on scroll (the `lensKnurl` grip
+     adds an extra spin). Every base opacity below is the material's resting
+     alpha; the chapter-1 fade (updateChapter1) multiplies into them via
+     `lensMats` so ALL of it reaches fully transparent at LENS_FADE_OUT.
      Axis convention: front rim at z≈0, barrel recedes to z≈−1.1.
      ========================================================== */
-  const lens = new THREE.Group();
 
   // Base (resting) opacities — the fade multiplies these each frame.
   const BARREL_BASE = 1.0;
@@ -239,14 +240,15 @@ function init() {
   // + innards all live in `lensStack`, so the scroll telescope/rotation moves
   // every part together as a single unit (the knurl adds its own extra spin).
   const lensStack = new THREE.Group();
-  // Composition: float the lens to the RIGHT of the centred hero card, shrunk
-  // so it clears the card. Base transforms; the zoomT telescope writes only
-  // position.z each frame (adds to this base z=0), and the stack rotation is
-  // applied on .z too — both compose with this base yaw/scale/offset.
-  lensStack.position.set(1.7, 0.5, 0); // upper-right gap between card and frame
-  lensStack.scale.setScalar(0.45); // world barrel radius ≈0.68
-  lensStack.rotation.y = -0.39; // yaw the face toward the ch1 camera (sits left of the lens)
-  lens.add(lensStack);
+  // Camera-space HUD: parented to the camera, so it stays framed no matter
+  // where the ch1 camera dollies. View-space base transforms — −z is in FRONT
+  // of the camera. Sits upper-right, clear of the centred hero card. The loop
+  // recomputes scale (zoom) + position.z (telescope) each frame; rotation.z is
+  // the scroll spin, rotation.x a faint idle tilt about its own centre.
+  lensStack.position.set(1.35, 0.15, -3.5); // 3.5 in front, right of the card
+  lensStack.scale.setScalar(0.37); // world radius ≈0.55 at that depth
+  lensStack.rotation.y = -0.12; // slight styling tilt, essentially head-on
+  camera.add(lensStack);
 
   // --- Black cylindrical barrel (axis → viewer, open-ended tube) ---------
   const barrelMat = new THREE.MeshPhysicalMaterial({
@@ -428,7 +430,7 @@ function init() {
     { m: glintVioletMat, b: GLINT_V_BASE },
     { m: highlightMat, b: HIGHLIGHT_BASE },
   ];
-  scene.add(lens);
+  // lensStack is already parented to the camera (added above) — no scene.add.
 
   /* ==========================================================
      DÉTECTER (chapter 2) — three drifting celestial "objects"
@@ -877,19 +879,20 @@ function init() {
     // Particle field: gentle ambient rotation (VOIR — the world drifts).
     particles.rotation.y = t * 0.02;
 
-    // Lens: subtle scroll sync + idle tilt, then fade out as the camera
-    // passes through it. All p-derived and reversible.
+    // Lens (camera-space HUD): scroll ZOOM + telescope + spin, then fade out.
+    // All p-derived and reversible; base transforms live in camera space.
     const lensOpacity = 1 - smoothstep(LENS_FADE_IN, LENS_FADE_OUT, p);
-    lens.visible = lensOpacity > 0.001;
-    if (lens.visible) {
-      // Scroll sync: the WHOLE stack telescopes + rotates together as one
-      // unit; the knurled grip adds its own extra spin on top.
+    lensStack.visible = lensOpacity > 0.001;
+    if (lensStack.visible) {
       const zoomT = smoothstep(0.02, 0.2, p);
-      lensStack.position.z = zoomT * 0.18;
-      lensStack.rotation.z = zoomT * 0.25;
-      lensKnurl.rotation.z = zoomT * 1.2;
-      // Faint idle tilt so the barrel reads as a physical object.
-      lens.rotation.x = Math.sin(t * 0.3) * 0.03;
+      // Visible zoom: scale grows 0.85×→1.35× of the 0.37 base as you scroll.
+      lensStack.scale.setScalar(0.37 * (0.85 + zoomT * 0.5));
+      // Telescope toward the viewer (−z is in front of the camera).
+      lensStack.position.z = -3.5 + zoomT * 0.25;
+      lensStack.rotation.z = zoomT * 0.25; // scroll spin
+      lensKnurl.rotation.z = zoomT * 1.2; // grip adds extra spin
+      // Faint idle tilt about the stack's own centre (no positional bob).
+      lensStack.rotation.x = Math.sin(t * 0.3) * 0.03;
       // Fade: every lens material dims from its resting opacity to 0.
       for (let i = 0; i < lensMats.length; i++) {
         lensMats[i].m.opacity = lensMats[i].b * lensOpacity;
