@@ -26,6 +26,7 @@
 
 import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 
 /* ---------- Constants / tokens ------------------------------- */
 const ACCENT = 0xa3e635; // bright volt-lime — the ONE accent
@@ -501,13 +502,13 @@ function init() {
     [0.62, 0.62, 0.62], // colis
     [0.8, 0.4, 0.56], //  AGV
   ];
-  const _detBase = [ // fixed orbit centres, in front of the ch2 view (no overlaps)
-    [-1.2, 0.15, 0.25],
-    [1.15, 0.7, -0.3],
-    [0.2, -0.55, 0.5],
-    [1.55, -0.55, 0.35], // robot
-    [-1.7, -0.6, -0.5], // colis
-    [-0.25, 1.0, 0.15], // AGV
+  const _detBase = [ // fixed orbit centres, spread wide across the ch2 field
+    [-1.9, 0.4, 0.6], //  planète
+    [1.6, 1.1, -0.5], //  lune
+    [0.1, -0.9, 0.9], //  étoile
+    [1.9, -0.7, 0.5], //  robot
+    [-1.9, -0.9, -0.7], // colis
+    [-0.3, 1.3, -0.6], // AGV
   ];
   const _detLock = [0.30, 0.35, 0.40, 0.32, 0.37, 0.42]; // per-box lock thresholds (stagger)
   const _detLabelText = [
@@ -572,11 +573,12 @@ function init() {
       obj.add(tape);
       mats.push(cardMat, tapeMat);
     } else {
-      // AGV — low flat platform, 4 tiny wheels, a thin emissive accent stripe.
-      const platMat = new THREE.MeshStandardMaterial({ color: 0x3a4048, roughness: 0.6, metalness: 0.4, transparent: true, opacity: 0 });
+      // AGV — low FANUC-yellow rounded platform, 4 tiny dark wheels, a thin
+      // emissive accent stripe (matches the ch4 robot arm's painted-metal look).
+      const platMat = new THREE.MeshPhysicalMaterial({ color: 0xF2A900, metalness: 0.35, roughness: 0.45, transparent: true, opacity: 0 });
       const wheelMat = new THREE.MeshStandardMaterial({ color: 0x15181c, roughness: 0.8, transparent: true, opacity: 0 });
       const stripeMat = new THREE.MeshStandardMaterial({ color: 0x0a0d10, emissive: ACCENT, emissiveIntensity: 0.8, transparent: true, opacity: 0 });
-      obj.add(new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.18, 0.45), platMat));
+      obj.add(new THREE.Mesh(new RoundedBoxGeometry(0.65, 0.18, 0.45, 4, 0.04), platMat));
       const stripe = new THREE.Mesh(new THREE.BoxGeometry(0.66, 0.03, 0.06), stripeMat);
       stripe.position.set(0, 0.055, 0.16); // thin accent bar along the front of the deck
       obj.add(stripe);
