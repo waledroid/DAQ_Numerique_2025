@@ -232,9 +232,9 @@ function init() {
   const BEZEL_BASE = 1.0; // wide front bezels read solid at rest
   const DOME_RING_BASE = 1.0; // thin grey retaining ring on the glass rim
   const GLASS_BASE = 0.98; // domed centre glass, essentially opaque
-  const GLINT_G_BASE = 0.45;
-  const GLINT_V_BASE = 0.45;
-  const HIGHLIGHT_BASE = 0.4; // small central glint, not a blob
+  const GLINT_G_BASE = 0.3;
+  const GLINT_V_BASE = 0.3;
+  const HIGHLIGHT_BASE = 0.3; // small specular dot, not a fog
 
   // The whole lens body is ONE stack: barrel + knurl + bezels + text + dome
   // + innards all live in `lensStack`, so the scroll telescope/rotation moves
@@ -382,8 +382,10 @@ function init() {
     cv.height = s;
     const ctx = cv.getContext('2d');
     const g = ctx.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
+    // Steep falloff → a compact bright core with a tight edge (no smear).
     g.addColorStop(0, 'rgba(255,255,255,1)');
-    g.addColorStop(0.5, 'rgba(255,255,255,0.45)');
+    g.addColorStop(0.25, 'rgba(255,255,255,0.55)');
+    g.addColorStop(0.55, 'rgba(255,255,255,0.1)');
     g.addColorStop(1, 'rgba(255,255,255,0)');
     ctx.fillStyle = g;
     ctx.fillRect(0, 0, s, s);
@@ -405,17 +407,19 @@ function init() {
     color: 0xf2f5f0, map: softDisc, transparent: true, opacity: HIGHLIGHT_BASE,
     blending: THREE.AdditiveBlending, depthWrite: false,
   });
-  // Reflections sit just in front of the shallow dome apex (z≈0.10) so the
-  // opaque glass never occludes them; contained within the smaller dome (~0.8×).
+  // Compact coating glints just in front of the shallow dome apex (z≈0.10) so
+  // the opaque glass never occludes them. Each ≈25–30% of the glass radius,
+  // slightly elliptical, well inside the rim: teal left, violet right, plus a
+  // tiny specular dot upper-left of centre. (Glass base radius ≈1.38.)
   const glintGreen = new THREE.Mesh(glintGeo, glintGreenMat);
-  glintGreen.position.set(-0.38, 0.07, 0.14);
-  glintGreen.scale.setScalar(1.06);
+  glintGreen.position.set(-0.45, 0.08, 0.14);
+  glintGreen.scale.set(0.8, 0.52, 1); // radius ≈0.4 (~29%), elongated
   const glintViolet = new THREE.Mesh(glintGeo, glintVioletMat);
-  glintViolet.position.set(0.45, -0.06, 0.14);
-  glintViolet.scale.setScalar(1.12);
+  glintViolet.position.set(0.5, -0.1, 0.14);
+  glintViolet.scale.set(0.74, 0.5, 1); // radius ≈0.37 (~27%), elongated
   const highlight = new THREE.Mesh(glintGeo, highlightMat);
-  highlight.position.set(0.03, 0.0, 0.14);
-  highlight.scale.setScalar(0.18); // small central glint (radius ≤0.10)
+  highlight.position.set(-0.15, 0.15, 0.14); // upper-left specular dot
+  highlight.scale.set(0.28, 0.24, 1); // radius ≈0.14 (~10% of glass radius)
   lensStack.add(glintGreen, glintViolet, highlight);
 
   // Every fade-driven material with its resting opacity (built once → no alloc).
