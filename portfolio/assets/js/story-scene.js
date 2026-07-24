@@ -226,11 +226,11 @@ function init() {
   const BARREL_BASE = 1.0;
   const KNURL_BASE = 1.0;
   const TEXTRING_BASE = 0.92;
-  const GLASS_BASE = 0.94;
-  const INNERLINE_BASE = 0.6;
-  const APERTURE_BASE = 1.0;
-  const GLINT_G_BASE = 0.3;
-  const GLINT_V_BASE = 0.26;
+  const BEZEL_BASE = 1.0; // wide front bezels read solid at rest
+  const GLASS_BASE = 0.98; // domed centre glass, essentially opaque
+  const GLINT_G_BASE = 0.45;
+  const GLINT_V_BASE = 0.45;
+  const HIGHLIGHT_BASE = 0.7;
 
   // --- Black cylindrical barrel (axis → viewer, open-ended tube) ---------
   const barrelMat = new THREE.MeshPhysicalMaterial({
@@ -282,7 +282,7 @@ function init() {
     ctx.font = '400 40px "JetBrains Mono", monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    const radius = 452; // pixel radius → physical ≈1.29 (inside the annulus)
+    const radius = 432; // pixel radius → physical ≈1.20 (on the bezel band)
     const text = 'ATANDA VISION LENS  EF-CV 10× 1:4-5.6 IS  ø58mm  ·  ';
     const TWO_PI = Math.PI * 2;
     let angle = -Math.PI / 2; // start at the top of the ring
@@ -304,70 +304,99 @@ function init() {
     tex.colorSpace = THREE.SRGBColorSpace;
     return tex;
   }
+  // Wide OPAQUE bezels — stepped concentric matte-to-satin black annuli
+  // filling the front face from the outer rim (r≈1.5) down to r≈0.82. A
+  // shared physical material; slight radius + depth steps give the stacked-
+  // ring read of the photo. Opaque at rest (base 1.0) → the frame is solid.
+  const bezelMat = new THREE.MeshPhysicalMaterial({
+    color: 0x0a0a0c, metalness: 0.3, roughness: 0.55, clearcoat: 0.3,
+    transparent: true, opacity: BEZEL_BASE,
+  });
+  const bezelOuter = new THREE.Mesh(new THREE.RingGeometry(1.26, 1.5, 96), bezelMat);
+  bezelOuter.position.z = 0.03; // highest step at the rim
+  const bezelMid = new THREE.Mesh(new THREE.RingGeometry(1.02, 1.3, 96), bezelMat);
+  bezelMid.position.z = 0.0; // steps down toward the glass
+  const bezelInner = new THREE.Mesh(new THREE.RingGeometry(0.82, 1.06, 96), bezelMat);
+  bezelInner.position.z = -0.03; // lowest step, rings the glass
+  lensInner.add(bezelOuter, bezelMid, bezelInner);
+
+  // Engraved text ring — rides ON the opaque bezel band (~1.05–1.42).
   const textRingMat = new THREE.MeshBasicMaterial({
     map: makeLensTextRing(), transparent: true, opacity: TEXTRING_BASE, depthWrite: false,
   });
-  const textRing = new THREE.Mesh(new THREE.RingGeometry(1.12, 1.46, 96), textRingMat);
-  textRing.position.z = 0.02; // just proud of the barrel front rim
+  const textRing = new THREE.Mesh(new THREE.RingGeometry(1.05, 1.42, 96), textRingMat);
+  textRing.position.z = 0.06; // just proud of the outer bezel step
   lensInner.add(textRing);
 
-  // Front glass element — mirror-black disc mirroring scene.environment.
+  // Domed centre glass — a gently convex, glossy near-black cap (base radius
+  // ≈0.85) mirroring scene.environment; essentially opaque. Built as a low,
+  // wide sphere cap (large sphere, small theta) apex facing the viewer.
   const glassMat = new THREE.MeshPhysicalMaterial({
-    color: 0x030405, metalness: 1, roughness: 0.05, clearcoat: 1,
-    transparent: true, opacity: GLASS_BASE, depthWrite: false,
+    color: 0x030405, metalness: 1, roughness: 0.04, clearcoat: 1,
+    transparent: true, opacity: GLASS_BASE,
   });
-  const glass = new THREE.Mesh(new THREE.CircleGeometry(1.05, 96), glassMat);
+  const glass = new THREE.Mesh(
+    new THREE.SphereGeometry(2.2, 48, 32, 0, Math.PI * 2, 0, 0.4), // base r≈0.86, h≈0.17
+    glassMat
+  );
+  glass.rotation.x = Math.PI / 2; // cap apex (+y) → +z (toward viewer)
+  glass.position.z = -0.17; // apex sits ≈flush with the mid bezel
   lensInner.add(glass);
 
-  // Internal element edges — two faint dark-grey concentric rings, set back.
-  const innerLineMat = new THREE.MeshStandardMaterial({
-    color: 0x24272b, roughness: 0.6, metalness: 0.3,
-    transparent: true, opacity: INNERLINE_BASE,
-  });
-  const innerLine1 = new THREE.Mesh(new THREE.TorusGeometry(0.72, 0.01, 8, 80), innerLineMat);
-  innerLine1.position.z = -0.14;
-  const innerLine2 = new THREE.Mesh(new THREE.TorusGeometry(0.46, 0.008, 8, 72), innerLineMat);
-  innerLine2.position.z = -0.24;
-  lensInner.add(innerLine1, innerLine2);
-
-  // Aperture — small near-black octagon silhouette deep inside the barrel.
-  const apertureMat = new THREE.MeshBasicMaterial({
-    color: 0x010203, transparent: true, opacity: APERTURE_BASE,
-  });
-  const aperture = new THREE.Mesh(new THREE.CircleGeometry(0.35, 8), apertureMat);
-  aperture.position.z = -0.35;
-  aperture.rotation.z = Math.PI / 8; // flat-topped octagon
-  lensInner.add(aperture);
-
-  // Coating glints — faint additive coloured reflections, off-centre + at depth.
-  const glintGeo = new THREE.PlaneGeometry(0.14, 0.14);
+  // Coating reflections — soft radial-gradient discs, additive. One large
+  // teal-green left + one large violet-magenta right, plus a small near-white
+  // central highlight (the photo's bright centre). Shared soft texture.
+  function makeSoftDisc() {
+    const s = 256;
+    const cv = document.createElement('canvas');
+    cv.width = s;
+    cv.height = s;
+    const ctx = cv.getContext('2d');
+    const g = ctx.createRadialGradient(s / 2, s / 2, 0, s / 2, s / 2, s / 2);
+    g.addColorStop(0, 'rgba(255,255,255,1)');
+    g.addColorStop(0.5, 'rgba(255,255,255,0.45)');
+    g.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, s, s);
+    const tex = new THREE.CanvasTexture(cv);
+    tex.colorSpace = THREE.SRGBColorSpace;
+    return tex;
+  }
+  const softDisc = makeSoftDisc();
+  const glintGeo = new THREE.PlaneGeometry(1, 1);
   const glintGreenMat = new THREE.MeshBasicMaterial({
-    color: 0x9fdc6a, transparent: true, opacity: GLINT_G_BASE,
+    color: 0x2ea56b, map: softDisc, transparent: true, opacity: GLINT_G_BASE,
     blending: THREE.AdditiveBlending, depthWrite: false,
   });
   const glintVioletMat = new THREE.MeshBasicMaterial({
-    color: 0x8a7bd8, transparent: true, opacity: GLINT_V_BASE,
+    color: 0x7b3fd1, map: softDisc, transparent: true, opacity: GLINT_V_BASE,
     blending: THREE.AdditiveBlending, depthWrite: false,
   });
-  const glintA = new THREE.Mesh(glintGeo, glintGreenMat);
-  glintA.position.set(0.34, 0.22, -0.12);
-  const glintB = new THREE.Mesh(glintGeo, glintVioletMat);
-  glintB.position.set(-0.3, -0.16, -0.22);
-  const glintC = new THREE.Mesh(glintGeo, glintGreenMat);
-  glintC.position.set(0.12, -0.34, -0.3);
-  glintC.scale.setScalar(0.6);
-  lensInner.add(glintA, glintB, glintC);
+  const highlightMat = new THREE.MeshBasicMaterial({
+    color: 0xf2f5f0, map: softDisc, transparent: true, opacity: HIGHLIGHT_BASE,
+    blending: THREE.AdditiveBlending, depthWrite: false,
+  });
+  const glintGreen = new THREE.Mesh(glintGeo, glintGreenMat);
+  glintGreen.position.set(-0.34, 0.06, 0.02);
+  glintGreen.scale.setScalar(0.95);
+  const glintViolet = new THREE.Mesh(glintGeo, glintVioletMat);
+  glintViolet.position.set(0.4, -0.05, 0.03);
+  glintViolet.scale.setScalar(1.0);
+  const highlight = new THREE.Mesh(glintGeo, highlightMat);
+  highlight.position.set(0.03, 0.0, 0.04);
+  highlight.scale.setScalar(0.24);
+  lensInner.add(glintGreen, glintViolet, highlight);
 
   // Every fade-driven material with its resting opacity (built once → no alloc).
   const lensMats = [
     { m: barrelMat, b: BARREL_BASE },
     { m: knurlMat, b: KNURL_BASE },
+    { m: bezelMat, b: BEZEL_BASE },
     { m: textRingMat, b: TEXTRING_BASE },
     { m: glassMat, b: GLASS_BASE },
-    { m: innerLineMat, b: INNERLINE_BASE },
-    { m: apertureMat, b: APERTURE_BASE },
     { m: glintGreenMat, b: GLINT_G_BASE },
     { m: glintVioletMat, b: GLINT_V_BASE },
+    { m: highlightMat, b: HIGHLIGHT_BASE },
   ];
   scene.add(lens);
 
