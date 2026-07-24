@@ -282,7 +282,7 @@ function init() {
     ctx.font = '400 40px "JetBrains Mono", monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    const radius = 432; // pixel radius → physical ≈1.20 (on the bezel band)
+    const radius = 466; // pixel radius → physical ≈1.35 (on the bezel band)
     const text = 'ATANDA VISION LENS  EF-CV 10× 1:4-5.6 IS  ø58mm  ·  ';
     const TWO_PI = Math.PI * 2;
     let angle = -Math.PI / 2; // start at the top of the ring
@@ -312,20 +312,22 @@ function init() {
     color: 0x0a0a0c, metalness: 0.3, roughness: 0.55, clearcoat: 0.3,
     transparent: true, opacity: BEZEL_BASE,
   });
-  const bezelOuter = new THREE.Mesh(new THREE.RingGeometry(1.26, 1.5, 96), bezelMat);
-  bezelOuter.position.z = 0.03; // highest step at the rim
-  const bezelMid = new THREE.Mesh(new THREE.RingGeometry(1.02, 1.3, 96), bezelMat);
-  bezelMid.position.z = 0.0; // steps down toward the glass
-  const bezelInner = new THREE.Mesh(new THREE.RingGeometry(0.82, 1.06, 96), bezelMat);
-  bezelInner.position.z = -0.03; // lowest step, rings the glass
+  // Nearly the same diameter, stacked in DEPTH (clear z-steps) so head-on
+  // they read as a stacked barrel of rings around one big glass element.
+  const bezelOuter = new THREE.Mesh(new THREE.RingGeometry(1.36, 1.5, 96), bezelMat);
+  bezelOuter.position.z = 0.1; // frontmost step at the rim
+  const bezelMid = new THREE.Mesh(new THREE.RingGeometry(1.28, 1.44, 96), bezelMat);
+  bezelMid.position.z = 0.03; // ~0.07 deeper
+  const bezelInner = new THREE.Mesh(new THREE.RingGeometry(1.18, 1.36, 96), bezelMat);
+  bezelInner.position.z = -0.04; // deepest step, rings the glass rim
   lensInner.add(bezelOuter, bezelMid, bezelInner);
 
-  // Engraved text ring — rides ON the opaque bezel band (~1.05–1.42).
+  // Engraved text ring — rides ON the front bezel band (~1.24–1.48).
   const textRingMat = new THREE.MeshBasicMaterial({
     map: makeLensTextRing(), transparent: true, opacity: TEXTRING_BASE, depthWrite: false,
   });
-  const textRing = new THREE.Mesh(new THREE.RingGeometry(1.05, 1.42, 96), textRingMat);
-  textRing.position.z = 0.06; // just proud of the outer bezel step
+  const textRing = new THREE.Mesh(new THREE.RingGeometry(1.24, 1.48, 96), textRingMat);
+  textRing.position.z = 0.13; // just proud of the frontmost bezel step
   lensInner.add(textRing);
 
   // Domed centre glass — a gently convex, glossy near-black cap (base radius
@@ -336,11 +338,11 @@ function init() {
     transparent: true, opacity: GLASS_BASE,
   });
   const glass = new THREE.Mesh(
-    new THREE.SphereGeometry(2.2, 48, 32, 0, Math.PI * 2, 0, 0.4), // base r≈0.86, h≈0.17
+    new THREE.SphereGeometry(3.5, 64, 40, 0, Math.PI * 2, 0, 0.35), // base r≈1.20, h≈0.21
     glassMat
   );
   glass.rotation.x = Math.PI / 2; // cap apex (+y) → +z (toward viewer)
-  glass.position.z = -0.17; // apex sits ≈flush with the mid bezel
+  glass.position.z = -0.21; // rim well behind bezelInner (no seam z-fight); apex ≈flush
   lensInner.add(glass);
 
   // Coating reflections — soft radial-gradient discs, additive. One large
@@ -376,15 +378,16 @@ function init() {
     color: 0xf2f5f0, map: softDisc, transparent: true, opacity: HIGHLIGHT_BASE,
     blending: THREE.AdditiveBlending, depthWrite: false,
   });
+  // Innards scale ≈1.4× with the enlarged glass (positions + sizes grow).
   const glintGreen = new THREE.Mesh(glintGeo, glintGreenMat);
-  glintGreen.position.set(-0.34, 0.06, 0.02);
-  glintGreen.scale.setScalar(0.95);
+  glintGreen.position.set(-0.48, 0.09, 0.03);
+  glintGreen.scale.setScalar(1.33);
   const glintViolet = new THREE.Mesh(glintGeo, glintVioletMat);
-  glintViolet.position.set(0.4, -0.05, 0.03);
-  glintViolet.scale.setScalar(1.0);
+  glintViolet.position.set(0.56, -0.07, 0.04);
+  glintViolet.scale.setScalar(1.4);
   const highlight = new THREE.Mesh(glintGeo, highlightMat);
-  highlight.position.set(0.03, 0.0, 0.04);
-  highlight.scale.setScalar(0.24);
+  highlight.position.set(0.04, 0.0, 0.05);
+  highlight.scale.setScalar(0.34);
   lensInner.add(glintGreen, glintViolet, highlight);
 
   // Every fade-driven material with its resting opacity (built once → no alloc).
