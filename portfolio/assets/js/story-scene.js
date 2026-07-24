@@ -208,31 +208,36 @@ function init() {
   }
 
   /* ==========================================================
-     LENS (chapter 1) — a dark metal ring + inner transmission
-     disc floating at origin; the "eye" the world focuses through.
+     LENS (chapter 1) — a dark, mirror-metal ring + inner black-glass
+     square plate floating at origin; the "eye" the world focuses
+     through. Base opacities below are the materials' resting alpha;
+     the chapter-1 fade (see p-loop) multiplies into them so both
+     still reach fully transparent at LENS_FADE_OUT.
      ========================================================== */
   const lens = new THREE.Group();
+  const RING_BASE_OPACITY = 0.85;
+  const PLATE_BASE_OPACITY = 0.92;
   const ringMat = new THREE.MeshPhysicalMaterial({
-    color: 0x0c0e11,
-    metalness: 0.9,
-    roughness: 0.25,
+    color: 0x0e0f11,
+    metalness: 0.95,
+    roughness: 0.12,
+    clearcoat: 1,
     transparent: true,
-    opacity: 1,
+    opacity: RING_BASE_OPACITY,
   });
   const ring = new THREE.Mesh(new THREE.TorusGeometry(1.6, 0.07, 24, 96), ringMat);
   lens.add(ring);
-  const discMat = new THREE.MeshPhysicalMaterial({
-    color: 0xffffff,
-    transmission: 0.92,
-    thickness: 0.5,
-    roughness: 0.12,
-    metalness: 0,
+  const plateMat = new THREE.MeshPhysicalMaterial({
+    color: 0x030405,
+    metalness: 1,
+    roughness: 0.05,
+    clearcoat: 1,
     transparent: true,
-    opacity: 1,
+    opacity: PLATE_BASE_OPACITY,
   });
-  const disc = new THREE.Mesh(new THREE.CircleGeometry(1.55, 96), discMat);
-  disc.position.z = -0.01;
-  lens.add(disc);
+  const plate = new THREE.Mesh(new THREE.BoxGeometry(2.2, 2.2, 0.05), plateMat);
+  plate.position.z = -0.01;
+  lens.add(plate);
   scene.add(lens);
 
   /* ==========================================================
@@ -688,8 +693,8 @@ function init() {
     if (lens.visible) {
       lens.rotation.z = t * 0.05;
       lens.rotation.x = Math.sin(t * 0.3) * 0.04;
-      ringMat.opacity = lensOpacity;
-      discMat.opacity = lensOpacity;
+      ringMat.opacity = RING_BASE_OPACITY * lensOpacity;
+      plateMat.opacity = PLATE_BASE_OPACITY * lensOpacity;
     }
   }
 
