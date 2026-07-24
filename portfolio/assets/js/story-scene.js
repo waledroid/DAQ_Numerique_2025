@@ -253,6 +253,7 @@ function init() {
   // --- Black cylindrical barrel (axis → viewer, open-ended tube) ---------
   const barrelMat = new THREE.MeshPhysicalMaterial({
     color: 0x0a0a0c, metalness: 0.4, roughness: 0.55, clearcoat: 0.6,
+    envMapIntensity: 0.5, // tame the room-panel reflection
     transparent: true, opacity: BARREL_BASE,
   });
   const barrel = new THREE.Mesh(
@@ -325,6 +326,7 @@ function init() {
   // ring read of the photo. Opaque at rest (base 1.0) → the frame is solid.
   const bezelMat = new THREE.MeshPhysicalMaterial({
     color: 0x0a0a0c, metalness: 0.3, roughness: 0.55, clearcoat: 0.3,
+    envMapIntensity: 0.5, // tame the room-panel reflection
     transparent: true, opacity: BEZEL_BASE,
   });
   // SAME exact outer radius (1.5) for every ring — only a thin inner lip —
@@ -352,7 +354,9 @@ function init() {
   // base = R·sinθ ≈1.38, sagitta = R·(1−cosθ) ≈0.12. Geometry translated so
   // the apex sits at local origin → clean z-seating.
   const glassMat = new THREE.MeshPhysicalMaterial({
-    color: 0x030405, metalness: 1, roughness: 0.04, clearcoat: 1,
+    color: 0x030405, metalness: 1, roughness: 0.14, clearcoat: 1,
+    clearcoatRoughness: 0.25, // blur the clearcoat's copy of the room panel
+    envMapIntensity: 0.3, // dim the room panel to a soft sheen (no white rectangle)
     transparent: true, opacity: GLASS_BASE,
   });
   const domeGeo = new THREE.SphereGeometry(8.0, 64, 40, 0, Math.PI * 2, 0, 0.1736);
