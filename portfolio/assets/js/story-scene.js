@@ -210,14 +210,16 @@ function init() {
   /* ==========================================================
      LENS (chapter 1) — a stylised zoom-lens (Canon EF-S look) aimed
      straight at the ch1 camera: a semi-matte BLACK BARREL whose axis
-     points at the viewer, a KNURLED grip ring near its back, a white
-     ENGRAVED TEXT RING on the front rim, and a mirror-black FRONT GLASS
-     element with faint internal-element lines, a deep octagonal aperture
-     silhouette, and a few coloured coating glints. Two sub-groups drive
-     the subtle scroll sync: `lensInner` telescopes toward the viewer and
-     `lensKnurl` spins. Every base opacity below is the material's resting
-     alpha; the chapter-1 fade (see updateChapter1) multiplies into them
-     via `lensMats` so ALL of it reaches fully transparent at LENS_FADE_OUT.
+     points at the viewer, a KNURLED grip ring near its back, three
+     uniform-diameter OPAQUE BEZEL rings stacked in depth, a white
+     ENGRAVED TEXT RING on the front lip, a big mirror-black DOMED GLASS
+     element (with a thin grey retaining ring) carrying large coloured
+     coating reflections + a central highlight. The whole body lives in
+     one `lensStack` group that telescopes + rotates together on scroll
+     (the `lensKnurl` grip adds an extra spin). Every base opacity below
+     is the material's resting alpha; the chapter-1 fade (updateChapter1)
+     multiplies into them via `lensMats` so ALL of it reaches fully
+     transparent at LENS_FADE_OUT.
      Axis convention: front rim at z≈0, barrel recedes to z≈−1.1.
      ========================================================== */
   const lens = new THREE.Group();
@@ -227,10 +229,17 @@ function init() {
   const KNURL_BASE = 1.0;
   const TEXTRING_BASE = 0.92;
   const BEZEL_BASE = 1.0; // wide front bezels read solid at rest
+  const DOME_RING_BASE = 1.0; // thin grey retaining ring on the glass rim
   const GLASS_BASE = 0.98; // domed centre glass, essentially opaque
   const GLINT_G_BASE = 0.45;
   const GLINT_V_BASE = 0.45;
   const HIGHLIGHT_BASE = 0.7;
+
+  // The whole lens body is ONE stack: barrel + knurl + bezels + text + dome
+  // + innards all live in `lensStack`, so the scroll telescope/rotation moves
+  // every part together as a single unit (the knurl adds its own extra spin).
+  const lensStack = new THREE.Group();
+  lens.add(lensStack);
 
   // --- Black cylindrical barrel (axis → viewer, open-ended tube) ---------
   const barrelMat = new THREE.MeshPhysicalMaterial({
@@ -243,7 +252,7 @@ function init() {
   );
   barrel.rotation.x = Math.PI / 2; // y-axis cylinder → z-axis (points at viewer)
   barrel.position.z = -0.55; // front rim z≈0, back rim z≈−1.1
-  lens.add(barrel);
+  lensStack.add(barrel);
 
   // --- Knurled grip ring (~48 axial ribs) near the back of the barrel ----
   const lensKnurl = new THREE.Group();
@@ -262,12 +271,9 @@ function init() {
     rib.rotation.z = a; // local +y → radial, length (+z) along the barrel axis
     lensKnurl.add(rib);
   }
-  lens.add(lensKnurl);
+  lensStack.add(lensKnurl);
 
-  // --- Front section (telescopes toward the viewer with scroll) ----------
-  const lensInner = new THREE.Group();
-  lens.add(lensInner);
-
+  // --- Front section — all added to the shared lensStack (moves as one) ---
   // Engraved white text ring — text drawn along a circular arc on a
   // transparent canvas, mapped onto a front-facing flat annulus.
   function makeLensTextRing() {
@@ -279,10 +285,10 @@ function init() {
     ctx.clearRect(0, 0, S, S);
     ctx.translate(S / 2, S / 2);
     ctx.fillStyle = 'rgba(236,240,238,0.92)';
-    ctx.font = '400 40px "JetBrains Mono", monospace';
+    ctx.font = '400 38px "JetBrains Mono", monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
-    const radius = 466; // pixel radius → physical ≈1.35 (on the bezel band)
+    const radius = 488; // pixel radius → physical ≈1.43 (on the front bezel lip)
     const text = 'ATANDA VISION LENS  EF-CV 10× 1:4-5.6 IS  ø58mm  ·  ';
     const TWO_PI = Math.PI * 2;
     let angle = -Math.PI / 2; // start at the top of the ring
@@ -312,38 +318,48 @@ function init() {
     color: 0x0a0a0c, metalness: 0.3, roughness: 0.55, clearcoat: 0.3,
     transparent: true, opacity: BEZEL_BASE,
   });
-  // Nearly the same diameter, stacked in DEPTH (clear z-steps) so head-on
-  // they read as a stacked barrel of rings around one big glass element.
-  const bezelOuter = new THREE.Mesh(new THREE.RingGeometry(1.36, 1.5, 96), bezelMat);
-  bezelOuter.position.z = 0.1; // frontmost step at the rim
-  const bezelMid = new THREE.Mesh(new THREE.RingGeometry(1.28, 1.44, 96), bezelMat);
+  // SAME exact outer radius (1.5) for every ring — only a thin inner lip —
+  // stacked purely in DEPTH so head-on they read as one uniform-diameter
+  // barrel of rings layered front-to-back around the big glass element.
+  const bezelOuter = new THREE.Mesh(new THREE.RingGeometry(1.4, 1.5, 96), bezelMat);
+  bezelOuter.position.z = 0.1; // frontmost ring
+  const bezelMid = new THREE.Mesh(new THREE.RingGeometry(1.4, 1.5, 96), bezelMat);
   bezelMid.position.z = 0.03; // ~0.07 deeper
-  const bezelInner = new THREE.Mesh(new THREE.RingGeometry(1.18, 1.36, 96), bezelMat);
-  bezelInner.position.z = -0.04; // deepest step, rings the glass rim
-  lensInner.add(bezelOuter, bezelMid, bezelInner);
+  const bezelInner = new THREE.Mesh(new THREE.RingGeometry(1.4, 1.5, 96), bezelMat);
+  bezelInner.position.z = -0.04; // deepest ring, over the glass rim
+  lensStack.add(bezelOuter, bezelMid, bezelInner);
 
-  // Engraved text ring — rides ON the front bezel band (~1.24–1.48).
+  // Engraved text ring — rides ON the front bezel lip (~1.36–1.5).
   const textRingMat = new THREE.MeshBasicMaterial({
     map: makeLensTextRing(), transparent: true, opacity: TEXTRING_BASE, depthWrite: false,
   });
-  const textRing = new THREE.Mesh(new THREE.RingGeometry(1.24, 1.48, 96), textRingMat);
-  textRing.position.z = 0.13; // just proud of the frontmost bezel step
-  lensInner.add(textRing);
+  const textRing = new THREE.Mesh(new THREE.RingGeometry(1.36, 1.5, 96), textRingMat);
+  textRing.position.z = 0.13; // just proud of the frontmost bezel ring
+  lensStack.add(textRing);
 
-  // Domed centre glass — a gently convex, glossy near-black cap (base radius
-  // ≈0.85) mirroring scene.environment; essentially opaque. Built as a low,
-  // wide sphere cap (large sphere, small theta) apex facing the viewer.
+  // Domed centre glass — a gently convex, glossy near-black cap whose base
+  // radius (≈1.44) matches the bezel interior so nothing steps inward;
+  // mirrors scene.environment, essentially opaque. Low, wide sphere cap.
   const glassMat = new THREE.MeshPhysicalMaterial({
     color: 0x030405, metalness: 1, roughness: 0.04, clearcoat: 1,
     transparent: true, opacity: GLASS_BASE,
   });
   const glass = new THREE.Mesh(
-    new THREE.SphereGeometry(3.5, 64, 40, 0, Math.PI * 2, 0, 0.35), // base r≈1.20, h≈0.21
+    new THREE.SphereGeometry(4.5, 64, 40, 0, Math.PI * 2, 0, 0.326), // base r≈1.44, h≈0.24
     glassMat
   );
   glass.rotation.x = Math.PI / 2; // cap apex (+y) → +z (toward viewer)
-  glass.position.z = -0.21; // rim well behind bezelInner (no seam z-fight); apex ≈flush
-  lensInner.add(glass);
+  glass.position.z = -0.24; // rim behind bezelInner (no seam z-fight); apex ≈flush
+  lensStack.add(glass);
+
+  // Thin grey retaining ring hugging the glass rim (like a real lens' lip).
+  const domeRingMat = new THREE.MeshPhysicalMaterial({
+    color: 0x6a6f76, metalness: 0.6, roughness: 0.4,
+    transparent: true, opacity: DOME_RING_BASE,
+  });
+  const domeRing = new THREE.Mesh(new THREE.TorusGeometry(1.41, 0.018, 12, 120), domeRingMat);
+  domeRing.position.z = -0.02; // just in front of the glass rim, at the inner lip
+  lensStack.add(domeRing);
 
   // Coating reflections — soft radial-gradient discs, additive. One large
   // teal-green left + one large violet-magenta right, plus a small near-white
@@ -388,13 +404,14 @@ function init() {
   const highlight = new THREE.Mesh(glintGeo, highlightMat);
   highlight.position.set(0.04, 0.0, 0.05);
   highlight.scale.setScalar(0.34);
-  lensInner.add(glintGreen, glintViolet, highlight);
+  lensStack.add(glintGreen, glintViolet, highlight);
 
   // Every fade-driven material with its resting opacity (built once → no alloc).
   const lensMats = [
     { m: barrelMat, b: BARREL_BASE },
     { m: knurlMat, b: KNURL_BASE },
     { m: bezelMat, b: BEZEL_BASE },
+    { m: domeRingMat, b: DOME_RING_BASE },
     { m: textRingMat, b: TEXTRING_BASE },
     { m: glassMat, b: GLASS_BASE },
     { m: glintGreenMat, b: GLINT_G_BASE },
@@ -855,9 +872,11 @@ function init() {
     const lensOpacity = 1 - smoothstep(LENS_FADE_IN, LENS_FADE_OUT, p);
     lens.visible = lensOpacity > 0.001;
     if (lens.visible) {
-      // Scroll sync: front section telescopes toward the viewer, grip spins.
+      // Scroll sync: the WHOLE stack telescopes + rotates together as one
+      // unit; the knurled grip adds its own extra spin on top.
       const zoomT = smoothstep(0.02, 0.2, p);
-      lensInner.position.z = zoomT * 0.18;
+      lensStack.position.z = zoomT * 0.18;
+      lensStack.rotation.z = zoomT * 0.25;
       lensKnurl.rotation.z = zoomT * 1.2;
       // Faint idle tilt so the barrel reads as a physical object.
       lens.rotation.x = Math.sin(t * 0.3) * 0.03;
