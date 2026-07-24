@@ -230,6 +230,7 @@ function init() {
   const KNURL_BASE = 1.0;
   const TEXTRING_BASE = 0.92;
   const BEZEL_BASE = 1.0; // wide front bezels read solid at rest
+  const BEZEL_RIM_BASE = 1.0; // thin near-black outer rim flange
   const DOME_RING_BASE = 1.0; // thin grey retaining ring on the glass rim
   const GLASS_BASE = 0.98; // domed centre glass, essentially opaque
   const GLINT_G_BASE = 0.3;
@@ -245,9 +246,9 @@ function init() {
   // of the camera. Sits upper-right, clear of the centred hero card. The loop
   // recomputes scale (zoom) + position.z (telescope) each frame; rotation.z is
   // the scroll spin, rotation.x a faint idle tilt about its own centre.
-  lensStack.position.set(1.35, 0.15, -3.5); // 3.5 in front, right of the card
-  lensStack.scale.setScalar(0.37); // world radius ≈0.55 at that depth
-  lensStack.rotation.y = -0.12; // slight styling tilt, essentially head-on
+  lensStack.position.set(0, 0, -3.5); // centred, 3.5 in front — behind the hero card
+  lensStack.scale.setScalar(0.8); // world rim radius ≈1.26 → rings surround the card
+  lensStack.rotation.y = 0; // dead-on now that it's centred
   camera.add(lensStack);
 
   // --- Black cylindrical barrel (axis → viewer, open-ended tube) ---------
@@ -294,7 +295,7 @@ function init() {
     const ctx = cv.getContext('2d');
     ctx.clearRect(0, 0, S, S);
     ctx.translate(S / 2, S / 2);
-    ctx.fillStyle = 'rgba(236,240,238,0.92)';
+    ctx.fillStyle = 'rgba(255,255,255,0.6)'; // engraved grey-white, not glowing
     ctx.font = '400 38px "JetBrains Mono", monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'middle';
@@ -339,6 +340,16 @@ function init() {
   const bezelInner = new THREE.Mesh(new THREE.RingGeometry(1.3, 1.5, 96), bezelMat);
   bezelInner.position.z = -0.04; // deepest ring, over the glass rim
   lensStack.add(bezelOuter, bezelMid, bezelInner);
+
+  // A 4th thin near-black rim flange OUTSIDE the outer ring (band 1.50–1.58),
+  // set slightly behind the frontmost lip → extends the stacked-ring read.
+  const bezelRimMat = new THREE.MeshPhysicalMaterial({
+    color: 0x060607, metalness: 0.3, roughness: 0.6,
+    envMapIntensity: 0.4, transparent: true, opacity: BEZEL_RIM_BASE,
+  });
+  const bezelRim = new THREE.Mesh(new THREE.RingGeometry(1.5, 1.58, 96), bezelRimMat);
+  bezelRim.position.z = 0.06; // just behind the frontmost lip (z 0.10)
+  lensStack.add(bezelRim);
 
   // Engraved text ring — rides ON the front bezel lip (~1.36–1.5).
   const textRingMat = new THREE.MeshBasicMaterial({
@@ -431,6 +442,7 @@ function init() {
     { m: barrelMat, b: BARREL_BASE },
     { m: knurlMat, b: KNURL_BASE },
     { m: bezelMat, b: BEZEL_BASE },
+    { m: bezelRimMat, b: BEZEL_RIM_BASE },
     { m: domeRingMat, b: DOME_RING_BASE },
     { m: textRingMat, b: TEXTRING_BASE },
     { m: glassMat, b: GLASS_BASE },
@@ -893,8 +905,8 @@ function init() {
     lensStack.visible = lensOpacity > 0.001;
     if (lensStack.visible) {
       const zoomT = smoothstep(0.02, 0.2, p);
-      // Visible zoom: scale grows 0.85×→1.35× of the 0.37 base as you scroll.
-      lensStack.scale.setScalar(0.37 * (0.85 + zoomT * 0.5));
+      // Visible zoom: scale grows 0.9×→1.15× of the 0.8 base (max stays framed).
+      lensStack.scale.setScalar(0.8 * (0.9 + zoomT * 0.25));
       // Telescope toward the viewer (−z is in front of the camera).
       lensStack.position.z = -3.5 + zoomT * 0.25;
       lensStack.rotation.z = zoomT * 0.25; // scroll spin
