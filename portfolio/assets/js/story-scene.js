@@ -239,6 +239,13 @@ function init() {
   // + innards all live in `lensStack`, so the scroll telescope/rotation moves
   // every part together as a single unit (the knurl adds its own extra spin).
   const lensStack = new THREE.Group();
+  // Composition: float the lens to the RIGHT of the centred hero card, shrunk
+  // so it clears the card. Base transforms; the zoomT telescope writes only
+  // position.z each frame (adds to this base z=0), and the stack rotation is
+  // applied on .z too — both compose with this base yaw/scale/offset.
+  lensStack.position.set(1.55, 0.35, 0);
+  lensStack.scale.setScalar(0.55); // world barrel radius ≈0.83
+  lensStack.rotation.y = -0.32; // yaw the face toward the ch1 camera (sits left of the lens)
   lens.add(lensStack);
 
   // --- Black cylindrical barrel (axis → viewer, open-ended tube) ---------
