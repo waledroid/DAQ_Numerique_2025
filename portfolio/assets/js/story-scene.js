@@ -233,7 +233,7 @@ function init() {
   const GLASS_BASE = 0.98; // domed centre glass, essentially opaque
   const GLINT_G_BASE = 0.45;
   const GLINT_V_BASE = 0.45;
-  const HIGHLIGHT_BASE = 0.7;
+  const HIGHLIGHT_BASE = 0.4; // small central glint, not a blob
 
   // The whole lens body is ONE stack: barrel + knurl + bezels + text + dome
   // + innards all live in `lensStack`, so the scroll telescope/rotation moves
@@ -321,11 +321,11 @@ function init() {
   // SAME exact outer radius (1.5) for every ring — only a thin inner lip —
   // stacked purely in DEPTH so head-on they read as one uniform-diameter
   // barrel of rings layered front-to-back around the big glass element.
-  const bezelOuter = new THREE.Mesh(new THREE.RingGeometry(1.4, 1.5, 96), bezelMat);
+  const bezelOuter = new THREE.Mesh(new THREE.RingGeometry(1.3, 1.5, 96), bezelMat);
   bezelOuter.position.z = 0.1; // frontmost ring
-  const bezelMid = new THREE.Mesh(new THREE.RingGeometry(1.4, 1.5, 96), bezelMat);
+  const bezelMid = new THREE.Mesh(new THREE.RingGeometry(1.3, 1.5, 96), bezelMat);
   bezelMid.position.z = 0.03; // ~0.07 deeper
-  const bezelInner = new THREE.Mesh(new THREE.RingGeometry(1.4, 1.5, 96), bezelMat);
+  const bezelInner = new THREE.Mesh(new THREE.RingGeometry(1.3, 1.5, 96), bezelMat);
   bezelInner.position.z = -0.04; // deepest ring, over the glass rim
   lensStack.add(bezelOuter, bezelMid, bezelInner);
 
@@ -337,28 +337,30 @@ function init() {
   textRing.position.z = 0.13; // just proud of the frontmost bezel ring
   lensStack.add(textRing);
 
-  // Domed centre glass — a gently convex, glossy near-black cap whose base
-  // radius (≈1.44) matches the bezel interior so nothing steps inward;
-  // mirrors scene.environment, essentially opaque. Low, wide sphere cap.
+  // Domed centre glass — a SHALLOW, glossy near-black cap (base r≈1.38, just
+  // inside the bezel lip; apex protrudes only ≈0.12 forward of its rim) that
+  // tucks INSIDE the rings as one assembly. Large sphere R + small θ:
+  // base = R·sinθ ≈1.38, sagitta = R·(1−cosθ) ≈0.12. Geometry translated so
+  // the apex sits at local origin → clean z-seating.
   const glassMat = new THREE.MeshPhysicalMaterial({
     color: 0x030405, metalness: 1, roughness: 0.04, clearcoat: 1,
     transparent: true, opacity: GLASS_BASE,
   });
-  const glass = new THREE.Mesh(
-    new THREE.SphereGeometry(4.5, 64, 40, 0, Math.PI * 2, 0, 0.326), // base r≈1.44, h≈0.24
-    glassMat
-  );
-  glass.rotation.x = Math.PI / 2; // cap apex (+y) → +z (toward viewer)
-  glass.position.z = -0.24; // rim behind bezelInner (no seam z-fight); apex ≈flush
+  const domeGeo = new THREE.SphereGeometry(8.0, 64, 40, 0, Math.PI * 2, 0, 0.1736);
+  domeGeo.translate(0, -8.0, 0); // apex → origin (rim then at y≈−0.12)
+  const glass = new THREE.Mesh(domeGeo, glassMat);
+  glass.rotation.x = Math.PI / 2; // apex → +z (toward viewer), rim recedes 0.12
+  glass.position.z = 0.1; // apex at z≈0.10, rim seated at z≈−0.02 behind the lips
   lensStack.add(glass);
 
-  // Thin grey retaining ring hugging the glass rim (like a real lens' lip).
+  // Thin grey retaining ring at the visible glass/bezel seam (in front of the
+  // bezel lips so it reads as the lens' retaining lip around the glass).
   const domeRingMat = new THREE.MeshPhysicalMaterial({
     color: 0x6a6f76, metalness: 0.6, roughness: 0.4,
     transparent: true, opacity: DOME_RING_BASE,
   });
-  const domeRing = new THREE.Mesh(new THREE.TorusGeometry(1.41, 0.018, 12, 120), domeRingMat);
-  domeRing.position.z = -0.02; // just in front of the glass rim, at the inner lip
+  const domeRing = new THREE.Mesh(new THREE.TorusGeometry(1.33, 0.016, 12, 120), domeRingMat);
+  domeRing.position.z = 0.12; // proud of the front bezel lip, ringing the glass edge
   lensStack.add(domeRing);
 
   // Coating reflections — soft radial-gradient discs, additive. One large
@@ -394,16 +396,17 @@ function init() {
     color: 0xf2f5f0, map: softDisc, transparent: true, opacity: HIGHLIGHT_BASE,
     blending: THREE.AdditiveBlending, depthWrite: false,
   });
-  // Innards scale ≈1.4× with the enlarged glass (positions + sizes grow).
+  // Reflections sit just in front of the shallow dome apex (z≈0.10) so the
+  // opaque glass never occludes them; contained within the smaller dome (~0.8×).
   const glintGreen = new THREE.Mesh(glintGeo, glintGreenMat);
-  glintGreen.position.set(-0.48, 0.09, 0.03);
-  glintGreen.scale.setScalar(1.33);
+  glintGreen.position.set(-0.38, 0.07, 0.14);
+  glintGreen.scale.setScalar(1.06);
   const glintViolet = new THREE.Mesh(glintGeo, glintVioletMat);
-  glintViolet.position.set(0.56, -0.07, 0.04);
-  glintViolet.scale.setScalar(1.4);
+  glintViolet.position.set(0.45, -0.06, 0.14);
+  glintViolet.scale.setScalar(1.12);
   const highlight = new THREE.Mesh(glintGeo, highlightMat);
-  highlight.position.set(0.04, 0.0, 0.05);
-  highlight.scale.setScalar(0.34);
+  highlight.position.set(0.03, 0.0, 0.14);
+  highlight.scale.setScalar(0.18); // small central glint (radius ≤0.10)
   lensStack.add(glintGreen, glintViolet, highlight);
 
   // Every fade-driven material with its resting opacity (built once → no alloc).
