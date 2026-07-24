@@ -29,11 +29,7 @@
           <span data-scramble>VISION LAB</span><span class="text-accent">.</span>
         </h1>
         <p class="text-muted mt-6 max-w-2xl text-base sm:text-lg leading-relaxed" data-reveal data-delay="2">
-          Une démonstration vivante du travail d'Atanda Abdullahi : distillation de
-          <span class="text-mist">Vision Transformers</span>, segmentation
-          <span class="text-mist">temps réel</span>, inférence sur l'<span class="text-mist">edge</span>
-          (Nvidia Jetson Orin Nano) et robotique <span class="text-mist">ROS</span>.
-          Tout tourne <span class="text-gradient font-medium">localement, dans votre navigateur</span>.
+          Le quotidien d'un ingénieur vision, rendu tangible.
         </p>
         <div class="flex flex-wrap items-center gap-4 mt-9" data-reveal data-delay="3">
           <a href="#lab-detect" class="btn" data-magnetic><i class="fa-solid fa-vector-square" aria-hidden="true"></i> Lancer la démo</a>
@@ -75,7 +71,7 @@
           </p>
         </div>
 
-        <figure class="panel hud scanline relative overflow-hidden rounded-[18px]" data-reveal data-delay="1">
+        <figure class="panel relative overflow-hidden rounded-[18px]" data-reveal data-delay="1">
           <!-- telemetry header -->
           <figcaption class="flex items-center justify-between gap-3 px-4 sm:px-5 py-3 border-b border-line font-mono text-[0.68rem] text-muted">
             <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald inline-block"></span> STAGE · WebGL</span>
@@ -102,7 +98,7 @@
       <div class="max-w-shell mx-auto px-5 sm:px-8">
         <div class="grid lg:grid-cols-[1.3fr_1fr] gap-8 lg:gap-12 items-start">
           <!-- media with detection overlay -->
-          <figure class="panel hud scanline relative overflow-hidden rounded-[18px]" data-reveal>
+          <figure class="panel relative overflow-hidden rounded-[18px]" data-reveal>
             <figcaption class="flex items-center justify-between gap-3 px-4 sm:px-5 py-3 border-b border-line font-mono text-[0.68rem] text-muted">
               <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-accent inline-block"></span> DETECT · live</span>
               <span class="hidden sm:inline">modèle: ViT-distilled</span>
@@ -128,7 +124,7 @@
               <li class="flex gap-3"><span class="text-accent" aria-hidden="true">▸</span><span class="text-muted">Segmentation temps réel — masques compressés</span></li>
               <li class="flex gap-3"><span class="text-accent" aria-hidden="true">▸</span><span class="text-muted">Optimisation edge — TensorRT sur Jetson Orin Nano</span></li>
             </ul>
-            <p class="hud relative panel rounded-2xl p-4 mt-7 font-mono text-xs text-muted leading-relaxed">
+            <p class="relative panel rounded-2xl p-4 mt-7 font-mono text-xs text-muted leading-relaxed">
               Démo simulée à des fins d'illustration : les boîtes sont générées côté navigateur, sans envoyer de données vers un serveur.
             </p>
           </div>
@@ -147,17 +143,17 @@
             <p class="text-muted leading-relaxed">
               Activez votre webcam pour superposer une détection temps réel sur votre propre flux vidéo — exactement le type de traitement déployé sur l'edge en robotique.
             </p>
-            <p class="hud relative panel rounded-2xl p-4 mt-6 font-mono text-xs text-muted leading-relaxed">
+            <p class="relative panel rounded-2xl p-4 mt-6 font-mono text-xs text-muted leading-relaxed">
               <i class="fa-solid fa-shield-halved text-accent mr-1" aria-hidden="true"></i>
               Le navigateur demandera l'autorisation d'accès à la caméra. Tout s'exécute <span class="text-mist">localement</span> : aucune image n'est enregistrée ni transmise.
             </p>
-            <button id="lab-webcam-btn" type="button" aria-pressed="false" aria-label="Activer ou arrêter la webcam pour la démonstration de détection" class="btn mt-7" data-magnetic>
+            <button id="lab-webcam-btn" type="button" aria-pressed="false" aria-label="Activer ou arrêter la webcam pour la démonstration de détection" class="btn btn--ghost mt-7" data-magnetic>
               <i class="fa-solid fa-video" aria-hidden="true"></i> <span data-label>Activer la webcam</span>
             </button>
           </div>
 
           <!-- webcam stage (lab.js → #lab-webcam container + #lab-webcam-btn) -->
-          <figure class="panel hud scanline relative overflow-hidden rounded-[18px]" data-reveal data-delay="1">
+          <figure class="panel relative overflow-hidden rounded-[18px]" data-reveal data-delay="1">
             <figcaption class="flex items-center justify-between gap-3 px-4 sm:px-5 py-3 border-b border-line font-mono text-[0.68rem] text-muted">
               <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald inline-block"></span> WEBCAM · local</span>
               <span class="hidden sm:inline">modèle: ViT-distilled</span>

@@ -23,30 +23,27 @@
   function buildNav(host) {
     var links = PAGES.map(function (p) {
       var active = p.href === current ? ' is-active' : '';
-      return '<a href="' + p.href + '" class="nav-link font-mono text-sm py-2' + active + '" data-magnetic>' + p.label + '</a>';
+      return '<a href="' + p.href + '" class="nav-link font-mono' + active + '">' + p.label + '</a>';
     }).join('');
 
     host.className = 'nav';
     host.innerHTML =
-      '<nav class="max-w-shell mx-auto flex items-center justify-between px-5 sm:px-8 py-4">' +
-        '<a href="index.html" class="flex items-center gap-2 group" data-magnetic>' +
-          '<span class="inline-block w-2.5 h-2.5 rounded-full bg-accent shadow-[0_0_12px_var(--glow)]"></span>' +
-          '<span class="font-display font-bold tracking-tight text-mist">ATANDA<span class="text-accent">.</span></span>' +
-        '</a>' +
-        '<div class="hidden md:flex items-center gap-8">' + links + '</div>' +
-        '<div class="flex items-center gap-3">' +
-          '<a href="cv.html" class="hidden sm:inline-flex btn" data-magnetic><i class="fa-solid fa-file-lines"></i> CV</a>' +
-          '<button id="nav-burger" class="md:hidden text-mist text-2xl w-10 h-10 grid place-items-center" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>' +
+      '<nav class="glass-nav">' +
+        '<a href="index.html" class="font-display font-bold text-mist text-sm sm:text-base tracking-tight shrink-0 whitespace-nowrap" aria-label="Accueil">Atanda Abdullahi<span class="text-accent">.</span></a>' +
+        '<div class="flex items-center gap-2 shrink-0">' +
+          '<div class="hidden md:flex items-center">' + links + '</div>' +
+          '<a href="cv.html" class="btn hidden sm:inline-flex" style="padding:7px 16px" data-magnetic><i class="fa-solid fa-file-lines"></i> CV</a>' +
+          '<button id="nav-burger" class="md:hidden w-9 h-9 rounded-full bg-white/5 border border-line grid place-items-center text-mist text-base" aria-label="Menu"><i class="fa-solid fa-bars"></i></button>' +
         '</div>' +
       '</nav>';
 
     // mobile drawer
     var drawer = document.createElement('div');
-    drawer.className = 'drawer is-closed fixed top-0 left-0 z-[70] h-full w-72 bg-ink/95 backdrop-blur-xl border-r border-line p-8 pt-24 md:hidden';
+    drawer.className = 'drawer is-closed fixed top-0 left-0 z-[70] h-full w-72 border-r border-line p-8 pt-24 md:hidden';
     drawer.innerHTML =
       '<button id="drawer-close" class="absolute top-6 right-6 text-mist text-2xl" aria-label="Fermer"><i class="fa-solid fa-xmark"></i></button>' +
       PAGES.map(function (p) {
-        var active = p.href === current ? ' text-volt' : ' text-muted';
+        var active = p.href === current ? ' text-accent' : ' text-muted';
         return '<a href="' + p.href + '" class="block py-4 text-2xl font-display border-b border-line' + active + '">' + p.label + '</a>';
       }).join('') +
       '<a href="cv.html" class="btn mt-8"><i class="fa-solid fa-file-lines"></i> Voir le CV</a>';
@@ -66,33 +63,35 @@
   /* ---------- Build the footer ---------- */
   function buildFooter(host) {
     var year = new Date().getFullYear();
-    host.className = 'border-t border-line bg-ink';
+    var navLinks = PAGES.map(function (p) {
+      return '<a href="' + p.href + '" class="text-muted hover:text-mist transition-colors link-u w-fit">' + p.label + '</a>';
+    }).join('');
+    var socials =
+      '<a href="https://github.com/waledroid" target="_blank" rel="noopener" class="w-9 h-9 rounded-full bg-white/5 border border-line grid place-items-center text-muted hover:text-accent transition-colors" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>' +
+      '<a href="https://linkedin.com/in/waledroid" target="_blank" rel="noopener" class="w-9 h-9 rounded-full bg-white/5 border border-line grid place-items-center text-muted hover:text-accent transition-colors" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>' +
+      '<a href="mailto:waledroid@gmail.com" class="w-9 h-9 rounded-full bg-white/5 border border-line grid place-items-center text-muted hover:text-accent transition-colors" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>';
+
+    host.className = 'py-10 sm:py-16';
     host.innerHTML =
-      '<div class="max-w-shell mx-auto px-5 sm:px-8 py-16">' +
-        '<div class="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">' +
-          '<div>' +
-            '<a href="index.html" class="font-display text-2xl font-bold">Atanda Abdullahi<span class="text-accent">.</span></a>' +
-            '<p class="text-muted mt-3 max-w-xs text-sm leading-relaxed">Vision par Ordinateur &amp; Edge-AI — Deep Learning embarqué, TensorRT, ROS2. Oullins, Lyon.</p>' +
-            '<p class="label mt-5 text-emerald"><span class="w-2 h-2 rounded-full bg-emerald inline-block"></span>Disponible pour un entretien</p>' +
+      '<div class="max-w-shell mx-auto px-5 sm:px-8">' +
+        '<div class="panel rounded-3xl px-6 sm:px-10 py-8 sm:py-10">' +
+          '<div class="flex flex-wrap items-center justify-between gap-4">' +
+            '<a href="index.html" class="flex items-baseline gap-3">' +
+              '<span class="font-display text-xl sm:text-2xl font-bold text-mist">Atanda Abdullahi<span class="text-accent">.</span></span>' +
+              '<span class="font-signature text-2xl text-muted/70 hidden sm:inline-block">Atanda</span>' +
+            '</a>' +
+            '<span class="chip"><span class="w-1.5 h-1.5 rounded-full bg-accent inline-block"></span>Disponible pour un entretien</span>' +
           '</div>' +
-          '<div><h4 class="font-mono text-xs uppercase tracking-widest text-muted mb-4">Navigation</h4>' +
-            PAGES.map(function (p) { return '<a href="' + p.href + '" class="block text-muted hover:text-accent py-1 link-u w-fit">' + p.label + '</a>'; }).join('') +
+          '<div class="divider my-7"></div>' +
+          '<div class="flex flex-wrap items-center justify-between gap-6">' +
+            '<div class="flex flex-wrap items-center gap-x-6 gap-y-2 font-mono text-sm">' + navLinks + '</div>' +
+            '<div class="flex items-center gap-3">' + socials + '</div>' +
           '</div>' +
-          '<div><h4 class="font-mono text-xs uppercase tracking-widest text-muted mb-4">Réseaux</h4>' +
-            '<a href="https://linkedin.com/in/waledroid" target="_blank" rel="noopener" class="block text-muted hover:text-accent py-1 link-u w-fit">LinkedIn</a>' +
-            '<a href="https://github.com/waledroid" target="_blank" rel="noopener" class="block text-muted hover:text-accent py-1 link-u w-fit">GitHub</a>' +
-            '<a href="mailto:waledroid@gmail.com" class="block text-muted hover:text-accent py-1 link-u w-fit">Email</a>' +
+          '<div class="divider my-7"></div>' +
+          '<div class="flex flex-col sm:flex-row justify-between gap-2 text-xs font-mono text-muted">' +
+            '<span>© ' + year + ' Atanda Abdullahi</span>' +
+            '<span>Conçu &amp; développé à Lyon</span>' +
           '</div>' +
-          '<div><h4 class="font-mono text-xs uppercase tracking-widest text-muted mb-4">Contact</h4>' +
-            '<p class="text-muted py-1">waledroid@gmail.com</p>' +
-            '<p class="text-muted py-1">+33 7 49 49 99 78</p>' +
-            '<p class="text-muted py-1">33 boulevard de l\'Europe, Montmein Sud<br>69600 Oullins — Lyon</p>' +
-          '</div>' +
-        '</div>' +
-        '<div class="divider my-10"></div>' +
-        '<div class="flex flex-col sm:flex-row justify-between gap-3 text-xs font-mono text-muted">' +
-          '<span>© ' + year + ' Atanda Abdullahi — Tous droits réservés.</span>' +
-          '<span>Conçu &amp; codé avec une touche de vert.</span>' +
         '</div>' +
       '</div>';
   }

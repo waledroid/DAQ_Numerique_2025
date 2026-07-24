@@ -26,170 +26,79 @@
   <header data-site-nav></header>
 
   <main>
-    <!-- ====== HERO ====== -->
-    <section class="relative min-h-screen pt-32 pb-20 flex items-center overflow-hidden">
-      <div class="grid-bg absolute inset-0 -z-10" aria-hidden="true"></div>
-      <div class="max-w-shell mx-auto w-full px-5 sm:px-8">
-        <div class="grid lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+    <!-- ====== STORY (scroll-driven 3D) ====== -->
+    <section id="story" class="relative" style="height:520vh">
+      <div class="story-sticky sticky top-0 h-screen overflow-hidden">
+        <div id="story-canvas" class="absolute inset-0"></div>
 
-          <!-- Left: copy -->
-          <div class="order-2 lg:order-1">
-            <!-- <p class="label" data-reveal>Vision par Ordinateur · Edge-AI · Lyon</p> -->
-
-            <h1 class="font-display font-bold tracking-tight mt-6 leading-[0.95] text-[clamp(2.6rem,7vw,5.4rem)]"
-              data-reveal data-delay="1">
-              Atanda Abdullahi
-            </h1>
-            <p class="font-display font-semibold tracking-tight mt-1 text-[clamp(2rem,5.5vw,4rem)] leading-[0.95]"
-              data-reveal data-delay="2">
-              <span class="text-muted">Je déploie la </span><span class="text-gradient" data-scramble>vision</span>
-            </p>
-
-            <p class="text-muted mt-7 max-w-xl text-base sm:text-lg leading-relaxed" data-reveal data-delay="2">
-              Conception, compression et déploiement de modèles Deep Learning sur hardware embarqué &amp; robotique
-              (NVIDIA Jetson, ROS2).
-            </p>
-
-            <!-- telemetry chips -->
-            <div class="flex flex-wrap gap-3 mt-8" data-reveal data-delay="3">
-              <span
-                class="font-mono text-[0.68rem] tracking-widest px-3 py-2 border border-line rounded-full text-muted inline-flex items-center">
-                <i class="fa-solid fa-location-dot text-accent mr-2" aria-hidden="true"></i>OULLINS · LYON · FR
-              </span>
-              <span
-                class="font-mono text-[0.68rem] tracking-widest px-3 py-2 border border-line rounded-full text-muted inline-flex items-center">
-                <span class="w-2 h-2 rounded-full bg-emerald inline-block mr-2"></span>DISPONIBLE
-              </span>
-              <span
-                class="font-mono text-[0.68rem] tracking-widest px-3 py-2 border border-line rounded-full text-muted inline-flex items-center">
-                M2 VISION · 2024
-              </span>
-            </div>
-
-            <!-- CTAs -->
-            <div class="flex flex-wrap items-center gap-4 mt-10" data-reveal data-delay="4">
-              <a href="projects.html" class="btn" data-magnetic>
-                <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> Voir les projets
-              </a>
-              <a href="contact.html" class="btn btn--ghost" data-magnetic>
-                Me contacter
-              </a>
-            </div>
+        <!-- Chapter 0 — VOIR -->
+        <article class="story-card panel p-8 sm:p-10 left-4 right-4 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 top-1/2 -translate-y-1/2 sm:top-1/2 text-center"
+          data-chapter="0">
+          <p class="label">Voir</p>
+          <h1 class="font-display font-bold tracking-tight leading-[0.95] text-[clamp(2.2rem,6vw,3.6rem)]">
+            Atanda Abdullahi
+          </h1>
+          <p class="font-display font-semibold tracking-tight mt-2 text-[clamp(1.4rem,3.6vw,2rem)] leading-[0.95]">
+            <span class="text-muted">Je déploie la </span><span class="text-gradient">vision</span><span
+              class="text-muted">.</span>
+          </p>
+          <div class="flex flex-wrap justify-center gap-2 mt-6">
+            <span class="chip"><i class="fa-solid fa-location-dot" aria-hidden="true"></i>OULLINS · LYON</span>
+            <span class="chip"><span class="w-2 h-2 rounded-full bg-emerald inline-block"></span>DISPONIBLE</span>
+            <span class="chip">M2 VISION · 2024</span>
           </div>
+        </article>
 
-          <!-- Right: 3D robot canvas -->
-          <div class="order-1 lg:order-2 relative" data-reveal data-delay="2">
-            <div class="hud relative rounded-2xl overflow-hidden">
-              <div id="hero-canvas"
-                class="scanline w-full h-[42vh] sm:h-[52vh] lg:h-[60vh] lg:w-[50vw] lg:max-w-[640px] panel grid place-items-center">
-                <!-- Graceful fallback if WebGL is unavailable -->
-                <div class="text-center px-6">
-                  <i class="fa-solid fa-robot text-5xl text-accent/70" aria-hidden="true"></i>
-                  <p class="font-mono text-xs uppercase tracking-widest text-muted mt-4">Robotic Vision Module</p>
-                </div>
-              </div>
-              <span class="absolute top-3 right-3 font-mono text-[0.6rem] tracking-widest text-accent/80 z-10">●
-                TRACKING</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-
-      <!-- scroll-down chevron -->
-      <a href="#stats"
-        class="absolute bottom-6 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted hover:text-accent transition"
-        aria-label="Défiler vers le bas">
-        <span class="font-mono text-[0.6rem] tracking-[0.3em] uppercase">Défiler</span>
-        <span class="animate-floaty"><i class="fa-solid fa-chevron-down" aria-hidden="true"></i></span>
-      </a>
-    </section>
-
-    <!-- ====== STAT BAND ====== -->
-    <section id="stats" class="border-y border-line bg-surface/40">
-      <div class="max-w-shell mx-auto px-5 sm:px-8 py-16">
-        <p class="label mb-10" data-reveal>Indicateurs clés</p>
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-12">
-          <div data-reveal data-delay="1">
-            <div class="stat__num text-[clamp(2.4rem,5vw,3.6rem)] text-gradient">10 ans</div>
-            <p class="font-mono text-xs uppercase tracking-widest text-muted mt-2">IT &amp; infrastructure</p>
-          </div>
-          <div data-reveal data-delay="2">
-            <div class="stat__num text-[clamp(2.4rem,5vw,3.6rem)] text-mist">M2</div>
-            <p class="font-mono text-xs uppercase tracking-widest text-muted mt-2">Vision par Ordinateur</p>
-          </div>
-          <div data-reveal data-delay="3">
-            <div class="stat__num text-[clamp(2.4rem,5vw,3.6rem)] text-gradient">+25 %</div>
-            <p class="font-mono text-xs uppercase tracking-widest text-muted mt-2">Détection &amp; segmentation</p>
-          </div>
-          <div data-reveal data-delay="2">
-            <div class="stat__num text-[clamp(2.4rem,5vw,3.6rem)] text-gradient">−40 %</div>
-            <p class="font-mono text-xs uppercase tracking-widest text-muted mt-2">Inférence (Jetson)</p>
-          </div>
-          <div data-reveal data-delay="3">
-            <div class="stat__num text-[clamp(2.4rem,5vw,3.6rem)] text-mist">+20 %</div>
-            <p class="font-mono text-xs uppercase tracking-widest text-muted mt-2">Engagement web</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====== CAPABILITY TRIAD ====== -->
-    <section class="max-w-shell mx-auto px-5 sm:px-8 py-24">
-      <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-14">
-        <div>
-          <p class="label" data-reveal>Domaines d'expertise</p>
-          <h2 class="font-display font-bold tracking-tight text-[clamp(2rem,4.5vw,3.2rem)] mt-4 leading-tight"
-            data-reveal data-delay="1">
-            De la recherche au <span class="text-gradient">hardware déployé</span>
+        <!-- Chapter 1 — DÉTECTER -->
+        <article class="story-card panel p-8 sm:p-10 left-4 right-4 sm:right-auto sm:left-[8%] bottom-[10%] sm:bottom-[16%]"
+          data-chapter="1">
+          <p class="label">01 · Détecter</p>
+          <h2 class="font-display font-bold tracking-tight text-[clamp(1.6rem,4vw,2.4rem)] mt-4 leading-tight">
+            Voir en temps réel.
           </h2>
-        </div>
-        <p class="text-muted max-w-sm text-sm leading-relaxed" data-reveal data-delay="2">
-          Un pont entre le deep learning et le réel : modèles compressés, embarqués et orchestrés sur des systèmes
-          robotiques.
-        </p>
-      </div>
-
-      <div class="grid md:grid-cols-3 gap-6">
-        <article class="panel hud p-8 group" data-reveal data-delay="1">
-          <i class="fa-solid fa-eye text-2xl text-accent" aria-hidden="true"></i>
-          <h3 class="font-display text-xl font-semibold mt-6">Vision par Ordinateur</h3>
-          <p class="text-muted text-sm leading-relaxed mt-3">
-            Vision Transformers (ViT), segmentation et distillation de connaissances pour des modèles plus rapides et
-            précis.
+          <p class="text-muted text-sm sm:text-base leading-relaxed mt-3">
+            Détection et suivi multi-caméras, 60 FPS en production industrielle.
           </p>
-          <ul class="flex flex-wrap gap-2 mt-6 font-mono text-[0.65rem] uppercase tracking-wider text-muted">
-            <li class="px-2.5 py-1 border border-line rounded-full">ViT</li>
-            <li class="px-2.5 py-1 border border-line rounded-full">Segmentation</li>
-            <li class="px-2.5 py-1 border border-line rounded-full">Distillation</li>
-          </ul>
+          <div class="flex flex-wrap gap-2 mt-6">
+            <span class="chip">YOLO11</span>
+            <span class="chip">RF-DETR</span>
+            <span class="chip">60 FPS</span>
+          </div>
         </article>
 
-        <article class="panel hud p-8 group" data-reveal data-delay="2">
-          <i class="fa-solid fa-microchip text-2xl text-accent" aria-hidden="true"></i>
-          <h3 class="font-display text-xl font-semibold mt-6">Edge AI</h3>
-          <p class="text-muted text-sm leading-relaxed mt-3">
-            Optimisation et déploiement sur hardware embarqué Nvidia Jetson — jusqu'à −40 % de temps d'inférence.
+        <!-- Chapter 2 — COMPRESSER -->
+        <article class="story-card panel p-8 sm:p-10 left-4 right-4 sm:left-auto sm:right-[8%] top-1/2 -translate-y-1/2"
+          data-chapter="2">
+          <p class="label">02 · Compresser</p>
+          <h2 class="font-display font-bold tracking-tight text-[clamp(1.6rem,4vw,2.4rem)] mt-4 leading-tight">
+            Des modèles qui tiennent dans la main.
+          </h2>
+          <p class="text-muted text-sm sm:text-base leading-relaxed mt-3">
+            Distillation et quantification pour l'embarqué&nbsp;: −40&nbsp;% d'inférence sur Jetson.
           </p>
-          <ul class="flex flex-wrap gap-2 mt-6 font-mono text-[0.65rem] uppercase tracking-wider text-muted">
-            <li class="px-2.5 py-1 border border-line rounded-full">Jetson</li>
-            <li class="px-2.5 py-1 border border-line rounded-full">TensorRT</li>
-            <li class="px-2.5 py-1 border border-line rounded-full">−40 % inférence</li>
-          </ul>
+          <div class="flex flex-wrap gap-2 mt-6">
+            <span class="chip">DISTILLATION</span>
+            <span class="chip">INT8 / FP16</span>
+            <span class="chip">TENSORRT</span>
+          </div>
         </article>
 
-        <article class="panel hud p-8 group" data-reveal data-delay="3">
-          <i class="fa-solid fa-robot text-2xl text-accent" aria-hidden="true"></i>
-          <h3 class="font-display text-xl font-semibold mt-6">Robotique &amp; Systèmes</h3>
-          <p class="text-muted text-sm leading-relaxed mt-3">
-            Communication inter-robots sous ROS, sur une base solide de 10 ans en administration AD, réseaux et support
-            IT.
+        <!-- Chapter 3 — DÉPLOYER -->
+        <article class="story-card panel p-8 sm:p-10 left-4 right-4 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 bottom-[6%] text-center"
+          data-chapter="3">
+          <p class="label justify-center">03 · Déployer</p>
+          <h2 class="font-display font-bold tracking-tight text-[clamp(1.6rem,4vw,2.4rem)] mt-4 leading-tight">
+            Du modèle au réel.
+          </h2>
+          <p class="text-muted text-sm sm:text-base leading-relaxed mt-3">
+            Déployé sur Jetson, robots et automates industriels.
           </p>
-          <ul class="flex flex-wrap gap-2 mt-6 font-mono text-[0.65rem] uppercase tracking-wider text-muted">
-            <li class="px-2.5 py-1 border border-line rounded-full">ROS</li>
-            <li class="px-2.5 py-1 border border-line rounded-full">AD / Réseaux</li>
-            <li class="px-2.5 py-1 border border-line rounded-full">10 ans IT</li>
-          </ul>
+          <div class="flex flex-wrap justify-center items-center gap-4 mt-8">
+            <a href="projects.html" class="btn" data-magnetic>
+              <i class="fa-solid fa-arrow-right" aria-hidden="true"></i> Voir les projets
+            </a>
+            <a href="cv.html" class="btn btn--ghost" data-magnetic>Voir le CV</a>
+          </div>
         </article>
       </div>
     </section>
@@ -213,39 +122,33 @@
         </div>
 
         <div class="grid lg:grid-cols-2 gap-6">
-          <!-- Featured large -->
-          <a href="projects.html" class="panel hud group relative overflow-hidden lg:row-span-2 flex flex-col"
-            data-reveal data-delay="1">
-            <div class="scanline overflow-hidden rounded-t-[18px] aspect-[16/11] lg:flex-1">
+          <!-- IsiMonitor 3D -->
+          <a href="projects.html" class="panel group relative overflow-hidden flex flex-col" data-reveal
+            data-delay="1">
+            <div class="overflow-hidden rounded-t-[26px] aspect-[16/10]">
               <img src="assets/img/isimonitor1.png"
                 alt="Jumeau numérique 3D d'un entrepôt : suivi métrique de palettes et zones d'occupation en temps réel"
                 loading="lazy"
                 class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 scale-105 group-hover:scale-100" />
             </div>
             <div class="p-8">
-              <p class="font-mono text-xs uppercase tracking-widest text-accent">Vision multi-caméras · ONNX/TensorRT ·
-                Three.js</p>
+              <p class="font-mono text-xs uppercase tracking-widest text-accent">Vision multi-caméras · ONNX/TensorRT
+                · Three.js</p>
               <h3 class="font-display text-2xl font-semibold mt-3">ISI Monitor 3D</h3>
-              <p class="text-muted text-sm leading-relaxed mt-3 max-w-md">
-                Vision industrielle multi-caméras : suivi métrique 2D/3D en temps réel et jumeau
-                numérique 3D pour l'opérateur. Mission Isitec.
+              <p class="text-muted text-sm leading-relaxed mt-3">
+                Suivi métrique 2D/3D en temps réel dans un jumeau numérique d'entrepôt.
               </p>
-              <span
-                class="inline-flex items-center gap-2 mt-6 font-mono text-sm text-mist group-hover:text-accent transition">
-                Explorer le projet <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
-              </span>
             </div>
           </a>
 
-          <!-- Two stacked -->
-          <a href="projects.html" class="panel hud group relative overflow-hidden" data-reveal data-delay="2">
-            <div class="scanline relative overflow-hidden rounded-t-[18px] aspect-[16/9] bg-ink grid-bg"
-              aria-hidden="true">
+          <!-- IsiDetector -->
+          <a href="projects.html" class="panel group relative overflow-hidden flex flex-col" data-reveal
+            data-delay="2">
+            <div class="relative overflow-hidden rounded-t-[26px] aspect-[16/10] bg-ink grid-bg" aria-hidden="true">
               <span class="absolute top-3 left-3 font-mono text-[0.6rem] tracking-widest text-accent">● LIVE —
                 CONVOYEUR</span>
               <span class="absolute top-3 right-3 font-mono text-[0.6rem] tracking-widest text-muted">YOLO ·
                 RF-DETR</span>
-              <div class="absolute left-1/2 top-6 bottom-6 w-px border-l border-dashed border-accent/50"></div>
               <div class="absolute left-[15%] top-[32%] w-[28%] h-[36%] border border-accent/70 rounded-sm">
                 <span
                   class="absolute -top-4 left-0 font-mono text-[0.58rem] tracking-wide text-accent whitespace-nowrap">carton
@@ -256,32 +159,13 @@
                   class="absolute -top-4 left-0 font-mono text-[0.58rem] tracking-wide text-emerald whitespace-nowrap">polybag
                   0.95</span>
               </div>
-              <span class="absolute bottom-3 left-3 font-mono text-[0.58rem] tracking-widest text-muted">INT8 · OpenVINO
-                · TensorRT</span>
-              <span class="absolute bottom-3 right-3 font-mono text-[0.58rem] tracking-widest text-accent">⟶ UDP · seq
-                42</span>
             </div>
-            <div class="p-7">
-              <p class="font-mono text-xs uppercase tracking-widest text-accent">YOLO/RF-DETR · ONNX/TensorRT · UDP</p>
-              <h3 class="font-display text-xl font-semibold mt-3">IsiDetector</h3>
-              <p class="text-muted text-sm leading-relaxed mt-3">
-                Détection edge de colis sur convoyeur : pipeline entraînement → compression → déploiement
-                multi-backend, avec trigger UDP vers l'automate de tri. Mission Isitec.
+            <div class="p-8">
+              <p class="font-mono text-xs uppercase tracking-widest text-accent">YOLO/RF-DETR · ONNX/TensorRT · UDP
               </p>
-            </div>
-          </a>
-
-          <a href="projects.html" class="panel hud group relative overflow-hidden" data-reveal data-delay="3">
-            <div class="scanline overflow-hidden rounded-t-[18px] aspect-[16/9]">
-              <img src="assets/img/ti.jpg" alt="Bras robotique et matériel embarqué du projet ROSBot Harmony"
-                loading="lazy"
-                class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-700 scale-105 group-hover:scale-100" />
-            </div>
-            <div class="p-7">
-              <p class="font-mono text-xs uppercase tracking-widest text-accent">Python · ROS · PyTorch</p>
-              <h3 class="font-display text-xl font-semibold mt-3">ROSBot Harmony</h3>
+              <h3 class="font-display text-2xl font-semibold mt-3">IsiDetector</h3>
               <p class="text-muted text-sm leading-relaxed mt-3">
-                Système autonome de communication inter-robots, orchestrant la coordination en temps réel sous ROS.
+                Détection edge de colis sur convoyeur, avec trigger UDP vers l'automate de tri.
               </p>
             </div>
           </a>
@@ -304,66 +188,9 @@
       </div>
     </section>
 
-    <!-- ====== VISION LAB TEASER ====== -->
-    <section id="vision-lab" class="border-t border-line bg-surface/30">
-      <div class="max-w-shell mx-auto px-5 sm:px-8 py-24">
-        <div class="grid lg:grid-cols-2 gap-10 lg:gap-14 items-center">
-
-          <!-- Copy -->
-          <div>
-            <p class="label" data-reveal>Vision Lab</p>
-            <h2 class="font-display font-bold tracking-tight text-[clamp(2rem,4.5vw,3.2rem)] mt-4 leading-tight"
-              data-reveal data-delay="1">
-              Voyez la vision <span class="text-gradient" data-scramble>en direct</span>
-            </h2>
-            <p class="text-muted mt-6 max-w-xl leading-relaxed" data-reveal data-delay="2">
-              Un laboratoire interactif dans le navigateur : nuage de points 3D, boîtes de
-              détection animées et un mode webcam optionnel — les motifs du quotidien d'un
-              ingénieur vision, rendus tangibles.
-            </p>
-            <ul class="flex flex-wrap gap-2 mt-8 font-mono text-[0.65rem] uppercase tracking-wider text-muted"
-              data-reveal data-delay="3">
-              <li class="px-2.5 py-1 border border-line rounded-full">Point cloud 3D</li>
-              <li class="px-2.5 py-1 border border-line rounded-full">Détection simulée</li>
-              <li class="px-2.5 py-1 border border-line rounded-full">Mode webcam</li>
-            </ul>
-            <div class="mt-10" data-reveal data-delay="4">
-              <a href="lab.html" class="btn" data-magnetic>
-                <i class="fa-solid fa-flask" aria-hidden="true"></i> Entrer dans le Lab
-              </a>
-            </div>
-          </div>
-
-          <!-- Faux HUD frame -->
-          <div data-reveal data-delay="2">
-            <div class="hud panel relative overflow-hidden aspect-[4/3]" aria-hidden="true">
-              <div class="grid-bg absolute inset-0"></div>
-              <div class="scanline absolute inset-0"></div>
-              <span class="absolute top-4 left-4 font-mono text-[0.6rem] tracking-widest text-accent/80">● LIVE FEED —
-                SIM</span>
-              <span class="absolute top-4 right-4 font-mono text-[0.6rem] tracking-widest text-muted">FPS 60 ·
-                INT8</span>
-              <!-- faux detection boxes -->
-              <div class="absolute left-[14%] top-[28%] w-[34%] h-[42%] border border-accent/70 rounded-sm">
-                <span class="absolute -top-5 left-0 font-mono text-[0.6rem] tracking-widest text-accent">ROBOT
-                  0.97</span>
-              </div>
-              <div class="absolute right-[12%] top-[48%] w-[26%] h-[30%] border border-emerald/60 rounded-sm">
-                <span class="absolute -top-5 left-0 font-mono text-[0.6rem] tracking-widest text-emerald">OBJET
-                  0.88</span>
-              </div>
-              <span class="absolute bottom-4 left-4 font-mono text-[0.6rem] tracking-widest text-muted">JETSON ORIN NANO
-                · TENSORRT</span>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
     <!-- ====== CONTACT CTA BAND ====== -->
     <section class="max-w-shell mx-auto px-5 sm:px-8 py-24">
-      <div class="panel hud relative overflow-hidden p-10 sm:p-16 text-center" data-reveal>
+      <div class="panel relative overflow-hidden p-10 sm:p-16 text-center" data-reveal>
         <div class="grid-bg absolute inset-0 opacity-40" aria-hidden="true"></div>
         <div class="relative">
           <p class="label justify-center">Construisons ensemble</p>
@@ -371,14 +198,10 @@
             class="font-display font-bold tracking-tight text-[clamp(2rem,5vw,3.8rem)] mt-6 leading-tight max-w-3xl mx-auto">
             Prêt à déployer l'IA sur votre <span class="text-gradient">hardware edge</span> ?
           </h2>
-          <p class="text-muted mt-6 max-w-xl mx-auto leading-relaxed">
-            Disponible pour un entretien. Discutons vision par ordinateur, robotique et systèmes embarqués.
-          </p>
           <div class="flex flex-wrap items-center justify-center gap-4 mt-10">
             <a href="contact.html" class="btn" data-magnetic>
               <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Me contacter
             </a>
-            <a href="projects.html" class="btn btn--ghost" data-magnetic>Voir les projets</a>
           </div>
         </div>
       </div>
@@ -397,7 +220,7 @@
     "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
   } }
   </script>
-  <script type="module" src="assets/js/three-scene.js"></script>
+  <script type="module" src="assets/js/story-scene.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 

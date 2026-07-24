@@ -20,255 +20,71 @@
   <header data-site-nav></header>
 
   <main>
-    <!-- ====== HERO / INTRO ====== -->
-    <section class="relative pt-32 pb-20 sm:pt-40 sm:pb-28 overflow-hidden">
+    <!-- ====== HERO ====== -->
+    <section class="relative pt-32 pb-24 sm:pb-32 overflow-hidden">
+      <div data-glass-bg class="absolute inset-0 -z-10"></div>
       <div class="grid-bg absolute inset-0 pointer-events-none" aria-hidden="true"></div>
       <div class="max-w-shell mx-auto px-5 sm:px-8 relative">
-        <div class="grid lg:grid-cols-[1.15fr_0.85fr] gap-12 lg:gap-16 items-center">
+        <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-12 lg:gap-16 items-center">
           <!-- intro copy -->
           <div>
             <p class="label" data-reveal>À propos</p>
             <h1 class="font-display font-bold tracking-tight mt-5 leading-[0.95]" style="font-size:clamp(2.5rem,6vw,4.5rem)" data-reveal data-delay="1">
-              De l'<span class="text-gradient">infrastructure IT</span><br>à la <span class="text-gradient">vision machine</span>.
+              L'œil, <span class="text-gradient">puis</span> la main.
             </h1>
-            <p class="text-muted text-lg leading-relaxed mt-7 max-w-xl" data-reveal data-delay="2">
-              Je suis <span class="text-mist font-medium">Atanda Abdullahi</span> — ingénieur Vision par Ordinateur &amp; Edge-AI.
-              Pendant dix ans, j'ai construit, sécurisé et dépanné des systèmes informatiques. Aujourd'hui,
-              je transpose cette rigueur de terrain dans le deep learning et la robotique, là où la recherche
-              rencontre le matériel réel.
+            <p class="text-muted text-lg leading-relaxed mt-6 max-w-xl" data-reveal data-delay="2">
+              De l'infrastructure IT au deep learning déployé — je construis des systèmes qui voient et agissent.
             </p>
             <div class="flex flex-wrap items-center gap-3 mt-8" data-reveal data-delay="3">
-              <a href="experience.html" class="btn" data-magnetic><i class="fa-solid fa-timeline" aria-hidden="true"></i> Mon parcours détaillé</a>
+              <a href="cv.html" class="btn" data-magnetic><i class="fa-solid fa-file-lines" aria-hidden="true"></i> Voir le CV</a>
               <a href="contact.html" class="btn btn--ghost"><i class="fa-regular fa-envelope" aria-hidden="true"></i> Me contacter</a>
             </div>
-            <p class="label mt-8 text-emerald" data-reveal data-delay="4">
-              <span class="w-2 h-2 rounded-full bg-emerald inline-block" aria-hidden="true"></span>Disponible pour un entretien
-            </p>
           </div>
 
           <!-- portrait -->
           <div class="relative" data-reveal data-delay="2">
-            <div class="panel hud scanline rounded-[22px] p-3 sm:p-4 relative">
-              <span class="absolute top-5 left-5 z-10 font-mono text-[0.62rem] tracking-[0.25em] text-accent/80">SUBJECT // WALEDROID</span>
-              <span class="absolute bottom-5 right-5 z-10 font-mono text-[0.62rem] tracking-[0.25em] text-accent/80">CONF&nbsp;0.98</span>
-              <div class="rounded-[16px] overflow-hidden bg-surface2/60">
+            <div class="panel p-3 sm:p-4">
+              <div class="rounded-[20px] overflow-hidden bg-surface2/60">
                 <img src="assets/img/meme_no_bg.png" alt="Portrait d'Atanda Abdullahi, ingénieur Vision par Ordinateur et Edge-AI"
-                     class="w-full h-auto object-contain grayscale hover:grayscale-0 transition duration-500" />
+                     class="w-full h-auto object-contain" />
               </div>
-            </div>
-            <div class="absolute -bottom-5 -left-5 panel rounded-xl px-4 py-3 hidden sm:block">
-              <p class="font-mono text-[0.6rem] tracking-widest text-muted">BASÉ À</p>
-              <p class="font-display font-semibold text-mist">Oullins, Lyon</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ====== STATS STRIP ====== -->
-    <section class="border-y border-line bg-surface/40">
-      <div class="max-w-shell mx-auto px-5 sm:px-8 py-12 grid grid-cols-2 md:grid-cols-4 gap-8">
-        <div data-reveal>
-          <p class="stat__num text-gradient text-4xl sm:text-5xl">10<span class="text-xl align-top"> ans</span></p>
-          <p class="text-muted text-sm mt-2 font-mono">IT / infrastructure</p>
-        </div>
-        <div data-reveal data-delay="1">
-          <p class="stat__num text-gradient text-4xl sm:text-5xl">M2</p>
-          <p class="text-muted text-sm mt-2 font-mono">Vision par Ordinateur</p>
-        </div>
-        <div data-reveal data-delay="2">
-          <p class="stat__num text-gradient text-4xl sm:text-5xl">+25<span class="text-xl align-top"> %</span></p>
-          <p class="text-muted text-sm mt-2 font-mono">détection (ViT)</p>
-        </div>
-        <div data-reveal data-delay="3">
-          <p class="stat__num text-gradient text-4xl sm:text-5xl">−40<span class="text-xl align-top"> %</span></p>
-          <p class="text-muted text-sm mt-2 font-mono">inférence sur Jetson</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====== MON PARCOURS ====== -->
-    <section class="py-20 sm:py-28">
+    <!-- ====== FACETS ====== -->
+    <section class="pb-24 sm:pb-32">
       <div class="max-w-shell mx-auto px-5 sm:px-8">
-        <div class="grid lg:grid-cols-[0.4fr_0.6fr] gap-10 lg:gap-16">
-          <div>
-            <p class="label" data-reveal>01 — Récit</p>
-            <h2 class="font-display font-bold tracking-tight mt-5 leading-[1.02]" style="font-size:clamp(2rem,4vw,3rem)" data-reveal data-delay="1">
-              Mon parcours
-            </h2>
-            <p class="text-muted mt-5 leading-relaxed" data-reveal data-delay="2">
-              Une trajectoire continue : du câble réseau au tenseur, du ticket de support au modèle déployé.
-            </p>
-          </div>
-          <div class="space-y-7">
-            <p class="text-mist/90 text-lg leading-relaxed" data-reveal>
-              Pendant près de dix ans à <span class="text-mist font-medium">Radio Nigeria</span> (Lagos), j'ai été
-              responsable informatique : administration d'<span class="text-accent">Active Directory</span> — utilisateurs,
-              sécurité, déploiements — gestion des réseaux et dépannage avec un fort taux de satisfaction. J'y ai aussi
-              conçu un site web optimisé pour le SEO, qui a porté l'engagement à <span class="text-accent">+20 %</span>.
-              Cette décennie m'a appris une chose : un système ne vaut que par sa fiabilité une fois mis entre les mains des utilisateurs.
-            </p>
-            <p class="text-mist/90 text-lg leading-relaxed" data-reveal data-delay="1">
-              J'ai ensuite choisi de plonger dans le deep learning et la vision par ordinateur, en obtenant un
-              <span class="text-accent">Master (M2) Vision par Ordinateur</span> à l'Université de Bourgogne. Chez
-              <span class="text-accent">WASORIA</span>, j'ai appliqué la distillation de connaissances à des Vision
-              Transformers lourds : <span class="text-accent">+25 %</span> de vitesse de détection et de précision de
-              segmentation, et <span class="text-accent">−40 %</span> de temps d'inférence sur un Nvidia Jetson Orin Nano 8 Go.
-            </p>
-            <p class="text-mist/90 text-lg leading-relaxed" data-reveal data-delay="2">
-              Aujourd'hui, je travaille à la frontière de la recherche et de la robotique embarquée — comme avec
-              <span class="text-accent">ROSBot Harmony</span>, un système autonome de communication inter-robots.
-              Mon objectif reste constant : faire passer un modèle du papier au matériel, sans perdre ni la précision, ni la robustesse.
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====== SAVOIR-ÊTRE ====== -->
-    <section class="py-16 sm:py-20 border-t border-line">
-      <div class="max-w-shell mx-auto px-5 sm:px-8">
-        <p class="label" data-reveal>02 — Savoir-être</p>
-        <h2 class="font-display font-bold tracking-tight mt-5 leading-[1.02]" style="font-size:clamp(1.8rem,3.5vw,2.6rem)" data-reveal data-delay="1">
-          Comment je me comporte en équipe
-        </h2>
-        <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 mt-10">
-          <li class="panel hud rounded-2xl p-6" data-reveal>
-            <i class="fa-solid fa-people-group text-accent text-xl" aria-hidden="true"></i>
-            <h3 class="font-display font-semibold text-lg mt-4">Collaboration agile</h3>
-            <p class="text-muted text-sm mt-2 leading-relaxed">Itérer vite, en confiance, avec une équipe alignée sur l'objectif.</p>
-          </li>
-          <li class="panel hud rounded-2xl p-6" data-reveal data-delay="1">
-            <i class="fa-solid fa-comments text-accent text-xl" aria-hidden="true"></i>
-            <h3 class="font-display font-semibold text-lg mt-4">Communication technique claire</h3>
-            <p class="text-muted text-sm mt-2 leading-relaxed">Traduire la complexité en décisions compréhensibles par tous.</p>
-          </li>
-          <li class="panel hud rounded-2xl p-6" data-reveal data-delay="2">
-            <i class="fa-solid fa-gauge-high text-accent text-xl" aria-hidden="true"></i>
-            <h3 class="font-display font-semibold text-lg mt-4">Gestion des priorités sous pression</h3>
-            <p class="text-muted text-sm mt-2 leading-relaxed">Garder le cap et la lucidité quand les délais se resserrent.</p>
-          </li>
-          <li class="panel hud rounded-2xl p-6" data-reveal data-delay="1">
-            <i class="fa-solid fa-puzzle-piece text-accent text-xl" aria-hidden="true"></i>
-            <h3 class="font-display font-semibold text-lg mt-4">Résolution de problèmes complexes</h3>
-            <p class="text-muted text-sm mt-2 leading-relaxed">Décomposer, diagnostiquer, et résoudre jusqu'à la cause racine.</p>
-          </li>
-          <li class="panel hud rounded-2xl p-6" data-reveal data-delay="2">
-            <i class="fa-solid fa-arrows-rotate text-accent text-xl" aria-hidden="true"></i>
-            <h3 class="font-display font-semibold text-lg mt-4">Adaptabilité</h3>
-            <p class="text-muted text-sm mt-2 leading-relaxed">Passer du support N3 à la recherche en vision sans perdre le fil.</p>
-          </li>
-          <li class="panel hud rounded-2xl p-6 flex items-center" data-reveal data-delay="3">
-            <p class="font-display text-lg text-mist/80 leading-snug">
-              « De la <span class="text-gradient">salle serveur</span> au <span class="text-gradient">tenseur</span>. »
-            </p>
-          </li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- ====== LANGUES ====== -->
-    <section class="py-16 sm:py-20 border-t border-line">
-      <div class="max-w-shell mx-auto px-5 sm:px-8">
-        <div class="grid lg:grid-cols-[0.4fr_0.6fr] gap-10 lg:gap-16 items-start">
-          <div>
-            <p class="label" data-reveal>03 — Langues</p>
-            <h2 class="font-display font-bold tracking-tight mt-5 leading-[1.02]" style="font-size:clamp(1.8rem,3.5vw,2.6rem)" data-reveal data-delay="1">
-              Langues parlées
-            </h2>
-            <p class="text-muted mt-5 leading-relaxed text-sm" data-reveal data-delay="2">
-              Anglophone natif, je progresse en français au quotidien dans un environnement professionnel francophone.
-            </p>
-          </div>
-          <div class="space-y-8">
-            <div data-reveal>
-              <div class="flex justify-between items-baseline mb-2">
-                <span class="font-display font-semibold text-lg">Anglais</span>
-                <span class="font-mono text-xs tracking-widest text-accent">LANGUE MATERNELLE</span>
-              </div>
-              <div class="h-2 rounded-full bg-surface2 overflow-hidden" role="img" aria-label="Anglais : niveau maternel, 100 pour cent">
-                <div class="h-full rounded-full bg-gradient-to-r from-volt to-emerald" style="width:100%"></div>
-              </div>
+        <div class="grid md:grid-cols-3 gap-5">
+          <article class="panel p-7" data-reveal>
+            <h2 class="font-display font-semibold text-xl">Vision</h2>
+            <p class="text-muted text-sm mt-3 leading-relaxed">Détection, segmentation, suivi 3D — YOLO, ViT, OpenCV.</p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">YOLO</span>
+              <span class="chip">ViT</span>
+              <span class="chip">OpenCV</span>
             </div>
-            <div data-reveal data-delay="1">
-              <div class="flex justify-between items-baseline mb-2">
-                <span class="font-display font-semibold text-lg">Français</span>
-                <span class="font-mono text-xs tracking-widest text-accent">NIVEAU B1</span>
-              </div>
-              <div class="h-2 rounded-full bg-surface2 overflow-hidden" role="img" aria-label="Français : niveau B1, environ 55 pour cent">
-                <div class="h-full rounded-full bg-gradient-to-r from-volt to-emerald" style="width:55%"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====== COMMENT JE TRAVAILLE ====== -->
-    <section class="py-20 sm:py-28 border-t border-line relative overflow-hidden">
-      <div class="grid-bg absolute inset-0 pointer-events-none" aria-hidden="true"></div>
-      <div class="max-w-shell mx-auto px-5 sm:px-8 relative">
-        <p class="label" data-reveal>04 — Méthode</p>
-        <h2 class="font-display font-bold tracking-tight mt-5 leading-[1.02]" style="font-size:clamp(2rem,4vw,3rem)" data-reveal data-delay="1">
-          Comment je travaille
-        </h2>
-        <p class="text-muted mt-5 max-w-2xl leading-relaxed" data-reveal data-delay="2">
-          Trois principes qui relient la recherche en deep learning au matériel réellement déployé.
-        </p>
-        <div class="grid md:grid-cols-3 gap-5 mt-12">
-          <article class="panel hud rounded-2xl p-7" data-reveal>
-            <span class="font-mono text-xs tracking-[0.3em] text-accent/70">01</span>
-            <h3 class="font-display font-semibold text-xl mt-4">Mesurer avant d'optimiser</h3>
-            <p class="text-muted text-sm mt-3 leading-relaxed">
-              Latence, précision, consommation : sur l'edge, chaque milliseconde et chaque watt comptent.
-              Je profile d'abord, j'optimise ensuite — distillation et TensorRT au service de chiffres mesurés.
-            </p>
           </article>
-          <article class="panel hud rounded-2xl p-7" data-reveal data-delay="1">
-            <span class="font-mono text-xs tracking-[0.3em] text-accent/70">02</span>
-            <h3 class="font-display font-semibold text-xl mt-4">Penser déploiement dès le départ</h3>
-            <p class="text-muted text-sm mt-3 leading-relaxed">
-              Un modèle n'existe vraiment qu'une fois embarqué. Mes dix ans d'infrastructure m'ont appris
-              à concevoir pour la cible — Jetson, robot, terrain — pas seulement pour le notebook.
-            </p>
+          <article class="panel p-7" data-reveal data-delay="1">
+            <h2 class="font-display font-semibold text-xl">Edge</h2>
+            <p class="text-muted text-sm mt-3 leading-relaxed">Compression et temps réel sur Jetson — TensorRT, INT8.</p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">JETSON</span>
+              <span class="chip">TENSORRT</span>
+              <span class="chip">INT8</span>
+            </div>
           </article>
-          <article class="panel hud rounded-2xl p-7" data-reveal data-delay="2">
-            <span class="font-mono text-xs tracking-[0.3em] text-accent/70">03</span>
-            <h3 class="font-display font-semibold text-xl mt-4">Documenter et transmettre</h3>
-            <p class="text-muted text-sm mt-3 leading-relaxed">
-              Du support IT à la robotique, j'écris ce qui doit être reproductible. Une solution claire
-              et documentée vaut mieux qu'une astuce brillante mais opaque.
-            </p>
+          <article class="panel p-7" data-reveal data-delay="2">
+            <h2 class="font-display font-semibold text-xl">Systèmes</h2>
+            <p class="text-muted text-sm mt-3 leading-relaxed">10 ans d'infrastructure : réseaux, Linux, fiabilité.</p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">LINUX</span>
+              <span class="chip">RÉSEAUX</span>
+              <span class="chip">AD</span>
+            </div>
           </article>
-        </div>
-
-        <!-- signature flourish -->
-        <div class="mt-16 flex flex-col items-center text-center" data-reveal>
-          <img src="assets/img/signature.png" alt="Signature manuscrite d'Atanda Abdullahi"
-               class="h-20 sm:h-24 w-auto object-contain opacity-90" />
-          <p class="font-signature text-3xl sm:text-4xl text-mist/80 mt-2 sr-only">Atanda Abdullahi</p>
-          <p class="font-mono text-xs tracking-[0.3em] text-muted mt-3">ATANDA ABDULLAHI · WALEDROID</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ====== CTA ====== -->
-    <section class="py-20 sm:py-28 border-t border-line">
-      <div class="max-w-shell mx-auto px-5 sm:px-8">
-        <div class="panel hud rounded-3xl p-10 sm:p-14 text-center relative overflow-hidden" data-reveal>
-          <div class="scanline absolute inset-0 pointer-events-none" aria-hidden="true"></div>
-          <p class="label justify-center" data-reveal>La suite</p>
-          <h2 class="font-display font-bold tracking-tight mt-5 leading-[1.02]" style="font-size:clamp(2rem,4.5vw,3.4rem)" data-reveal data-delay="1">
-            Voyons ce que j'ai <span class="text-gradient">construit</span>.
-          </h2>
-          <p class="text-muted mt-5 max-w-xl mx-auto leading-relaxed" data-reveal data-delay="2">
-            Explorez mon parcours professionnel en détail, ou prenons directement contact pour en discuter.
-          </p>
-          <div class="flex flex-wrap items-center justify-center gap-3 mt-9" data-reveal data-delay="3">
-            <a href="experience.html" class="btn" data-magnetic><i class="fa-solid fa-timeline" aria-hidden="true"></i> Voir mon parcours</a>
-            <a href="contact.html" class="btn btn--ghost"><i class="fa-regular fa-paper-plane" aria-hidden="true"></i> Me contacter</a>
-            <a href="cv.html" class="btn btn--ghost"><i class="fa-solid fa-file-lines" aria-hidden="true"></i> Voir le CV</a>
-          </div>
         </div>
       </div>
     </section>
@@ -280,6 +96,13 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script type="importmap">
+  { "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  } }
+  </script>
+  <script type="module" src="assets/js/glass-bg.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>

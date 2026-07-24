@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Contactez Atanda Abdullahi, Ingénieur Vision par Ordinateur & Edge-AI à Oullins (Lyon). Disponible pour un entretien : email, téléphone, LinkedIn et GitHub." />
+  <meta name="description" content="Contactez Atanda Abdullahi, Ingénieur Vision par Ordinateur & Edge-AI — disponible pour un entretien : email, LinkedIn, GitHub." />
   <title>Contact — Atanda Abdullahi</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/js/tw-config.js"></script>
@@ -14,6 +14,11 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
   <link rel="stylesheet" href="assets/css/site.css" />
+  <style>
+    .cf-field { background: transparent; border: none; border-bottom: 1px solid var(--line); border-radius: 0; padding: 0.7rem 0.1rem; color: var(--mist); transition: border-color .3s var(--ease); }
+    .cf-field::placeholder { color: var(--muted); opacity: .6; }
+    .cf-field:focus { outline: none; border-bottom-color: var(--accent); }
+  </style>
 </head>
 <body class="bg-ink text-mist">
   <div id="cursor-dot"></div><div id="cursor-ring"></div>
@@ -21,169 +26,83 @@
 
   <main>
     <!-- ====== CONTACT ====== -->
-    <section class="relative pt-32 pb-24 overflow-hidden">
-      <div class="grid-bg absolute inset-0 -z-10" aria-hidden="true"></div>
+    <section class="relative pt-32 pb-24 sm:pb-32 overflow-hidden">
+      <div data-glass-bg class="absolute inset-0 -z-10"></div>
+      <div class="grid-bg absolute inset-0 pointer-events-none" aria-hidden="true"></div>
 
-      <div class="max-w-shell mx-auto px-5 sm:px-8">
-        <!-- Header -->
-        <div class="max-w-3xl">
+      <div class="max-w-shell mx-auto px-5 sm:px-8 relative">
+        <div class="max-w-2xl">
           <p class="label" data-reveal>Contact</p>
           <h1 class="font-display font-bold tracking-tight mt-5 leading-[0.95]"
               style="font-size:clamp(2.5rem,6vw,4.5rem)" data-reveal data-delay="1">
-            Construisons quelque chose <span class="text-gradient">d'intelligent</span> ensemble.
+            Constru<span class="text-gradient">isons</span>.
           </h1>
-          <p class="text-muted mt-6 text-lg leading-relaxed" data-reveal data-delay="2">
-            Recruteur, chercheur ou équipe robotique&nbsp;? Je serais ravi d'échanger sur la vision
-            par ordinateur, l'edge-AI ou un poste à pourvoir. Écrivez-moi&nbsp;— je réponds vite.
+          <p class="text-muted text-lg leading-relaxed mt-6" data-reveal data-delay="2">
+            Un poste, un projet, une idée&nbsp;? Écrivez-moi.
           </p>
-          <p class="mt-7 inline-flex items-center gap-2.5 rounded-full border border-emerald/40 bg-emerald/10 px-4 py-2 font-mono text-sm text-emerald"
-             data-reveal data-delay="3">
-            <span class="relative flex h-2.5 w-2.5">
-              <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald opacity-75"></span>
-              <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald"></span>
-            </span>
-            Disponible pour un entretien
+          <p class="chip mt-6" data-reveal data-delay="3">
+            <span class="text-accent">●</span> Disponible pour un entretien
           </p>
         </div>
 
-        <!-- Two-column -->
-        <div class="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] mt-14">
+        <div class="panel p-7 sm:p-10 lg:p-12 mt-12" data-reveal data-delay="1">
+          <div class="grid lg:grid-cols-[1.3fr_0.7fr] gap-10 lg:gap-14">
 
-          <!-- LEFT: Form -->
-          <div class="hud panel p-7 sm:p-10" data-reveal>
-            <p class="label label--plain text-muted mb-1">// Formulaire</p>
-            <h2 class="font-display text-2xl font-semibold mb-7">Envoyez-moi un message</h2>
-
-            <form id="contact-form" novalidate class="space-y-5" aria-describedby="form-status">
+            <!-- Form -->
+            <form id="contact-form" novalidate class="space-y-6" aria-describedby="form-status">
               <div>
-                <label for="cf-name" class="block font-mono text-xs uppercase tracking-widest text-muted mb-2">Nom</label>
+                <label for="cf-name" class="sr-only">Nom</label>
                 <input id="cf-name" name="name" type="text" required autocomplete="name"
-                  placeholder="Votre nom"
-                  class="w-full rounded-xl bg-surface border border-line px-4 py-3 text-mist placeholder:text-muted/60 outline-none transition focus:border-accent focus:ring-1 focus:ring-accent" />
+                  placeholder="Votre nom" class="cf-field w-full" />
                 <p class="cf-error hidden mt-1.5 font-mono text-xs text-red-400" data-for="cf-name"></p>
               </div>
 
               <div>
-                <label for="cf-email" class="block font-mono text-xs uppercase tracking-widest text-muted mb-2">Email</label>
+                <label for="cf-email" class="sr-only">Email</label>
                 <input id="cf-email" name="email" type="email" required autocomplete="email"
                   pattern="[^@\s]+@[^@\s]+\.[^@\s]+"
-                  placeholder="vous@exemple.com"
-                  class="w-full rounded-xl bg-surface border border-line px-4 py-3 text-mist placeholder:text-muted/60 outline-none transition focus:border-accent focus:ring-1 focus:ring-accent" />
+                  placeholder="vous@exemple.com" class="cf-field w-full" />
                 <p class="cf-error hidden mt-1.5 font-mono text-xs text-red-400" data-for="cf-email"></p>
               </div>
 
               <div>
-                <label for="cf-subject" class="block font-mono text-xs uppercase tracking-widest text-muted mb-2">Sujet</label>
+                <label for="cf-subject" class="sr-only">Sujet</label>
                 <input id="cf-subject" name="subject" type="text" required
-                  placeholder="Opportunité, collaboration, question…"
-                  class="w-full rounded-xl bg-surface border border-line px-4 py-3 text-mist placeholder:text-muted/60 outline-none transition focus:border-accent focus:ring-1 focus:ring-accent" />
+                  placeholder="Sujet du message" class="cf-field w-full" />
                 <p class="cf-error hidden mt-1.5 font-mono text-xs text-red-400" data-for="cf-subject"></p>
               </div>
 
               <div>
-                <label for="cf-message" class="block font-mono text-xs uppercase tracking-widest text-muted mb-2">Message</label>
-                <textarea id="cf-message" name="message" rows="5" required
-                  placeholder="Bonjour Atanda, …"
-                  class="w-full rounded-xl bg-surface border border-line px-4 py-3 text-mist placeholder:text-muted/60 outline-none transition focus:border-accent focus:ring-1 focus:ring-accent resize-y"></textarea>
+                <label for="cf-message" class="sr-only">Message</label>
+                <textarea id="cf-message" name="message" rows="4" required
+                  placeholder="Votre message…" class="cf-field w-full resize-y"></textarea>
                 <p class="cf-error hidden mt-1.5 font-mono text-xs text-red-400" data-for="cf-message"></p>
               </div>
 
-              <!-- Static, no backend: composes a mailto link from the fields on submit.
-                   (To switch to Formspree, set: method="POST" action="https://formspree.io/f/XXXX"
-                    and remove the JS submit handler below.) -->
+              <!-- Static, no backend: composes a mailto link from the fields on submit. -->
               <div class="flex flex-wrap items-center gap-4 pt-2">
                 <button type="submit" class="btn" data-magnetic>
-                  <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Envoyer le message
+                  <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Envoyer
                 </button>
                 <p id="form-status" role="status" aria-live="polite" class="font-mono text-xs text-muted"></p>
               </div>
             </form>
-          </div>
 
-          <!-- RIGHT: Info panel -->
-          <div class="space-y-8">
-            <div class="hud panel scanline p-7 sm:p-9" data-reveal data-delay="1">
-              <p class="label label--plain text-muted mb-1">// Coordonnées</p>
-              <h2 class="font-display text-2xl font-semibold mb-7">Atanda Abdullahi</h2>
-
-              <ul class="space-y-5">
-                <li class="flex items-start gap-4">
-                  <span class="grid place-items-center w-10 h-10 rounded-xl bg-surface2 border border-line text-accent shrink-0">
-                    <i class="fa-solid fa-envelope" aria-hidden="true"></i>
-                  </span>
-                  <span>
-                    <span class="block font-mono text-[0.7rem] uppercase tracking-widest text-muted">Email</span>
-                    <a href="mailto:waledroid@gmail.com" class="link-u text-mist">waledroid@gmail.com</a>
-                  </span>
-                </li>
-                <li class="flex items-start gap-4">
-                  <span class="grid place-items-center w-10 h-10 rounded-xl bg-surface2 border border-line text-accent shrink-0">
-                    <i class="fa-solid fa-phone" aria-hidden="true"></i>
-                  </span>
-                  <span>
-                    <span class="block font-mono text-[0.7rem] uppercase tracking-widest text-muted">Téléphone</span>
-                    <a href="tel:+33749499978" class="link-u text-mist">+33 7 49 49 99 78</a>
-                  </span>
-                </li>
-                <li class="flex items-start gap-4">
-                  <span class="grid place-items-center w-10 h-10 rounded-xl bg-surface2 border border-line text-accent shrink-0">
-                    <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-                  </span>
-                  <span>
-                    <span class="block font-mono text-[0.7rem] uppercase tracking-widest text-muted">Localisation</span>
-                    <span class="text-mist">33 boulevard de l'Europe, Montmein Sud — 69600 Oullins, Lyon, France</span>
-                  </span>
-                </li>
-                <li class="flex items-start gap-4">
-                  <span class="grid place-items-center w-10 h-10 rounded-xl bg-surface2 border border-line text-accent shrink-0">
-                    <i class="fa-solid fa-language" aria-hidden="true"></i>
-                  </span>
-                  <span>
-                    <span class="block font-mono text-[0.7rem] uppercase tracking-widest text-muted">Langues</span>
-                    <span class="text-mist">Anglais (maternelle) · Français (B1)</span>
-                  </span>
-                </li>
-              </ul>
-
-              <div class="divider my-7"></div>
-
-              <p class="font-mono text-[0.7rem] uppercase tracking-widest text-muted mb-3">Réseaux</p>
-              <div class="flex items-center gap-3">
-                <a href="https://linkedin.com/in/waledroid" target="_blank" rel="noopener"
-                   aria-label="Profil LinkedIn d'Atanda Abdullahi"
-                   class="grid place-items-center w-11 h-11 rounded-xl bg-surface2 border border-line text-mist transition hover:text-volt hover:border-accent">
-                  <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
-                </a>
-                <a href="https://github.com/waledroid" target="_blank" rel="noopener"
-                   aria-label="Profil GitHub d'Atanda Abdullahi"
-                   class="grid place-items-center w-11 h-11 rounded-xl bg-surface2 border border-line text-mist transition hover:text-volt hover:border-accent">
-                  <i class="fa-brands fa-github" aria-hidden="true"></i>
-                </a>
-                <a href="mailto:waledroid@gmail.com"
-                   aria-label="Envoyer un email à Atanda Abdullahi"
-                   class="grid place-items-center w-11 h-11 rounded-xl bg-surface2 border border-line text-mist transition hover:text-volt hover:border-accent">
-                  <i class="fa-solid fa-at" aria-hidden="true"></i>
-                </a>
-              </div>
-
-              <a href="cv.html" class="btn btn--ghost mt-8 w-full justify-center" data-magnetic>
-                <i class="fa-solid fa-file-lines" aria-hidden="true"></i> Voir le CV
+            <!-- Direct links -->
+            <div class="lg:border-l lg:border-line lg:pl-14 flex flex-col gap-3">
+              <p class="label label--plain text-muted mb-1">Direct</p>
+              <a href="mailto:waledroid@gmail.com" class="chip normal-case !justify-start gap-3 py-3 px-4">
+                <i class="fa-solid fa-envelope" aria-hidden="true"></i> waledroid@gmail.com
+              </a>
+              <a href="https://linkedin.com/in/waledroid" target="_blank" rel="noopener" class="chip normal-case !justify-start gap-3 py-3 px-4">
+                <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i> linkedin.com/in/waledroid
+              </a>
+              <a href="https://github.com/waledroid" target="_blank" rel="noopener" class="chip normal-case !justify-start gap-3 py-3 px-4">
+                <i class="fa-brands fa-github" aria-hidden="true"></i> github.com/waledroid
               </a>
             </div>
 
-            <!-- Reassurance / status card -->
-            <div class="panel p-7 sm:p-9" data-reveal data-delay="2">
-              <p class="label label--plain text-emerald mb-3">
-                <span class="w-2 h-2 rounded-full bg-emerald inline-block"></span>Statut
-              </p>
-              <p class="text-muted text-sm leading-relaxed">
-                Actuellement <span class="text-mist">Ingénieur ML &amp; Vision par Ordinateur chez
-                Isitec</span> (Millery, Lyon) et <span class="text-mist">disponible pour un
-                entretien</span>. Basé à Oullins, Lyon.
-              </p>
-            </div>
           </div>
-
         </div>
       </div>
     </section>
@@ -263,6 +182,13 @@
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script type="importmap">
+  { "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  } }
+  </script>
+  <script type="module" src="assets/js/glass-bg.js"></script>
   <script src="assets/js/main.js"></script>
 </body>
 </html>
