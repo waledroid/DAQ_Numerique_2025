@@ -60,7 +60,10 @@ exports.handler = async (event) => {
     let data;
     try { data = JSON.parse(event.body); }
     catch (err) { return json(400, { error: 'JSON invalide' }); }
-    if (!data || typeof data !== 'object' || Array.isArray(data) || !data.identity) {
+    // Accepte le document bilingue { fr: {identity…}, en: {identity…} }
+    // comme l'ancien format plat { identity… }.
+    if (!data || typeof data !== 'object' || Array.isArray(data) ||
+        !(data.identity || (data.fr && data.fr.identity))) {
       return json(422, { error: 'structure de CV inattendue' });
     }
 

@@ -82,7 +82,10 @@ function handleApi(req, res) {
       } catch (err) {
         return sendJSON(res, 400, { error: 'JSON invalide' });
       }
-      if (!data || typeof data !== 'object' || Array.isArray(data) || !data.identity) {
+      // Accepte le document bilingue { fr: {identity…}, en: {identity…} }
+      // comme l'ancien format plat { identity… }.
+      if (!data || typeof data !== 'object' || Array.isArray(data) ||
+          !(data.identity || (data.fr && data.fr.identity))) {
         return sendJSON(res, 422, { error: 'structure de CV inattendue' });
       }
       // Atomic write: tmp file then rename, so a crash never corrupts the CV

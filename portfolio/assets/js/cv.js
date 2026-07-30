@@ -20,6 +20,28 @@
   const SAVE_API = '/.netlify/functions/cv'; // hosted proxy — holds the GitHub token server-side
   const SEED = 'data/cv.json';
   const DRAFT_KEY = 'edge-vision-cv-draft-v1';
+  const LANG_KEY = 'edge-vision-cv-lang';
+
+  // ---- Bilingual document --------------------------------------------------
+  // data/cv.json = { fr: {...}, en: {...} } ; `doc` holds both languages,
+  // `state` points to the active one. The flag button swaps languages; the
+  // print button then produces the displayed language's PDF.
+  const I18N = {
+    fr: {
+      title: 'CV — Atanda Abdullahi',
+      profile: 'Profil', skills: 'Compétences Clés', experience: 'Expérience Professionnelle',
+      education: 'Formation', certifications: 'Certifications', projects: 'Projets',
+      languages: 'Langues', interests: 'Intérêts',
+      switchTo: 'Switch to English',
+    },
+    en: {
+      title: 'Resume — Atanda Abdullahi',
+      profile: 'Profile', skills: 'Core Skills', experience: 'Professional Experience',
+      education: 'Education', certifications: 'Certifications', projects: 'Projects',
+      languages: 'Languages', interests: 'Interests',
+      switchTo: 'Passer en français',
+    },
+  };
 
   // ---- Online editing from any device (phone included) --------------------
   // The Netlify function at SAVE_API keeps the GitHub token in its server-side
@@ -28,9 +50,36 @@
   const PW_KEY = 'edge-vision-cv-password';
   const pw = () => localStorage.getItem(PW_KEY) || '';
 
+  let doc = null;
+  let lang = localStorage.getItem(LANG_KEY) === 'en' ? 'en' : 'fr';
   let state = null;
   let editing = false;
   let serverOk = false;
+
+  // Ancien format plat { identity… } (vieux brouillons) → enveloppé en bilingue.
+  function normalizeDoc(d) {
+    if (d && d.fr && d.fr.identity) {
+      if (!(d.en && d.en.identity)) d.en = JSON.parse(JSON.stringify(d.fr));
+      return d;
+    }
+    return { fr: d, en: JSON.parse(JSON.stringify(d)) };
+  }
+
+  function applyLang() {
+    const t = I18N[lang];
+    document.documentElement.lang = lang;
+    document.title = t.title;
+    $$('[data-i18n]').forEach((el) => {
+      if (t[el.dataset.i18n]) el.textContent = t[el.dataset.i18n];
+    });
+    // toggleAttribute : `.hidden` (propriété HTMLElement) n'existe pas sur <svg>
+    const flagEn = $('#flag-en');
+    const flagFr = $('#flag-fr');
+    if (flagEn) flagEn.toggleAttribute('hidden', lang === 'en');
+    if (flagFr) flagFr.toggleAttribute('hidden', lang === 'fr');
+    const btn = $('#btn-lang');
+    if (btn) { btn.title = t.switchTo; btn.setAttribute('aria-label', t.switchTo); }
+  }
 
   // ---- Micro template engine: {{a.b.c}} interpolation, HTML-escaped ----
   const get = (obj, path) =>
@@ -251,6 +300,7 @@
   async function save() {
     const data = collect();
     state = data;
+    doc[lang] = data;
 
     // 1. Hosted proxy when logged in (password set) — saves from any device
     if (pw()) {
@@ -259,7 +309,7 @@
         const r = await fetch(SAVE_API, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json', 'X-CV-Password': pw() },
-          body: JSON.stringify(data),
+          body: JSON.stringify(doc),
         });
         result = r.ok
           ? { ok: true }
@@ -271,7 +321,7 @@
         localStorage.removeItem(DRAFT_KEY);
         toast('Enregistré sur GitHub ✓');
       } else {
-        try { localStorage.setItem(DRAFT_KEY, JSON.stringify(data)); } catch (err) {}
+        try { localStorage.setItem(DRAFT_KEY, JSON.stringify(doc)); } catch (err) {}
         if (result.status === 401) {
           localStorage.removeItem(PW_KEY);
           updateStatus();
@@ -292,7 +342,7 @@
       const r = await fetch(API, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data, null, 2),
+        body: JSON.stringify(doc, null, 2),
       });
       saved = r.ok;
     } catch (err) { /* no server */ }
@@ -300,7 +350,7 @@
       localStorage.removeItem(DRAFT_KEY);
       toast('Enregistré sur le serveur ✓');
     } else {
-      try { localStorage.setItem(DRAFT_KEY, JSON.stringify(data)); } catch (err) {}
+      try { localStorage.setItem(DRAFT_KEY, JSON.stringify(doc)); } catch (err) {}
       toast('Serveur indisponible — brouillon gardé dans ce navigateur', true);
     }
     setEditing(false);
@@ -333,7 +383,9 @@
       const r = await fetch(SEED, { cache: 'no-store' });
       data = await r.json();
     }
-    state = data;
+    doc = normalizeDoc(data);
+    state = doc[lang];
+    applyLang();
     updateStatus();
     const resetBtn = $('#btn-reset');
     if (resetBtn) resetBtn.hidden = !localStorage.getItem(DRAFT_KEY);
@@ -398,6 +450,14 @@
   $('#btn-cancel').addEventListener('click', () => { setEditing(false); render(); });
   $('#btn-save').addEventListener('click', save);
   $('#btn-print').addEventListener('click', () => window.print());
+  $('#btn-lang').addEventListener('click', () => {
+    if (editing) doc[lang] = collect(); // garde les modifs en cours lors du basculement
+    lang = lang === 'fr' ? 'en' : 'fr';
+    localStorage.setItem(LANG_KEY, lang);
+    state = doc[lang];
+    applyLang();
+    render();
+  });
   $('#btn-reset').addEventListener('click', async () => {
     if (!confirm('Effacer le brouillon enregistré dans ce navigateur et recharger le CV publié ?')) return;
     localStorage.removeItem(DRAFT_KEY);

@@ -213,6 +213,25 @@
         <button id="btn-login" type="button" title="Se connecter (mot de passe) pour enregistrer le CV en ligne depuis n’importe quel appareil" class="font-mono text-xs tracking-widest uppercase border border-line rounded-full px-4 py-2 text-mist hover:border-accent hover:text-accent transition">
           ⚙ Connexion
         </button>
+        <button id="btn-lang" type="button" title="Switch to English"
+          class="rounded-full px-3 py-2 border border-line hover:border-accent transition inline-flex items-center justify-center">
+          <!-- Drapeau affiché = langue VERS laquelle on bascule -->
+          <svg id="flag-en" width="26" height="14" viewBox="0 0 60 30" class="rounded-[2px]" aria-label="English">
+            <clipPath id="uk-clip"><path d="M0,0 v30 h60 v-30 z"/></clipPath>
+            <g clip-path="url(#uk-clip)">
+              <path d="M0,0 v30 h60 v-30 z" fill="#012169"/>
+              <path d="M0,0 L60,30 M60,0 L0,30" stroke="#fff" stroke-width="6"/>
+              <path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="4"/>
+              <path d="M30,0 v30 M0,15 h60" stroke="#fff" stroke-width="10"/>
+              <path d="M30,0 v30 M0,15 h60" stroke="#C8102E" stroke-width="6"/>
+            </g>
+          </svg>
+          <svg id="flag-fr" width="21" height="14" viewBox="0 0 3 2" class="rounded-[2px]" aria-label="Français" hidden>
+            <rect width="1" height="2" x="0" fill="#0055A4"/>
+            <rect width="1" height="2" x="1" fill="#fff"/>
+            <rect width="1" height="2" x="2" fill="#EF4135"/>
+          </svg>
+        </button>
         <button id="btn-print" type="button" class="font-mono text-xs tracking-widest uppercase rounded-full px-4 py-2 bg-surface2 border border-line text-mist hover:border-accent hover:text-accent transition">
           ⎙ Imprimer / PDF
         </button>
@@ -238,37 +257,37 @@
           <p class="cv-tagline" data-edit="identity.tagline" style="display:none;"></p>
         </header>
 
-        <h2 class="sec">Profil</h2>
+        <h2 class="sec" data-i18n="profile">Profil</h2>
         <p style="font-size:9.5pt;color:#222;line-height:1.5;text-align:justify;text-justify:auto;" data-edit="profile"></p>
 
-        <h2 class="sec">Compétences Clés</h2>
+        <h2 class="sec" data-i18n="skills">Compétences Clés</h2>
         <div id="skills-list"></div>
         <button type="button" class="add edit-only" data-add="skills">+ catégorie</button>
 
-        <h2 class="sec">Expérience Professionnelle</h2>
+        <h2 class="sec" data-i18n="experience">Expérience Professionnelle</h2>
         <div id="exp-list"></div>
         <button type="button" class="add edit-only" data-add="experience">+ expérience</button>
       </section>
 
       <!-- Sidebar -->
       <aside class="side">
-        <h2 class="sec">Formation</h2>
+        <h2 class="sec" data-i18n="education">Formation</h2>
         <div id="edu-list"></div>
         <button type="button" class="add edit-only" data-add="education">+ formation</button>
 
-        <h2 class="sec">Certifications</h2>
+        <h2 class="sec" data-i18n="certifications">Certifications</h2>
         <div id="certif-list"></div>
         <button type="button" class="add edit-only" data-add="certifications">+ certification</button>
 
-        <h2 class="sec">Projets</h2>
+        <h2 class="sec" data-i18n="projects">Projets</h2>
         <div id="proj-list"></div>
         <button type="button" class="add edit-only" data-add="projects">+ projet</button>
 
-        <h2 class="sec">Langues</h2>
+        <h2 class="sec" data-i18n="languages">Langues</h2>
         <div id="lang-list"></div>
         <button type="button" class="add edit-only" data-add="languages">+ langue</button>
 
-        <h2 class="sec">Intérêts</h2>
+        <h2 class="sec" data-i18n="interests">Intérêts</h2>
         <div id="interest-list"></div>
         <button type="button" class="add edit-only" data-add="interests">+ intérêt</button>
       </aside>
