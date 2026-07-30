@@ -124,10 +124,13 @@
     .langrow::before { content: '•'; color: var(--accentx); font-size: 10pt; }
     .langrow .level { color: var(--mutedx); }
 
-    .cert { font-size: 8.5pt; margin-bottom: calc(1.5mm * var(--sp, 1)); display: flex; gap: 1.5mm; align-items: baseline; }
-    .cert::before { content: '•'; color: var(--accentx); font-size: 10pt; }
+    /* .cert sert aux certifications ET aux intérêts : flux en bloc pour que les
+       libellés longs s'enroulent, année entre parenthèses seulement si présente */
+    .cert { font-size: 8.5pt; margin-bottom: calc(1.5mm * var(--sp, 1)); padding-left: 3.5mm; line-height: 1.4; }
+    .cert::before { content: '•'; position: absolute; left: 0; top: -0.2mm; color: var(--accentx); font-size: 10pt; }
     .cert .year { color: var(--mutedx); font-family: 'JetBrains Mono', monospace; font-size: 8pt; }
-    .cert .year:not(:empty)::before { content: '— '; } /* pas de tiret orphelin quand l'année est vide (ex. intérêts) */
+    .cert .year:not(:empty)::before { content: ' ('; }
+    .cert .year:not(:empty)::after { content: ')'; }
 
     .item { position: relative; margin-bottom: calc(4.5mm * var(--sp, 1)); }
     .item .row { display: flex; justify-content: space-between; align-items: baseline; gap: 4mm; }
@@ -250,6 +253,10 @@
         <div id="edu-list"></div>
         <button type="button" class="add edit-only" data-add="education">+ formation</button>
 
+        <h2 class="sec">Certifications</h2>
+        <div id="certif-list"></div>
+        <button type="button" class="add edit-only" data-add="certifications">+ certification</button>
+
         <h2 class="sec">Projets</h2>
         <div id="proj-list"></div>
         <button type="button" class="add edit-only" data-add="projects">+ projet</button>
@@ -259,8 +266,8 @@
         <button type="button" class="add edit-only" data-add="languages">+ langue</button>
 
         <h2 class="sec">Intérêts</h2>
-        <div id="cert-list"></div>
-        <button type="button" class="add edit-only" data-add="certifications">+ intérêt</button>
+        <div id="interest-list"></div>
+        <button type="button" class="add edit-only" data-add="interests">+ intérêt</button>
       </aside>
 
     </div>

@@ -145,24 +145,46 @@
   "projects": [
     {
       "name": "IsiMonitor 3D — Vision industrielle",
-      "stack": "GStreamer · ONNX Runtime ·\nMultical · MQTT · Three.js",
-      "desc": "Suivi métrique 2D/3D multi-caméras d'entrepôt avec jumeau numérique 3D temps réel, calibration guidée (isiCal) et données synthétiques (isiGen)."
+      "stack": "GStreamer · ONNX Runtime · MQTT · Three.js",
+      "desc": "Suivi 2D/3D multi-caméras d'entrepôt avec jumeau numérique temps réel, calibration assistée (isiCal) et génération de données synthétiques (isiGen)."
     },
     {
-      "name": "IsiDetector — Détection Edge & Pipeline MLOps",
-      "stack": "YOLO11/RF-DETR · TensorRT/OpenVINO · ByteTrack · FastAPI · Docker",
-      "desc": "Segmentation de colis sur convoyeur (mAP@50 ≈ 0,96) avec benchmark multi-backend, compression INT8/FP16 et déclenchement automate de tri."
+      "name": "IsiDetector — Détection Edge & IA",
+      "stack": "YOLO11/RF-DETR · TensorRT/OpenVINO · ByteTrack · Docker",
+      "desc": "Détection et segmentation de colis sur convoyeur (mAP@50 ≈ 0,96) avec optimisation INT8/FP16 et pilotage d'automates."
     },
     {
-      "name": "ROSBot Harmony — Flotte Robotique Autonome",
-      "stack": "C++ · ROS2 · MoveIt · PyTorch",
-      "desc": "Système autonome de navigation et de communication inter-robots."
+      "name": "ROSBot Harmony — Robotique autonome",
+      "stack": "C++ · ROS 2 · MoveIt · PyTorch",
+      "desc": "Navigation autonome, coordination multi-robots et planification de mouvements pour flotte mobile."
     }
   ],
   "certifications": [
-    { "name": "Veille technologique & IA", "year": "" },
-    { "name": "Peinture acrylique", "year": "" },
-    { "name": "Football", "year": "" },
-    { "name": "Voyages", "year": "" }
+    {
+      "name": "Construire des agents RAG avec des LLMs",
+      "year": "En cours"
+    },
+    {
+      "name": "Certificat Professionnel Google en Support Informatique",
+      "year": "2024"
+    }
+  ],
+  "interests": [
+    {
+      "name": "Veille technologique & IA",
+      "year": ""
+    },
+    {
+      "name": "Peinture acrylique",
+      "year": ""
+    },
+    {
+      "name": "Football",
+      "year": ""
+    },
+    {
+      "name": "Voyages",
+      "year": ""
+    }
   ]
 }

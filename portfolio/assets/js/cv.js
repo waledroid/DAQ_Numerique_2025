@@ -65,8 +65,12 @@
       blank: { name: 'Langue', level: 'Niveau' },
     },
     certifications: {
-      host: '#cert-list', tpl: 'tpl-cert',
+      host: '#certif-list', tpl: 'tpl-cert',
       blank: { name: 'Certification', year: 'Année' },
+    },
+    interests: {
+      host: '#interest-list', tpl: 'tpl-cert',
+      blank: { name: 'Intérêt', year: '' },
     },
     experience: {
       host: '#exp-list', tpl: 'tpl-exp',
@@ -178,7 +182,10 @@
     d.languages = $$('#lang-list [data-item]').map((it) => ({
       name: fieldOf(it, 'name'), level: fieldOf(it, 'level'),
     }));
-    d.certifications = $$('#cert-list [data-item]').map((it) => ({
+    d.certifications = $$('#certif-list [data-item]').map((it) => ({
+      name: fieldOf(it, 'name'), year: fieldOf(it, 'year'),
+    }));
+    d.interests = $$('#interest-list [data-item]').map((it) => ({
       name: fieldOf(it, 'name'), year: fieldOf(it, 'year'),
     }));
     d.experience = $$('#exp-list [data-item]').map((it) => ({
