@@ -7,10 +7,20 @@
   <title>CV — Atanda Abdullahi</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script src="assets/js/tw-config.js"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <style>
+    /* Polices statiques auto-hébergées : les polices variables de Google Fonts sont
+       incorporées en Type 3 par Chrome à l'impression PDF, illisibles pour les ATS. */
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400; src: url('assets/fonts/Inter-400.woff2') format('woff2'); font-display: swap; }
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 500; src: url('assets/fonts/Inter-500.woff2') format('woff2'); font-display: swap; }
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 600; src: url('assets/fonts/Inter-600.woff2') format('woff2'); font-display: swap; }
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 700; src: url('assets/fonts/Inter-700.woff2') format('woff2'); font-display: swap; }
+    @font-face { font-family: 'Space Grotesk'; font-style: normal; font-weight: 600; src: url('assets/fonts/SpaceGrotesk-600.woff2') format('woff2'); font-display: swap; }
+    @font-face { font-family: 'Space Grotesk'; font-style: normal; font-weight: 700; src: url('assets/fonts/SpaceGrotesk-700.woff2') format('woff2'); font-display: swap; }
+    @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 400; src: url('assets/fonts/JetBrainsMono-400.woff2') format('woff2'); font-display: swap; }
+    @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 500; src: url('assets/fonts/JetBrainsMono-500.woff2') format('woff2'); font-display: swap; }
+    @font-face { font-family: 'JetBrains Mono'; font-style: normal; font-weight: 600; src: url('assets/fonts/JetBrainsMono-600.woff2') format('woff2'); font-display: swap; }
+  </style>
   <style>
     /* ====== CV sheet — print-exact styles (mm units), website theme on white ====== */
     :root {
@@ -30,10 +40,14 @@
       display: grid; grid-template-columns: 75mm 1fr;
       overflow: hidden; border-radius: 6px;
       box-shadow: 0 40px 90px rgba(0,0,0,.55), 0 0 0 1px rgba(0,0,0,.08);
+      font-variant-ligatures: none; /* les ligatures (fi, ffi…) perturbent l'extraction de texte ATS */
     }
-    
-    .side { position: relative; background: var(--paper2); padding: 12mm 8mm 8mm; overflow: hidden; }
-    .mainc { position: relative; padding: 12mm 10mm 8mm; overflow: hidden; }
+
+    /* La colonne principale précède la sidebar dans le DOM (ordre de lecture ATS :
+       identité → contacts → profil → expérience avant la sidebar) ; la grille
+       replace visuellement la sidebar à gauche. */
+    .side { position: relative; grid-column: 1; grid-row: 1; background: var(--paper2); padding: 12mm 8mm 8mm; overflow: hidden; }
+    .mainc { position: relative; grid-column: 2; grid-row: 1; padding: 12mm 10mm 8mm; overflow: hidden; }
 
     .cv-header { margin-bottom: 6mm; }
     .cv-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26pt; line-height: 1.1; letter-spacing: -0.01em; color: #111; }
@@ -113,6 +127,7 @@
     .cert { font-size: 8.5pt; margin-bottom: calc(1.5mm * var(--sp, 1)); display: flex; gap: 1.5mm; align-items: baseline; }
     .cert::before { content: '•'; color: var(--accentx); font-size: 10pt; }
     .cert .year { color: var(--mutedx); font-family: 'JetBrains Mono', monospace; font-size: 8pt; }
+    .cert .year:not(:empty)::before { content: '— '; } /* pas de tiret orphelin quand l'année est vide (ex. intérêts) */
 
     .item { position: relative; margin-bottom: calc(4.5mm * var(--sp, 1)); }
     .item .row { display: flex; justify-content: space-between; align-items: baseline; gap: 4mm; }
@@ -203,26 +218,8 @@
   <main class="sheet-wrap">
     <div class="sheet" id="cv-sheet">
 
-      <!-- Sidebar -->
-      <aside class="side">
-        <h2 class="sec">Formation</h2>
-        <div id="edu-list"></div>
-        <button type="button" class="add edit-only" data-add="education">+ formation</button>
-
-        <h2 class="sec">Projets</h2>
-        <div id="proj-list"></div>
-        <button type="button" class="add edit-only" data-add="projects">+ projet</button>
-
-        <h2 class="sec">Langues</h2>
-        <div id="lang-list"></div>
-        <button type="button" class="add edit-only" data-add="languages">+ langue</button>
-
-        <h2 class="sec">Intérêts</h2>
-        <div id="cert-list"></div>
-        <button type="button" class="add edit-only" data-add="certifications">+ intérêt</button>
-      </aside>
-
-      <!-- Main column -->
+      <!-- Main column — first in the DOM so ATS text extraction starts with
+           identity/contacts/experience; the grid keeps it visually on the right. -->
       <section class="mainc">
         <header class="cv-header">
           <h1 class="cv-name" data-edit="identity.name"></h1>
@@ -246,6 +243,25 @@
         <div id="exp-list"></div>
         <button type="button" class="add edit-only" data-add="experience">+ expérience</button>
       </section>
+
+      <!-- Sidebar -->
+      <aside class="side">
+        <h2 class="sec">Formation</h2>
+        <div id="edu-list"></div>
+        <button type="button" class="add edit-only" data-add="education">+ formation</button>
+
+        <h2 class="sec">Projets</h2>
+        <div id="proj-list"></div>
+        <button type="button" class="add edit-only" data-add="projects">+ projet</button>
+
+        <h2 class="sec">Langues</h2>
+        <div id="lang-list"></div>
+        <button type="button" class="add edit-only" data-add="languages">+ langue</button>
+
+        <h2 class="sec">Intérêts</h2>
+        <div id="cert-list"></div>
+        <button type="button" class="add edit-only" data-add="certifications">+ intérêt</button>
+      </aside>
 
     </div>
   </main>
@@ -312,7 +328,7 @@
   <template id="tpl-cert">
     <p class="cert" data-item>
       <button type="button" class="rm edit-only" data-rm aria-label="Supprimer">×</button>
-      <span data-field="name">{{name}}</span> — <span class="year" data-field="year">{{year}}</span>
+      <span data-field="name">{{name}}</span><span class="year" data-field="year">{{year}}</span>
     </p>
   </template>
 

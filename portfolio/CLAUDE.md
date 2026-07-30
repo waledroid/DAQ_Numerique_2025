@@ -85,6 +85,9 @@ The whole point of this codebase is that pages are thin: identity and behavior a
 
 ## Asset notes
 
-`assets/cv.pdf` (the CV, also the source of truth for all content). `assets/img/` holds project
+CV content lives in `data/cv.json` (rendered/printed by `cv.html`); there is no static CV PDF —
+generate one via cv.html → Imprimer / PDF. `assets/fonts/` holds self-hosted static woff2 fonts
+(Inter, Space Grotesk, JetBrains Mono) used by cv.html so the printed PDF embeds ATS-readable
+CID TrueType fonts instead of Type 3 (variable webfonts break PDF text extraction). `assets/img/` holds project
 screenshots and portraits; `assets/logo/` holds company/tech logos. Only `wasoria` and
 `radionigeria` have real company logos — other employers use mono monogram tiles.

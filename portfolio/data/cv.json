@@ -159,5 +159,10 @@
       "desc": "Système autonome de navigation et de communication inter-robots."
     }
   ],
-  "certifications": []
+  "certifications": [
+    { "name": "Veille technologique & IA", "year": "" },
+    { "name": "Peinture acrylique", "year": "" },
+    { "name": "Football", "year": "" },
+    { "name": "Voyages", "year": "" }
+  ]
 }
