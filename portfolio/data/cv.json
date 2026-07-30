@@ -145,7 +145,7 @@
   "projects": [
     {
       "name": "IsiMonitor 3D — Vision industrielle",
-      "stack": "GStreamer · ONNX Runtime · MQTT · Three.js",
+      "stack": "GStreamer · ONNX Runtime · MQTT",
       "desc": "Suivi 2D/3D multi-caméras d'entrepôt avec jumeau numérique temps réel, calibration assistée (isiCal) et génération de données synthétiques (isiGen)."
     },
     {
