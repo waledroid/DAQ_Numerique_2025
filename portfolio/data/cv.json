@@ -95,14 +95,12 @@
       {
         "category": "Vision & Deep Learning",
         "items": [
-          "Détection en temps réel (YOLO",
-          "RF-DETR)",
-          "Distillation\nViT",
+          "Détection temps réel (YOLO / RF-DETR)",
+          "Distillation ViT",
           "OpenVINO",
           "LoRA",
-          "Vision\nstéréo & Perception 3D",
-          "Données synthétiques\nautoannotées (SDXL",
-          "SAM2)"
+          "Vision stéréo & Perception 3D",
+          "Données synthétiques (SDXL / SAM2)"
         ]
       },
       {
@@ -140,7 +138,7 @@
       },
       {
         "name": "Français",
-        "level": "Niveau B2 (Professionnel)"
+        "level": "Niveau B2 (Pro)"
       }
     ],
     "projects": [
@@ -170,20 +168,7 @@
         "year": "2024"
       }
     ],
-    "interests": [
-      {
-        "name": "Veille technologique & IA",
-        "year": ""
-      },
-      {
-        "name": "Peinture acrylique",
-        "year": ""
-      },
-      {
-        "name": "Football",
-        "year": ""
-      }
-    ]
+    "interests": []
   },
   "en": {
     "identity": {
@@ -281,14 +266,12 @@
       {
         "category": "Vision & Deep Learning",
         "items": [
-          "Real-time detection (YOLO",
-          "RF-DETR)",
+          "Real-time detection (YOLO / RF-DETR)",
           "ViT distillation",
           "OpenVINO",
           "LoRA",
           "Stereo vision & 3D perception",
-          "Auto-annotated synthetic data (SDXL",
-          "SAM2)"
+          "Auto-annotated synthetic data (SDXL / SAM2)"
         ]
       },
       {

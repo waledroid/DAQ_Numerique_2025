@@ -25,53 +25,72 @@
     /* ====== CV sheet — print-exact styles (mm units), website theme on white ====== */
     :root {
       --paper: #ffffff;
-      --paper2: #dbeed5;     /* sidebar tint — light green matching PDF */
-      --inkx: #11151a;
-      --mutedx: #4a5461;
-      --linex: #c8d6cb;
-      --accentx: #1f6b40;    /* green — graphic elements */
-      --greenx: #1b5935;     /* deep green */
+      --paper2: #d4e6d8;     /* sidebar tint — refined executive slate/sage tint */
+      --inkx: #0f172a;
+      --mutedx: #475569;
+      --linex: #d6e2d9;      /* elegant divider line */
+      --accentx: #1b5935;    /* forest green — graphic elements */
+      --greenx: #154d2e;     /* deep forest green */
     }
     .sheet-wrap { padding: 6.5rem 1rem 4rem; display: grid; place-items: center; }
     .sheet {
       width: 210mm; height: 297mm; flex: none; position: relative;
       background: var(--paper); color: var(--inkx);
-      font-family: 'Inter', sans-serif; font-size: 9pt; line-height: 1.45;
-      display: grid; grid-template-columns: 75mm 1fr;
+      font-family: 'Inter', sans-serif; font-size: 8.8pt; line-height: 1.42;
+      display: grid; grid-template-columns: 63mm 1fr;
       overflow: hidden; border-radius: 6px;
-      box-shadow: 0 40px 90px rgba(0,0,0,.55), 0 0 0 1px rgba(0,0,0,.08);
+      box-shadow: 0 35px 80px rgba(0,0,0,.45), 0 0 0 1px rgba(0,0,0,.08);
       font-variant-ligatures: none; /* les ligatures (fi, ffi…) perturbent l'extraction de texte ATS */
     }
 
     /* La colonne principale précède la sidebar dans le DOM (ordre de lecture ATS :
        identité → contacts → profil → expérience avant la sidebar) ; la grille
        replace visuellement la sidebar à gauche. */
-    .side { position: relative; grid-column: 1; grid-row: 1; background: var(--paper2); padding: 12mm 8mm 8mm; overflow: hidden; }
-    .mainc { position: relative; grid-column: 2; grid-row: 1; padding: 12mm 10mm 8mm; overflow: hidden; }
+    .side {
+      position: relative; grid-column: 1; grid-row: 1;
+      background: var(--paper2); padding: 8mm 6.5mm 6mm;
+      overflow: hidden; border-right: 1px solid var(--linex);
+    }
+    .mainc {
+      position: relative; grid-column: 2; grid-row: 1;
+      padding: 8mm 9mm 6mm; overflow: hidden;
+    }
 
-    .cv-header { margin-bottom: 6mm; }
-    .cv-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 26pt; line-height: 1.1; letter-spacing: -0.01em; color: #111; }
-    .cv-title { font-family: 'Inter', sans-serif; font-weight: 500; font-size: 13pt; color: var(--greenx); margin-top: 2mm; }
-    .cv-tagline { display: none; } /* Hidden as per new design */
+    .cv-photo-wrap {
+      width: 36mm; height: 36mm; margin: 0 auto 3mm;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #c8dab8 0%, #adc8b4 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cv-photo {
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center 15%;
+      border-radius: 50%;
+    }
 
+    .cv-header { margin-bottom: 3.5mm; padding-bottom: 2.5mm; border-bottom: 2px solid var(--accentx); }
+    .cv-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 22pt; line-height: 1.1; letter-spacing: -0.01em; color: #0d131a; }
+    .cv-title { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 11pt; color: var(--greenx); margin-top: 1.5mm; letter-spacing: 0.01em; }
+    .cv-tagline { display: none; }
+
+    /* Contacts empilés dans la sidebar : une ligne icône + valeur par contact */
     .cv-contacts {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      column-gap: 6mm;
-      row-gap: 2mm;
-      margin-top: 4mm;
-      font-size: 8pt;
-      font-weight: 500;
-      color: #111;
+      display: flex; flex-direction: column;
+      row-gap: calc(1.6mm * var(--sp, 1));
+      font-size: 7.8pt; font-weight: 500; color: #111;
     }
     .cv-contacts .crow { display: flex; flex-direction: row; align-items: center; gap: 2.2mm; margin-bottom: 0; }
     .cv-contacts .clabel { display: none; }
-    .cv-contacts .cvalue { display: inline-block; color: #222; font-size: 8pt; line-height: 1.35; text-decoration: none; }
+    .cv-contacts .cvalue { display: inline-block; color: #1f2937; font-size: 7.8pt; line-height: 1.35; text-decoration: none; word-break: break-word; min-width: 0; font-weight: 500; }
     .cv-contacts .cvalue[href]:hover { text-decoration: underline; color: var(--greenx); }
-    body.editing .cv-contacts .cvalue { pointer-events: none; text-decoration: none; color: #222; }
+    body.editing .cv-contacts .cvalue { pointer-events: none; text-decoration: none; color: #1f2937; }
     
-    .cv-contacts .cicon { display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
-    .cv-contacts .cicon svg { display: none; width: 3.6mm; height: 3.6mm; fill: var(--accentx); }
+    .cv-contacts .cicon {
+      display: flex; align-items: center; justify-content: center;
+      width: 4.2mm; height: 4.2mm; flex-shrink: 0;
+      background: rgba(27, 89, 53, 0.08); border-radius: 1mm;
+    }
+    .cv-contacts .cicon svg { display: none; width: 3mm; height: 3mm; fill: var(--accentx); }
     
     /* Auto toggle SVGs based on contact labels */
     .cv-contacts .crow[data-label="E-mail"] svg.icon-email,
@@ -105,52 +124,70 @@
     .cv-contacts .crow[data-label="website"] svg.icon-portfolio { display: inline-block; }
 
     .sec {
-      font-family: 'Space Grotesk', sans-serif; font-size: 11pt; font-weight: 700;
-      letter-spacing: .05em; text-transform: uppercase; color: var(--accentx);
-      display: flex; align-items: center; margin: calc(5mm * var(--sp, 1)) 0 calc(2.5mm * var(--sp, 1));
-      border-bottom: 1.5px solid var(--accentx); padding-bottom: 1.2mm; width: max-content; min-width: 40mm;
+      font-family: 'Space Grotesk', sans-serif; font-size: 10pt; font-weight: 700;
+      letter-spacing: .06em; text-transform: uppercase; color: var(--accentx);
+      display: flex; align-items: center;
+      margin: calc(3.4mm * var(--sp, 1)) 0 calc(2mm * var(--sp, 1));
+      border-bottom: 1.5px solid var(--accentx); padding-bottom: 1mm; width: 100%;
     }
-    .side .sec { min-width: 100%; border-bottom-width: 1.5px; }
     
-    .crow { display: flex; flex-direction: column; gap: 0.4mm; margin-bottom: calc(2.2mm * var(--sp, 1)); }
-    .crow .clabel { font-family: 'Inter', sans-serif; font-weight: 600; font-size: 7.5pt; text-transform: uppercase; color: var(--mutedx); }
-    .crow .cvalue { font-size: 8.5pt; word-break: break-word; }
+    /* Compétences avec badges de mots-clés */
+    .skill { margin-bottom: calc(2.4mm * var(--sp, 1)); }
+    .skill .scat { font-weight: 700; font-size: 7.8pt; color: var(--accentx); text-transform: uppercase; letter-spacing: 0.03em; margin-bottom: 0.8mm; }
+    .skill .sitems { display: flex; flex-wrap: wrap; gap: 1.2mm; color: #111; font-size: 7.8pt; line-height: 1.3; }
+    .skill-tag {
+      display: inline-flex; align-items: center;
+      background: rgba(27, 89, 53, 0.08);
+      color: #174e2d;
+      font-size: 7.2pt; font-weight: 600;
+      padding: 0.6mm 1.8mm; border-radius: 1mm;
+      border: 1px solid rgba(27, 89, 53, 0.15);
+      white-space: nowrap;
+    }
 
-    .skill { margin-bottom: calc(3mm * var(--sp, 1)); display: grid; grid-template-columns: 32mm 1fr; gap: 3.5mm; align-items: baseline; }
-    .skill .scat { font-weight: 700; font-size: 8.5pt; color: var(--accentx); text-align: right; text-transform: uppercase; letter-spacing: 0.02em; }
-    .skill .sitems { color: #111; font-size: 8.5pt; line-height: 1.45; }
+    .langrow {
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 8pt; margin-bottom: calc(1.4mm * var(--sp, 1));
+      padding: 0.8mm 1.6mm; background: rgba(27, 89, 53, 0.04);
+      border: 1px solid rgba(27, 89, 53, 0.08); border-radius: 1mm;
+    }
+    .langrow .lname { font-weight: 600; color: #0f172a; }
+    .langrow .level { color: var(--greenx); font-weight: 600; font-size: 7.5pt; font-family: 'JetBrains Mono', monospace; }
 
-    .langrow { display: flex; align-items: baseline; gap: 2mm; font-size: 8.5pt; margin-bottom: calc(1.5mm * var(--sp, 1)); }
-    .langrow::before { content: '•'; color: var(--accentx); font-size: 10pt; }
-    .langrow .level { color: var(--mutedx); }
-
-    /* .cert sert aux certifications ET aux intérêts : flux en bloc pour que les
-       libellés longs s'enroulent, année entre parenthèses seulement si présente */
-    .cert { font-size: 8.5pt; margin-bottom: calc(1.5mm * var(--sp, 1)); padding-left: 3.5mm; line-height: 1.4; }
-    .cert::before { content: '•'; position: absolute; left: 0; top: -0.2mm; color: var(--accentx); font-size: 10pt; }
-    .cert .year { color: var(--mutedx); font-family: 'JetBrains Mono', monospace; font-size: 8pt; }
+    .cert { font-size: 8pt; margin-bottom: calc(1.4mm * var(--sp, 1)); padding-left: 3.5mm; line-height: 1.35; position: relative; }
+    .cert::before { content: '•'; position: absolute; left: 0; top: -0.1mm; color: var(--accentx); font-size: 9pt; font-weight: bold; }
+    .cert .cname { font-weight: 500; color: #1e293b; }
+    .cert .year { color: var(--mutedx); font-family: 'JetBrains Mono', monospace; font-size: 7.5pt; font-weight: 500; }
     .cert .year:not(:empty)::before { content: ' ('; }
     .cert .year:not(:empty)::after { content: ')'; }
 
-    .item { position: relative; margin-bottom: calc(4.5mm * var(--sp, 1)); }
-    .item .row { display: flex; justify-content: space-between; align-items: baseline; gap: 4mm; }
-    .item h3 { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 10pt; color: #111; }
-    .item .dates { font-family: 'JetBrains Mono', monospace; font-size: 8pt; color: var(--greenx); font-weight: 600; white-space: nowrap; }
-    .item .org { font-size: 9pt; color: #111; font-weight: 700; margin-top: 0.5mm; }
-    .points { margin-top: 1.5mm; padding-left: 4mm; }
-    .points li { font-size: 8.5pt; color: #111; list-style: none; position: relative; margin-bottom: calc(1mm * var(--sp, 1)); line-height: 1.45; text-align: justify; text-justify: auto; }
-    .points li::before { content: '•'; position: absolute; left: -4mm; top: 0; font-size: 10pt; color: var(--accentx); }
+    .item { position: relative; margin-bottom: calc(3.2mm * var(--sp, 1)); }
+    #exp-list > :last-child, #edu-list > :last-child, #proj-list > :last-child,
+    #skills-list > :last-child, #certif-list > :last-child, #interest-list > :last-child,
+    #lang-list > :last-child { margin-bottom: 0; }
+    .item .row { display: flex; justify-content: space-between; align-items: baseline; gap: 3mm; }
+    .item h3 { font-family: 'Inter', sans-serif; font-weight: 700; font-size: 9.8pt; color: #0d131a; }
+    .item .dates { font-family: 'JetBrains Mono', monospace; font-size: 7.8pt; color: var(--greenx); font-weight: 600; white-space: nowrap; }
+    .item .org { font-size: 8.5pt; color: #334155; font-weight: 600; margin-top: 0.3mm; }
+    .points { margin-top: 1.2mm; padding-left: 3.5mm; }
+    .points li { font-size: 8.2pt; color: #1e293b; list-style: none; position: relative; margin-bottom: calc(0.8mm * var(--sp, 1)); line-height: 1.38; text-align: justify; text-justify: auto; }
+    .points li::before { content: '•'; position: absolute; left: -3.5mm; top: -0.1mm; font-size: 9pt; color: var(--accentx); font-weight: bold; }
 
-    .proj { margin-bottom: calc(3.5mm * var(--sp, 1)); font-size: 8.5pt; position: relative; padding-left: 3.5mm; }
-    .proj::before { content: '•'; position: absolute; left: 0; top: 0.2mm; font-size: 10pt; color: var(--accentx); }
-    .proj .pname { font-weight: 700; color: #111; display: block; font-size: 9pt; line-height: 1.35; }
-    .proj .pstack { font-family: 'JetBrains Mono', monospace; font-weight: 500; font-size: 8pt; color: var(--greenx); display: block; margin-top: 0.5mm; line-height: 1.3; }
-    .proj .pdesc { color: #333; display: block; margin-top: 0.8mm; line-height: 1.4; font-size: 8pt; text-align: justify; text-justify: auto; }
-    
-    .side .item h3 { font-size: 9pt; font-weight: 700; color: #111; line-height: 1.35; }
-    .side .item .row { display: block; }
-    .side .item .dates { display: block; font-family: 'JetBrains Mono', monospace; font-size: 7.5pt; color: var(--greenx); font-weight: 600; margin-top: 0.5mm; }
-    .side .item .org { font-size: 8.5pt; color: var(--mutedx); font-weight: 400; margin-top: 0.5mm; line-height: 1.3; }
+    .proj { margin-bottom: calc(2.8mm * var(--sp, 1)); font-size: 8.2pt; position: relative; padding-left: 3.5mm; }
+    .proj::before { content: '•'; position: absolute; left: 0; top: 0.2mm; font-size: 9pt; color: var(--accentx); font-weight: bold; }
+    .proj .pname { font-weight: 700; color: #0d131a; display: block; font-size: 8.8pt; line-height: 1.3; }
+    .proj .pstack { display: flex; flex-wrap: wrap; gap: 1mm; margin-top: 0.8mm; margin-bottom: 0.8mm; }
+    .stack-tag {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500; font-size: 7pt;
+      color: var(--greenx);
+      background: rgba(27, 89, 53, 0.07);
+      padding: 0.3mm 1.6mm; border-radius: 0.8mm;
+      border: 1px solid rgba(27, 89, 53, 0.12);
+      line-height: 1.25;
+    }
+    .proj .pdesc { color: #334155; display: block; margin-top: 0.6mm; line-height: 1.38; font-size: 8.2pt; text-align: justify; text-justify: auto; }
 
     /* ====== Edit mode ====== */
     /* Les contrôles d'édition (+ ajouter, ×) gonflent les colonnes au-delà des
@@ -244,52 +281,52 @@
     <div class="sheet" id="cv-sheet">
 
       <!-- Main column — first in the DOM so ATS text extraction starts with
-           identity/contacts/experience; the grid keeps it visually on the right. -->
+           identity/profile/experience; the grid keeps it visually on the right. -->
       <section class="mainc">
         <header class="cv-header">
           <h1 class="cv-name" data-edit="identity.name"></h1>
           <p class="cv-title" data-edit="identity.title"></p>
-          <div class="cv-contacts-wrap">
-            <div id="contact-list" class="cv-contacts"></div>
-            <button type="button" class="add edit-only" data-add="contact" style="margin-top:0;">+ contact</button>
-          </div>
           <!-- Not using tagline in new design, but keeping for data -->
           <p class="cv-tagline" data-edit="identity.tagline" style="display:none;"></p>
         </header>
 
         <h2 class="sec" data-i18n="profile">Profil</h2>
-        <p style="font-size:9.5pt;color:#222;line-height:1.5;text-align:justify;text-justify:auto;" data-edit="profile"></p>
+        <p style="font-size:8.8pt;color:#1e293b;line-height:1.45;text-align:justify;text-justify:auto;" data-edit="profile"></p>
+
+        <h2 class="sec" data-i18n="experience">Expérience Professionnelle</h2>
+        <div id="exp-list"></div>
+        <button type="button" class="add edit-only" data-add="experience">+ expérience</button>
+
+        <h2 class="sec" data-i18n="education">Formation</h2>
+        <div id="edu-list"></div>
+        <button type="button" class="add edit-only" data-add="education">+ formation</button>
+
+        <h2 class="sec" data-i18n="projects">Projets</h2>
+        <div id="proj-list"></div>
+        <button type="button" class="add edit-only" data-add="projects">+ projet</button>
+      </section>
+
+      <!-- Sidebar -->
+      <aside class="side">
+        <div class="cv-photo-wrap">
+          <img class="cv-photo" src="assets/img/meme_no_bg.png" alt="Portrait d'Atanda Abdullahi" />
+        </div>
+
+        <h2 class="sec" data-i18n="contact">Contact</h2>
+        <div id="contact-list" class="cv-contacts"></div>
+        <button type="button" class="add edit-only" data-add="contact">+ contact</button>
 
         <h2 class="sec" data-i18n="skills">Compétences Clés</h2>
         <div id="skills-list"></div>
         <button type="button" class="add edit-only" data-add="skills">+ catégorie</button>
 
-        <h2 class="sec" data-i18n="experience">Expérience Professionnelle</h2>
-        <div id="exp-list"></div>
-        <button type="button" class="add edit-only" data-add="experience">+ expérience</button>
-      </section>
-
-      <!-- Sidebar -->
-      <aside class="side">
-        <h2 class="sec" data-i18n="education">Formation</h2>
-        <div id="edu-list"></div>
-        <button type="button" class="add edit-only" data-add="education">+ formation</button>
-
-        <h2 class="sec" data-i18n="certifications">Certifications</h2>
-        <div id="certif-list"></div>
-        <button type="button" class="add edit-only" data-add="certifications">+ certification</button>
-
-        <h2 class="sec" data-i18n="projects">Projets</h2>
-        <div id="proj-list"></div>
-        <button type="button" class="add edit-only" data-add="projects">+ projet</button>
-
         <h2 class="sec" data-i18n="languages">Langues</h2>
         <div id="lang-list"></div>
         <button type="button" class="add edit-only" data-add="languages">+ langue</button>
 
-        <h2 class="sec" data-i18n="interests">Intérêts</h2>
-        <div id="interest-list"></div>
-        <button type="button" class="add edit-only" data-add="interests">+ intérêt</button>
+        <h2 class="sec" data-i18n="certifications">Certifications</h2>
+        <div id="certif-list"></div>
+        <button type="button" class="add edit-only" data-add="certifications">+ certification</button>
       </aside>
 
     </div>
@@ -349,7 +386,7 @@
   <template id="tpl-lang">
     <div class="langrow" data-item>
       <button type="button" class="rm edit-only" data-rm aria-label="Supprimer">×</button>
-      <span data-field="name">{{name}}</span>
+      <span class="lname" data-field="name">{{name}}</span>
       <span class="level" data-field="level">{{level}}</span>
     </div>
   </template>
@@ -357,7 +394,7 @@
   <template id="tpl-cert">
     <p class="cert" data-item>
       <button type="button" class="rm edit-only" data-rm aria-label="Supprimer">×</button>
-      <span data-field="name">{{name}}</span><span class="year" data-field="year">{{year}}</span>
+      <span class="cname" data-field="name">{{name}}</span><span class="year" data-field="year">{{year}}</span>
     </p>
   </template>
 

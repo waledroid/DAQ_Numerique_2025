@@ -29,6 +29,7 @@
   const I18N = {
     fr: {
       title: 'CV — Atanda Abdullahi',
+      contact: 'Contact',
       profile: 'Profil', skills: 'Compétences Clés', experience: 'Expérience Professionnelle',
       education: 'Formation', certifications: 'Certifications', projects: 'Projets',
       languages: 'Langues', interests: 'Intérêts',
@@ -36,6 +37,7 @@
     },
     en: {
       title: 'Resume — Atanda Abdullahi',
+      contact: 'Contact',
       profile: 'Profile', skills: 'Core Skills', experience: 'Professional Experience',
       education: 'Education', certifications: 'Certifications', projects: 'Projects',
       languages: 'Languages', interests: 'Interests',
@@ -142,6 +144,38 @@
       const ul = $('[data-points]', node);
       (data.points || []).forEach((p) => ul.appendChild(tpl('tpl-point', { text: p })));
     }
+    if (key === 'skills') {
+      const itemsEl = $('[data-field="items"]', node);
+      if (itemsEl) {
+        itemsEl.innerHTML = '';
+        const itemsArr = Array.isArray(data.items)
+          ? data.items
+          : String(data.items || '').split(/\s*[·,;]\s*/);
+        itemsArr.forEach((itemText) => {
+          const txt = itemText.trim();
+          if (!txt) return;
+          const tag = document.createElement('span');
+          tag.className = 'skill-tag';
+          tag.textContent = txt;
+          itemsEl.appendChild(tag);
+        });
+      }
+    }
+    if (key === 'projects') {
+      const stackEl = $('[data-field="stack"]', node);
+      if (stackEl) {
+        stackEl.innerHTML = '';
+        const stackArr = String(data.stack || '').split(/\s*·\s*/);
+        stackArr.forEach((st) => {
+          const txt = st.trim();
+          if (!txt) return;
+          const tag = document.createElement('span');
+          tag.className = 'stack-tag';
+          tag.textContent = txt;
+          stackEl.appendChild(tag);
+        });
+      }
+    }
     if (key === 'contact') {
       const a = $('.cvalue', node);
       if (a) {
@@ -158,7 +192,8 @@
         }
       }
     }
-    $(cfg.host).appendChild(node);
+    const host = $(cfg.host);
+    if (host) host.appendChild(node);
     return node;
   }
 
@@ -168,7 +203,9 @@
       el.textContent = get(state, el.dataset.edit) || '';
     });
     Object.keys(LISTS).forEach((key) => {
-      $(LISTS[key].host).innerHTML = '';
+      const host = $(LISTS[key].host);
+      if (!host) return;
+      host.innerHTML = '';
       (state[key] || []).forEach((item) => appendItem(key, item));
     });
     applyEditable();
@@ -189,7 +226,8 @@
       const el = $(sel);
       if (!el) return;
       el.style.setProperty('--sp', 1);
-      for (let i = 0; i < 4; i++) {
+      // 8 passes : le ratio ne réduit que les marges, la convergence est lente
+      for (let i = 0; i < 8; i++) {
         const cs = getComputedStyle(el);
         const padTop = parseFloat(cs.paddingTop) || 0;
         const padBot = parseFloat(cs.paddingBottom) || 0;
@@ -198,7 +236,9 @@
         while (last && last.offsetHeight === 0) last = last.previousElementSibling;
         if (!last) break;
         const content = last.offsetTop + last.offsetHeight - padTop;
-        if (content <= 0 || Math.abs(avail - content) < 3) break;
+        // Convergence asymétrique : ne s'arrêter que si le contenu TIENT (sinon la
+        // garde une-page, à ±2px, resterait déclenchée à 3px de dépassement).
+        if (content <= 0 || (content <= avail && avail - content < 3)) break;
         const prev = parseFloat(el.style.getPropertyValue('--sp')) || 1;
         const next = Math.min(1.65, Math.max(0.75, prev * (avail / content)));
         el.style.setProperty('--sp', next.toFixed(3));
@@ -224,10 +264,16 @@
     d.contact = $$('#contact-list [data-item]').map((it) => ({
       label: fieldOf(it, 'label'), value: fieldOf(it, 'value'),
     }));
-    d.skills = $$('#skills-list [data-item]').map((it) => ({
-      category: fieldOf(it, 'category'),
-      items: fieldOf(it, 'items').split(/\s*[·,;]\s*/).filter(Boolean),
-    }));
+    d.skills = $$('#skills-list [data-item]').map((it) => {
+      const tags = $$('.skill-tag', it);
+      const items = tags.length
+        ? tags.map((t) => t.textContent.trim()).filter(Boolean)
+        : fieldOf(it, 'items').split(/\s*[·,;]\s*/).filter(Boolean);
+      return {
+        category: fieldOf(it, 'category'),
+        items: items,
+      };
+    });
     d.languages = $$('#lang-list [data-item]').map((it) => ({
       name: fieldOf(it, 'name'), level: fieldOf(it, 'level'),
     }));
@@ -247,9 +293,17 @@
     d.education = $$('#edu-list [data-item]').map((it) => ({
       degree: fieldOf(it, 'degree'), school: fieldOf(it, 'school'), dates: fieldOf(it, 'dates'),
     }));
-    d.projects = $$('#proj-list [data-item]').map((it) => ({
-      name: fieldOf(it, 'name'), stack: fieldOf(it, 'stack'), desc: fieldOf(it, 'desc'),
-    }));
+    d.projects = $$('#proj-list [data-item]').map((it) => {
+      const tags = $$('.stack-tag', it);
+      const stack = tags.length
+        ? tags.map((t) => t.textContent.trim()).join(' · ')
+        : fieldOf(it, 'stack');
+      return {
+        name: fieldOf(it, 'name'),
+        stack: stack,
+        desc: fieldOf(it, 'desc'),
+      };
+    });
     return d;
   }
 
