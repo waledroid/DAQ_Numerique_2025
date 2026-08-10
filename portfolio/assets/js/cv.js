@@ -133,7 +133,7 @@
     },
     projects: {
       host: '#proj-list', tpl: 'tpl-proj',
-      blank: { name: 'Projet', stack: 'Stack', desc: 'Description courte.' },
+      blank: { name: 'Projet', year: 'Année', stack: 'Stack', desc: 'Description courte.' },
     },
   };
 
@@ -300,6 +300,7 @@
         : fieldOf(it, 'stack');
       return {
         name: fieldOf(it, 'name'),
+        year: fieldOf(it, 'year'),
         stack: stack,
         desc: fieldOf(it, 'desc'),
       };

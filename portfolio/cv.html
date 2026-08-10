@@ -57,7 +57,7 @@
     }
 
     .cv-photo-wrap {
-      width: 36mm; height: 36mm; margin: 0 auto 3mm;
+      width: 44mm; height: 44mm; margin: 2mm auto 10mm;
       border-radius: 50%;
       background: linear-gradient(135deg, #c8dab8 0%, #adc8b4 100%);
       display: flex; align-items: center; justify-content: center;
@@ -175,7 +175,9 @@
 
     .proj { margin-bottom: calc(2.8mm * var(--sp, 1)); font-size: 8.2pt; position: relative; padding-left: 3.5mm; }
     .proj::before { content: '•'; position: absolute; left: 0; top: 0.2mm; font-size: 9pt; color: var(--accentx); font-weight: bold; }
+    .proj .prow { display: flex; justify-content: space-between; align-items: baseline; gap: 3mm; }
     .proj .pname { font-weight: 700; color: #0d131a; display: block; font-size: 8.8pt; line-height: 1.3; }
+    .proj .pyear { font-family: 'JetBrains Mono', monospace; font-size: 7.8pt; color: var(--greenx); font-weight: 600; white-space: nowrap; }
     .proj .pstack { display: flex; flex-wrap: wrap; gap: 1mm; margin-top: 0.8mm; margin-bottom: 0.8mm; }
     .stack-tag {
       display: inline-block;
@@ -309,7 +311,7 @@
       <!-- Sidebar -->
       <aside class="side">
         <div class="cv-photo-wrap">
-          <img class="cv-photo" src="assets/img/meme_no_bg.png" alt="Portrait d'Atanda Abdullahi" />
+          <img class="cv-photo" src="assets/img/me3.jpg?v=1" alt="Portrait d'Atanda Abdullahi" />
         </div>
 
         <h2 class="sec" data-i18n="contact">Contact</h2>
@@ -429,7 +431,7 @@
   <template id="tpl-proj">
     <div class="proj" data-item>
       <button type="button" class="rm edit-only" data-rm aria-label="Supprimer">×</button>
-      <span class="pname" data-field="name">{{name}}</span>
+      <span class="prow"><span class="pname" data-field="name">{{name}}</span><span class="pyear" data-field="year">{{year}}</span></span>
       <span class="pstack" data-field="stack">{{stack}}</span>
       <span class="pdesc" data-field="desc">{{desc}}</span>
     </div>

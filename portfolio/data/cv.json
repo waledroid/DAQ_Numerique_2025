@@ -96,9 +96,7 @@
         "category": "Vision & Deep Learning",
         "items": [
           "Détection temps réel (YOLO / RF-DETR)",
-          "Distillation ViT",
-          "OpenVINO",
-          "LoRA",
+          "Distillation ViT · OpenVINO · LoRA",
           "Vision stéréo & Perception 3D",
           "Données synthétiques (SDXL / SAM2)"
         ]
@@ -121,14 +119,6 @@
           "Google Cloud",
           "Git / CI-CD"
         ]
-      },
-      {
-        "category": "Systèmes & Réseaux",
-        "items": [
-          "Linux",
-          "Windows Server",
-          "Sécurité réseau"
-        ]
       }
     ],
     "languages": [
@@ -145,17 +135,20 @@
       {
         "name": "IsiMonitor 3D — Vision industrielle",
         "stack": "GStreamer · ONNX Runtime · MQTT",
-        "desc": "Suivi 2D/3D multi-caméras d'entrepôt avec jumeau numérique temps réel, calibration assistée (isiCal) et génération de données synthétiques (isiGen)."
+        "desc": "Suivi 2D/3D multi-caméras d'entrepôt avec jumeau numérique temps réel, calibration assistée (isiCal) et génération de données synthétiques (isiGen).",
+        "year": "2026"
       },
       {
         "name": "IsiDetector — Détection Edge & IA",
         "stack": "YOLO11/RF-DETR · TensorRT/OpenVINO · ByteTrack · Docker",
-        "desc": "Détection et segmentation de colis sur convoyeur (mAP@50 ≈ 0,96) avec optimisation INT8/FP16 et pilotage d'automates."
+        "desc": "Détection et segmentation de colis sur convoyeur (mAP@50 ≈ 0,96) avec optimisation INT8/FP16 et pilotage d'automates.",
+        "year": "2026"
       },
       {
         "name": "ROSBot Harmony — Robotique autonome",
         "stack": "C++ · ROS 2 · MoveIt · PyTorch",
-        "desc": "Navigation autonome, coordination multi-robots et planification de mouvements pour flotte mobile."
+        "desc": "Navigation autonome, coordination multi-robots et planification de mouvements pour flotte mobile.",
+        "year": "2024"
       }
     ],
     "certifications": [
@@ -267,9 +260,7 @@
         "category": "Vision & Deep Learning",
         "items": [
           "Real-time detection (YOLO / RF-DETR)",
-          "ViT distillation",
-          "OpenVINO",
-          "LoRA",
+          "ViT distillation · OpenVINO · LoRA",
           "Stereo vision & 3D perception",
           "Auto-annotated synthetic data (SDXL / SAM2)"
         ]
@@ -292,14 +283,6 @@
           "Google Cloud",
           "Git / CI-CD"
         ]
-      },
-      {
-        "category": "Systems & Networks",
-        "items": [
-          "Linux",
-          "Windows Server",
-          "Network security"
-        ]
       }
     ],
     "languages": [
@@ -316,17 +299,20 @@
       {
         "name": "IsiMonitor 3D — Industrial Vision",
         "stack": "GStreamer · ONNX Runtime · MQTT",
-        "desc": "Multi-camera 2D/3D warehouse tracking with a real-time digital twin, assisted calibration (isiCal) and synthetic data generation (isiGen)."
+        "desc": "Multi-camera 2D/3D warehouse tracking with a real-time digital twin, assisted calibration (isiCal) and synthetic data generation (isiGen).",
+        "year": "2026"
       },
       {
         "name": "IsiDetector — Edge Detection & AI",
         "stack": "YOLO11/RF-DETR · TensorRT/OpenVINO · ByteTrack · Docker",
-        "desc": "Conveyor parcel detection and segmentation (mAP@50 ≈ 0.96) with INT8/FP16 optimization and PLC control."
+        "desc": "Conveyor parcel detection and segmentation (mAP@50 ≈ 0.96) with INT8/FP16 optimization and PLC control.",
+        "year": "2026"
       },
       {
         "name": "ROSBot Harmony — Autonomous Robotics",
         "stack": "C++ · ROS 2 · MoveIt · PyTorch",
-        "desc": "Autonomous navigation, multi-robot coordination and motion planning for a mobile fleet."
+        "desc": "Autonomous navigation, multi-robot coordination and motion planning for a mobile fleet.",
+        "year": "2024"
       }
     ],
     "certifications": [
