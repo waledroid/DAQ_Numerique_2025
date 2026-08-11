@@ -39,7 +39,7 @@
         "location": "Millery, Lyon 69390",
         "dates": "Mars 2026 – présent",
         "points": [
-          "Pipeline multi-caméra ~60 FPS : YOLO11/RF-DETR (ONNX Runtime), suivi métrique 2D/3D, publication MQTT vers AGV.",
+          "Pipeline multi-caméra ~60 FPS : YOLOv26/RF-DETR (ONNX Runtime), suivi métrique 2D/3D, publication MQTT vers AGV.",
           "Outillage : Développement d'isiCal (calibration guidée ChArUco/Multical) et isiGen (données synthétiques auto-annotées via SDXL/SAM2).",
           "IsiDetector : Segmentation de colis convoyeur (mAP@50 ≈ 0,96), compression FP16/INT8, déploiement OpenVINO/TensorRT + intégration automate de tri."
         ]
@@ -50,7 +50,7 @@
         "location": "Le Creusot 71200",
         "dates": "Fév. 2024 – Juil. 2024",
         "points": [
-          "NanoSAM — Compression de Vision Transformers (ViT) : +25 % de vitesse de segmentation, −40 % de temps d'inférence sur Jetson Orin Nano via distillation et TensorRT."
+          "Encodeur d'images NanoSAM — Compression de Vision Transformers (ViT) : distillation et optimisation TensorRT sur Jetson Orin Nano, +25 % de débit de segmentation et −40 % de latence d'inférence."
         ]
       },
       {
@@ -140,7 +140,7 @@
       },
       {
         "name": "IsiDetector — Détection Edge & IA",
-        "stack": "YOLO11/RF-DETR · TensorRT/OpenVINO · ByteTrack · Docker",
+        "stack": "YOLOv26/RF-DETR · TensorRT/OpenVINO · ByteTrack · Docker",
         "desc": "Détection et segmentation de colis sur convoyeur (mAP@50 ≈ 0,96) avec optimisation INT8/FP16 et pilotage d'automates.",
         "year": "2026"
       },
@@ -203,7 +203,7 @@
         "location": "Millery, Lyon 69390",
         "dates": "Mar 2026 – present",
         "points": [
-          "Multi-camera pipeline at ~60 FPS: YOLO11/RF-DETR (ONNX Runtime), metric 2D/3D tracking, MQTT publishing to AGVs.",
+          "Multi-camera pipeline at ~60 FPS: YOLOv26/RF-DETR (ONNX Runtime), metric 2D/3D tracking, MQTT publishing to AGVs.",
           "Tooling: built isiCal (guided ChArUco/Multical calibration) and isiGen (auto-annotated synthetic data via SDXL/SAM2).",
           "IsiDetector: conveyor parcel segmentation (mAP@50 ≈ 0.96), FP16/INT8 compression, OpenVINO/TensorRT deployment + sorting PLC integration."
         ]
@@ -214,7 +214,7 @@
         "location": "Le Creusot 71200",
         "dates": "Feb 2024 – Jul 2024",
         "points": [
-          "NanoSAM — Vision Transformer (ViT) compression: +25% segmentation speed, −40% inference time on Jetson Orin Nano via distillation and TensorRT."
+          "NanoSAM image encoder — Vision Transformer (ViT) compression: distillation and TensorRT optimization on Jetson Orin Nano, +25% segmentation throughput and −40% inference latency."
         ]
       },
       {
@@ -303,9 +303,9 @@
         "year": "2026"
       },
       {
-        "name": "IsiDetector — Edge Detection & AI",
-        "stack": "YOLO11/RF-DETR · TensorRT/OpenVINO · ByteTrack · Docker",
-        "desc": "Conveyor parcel detection and segmentation (mAP@50 ≈ 0.96) with INT8/FP16 optimization and PLC control.",
+        "name": "IsiDetector — AI Parcel Detection & Sorting",
+        "stack": "YOLOv26/RF-DETR · TensorRT/OpenVINO · ByteTrack · Docker",
+        "desc": "Real-time parcel detection and segmentation on conveyor belts (mAP@50 ≈ 0.96), INT8/FP16 model optimization, and UDP-triggered PLC sorting control.",
         "year": "2026"
       },
       {
