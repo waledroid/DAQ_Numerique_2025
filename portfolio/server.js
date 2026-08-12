@@ -104,6 +104,64 @@ function handleApi(req, res) {
   res.end();
 }
 
+// ---- /api/letter — rédaction IA via OpenRouter (dev local) -----------------
+// Miroir local de netlify/functions/letter.js : lancez le serveur avec
+//   OPENROUTER_API_KEY=sk-or-… node server.js
+// La clé ne vit que dans l'environnement du process, jamais dans un fichier.
+const LetterGen = require('./assets/js/letter-gen.js');
+
+function handleLetter(req, res) {
+  if (req.method !== 'POST') {
+    res.writeHead(405, { Allow: 'POST' });
+    return res.end();
+  }
+  if (!process.env.OPENROUTER_API_KEY) {
+    return sendJSON(res, 503, { error: 'OPENROUTER_API_KEY non configurée (relancez : OPENROUTER_API_KEY=… node server.js)' });
+  }
+  let size = 0;
+  const chunks = [];
+  req.on('data', (c) => {
+    size += c.length;
+    if (size > MAX_BODY) {
+      sendJSON(res, 413, { error: 'corps trop volumineux' });
+      req.destroy();
+      return;
+    }
+    chunks.push(c);
+  });
+  req.on('end', async () => {
+    if (res.writableEnded) return;
+    let payload;
+    try {
+      payload = JSON.parse(Buffer.concat(chunks).toString('utf8'));
+    } catch (err) {
+      return sendJSON(res, 400, { error: 'JSON invalide' });
+    }
+    const text = String(payload.text || '').trim();
+    const lang = payload.lang === 'en' ? 'en' : 'fr';
+    if (!text) return sendJSON(res, 400, { error: 'texte de l’offre manquant' });
+    try {
+      const r = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${process.env.OPENROUTER_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          model: process.env.OPENROUTER_MODEL || 'openrouter/free',
+          messages: [{ role: 'user', content: LetterGen.buildPrompt(text, lang) }],
+        }),
+      });
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok) return sendJSON(res, r.status, { error: (data.error && data.error.message) || `OpenRouter ${r.status}` });
+      const content = data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content;
+      return sendJSON(res, 200, LetterGen.parseAIResponse(content));
+    } catch (err) {
+      return sendJSON(res, 502, { error: 'analyse IA impossible : ' + err.message });
+    }
+  });
+}
+
 // ---- Static files -----------------------------------------------------------
 function handleStatic(req, res, urlPath) {
   if (req.method !== 'GET' && req.method !== 'HEAD') {
@@ -135,6 +193,7 @@ function handleStatic(req, res, urlPath) {
 const server = http.createServer((req, res) => {
   const urlPath = req.url.split('?')[0];
   if (urlPath === '/api/cv') return handleApi(req, res);
+  if (urlPath === '/api/letter') return handleLetter(req, res);
   return handleStatic(req, res, urlPath);
 });
 

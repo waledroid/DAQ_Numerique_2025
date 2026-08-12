@@ -21,6 +21,7 @@
   const SEED = 'data/cv.json';
   const DRAFT_KEY = 'edge-vision-cv-draft-v1';
   const LANG_KEY = 'edge-vision-cv-lang';
+  const VIEW_KEY = 'edge-vision-cv-view'; // 'cv' | 'letter'
 
   // ---- Bilingual document --------------------------------------------------
   // data/cv.json = { fr: {...}, en: {...} } ; `doc` holds both languages,
@@ -29,21 +30,34 @@
   const I18N = {
     fr: {
       title: 'CV — Atanda Abdullahi',
+      letterTitle: 'Lettre de motivation — Atanda Abdullahi',
+      tabCv: 'CV', tabLetter: 'Lettre de motivation',
+      objetPrefix: 'Objet : Candidature au poste de ',
       contact: 'Contact',
       profile: 'Profil', skills: 'Compétences Clés', experience: 'Expérience Professionnelle',
       education: 'Formation', certifications: 'Certifications', projects: 'Projets',
       languages: 'Langues', interests: 'Intérêts',
       switchTo: 'Switch to English',
+      // Texte utilisé quand un champ de l'offre est vide (lettre générique)
+      fallbacks: { destinataire: 'Madame, Monsieur', entreprise: 'votre entreprise', poste: 'Ingénieur Vision par Ordinateur', source: 'votre site carrières' },
+      cityDate: (d) => `Oullins, le ${d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}`,
     },
     en: {
       title: 'Resume — Atanda Abdullahi',
+      letterTitle: 'Cover Letter — Atanda Abdullahi',
+      tabCv: 'Resume', tabLetter: 'Cover letter',
+      objetPrefix: 'Re: Application for ',
       contact: 'Contact',
       profile: 'Profile', skills: 'Core Skills', experience: 'Professional Experience',
       education: 'Education', certifications: 'Certifications', projects: 'Projects',
       languages: 'Languages', interests: 'Interests',
       switchTo: 'Passer en français',
+      fallbacks: { destinataire: 'Hiring Manager', entreprise: 'your company', poste: 'Computer Vision Engineer', source: 'your careers site' },
+      cityDate: (d) => `Oullins, ${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`,
     },
   };
+
+  const EMPTY_OFFER = { texte: '', entreprise: '', poste: '', focus: '', domaine: '', exigence1: '', exigence2: '', lieu: '', profile: '' };
 
   // ---- Online editing from any device (phone included) --------------------
   // The Netlify function at SAVE_API keeps the GitHub token in its server-side
@@ -54,6 +68,7 @@
 
   let doc = null;
   let lang = localStorage.getItem(LANG_KEY) === 'en' ? 'en' : 'fr';
+  let view = localStorage.getItem(VIEW_KEY) === 'letter' ? 'letter' : 'cv';
   let state = null;
   let editing = false;
   let serverOk = false;
@@ -62,15 +77,24 @@
   function normalizeDoc(d) {
     if (d && d.fr && d.fr.identity) {
       if (!(d.en && d.en.identity)) d.en = JSON.parse(JSON.stringify(d.fr));
-      return d;
+    } else {
+      d = { fr: d, en: JSON.parse(JSON.stringify(d)) };
     }
-    return { fr: d, en: JSON.parse(JSON.stringify(d)) };
+    // Vieux documents/brouillons sans lettre : structure vide, l'éditeur reste utilisable
+    ['fr', 'en'].forEach((l) => {
+      if (!d[l].letter) d[l].letter = { offer: { ...EMPTY_OFFER }, body: '' };
+      d[l].letter.offer = { ...EMPTY_OFFER, ...(d[l].letter.offer || {}) };
+      // `template` = lettre générique à {{marqueurs}}, préservée quand la
+      // génération remplace `body` ; « Vider » y revient.
+      if (!d[l].letter.template) d[l].letter.template = d[l].letter.body;
+    });
+    return d;
   }
 
   function applyLang() {
     const t = I18N[lang];
     document.documentElement.lang = lang;
-    document.title = t.title;
+    document.title = view === 'letter' ? t.letterTitle : t.title;
     $$('[data-i18n]').forEach((el) => {
       if (t[el.dataset.i18n]) el.textContent = t[el.dataset.i18n];
     });
@@ -81,6 +105,60 @@
     if (flagFr) flagFr.toggleAttribute('hidden', lang === 'fr');
     const btn = $('#btn-lang');
     if (btn) { btn.title = t.switchTo; btn.setAttribute('aria-label', t.switchTo); }
+  }
+
+  // ---- Onglets CV / Lettre --------------------------------------------------
+  const TAB_ON = ['bg-accent', 'text-ink', 'border-accent', 'font-medium'];
+  const TAB_OFF = ['border-line', 'text-muted', 'hover:text-mist', 'hover:border-accent'];
+  function applyView() {
+    $('#cv-sheet').hidden = view !== 'cv';
+    $('#letter-sheet').hidden = view !== 'letter';
+    $('#btn-offer').hidden = view !== 'letter';
+    [['#tab-cv', 'cv'], ['#tab-letter', 'letter']].forEach(([sel, v]) => {
+      const b = $(sel);
+      if (!b) return;
+      b.classList.remove(...TAB_ON, ...TAB_OFF);
+      b.classList.add(...(view === v ? TAB_ON : TAB_OFF));
+      b.setAttribute('aria-pressed', String(view === v));
+    });
+    document.title = view === 'letter' ? I18N[lang].letterTitle : I18N[lang].title;
+    checkOverflow();
+  }
+
+  // ---- Lettre de motivation -------------------------------------------------
+  // La lettre stockée est un GABARIT : le corps contient des {{marqueurs}}
+  // ({{entreprise}}, {{poste}}, {{destinataire}}, {{source}}) remplacés à
+  // l'affichage par les détails de l'offre. En mode édition on montre le
+  // gabarit brut : Enregistrer conserve le générique, jamais le texte rempli.
+  function fillPlaceholders(text) {
+    const offer = state.letter.offer || {};
+    const fb = I18N[lang].fallbacks;
+    return String(text || '').replace(/\{\{(\w+)\}\}/g, (m, k) =>
+      (offer[k] || '').trim() || fb[k] || m
+    );
+  }
+  function renderLetter() {
+    if (!state || !state.letter) return;
+    const t = I18N[lang];
+    const offer = state.letter.offer || {};
+    $('#lt-name').textContent = get(state, 'identity.name') || '';
+    $('#lt-sign').textContent = get(state, 'identity.name') || '';
+    $('#lt-title').textContent = get(state, 'identity.title') || '';
+    const wanted = ['email', 'e-mail', 'téléphone', 'phone', 'linkedin'];
+    const lines = (state.contact || [])
+      .filter((c) => wanted.some((w) => (c.label || '').toLowerCase().includes(w)))
+      .map((c) => c.value);
+    $('#lt-contact').textContent = lines.join('\n');
+    $('#lt-citydate').textContent = t.cityDate(new Date());
+    $('#lt-recipient').textContent =
+      [offer.entreprise, offer.lieu].map((s) => (s || '').trim()).filter(Boolean).join('\n');
+    const poste = (offer.poste || '').trim() || t.fallbacks.poste;
+    // fr : élision devant voyelle/h — « au poste d'Ingénieur », « au poste de Data Scientist »
+    $('#lt-objet').textContent = lang === 'fr'
+      ? 'Objet : Candidature au poste ' + (/^[aeiouyhàâéèêëîïôöûü]/i.test(poste) ? 'd’' : 'de ') + poste
+      : t.objetPrefix + poste;
+    $('#lt-body').textContent = editing ? state.letter.body : fillPlaceholders(state.letter.body);
+    checkOverflow();
   }
 
   // ---- Micro template engine: {{a.b.c}} interpolation, HTML-escaped ----
@@ -208,6 +286,7 @@
       host.innerHTML = '';
       (state[key] || []).forEach((item) => appendItem(key, item));
     });
+    renderLetter();
     applyEditable();
     autoSpace();
     checkOverflow();
@@ -224,7 +303,7 @@
     if (wasEditing) body.classList.remove('editing');
     ['.side', '.mainc'].forEach((sel) => {
       const el = $(sel);
-      if (!el) return;
+      if (!el || el.clientHeight === 0) return; // feuille masquée (onglet Lettre actif)
       el.style.setProperty('--sp', 1);
       // 8 passes : le ratio ne réduit que les marges, la convergence est lente
       for (let i = 0; i < 8; i++) {
@@ -305,12 +384,20 @@
         desc: fieldOf(it, 'desc'),
       };
     });
+    // En édition, #lt-body affiche le corps brut : c'est lui qu'on stocke.
+    // S'il contient encore des {{marqueurs}}, c'est le gabarit générique
+    // qui vient d'être retouché — on le synchronise aussi.
+    const lb = $('#lt-body');
+    if (editing && lb) {
+      d.letter.body = lb.textContent;
+      if (/\{\{\w+\}\}/.test(d.letter.body)) d.letter.template = d.letter.body;
+    }
     return d;
   }
 
   // ---- Edit mode ----------------------------------------------------------
   function applyEditable() {
-    $$('[data-edit], [data-field]').forEach((el) => {
+    $$('[data-edit], [data-field], #lt-body').forEach((el) => {
       if (editing) el.setAttribute('contenteditable', 'true');
       else el.removeAttribute('contenteditable');
     });
@@ -322,6 +409,7 @@
     $('#btn-save').hidden = !on;
     $('#btn-cancel').hidden = !on;
     applyEditable();
+    renderLetter(); // édition → gabarit brut ({{marqueurs}}) ; lecture → texte rempli
     checkOverflow();
   }
 
@@ -332,7 +420,7 @@
     const body = document.body;
     const wasEditing = body.classList.contains('editing');
     if (wasEditing) body.classList.remove('editing');
-    const over = ['.side', '.mainc'].some((sel) => {
+    const over = ['.side', '.mainc', '.ltc'].some((sel) => {
       const el = $(sel);
       return el && el.scrollHeight > el.clientHeight + 2;
     });
@@ -441,6 +529,7 @@
     doc = normalizeDoc(data);
     state = doc[lang];
     applyLang();
+    applyView();
     updateStatus();
     const resetBtn = $('#btn-reset');
     if (resetBtn) resetBtn.hidden = !localStorage.getItem(DRAFT_KEY);
@@ -496,7 +585,129 @@
     if (e.target.matches('[data-login-backdrop]')) closeLogin();
   });
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && loginModal.style.display !== 'none') closeLogin();
+    if (e.key !== 'Escape') return;
+    if (loginModal.style.display !== 'none') closeLogin();
+    const om = $('#offer-modal');
+    if (om && om.style.display !== 'none') om.style.display = 'none';
+  });
+
+  // ---- Onglets ------------------------------------------------------------
+  function setView(v) {
+    if (view === v) return;
+    view = v;
+    localStorage.setItem(VIEW_KEY, v);
+    applyView();
+    if (v === 'cv') autoSpace(); // la feuille CV vient de redevenir mesurable
+    renderLetter();
+    checkOverflow();
+  }
+  $('#tab-cv').addEventListener('click', () => setView('cv'));
+  $('#tab-letter').addEventListener('click', () => setView('letter'));
+
+  // ---- Formulaire « Offre » : coller → analyser → corriger → générer --------
+  const offerModal = $('#offer-modal');
+  const OFFER_FIELDS = ['entreprise', 'poste', 'focus', 'domaine', 'exigence1', 'exigence2', 'lieu'];
+  const PROFILE_NAMES = {
+    robotics3d: { fr: 'profil : 3D / robotique', en: 'profile: 3D / robotics' },
+    edgeai: { fr: 'profil : Edge AI', en: 'profile: Edge AI' },
+    industrial: { fr: 'profil : vision industrielle', en: 'profile: industrial vision' },
+  };
+  function offerFormValues() {
+    const o = { texte: $('#offer-text').value, profile: state.letter.offer.profile || '' };
+    OFFER_FIELDS.forEach((k) => { o[k] = $('#offer-' + k).value.trim(); });
+    return o;
+  }
+  function fillOfferForm(o) {
+    $('#offer-text').value = o.texte || '';
+    OFFER_FIELDS.forEach((k) => { $('#offer-' + k).value = o[k] || ''; });
+    $('#offer-profile').textContent = o.profile ? (PROFILE_NAMES[o.profile] || {})[lang] || '' : '';
+  }
+  function openOffer() {
+    fillOfferForm(state.letter.offer);
+    offerModal.style.display = 'flex';
+    setTimeout(() => $('#offer-text').focus(), 30);
+  }
+  function closeOffer() { offerModal.style.display = 'none'; }
+  $('#btn-offer').addEventListener('click', openOffer);
+  $('#offer-cancel').addEventListener('click', closeOffer);
+  offerModal.addEventListener('click', (e) => {
+    if (e.target.matches('[data-offer-backdrop]')) closeOffer();
+  });
+
+  // Analyse locale (mots-clés) : remplit les champs, ne touche pas à la lettre
+  $('#offer-analyze').addEventListener('click', () => {
+    const text = $('#offer-text').value.trim();
+    if (!text) { toast('Collez d’abord le texte de l’offre', true); return; }
+    const res = LetterGen.analyze(text, lang);
+    const current = offerFormValues();
+    OFFER_FIELDS.forEach((k) => {
+      if (res.fields[k]) $('#offer-' + k).value = res.fields[k];
+      else if (!current[k]) $('#offer-' + k).value = '';
+    });
+    state.letter.offer.profile = res.profile;
+    $('#offer-profile').textContent = (PROFILE_NAMES[res.profile] || {})[lang] || '';
+    toast('Offre analysée — vérifiez/corrigez les champs puis Générer');
+  });
+
+  // Génération heuristique : assemble la lettre modulaire et remplace le corps
+  $('#offer-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const o = offerFormValues();
+    if ($('#offer-text').value.trim() && !o.profile) o.profile = LetterGen.detectProfile($('#offer-text').value);
+    state.letter.offer = { ...EMPTY_OFFER, ...o };
+    state.letter.body = LetterGen.generate({ ...o }, lang, o.profile || undefined);
+    renderLetter();
+    closeOffer();
+    toast('Lettre générée — relisez, ajustez via ✎ Modifier, puis Enregistrer');
+  });
+
+  // IA (OpenRouter via fonction Netlify / server.js) : analyse + rédaction.
+  // Passe par le mot de passe éditeur pour ne pas exposer un endpoint ouvert.
+  $('#offer-ai').addEventListener('click', async () => {
+    const text = $('#offer-text').value.trim();
+    if (!text) { toast('Collez d’abord le texte de l’offre', true); return; }
+    const btn = $('#offer-ai');
+    btn.disabled = true;
+    const prev = btn.textContent;
+    btn.textContent = '… analyse en cours';
+    try {
+      const payload = JSON.stringify({ text, lang });
+      const headers = { 'Content-Type': 'application/json', 'X-CV-Password': pw() };
+      let r = null;
+      for (const url of ['/.netlify/functions/letter', 'api/letter']) {
+        try {
+          r = await fetch(url, { method: 'POST', headers, body: payload });
+          // 404/405 = endpoint absent ici (statique local ou Netlify) → suivant
+          if (r.status !== 404 && r.status !== 405) break;
+        } catch (err) { r = null; }
+      }
+      if (!r) throw new Error('service IA injoignable');
+      if (r.status === 401) { openLogin(); throw new Error('mot de passe requis (⚙ Connexion)'); }
+      const data = await r.json().catch(() => ({}));
+      if (!r.ok || !data.letter) throw new Error(data.error || 'réponse IA invalide');
+      const o = { ...EMPTY_OFFER, texte: text, ...(data.fields || {}) };
+      state.letter.offer = o;
+      state.letter.body = String(data.letter).trim();
+      fillOfferForm(o);
+      renderLetter();
+      closeOffer();
+      toast('Lettre rédigée par IA — relisez et ajustez avant d’enregistrer');
+    } catch (err) {
+      toast('IA indisponible : ' + err.message + ' — utilisez ⌕ Analyser', true);
+    } finally {
+      btn.disabled = false;
+      btn.textContent = prev;
+    }
+  });
+
+  // Vider : retour à la lettre générique ({{marqueurs}}), offre effacée
+  $('#offer-clear').addEventListener('click', () => {
+    state.letter.offer = { ...EMPTY_OFFER };
+    state.letter.body = state.letter.template || state.letter.body;
+    fillOfferForm(state.letter.offer);
+    renderLetter();
+    closeOffer();
+    toast('Offre vidée — lettre générique restaurée');
   });
 
   // ---- Wiring -------------------------------------------------------------
@@ -554,9 +765,12 @@
 
   // Keep the spacing and one-page warning honest while typing
   document.addEventListener('input', (e) => {
-    if (editing && e.target.closest('#cv-sheet')) {
+    if (!editing) return;
+    if (e.target.closest('#cv-sheet')) {
       autoSpace();
       checkOverflow();
+    } else if (e.target.closest('#letter-sheet')) {
+      checkOverflow(); // la lettre n'utilise pas l'espacement auto
     }
   });
   window.addEventListener('resize', () => { autoSpace(); checkOverflow(); });

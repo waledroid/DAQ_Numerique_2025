@@ -190,6 +190,31 @@
     }
     .proj .pdesc { color: #334155; display: block; margin-top: 0.6mm; line-height: 1.38; font-size: 8.2pt; text-align: justify; text-justify: auto; }
 
+    /* ====== Lettre de motivation — même feuille A4, en-tête assorti ====== */
+    /* `hidden` doit gagner sur le display:grid/block des feuilles */
+    .sheet[hidden] { display: none !important; }
+    .sheet--letter { display: block; }
+    .ltc {
+      position: relative; height: 100%; overflow: hidden;
+      padding: 16mm 18mm 14mm; display: flex; flex-direction: column;
+    }
+    .lt-head {
+      display: flex; justify-content: space-between; align-items: flex-end; gap: 8mm;
+      border-bottom: 2px solid var(--accentx); padding-bottom: 3mm;
+    }
+    .lt-name { font-family: 'Space Grotesk', sans-serif; font-weight: 700; font-size: 16pt; color: #0d131a; line-height: 1.15; }
+    .lt-title { font-weight: 600; font-size: 10pt; color: var(--greenx); margin-top: 1mm; }
+    .lt-contact { font-size: 8pt; color: var(--mutedx); text-align: right; line-height: 1.7; white-space: pre-line; }
+    .lt-meta { margin-top: 9mm; text-align: right; font-size: 9.5pt; line-height: 1.6; }
+    .lt-citydate { color: #1e293b; }
+    .lt-recipient { font-weight: 600; color: #0d131a; white-space: pre-line; margin-top: 2mm; }
+    .lt-objet { margin-top: 9mm; font-weight: 700; font-size: 10pt; color: #0d131a; }
+    .lt-body {
+      margin-top: 5mm; flex: 1; font-size: 10pt; line-height: 1.7; color: #1e293b;
+      white-space: pre-wrap; text-align: justify; text-justify: auto;
+    }
+    .lt-sign { margin-top: 8mm; text-align: right; font-weight: 700; font-size: 10.5pt; color: #0d131a; }
+
     /* ====== Edit mode ====== */
     /* Les contrôles d'édition (+ ajouter, ×) gonflent les colonnes au-delà des
        297mm : la feuille s'étire pour que rien ne soit rogné hors d'atteinte. */
@@ -248,6 +273,9 @@
         <button id="btn-reset" type="button" hidden title="Effacer le brouillon enregistré dans ce navigateur et recharger le CV publié" class="font-mono text-xs tracking-widest uppercase border border-amber-400/40 rounded-full px-4 py-2 text-amber-300 hover:border-amber-300 hover:text-amber-200 transition">
           ↺ Réinitialiser le brouillon
         </button>
+        <button id="btn-offer" type="button" hidden title="Renseigner l’offre (entreprise, poste…) pour personnaliser la lettre" class="font-mono text-xs tracking-widest uppercase border border-emerald/40 rounded-full px-4 py-2 text-emerald hover:border-emerald hover:text-volt transition">
+          ▤ Offre
+        </button>
         <button id="btn-login" type="button" title="Se connecter (mot de passe) pour enregistrer le CV en ligne depuis n’importe quel appareil" class="font-mono text-xs tracking-widest uppercase border border-line rounded-full px-4 py-2 text-mist hover:border-accent hover:text-accent transition">
           ⚙ Connexion
         </button>
@@ -279,6 +307,15 @@
 
   <!-- ====== A4 sheet ====== -->
   <main class="sheet-wrap">
+
+    <!-- Onglets CV / Lettre (écran uniquement) -->
+    <nav class="no-print flex items-center gap-2 mb-6" aria-label="Document">
+      <button id="tab-cv" type="button" data-i18n="tabCv"
+        class="font-mono text-xs tracking-widest uppercase rounded-full px-5 py-2 border transition">CV</button>
+      <button id="tab-letter" type="button" data-i18n="tabLetter"
+        class="font-mono text-xs tracking-widest uppercase rounded-full px-5 py-2 border transition">Lettre de motivation</button>
+    </nav>
+
     <div class="sheet" id="cv-sheet">
 
       <!-- Main column — first in the DOM so ATS text extraction starts with
@@ -331,6 +368,26 @@
       </aside>
 
     </div>
+
+    <!-- Lettre de motivation — feuille A4 assortie, sans sidebar -->
+    <div class="sheet sheet--letter" id="letter-sheet" hidden>
+      <section class="ltc">
+        <header class="lt-head">
+          <div>
+            <p class="lt-name" id="lt-name"></p>
+            <p class="lt-title" id="lt-title"></p>
+          </div>
+          <p class="lt-contact" id="lt-contact"></p>
+        </header>
+        <div class="lt-meta">
+          <p class="lt-citydate" id="lt-citydate"></p>
+          <p class="lt-recipient" id="lt-recipient"></p>
+        </div>
+        <p class="lt-objet" id="lt-objet"></p>
+        <div class="lt-body" id="lt-body"></div>
+        <p class="lt-sign" id="lt-sign"></p>
+      </section>
+    </div>
   </main>
 
   <!-- toast -->
@@ -353,6 +410,65 @@
           <button type="button" id="login-disconnect" hidden class="font-mono text-[0.62rem] tracking-widest uppercase text-red-400 hover:text-red-300 transition">Se déconnecter</button>
           <button type="button" id="login-cancel" class="ml-auto font-mono text-xs tracking-widest uppercase border border-line rounded-full px-4 py-2 text-muted hover:text-mist transition">Annuler</button>
           <button type="submit" id="login-submit" class="font-mono text-xs tracking-widest uppercase rounded-full px-4 py-2 bg-accent text-ink font-medium hover:bg-volt transition">Se connecter</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- offer modal — coller l'offre, analyser, corriger, générer la lettre -->
+  <div id="offer-modal" class="no-print fixed inset-0 z-[60] flex items-center justify-center p-4" style="display:none">
+    <div data-offer-backdrop class="absolute inset-0 bg-black/70 backdrop-blur-sm"></div>
+    <div role="dialog" aria-modal="true" aria-labelledby="offer-title" class="relative w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-2xl border border-line bg-surface text-mist shadow-2xl p-6">
+      <h2 id="offer-title" class="font-display text-lg font-semibold text-mist">Personnaliser la lettre</h2>
+      <p class="mt-1 text-xs text-muted leading-relaxed">
+        Collez l’offre puis « Analyser » (extraction locale par mots-clés) ou « ✨ IA » (analyse + rédaction via OpenRouter, si configuré).
+        Corrigez les champs, puis « Générer » remplace le corps de la lettre — modifiable ensuite via ✎ Modifier.
+      </p>
+      <form id="offer-form" class="mt-4 space-y-3">
+        <div>
+          <label for="offer-text" class="block font-mono text-[0.62rem] tracking-widest uppercase text-muted mb-1">Texte de l’offre</label>
+          <textarea id="offer-text" rows="6" placeholder="Collez ici l’annonce complète…"
+            class="w-full rounded-lg border border-line bg-ink text-mist px-3 py-2 text-sm outline-none focus:border-accent transition placeholder:text-muted/60 resize-y"></textarea>
+          <div class="flex items-center gap-2 mt-2">
+            <button type="button" id="offer-analyze" class="font-mono text-[0.65rem] tracking-widest uppercase border border-line rounded-full px-4 py-1.5 text-mist hover:border-accent hover:text-accent transition">⌕ Analyser</button>
+            <button type="button" id="offer-ai" class="font-mono text-[0.65rem] tracking-widest uppercase border border-emerald/40 rounded-full px-4 py-1.5 text-emerald hover:border-emerald hover:text-volt transition">✨ IA : analyser + rédiger</button>
+            <span id="offer-profile" class="ml-auto font-mono text-[0.62rem] tracking-widest uppercase text-muted"></span>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <div>
+            <label for="offer-entreprise" class="block font-mono text-[0.62rem] tracking-widest uppercase text-muted mb-1">Entreprise</label>
+            <input id="offer-entreprise" type="text" placeholder="Valeo" class="w-full rounded-lg border border-line bg-ink text-mist px-3 py-2 text-sm outline-none focus:border-accent transition placeholder:text-muted/60" />
+          </div>
+          <div>
+            <label for="offer-poste" class="block font-mono text-[0.62rem] tracking-widest uppercase text-muted mb-1">Poste</label>
+            <input id="offer-poste" type="text" placeholder="Computer Vision Engineer" class="w-full rounded-lg border border-line bg-ink text-mist px-3 py-2 text-sm outline-none focus:border-accent transition placeholder:text-muted/60" />
+          </div>
+          <div>
+            <label for="offer-focus" class="block font-mono text-[0.62rem] tracking-widest uppercase text-muted mb-1">Focus technique</label>
+            <input id="offer-focus" type="text" placeholder="perception 3D temps réel pour ADAS" class="w-full rounded-lg border border-line bg-ink text-mist px-3 py-2 text-sm outline-none focus:border-accent transition placeholder:text-muted/60" />
+          </div>
+          <div>
+            <label for="offer-domaine" class="block font-mono text-[0.62rem] tracking-widest uppercase text-muted mb-1">Domaine / projet de l’entreprise</label>
+            <input id="offer-domaine" type="text" placeholder="systèmes de perception pour conduite autonome" class="w-full rounded-lg border border-line bg-ink text-mist px-3 py-2 text-sm outline-none focus:border-accent transition placeholder:text-muted/60" />
+          </div>
+          <div>
+            <label for="offer-exigence1" class="block font-mono text-[0.62rem] tracking-widest uppercase text-muted mb-1">Exigence clé 1</label>
+            <input id="offer-exigence1" type="text" placeholder="C++ / ROS 2" class="w-full rounded-lg border border-line bg-ink text-mist px-3 py-2 text-sm outline-none focus:border-accent transition placeholder:text-muted/60" />
+          </div>
+          <div>
+            <label for="offer-exigence2" class="block font-mono text-[0.62rem] tracking-widest uppercase text-muted mb-1">Exigence clé 2</label>
+            <input id="offer-exigence2" type="text" placeholder="vision 3D / stéréo" class="w-full rounded-lg border border-line bg-ink text-mist px-3 py-2 text-sm outline-none focus:border-accent transition placeholder:text-muted/60" />
+          </div>
+          <div class="sm:col-span-2">
+            <label for="offer-lieu" class="block font-mono text-[0.62rem] tracking-widest uppercase text-muted mb-1">Lieu</label>
+            <input id="offer-lieu" type="text" placeholder="Paris, France" class="w-full rounded-lg border border-line bg-ink text-mist px-3 py-2 text-sm outline-none focus:border-accent transition placeholder:text-muted/60" />
+          </div>
+        </div>
+        <div class="flex items-center gap-2 pt-2">
+          <button type="button" id="offer-clear" title="Revenir à la lettre générique et vider l’offre" class="font-mono text-[0.62rem] tracking-widest uppercase text-amber-300 hover:text-amber-200 transition">Vider</button>
+          <button type="button" id="offer-cancel" class="ml-auto font-mono text-xs tracking-widest uppercase border border-line rounded-full px-4 py-2 text-muted hover:text-mist transition">Annuler</button>
+          <button type="submit" class="font-mono text-xs tracking-widest uppercase rounded-full px-4 py-2 bg-accent text-ink font-medium hover:bg-volt transition">⟳ Générer la lettre</button>
         </div>
       </form>
     </div>
@@ -436,6 +552,7 @@
     </div>
   </template>
 
+  <script src="assets/js/letter-gen.js"></script>
   <script src="assets/js/cv.js"></script>
 </body>
 </html>
