@@ -54,26 +54,25 @@
         ]
       },
       {
-        "role": "Responsable Infrastructure & Systèmes IT",
+        "role": "Administrateur Senior Opérations IT & Web",
         "company": "Radio Nigeria",
         "location": "Ikoyi, Lagos",
         "dates": "Janv. 2013 – Fév. 2023",
         "points": [
-          "Administration réseau et serveurs (Active Directory, Linux, VPN, pare-feu) pour plus de 300 postes.",
-          "Gestion de la haute disponibilité des infrastructures et automatisation des procédures système."
+          "Gestion de l'infrastructure IT et des opérations numériques pour plus de 300 postes de travail : administration systèmes, réseaux, sécurité, administration web et automatisation des processus."
         ]
       }
     ],
     "education": [
       {
-        "degree": "Master 2 (M2) — AI for One Health",
-        "school": "Université Grenoble Alpes (UGA)",
-        "dates": "Juillet 2026"
-      },
-      {
         "degree": "Master 2 (M2) — Vision par Ordinateur",
         "school": "Université de Bourgogne",
         "dates": "Juillet 2024"
+      },
+      {
+        "degree": "Master 2 (M2) — AI for One Health",
+        "school": "Université Grenoble Alpes (UGA)",
+        "dates": "Juillet 2026"
       },
       {
         "degree": "Diplôme d'Études Supérieures en Informatique",
@@ -105,7 +104,7 @@
         "category": "Edge & Robotique",
         "items": [
           "Nvidia Jetson Orin",
-          "ROS2 / MoveIt",
+          "ROS 2 / MoveIt",
           "GStreamer",
           "MQTT"
         ]
@@ -117,7 +116,7 @@
           "FastAPI",
           "AWS",
           "Google Cloud",
-          "Git / CI-CD"
+          "Git · CI/CD"
         ]
       }
     ],
@@ -218,26 +217,25 @@
         ]
       },
       {
-        "role": "IT Infrastructure & Systems Manager",
+        "role": "Senior IT Operations & Web Administrator",
         "company": "Radio Nigeria",
         "location": "Ikoyi, Lagos",
         "dates": "Jan 2013 – Feb 2023",
         "points": [
-          "Network and server administration (Active Directory, Linux, VPN, firewalls) for 300+ workstations.",
-          "Managed high-availability infrastructure and automated system procedures."
+          "Managed IT infrastructure and digital operations supporting 300+ workstations, overseeing systems administration, networking, security, web administration and process automation."
         ]
       }
     ],
     "education": [
       {
-        "degree": "MSc (M2) — AI for One Health",
-        "school": "Université Grenoble Alpes (UGA)",
-        "dates": "July 2026"
-      },
-      {
         "degree": "MSc (M2) — Computer Vision",
         "school": "Université de Bourgogne",
         "dates": "July 2024"
+      },
+      {
+        "degree": "MSc (M2) — AI for One Health",
+        "school": "Université Grenoble Alpes (UGA)",
+        "dates": "July 2026"
       },
       {
         "degree": "Postgraduate Diploma in Computer Science",
@@ -269,7 +267,7 @@
         "category": "Edge & Robotics",
         "items": [
           "Nvidia Jetson Orin",
-          "ROS2 / MoveIt",
+          "ROS 2 / MoveIt",
           "GStreamer",
           "MQTT"
         ]
@@ -281,7 +279,7 @@
           "FastAPI",
           "AWS",
           "Google Cloud",
-          "Git / CI-CD"
+          "Git · CI/CD"
         ]
       }
     ],
