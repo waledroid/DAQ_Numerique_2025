@@ -39,7 +39,7 @@
       languages: 'Langues', interests: 'Intérêts',
       switchTo: 'Switch to English',
       // Texte utilisé quand un champ de l'offre est vide (lettre générique)
-      fallbacks: { destinataire: 'Madame, Monsieur', entreprise: 'votre entreprise', poste: 'Ingénieur Vision par Ordinateur', source: 'votre site carrières' },
+      fallbacks: { destinataire: 'Madame, Monsieur', entreprise: 'votre entreprise', poste: 'Ingénieur Vision par Ordinateur', source: 'votre site carrières', domaine: 'la vision par ordinateur temps réel', focus: 'les systèmes de perception temps réel' },
       cityDate: (d) => `Oullins, le ${d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}`,
     },
     en: {
@@ -52,7 +52,7 @@
       education: 'Education', certifications: 'Certifications', projects: 'Projects',
       languages: 'Languages', interests: 'Interests',
       switchTo: 'Passer en français',
-      fallbacks: { destinataire: 'Hiring Manager', entreprise: 'your company', poste: 'Computer Vision Engineer', source: 'your careers site' },
+      fallbacks: { destinataire: 'Hiring Manager', entreprise: 'your company', poste: 'Computer Vision Engineer', source: 'your careers site', domaine: 'real-time computer vision', focus: 'real-time perception systems' },
       cityDate: (d) => `Oullins, ${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`,
     },
   };
@@ -133,9 +133,11 @@
   function fillPlaceholders(text) {
     const offer = state.letter.offer || {};
     const fb = I18N[lang].fallbacks;
-    return String(text || '').replace(/\{\{(\w+)\}\}/g, (m, k) =>
-      (offer[k] || '').trim() || fb[k] || m
-    );
+    return String(text || '')
+      .replace(/\{\{(\w+)\}\}/g, (m, k) => (offer[k] || '').trim() || fb[k] || m)
+      // un remplacement en minuscules (« votre entreprise ») peut ouvrir un
+      // paragraphe : on remet la majuscule en tête de paragraphe
+      .replace(/(^|\n\s*\n)([a-zà-öø-ÿ])/g, (_m, p, c) => p + c.toUpperCase());
   }
   function renderLetter() {
     if (!state || !state.letter) return;

@@ -20,27 +20,27 @@
   const EXPERIENCE = {
     isitec: {
       fr: {
-        vision3d: "Chez Isitec International, j'ai développé un système de perception multi-caméras temps réel (~60 FPS) assurant le suivi 2D/3D de colis — calibration assistée (ChArUco/Multical), triangulation et fusion multi-caméras — et la communication avec des AGV.",
-        edge: "Chez Isitec International, j'ai mené un moteur de détection et de segmentation (mAP@50 ≈ 0,96) de l'entraînement au déploiement edge : compression INT8/FP16, backends ONNX Runtime/OpenVINO/TensorRT et intégration aux automates de tri.",
-        industriel: "Chez Isitec International, je développe un système de vision industrielle multi-caméras temps réel (~60 FPS) déployé sur ligne de production : suivi 2D/3D de colis, pilotage d'automates de tri (PLC) et génération de données synthétiques auto-annotées (SDXL/SAM2) pour l'entraînement.",
+        vision3d: "Chez Isitec International, j'ai développé un système de perception multi-caméras temps réel (~60 FPS) pour le suivi 2D/3D de colis : calibration des caméras et outillage avec isiCal (ChArUco/Multical), triangulation et fusion multi-caméras, communication avec des AGV.",
+        edge: "Chez Isitec International, j'ai travaillé sur toute la chaîne d'un moteur de détection et de segmentation (mAP@50 ≈ 0,96) : de l'entraînement à l'optimisation FP16/INT8 avec OpenVINO et TensorRT, jusqu'à l'intégration aux automates de tri (PLC) sur ligne de production.",
+        industriel: "Chez Isitec International, j'ai développé un système de perception multi-caméras temps réel (~60 FPS) pour le suivi 2D/3D de colis, en couvrant toute la chaîne : calibration et outillage avec isiCal, optimisation de modèles (FP16/INT8, OpenVINO, TensorRT) et intégration aux automates (PLC). J'ai aussi créé isiGen, une chaîne de données synthétiques (SDXL, SAM2) pour la génération automatisée de datasets annotés, afin de pallier le manque de données réelles étiquetées.",
       },
       en: {
-        vision3d: "At Isitec International, I built a real-time multi-camera perception system (~60 FPS) for 2D/3D parcel tracking — assisted calibration (ChArUco/Multical), triangulation and multi-camera fusion — communicating with AGVs.",
-        edge: "At Isitec International, I took a detection and segmentation engine (mAP@50 ≈ 0.96) from training to edge deployment: INT8/FP16 compression, ONNX Runtime/OpenVINO/TensorRT backends, and integration with sorting PLCs.",
-        industriel: "At Isitec International, I develop a real-time multi-camera industrial vision system (~60 FPS) deployed on production lines: 2D/3D parcel tracking, sorting PLC control, and auto-annotated synthetic data generation (SDXL/SAM2) for training.",
+        vision3d: "At Isitec International, I developed a real-time multi-camera perception system running at ~60 FPS for 2D/3D parcel tracking: camera calibration and tooling with isiCal (ChArUco/Multical), triangulation and multi-camera fusion, communicating with AGVs.",
+        edge: "At Isitec International, I worked across the full pipeline of a detection and segmentation engine (mAP@50 ≈ 0.96): from training to FP16/INT8 optimization with OpenVINO and TensorRT, through to sorting PLC integration on production lines.",
+        industriel: "At Isitec International, I developed a real-time multi-camera perception system running at ~60 FPS for 2D/3D parcel tracking, working across the full pipeline: camera calibration and tooling with isiCal, model optimization (FP16/INT8, OpenVINO, TensorRT) and PLC integration. I also built isiGen, a synthetic-data pipeline (SDXL, SAM2) for automated dataset generation and fast annotation, addressing the challenge of limited real-world labeled data.",
       },
     },
     wasoria: {
-      fr: "Chez WASORIA, j'ai compressé des Vision Transformers pour l'embarqué — distillation de connaissances et optimisation TensorRT sur Jetson Orin Nano — avec +25 % de vitesse de segmentation et −40 % de latence d'inférence.",
-      en: "At WASORIA, I compressed Vision Transformers for the edge — knowledge distillation and TensorRT optimization on Jetson Orin Nano — achieving +25% segmentation speed and −40% inference latency.",
+      fr: "Lors de mon stage chez WASORIA, j'ai compressé l'encodeur d'images de SAM, un Vision Transformer, par distillation de connaissances et optimisation TensorRT sur Jetson Orin Nano : +25 % de débit de segmentation et −40 % de latence d'inférence.",
+      en: "During my internship at WASORIA, I compressed the SAM image encoder, a Vision Transformer, using knowledge distillation and TensorRT optimization on a Jetson Orin Nano — improving segmentation throughput by 25% while reducing inference latency by 40%.",
     },
     rosbot: {
-      fr: "Mon projet ROSBot Harmony (C++, ROS 2, MoveIt) couvre la navigation autonome, la coordination multi-robots et la planification de mouvements pour une flotte mobile.",
-      en: "My ROSBot Harmony project (C++, ROS 2, MoveIt) covers autonomous navigation, multi-robot coordination and motion planning for a mobile fleet.",
+      fr: "Mon expérience couvre aussi la vision stéréo, la localisation 3D et la robotique : mon projet ROSBot Harmony (C++, ROS 2, MoveIt) couvre la navigation autonome, la coordination multi-robots et la planification de mouvements pour une flotte mobile.",
+      en: "My experience also covers stereo vision, 3D localization and robotics: my ROSBot Harmony project (C++, ROS 2, MoveIt) spans autonomous navigation, multi-robot coordination and motion planning for a mobile fleet.",
     },
     profil: {
-      fr: "Titulaire d'un Master 2 en Vision par Ordinateur et fort de dix ans d'administration d'infrastructures IT, je livre des systèmes robustes, du prototype au déploiement en production.",
-      en: "With an MSc (M2) in Computer Vision and ten years of IT infrastructure administration behind me, I deliver robust systems from prototype to production deployment.",
+      fr: "Titulaire d'un Master 2 en Vision par Ordinateur, je travaille principalement en Python et PyTorch, et en C++ lorsque les contraintes temps réel l'exigent — avec le souci constant de livrer des systèmes fiables, du prototype à la production.",
+      en: "With an M2 in Computer Vision, I work primarily in Python and PyTorch, and in C++ when real-time performance and system-level constraints require it — always with a focus on shipping reliable systems from prototype to production.",
     },
   };
 

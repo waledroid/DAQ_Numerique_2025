@@ -163,21 +163,14 @@
     "interests": [],
     "letter": {
       "offer": {
-        "texte": "",
         "entreprise": "",
         "poste": "",
-        "focus": "",
-        "domaine": "",
-        "exigence1": "",
-        "exigence2": "",
-        "lieu": "",
-        "profile": "",
         "destinataire": "",
         "source": "",
         "villeDate": ""
       },
-      "body": "{{destinataire}},\n\nIngénieur Vision par Ordinateur & Edge-AI chez Isitec International, je conçois des systèmes de vision temps réel pour l'industrie : perception multi-caméras, suivi 2D/3D de colis, compression de modèles et déploiement sur cibles embarquées. Votre offre de {{poste}}, découverte via {{source}}, correspond précisément à ce que je sais faire — et à ce que je cherche : mettre la vision par ordinateur au service de problèmes industriels concrets.\n\nChez Isitec, j'ai développé un système de perception multi-caméras temps réel (~60 FPS) pour le suivi 2D/3D de colis et la communication avec des AGV, ainsi qu'un moteur de détection et de segmentation (mAP@50 ≈ 0,96) optimisé INT8/FP16 et relié aux automates de tri. Auparavant, chez WASORIA, j'ai compressé des Vision Transformers pour l'embarqué (+25 % de vitesse de segmentation, −40 % de latence sur Jetson Orin Nano). Dix ans d'administration d'infrastructures IT complètent ce profil : je livre des solutions robustes, du prototype au déploiement en production.\n\nRejoindre {{entreprise}} serait l'opportunité d'apporter cette expérience à vos projets et de continuer à progresser au sein d'une équipe exigeante. Je serais heureux de vous présenter mes réalisations lors d'un entretien.\n\nJe vous prie d'agréer, {{destinataire}}, l'expression de mes salutations distinguées.",
-      "template": "{{destinataire}},\n\nIngénieur Vision par Ordinateur & Edge-AI chez Isitec International, je conçois des systèmes de vision temps réel pour l'industrie : perception multi-caméras, suivi 2D/3D de colis, compression de modèles et déploiement sur cibles embarquées. Votre offre de {{poste}}, découverte via {{source}}, correspond précisément à ce que je sais faire — et à ce que je cherche : mettre la vision par ordinateur au service de problèmes industriels concrets.\n\nChez Isitec, j'ai développé un système de perception multi-caméras temps réel (~60 FPS) pour le suivi 2D/3D de colis et la communication avec des AGV, ainsi qu'un moteur de détection et de segmentation (mAP@50 ≈ 0,96) optimisé INT8/FP16 et relié aux automates de tri. Auparavant, chez WASORIA, j'ai compressé des Vision Transformers pour l'embarqué (+25 % de vitesse de segmentation, −40 % de latence sur Jetson Orin Nano). Dix ans d'administration d'infrastructures IT complètent ce profil : je livre des solutions robustes, du prototype au déploiement en production.\n\nRejoindre {{entreprise}} serait l'opportunité d'apporter cette expérience à vos projets et de continuer à progresser au sein d'une équipe exigeante. Je serais heureux de vous présenter mes réalisations lors d'un entretien.\n\nJe vous prie d'agréer, {{destinataire}}, l'expression de mes salutations distinguées."
+      "body": "{{destinataire}},\n\nJe vous adresse ma candidature pour rejoindre {{entreprise}} en tant que {{poste}}. Titulaire d'un Master 2 en Vision par Ordinateur et fort d'une expérience concrète des systèmes de perception temps réel en environnement industriel, je suis particulièrement intéressé par le travail de {{entreprise}} autour de {{domaine}}.\n\nChez Isitec International, j'ai développé un système de perception multi-caméras temps réel (~60 FPS) pour le suivi 2D/3D de colis. J'interviens sur toute la chaîne : calibration des caméras et outillage avec isiCal, optimisation de modèles (FP16/INT8, OpenVINO, TensorRT) et intégration aux automates (PLC). J'ai également développé isiGen, une chaîne de données synthétiques (SDXL, SAM2) pour la génération automatisée d'images de datasets et l'annotation rapide, afin de pallier le manque de données réelles étiquetées. Ces projets m'ont appris à mener des systèmes de perception du développement jusqu'à l'optimisation et au déploiement sur ligne de production.\n\nMon expérience couvre aussi la vision stéréo, la localisation 3D, l'accélération de modèles et la robotique, dont ROS 2 et MoveIt. Lors de mon stage chez WASORIA, j'ai compressé l'encodeur d'images de SAM, un Vision Transformer, par distillation de connaissances et optimisation TensorRT sur Jetson Orin Nano : +25 % de débit de segmentation et −40 % de latence d'inférence. Je travaille principalement en Python et PyTorch, et en C++ lorsque les contraintes temps réel et système l'exigent.\n\nL'accent mis par {{entreprise}} sur {{focus}} rejoint directement les systèmes que j'ai développés. Je serais ravi d'apporter à votre équipe mon expérience en vision par ordinateur, perception 3D, optimisation de modèles et déploiement edge, et de contribuer à des systèmes de perception fiables et performants.\n\nJe serais heureux d'échanger sur la façon dont mon expérience peut contribuer aux objectifs de {{entreprise}}. Je vous remercie de votre attention et vous prie d'agréer, {{destinataire}}, l'expression de mes salutations distinguées.",
+      "template": "{{destinataire}},\n\nJe vous adresse ma candidature pour rejoindre {{entreprise}} en tant que {{poste}}. Titulaire d'un Master 2 en Vision par Ordinateur et fort d'une expérience concrète des systèmes de perception temps réel en environnement industriel, je suis particulièrement intéressé par le travail de {{entreprise}} autour de {{domaine}}.\n\nChez Isitec International, j'ai développé un système de perception multi-caméras temps réel (~60 FPS) pour le suivi 2D/3D de colis. J'interviens sur toute la chaîne : calibration des caméras et outillage avec isiCal, optimisation de modèles (FP16/INT8, OpenVINO, TensorRT) et intégration aux automates (PLC). J'ai également développé isiGen, une chaîne de données synthétiques (SDXL, SAM2) pour la génération automatisée d'images de datasets et l'annotation rapide, afin de pallier le manque de données réelles étiquetées. Ces projets m'ont appris à mener des systèmes de perception du développement jusqu'à l'optimisation et au déploiement sur ligne de production.\n\nMon expérience couvre aussi la vision stéréo, la localisation 3D, l'accélération de modèles et la robotique, dont ROS 2 et MoveIt. Lors de mon stage chez WASORIA, j'ai compressé l'encodeur d'images de SAM, un Vision Transformer, par distillation de connaissances et optimisation TensorRT sur Jetson Orin Nano : +25 % de débit de segmentation et −40 % de latence d'inférence. Je travaille principalement en Python et PyTorch, et en C++ lorsque les contraintes temps réel et système l'exigent.\n\nL'accent mis par {{entreprise}} sur {{focus}} rejoint directement les systèmes que j'ai développés. Je serais ravi d'apporter à votre équipe mon expérience en vision par ordinateur, perception 3D, optimisation de modèles et déploiement edge, et de contribuer à des systèmes de perception fiables et performants.\n\nJe serais heureux d'échanger sur la façon dont mon expérience peut contribuer aux objectifs de {{entreprise}}. Je vous remercie de votre attention et vous prie d'agréer, {{destinataire}}, l'expression de mes salutations distinguées."
     }
   },
   "en": {
@@ -314,21 +307,21 @@
     "projects": [
       {
         "name": "IsiMonitor 3D — Industrial Vision",
-        "year": "2026",
         "stack": "GStreamer · ONNX Runtime · MQTT",
-        "desc": "Multi-camera 2D/3D warehouse tracking with a real-time digital twin, assisted calibration (isiCal) and synthetic data generation (isiGen)."
+        "desc": "Multi-camera 2D/3D warehouse tracking with a real-time digital twin, assisted calibration (isiCal) and synthetic data generation (isiGen).",
+        "year": "2026"
       },
       {
         "name": "IsiDetector — AI Parcel Detection & Sorting",
-        "year": "2026",
         "stack": "YOLOv26/RF-DETR · TensorRT/OpenVINO · ByteTrack · Docker",
-        "desc": "Real-time parcel detection and segmentation on conveyor belts (mAP@50 ≈ 0.96), INT8/FP16 model optimization, and UDP-triggered PLC sorting control."
+        "desc": "Real-time parcel detection and segmentation on conveyor belts (mAP@50 ≈ 0.96), INT8/FP16 model optimization, and UDP-triggered PLC sorting control.",
+        "year": "2026"
       },
       {
         "name": "ROSBot Harmony — Autonomous Robotics",
-        "year": "2024",
         "stack": "C++ · ROS 2 · MoveIt · PyTorch",
-        "desc": "Autonomous navigation, multi-robot coordination and motion planning for a mobile fleet."
+        "desc": "Autonomous navigation, multi-robot coordination and motion planning for a mobile fleet.",
+        "year": "2024"
       }
     ],
     "certifications": [
@@ -341,24 +334,30 @@
         "year": "2024"
       }
     ],
-    "interests": [],
+    "interests": [
+      {
+        "name": "AI research & tech watch",
+        "year": ""
+      },
+      {
+        "name": "Acrylic painting",
+        "year": ""
+      },
+      {
+        "name": "Football",
+        "year": ""
+      }
+    ],
     "letter": {
       "offer": {
-        "texte": "",
         "entreprise": "",
         "poste": "",
-        "focus": "",
-        "domaine": "",
-        "exigence1": "",
-        "exigence2": "",
-        "lieu": "",
-        "profile": "",
         "destinataire": "",
         "source": "",
         "villeDate": ""
       },
-      "body": "Dear {{destinataire}},\n\nAs a Computer Vision & Edge-AI Engineer at Isitec International, I design real-time vision systems for industry: multi-camera perception, 2D/3D parcel tracking, model compression and deployment on embedded targets. Your {{poste}} opening, which I found via {{source}}, matches precisely what I do best — and what I am looking for: applying computer vision to concrete industrial problems.\n\nAt Isitec, I built a real-time multi-camera perception system (~60 FPS) for 2D/3D parcel tracking and AGV communication, and a detection and segmentation engine (mAP@50 ≈ 0.96) optimized in INT8/FP16 and wired to sorting PLCs. Before that, at WASORIA, I compressed Vision Transformers for the edge (+25% segmentation speed, −40% latency on Jetson Orin Nano). Ten years of IT infrastructure administration round out this profile: I deliver robust solutions, from prototype to production.\n\nJoining {{entreprise}} would be an opportunity to bring this experience to your projects and to keep growing within a demanding team. I would welcome the chance to walk you through my work in an interview.\n\nYours sincerely,",
-      "template": "Dear {{destinataire}},\n\nAs a Computer Vision & Edge-AI Engineer at Isitec International, I design real-time vision systems for industry: multi-camera perception, 2D/3D parcel tracking, model compression and deployment on embedded targets. Your {{poste}} opening, which I found via {{source}}, matches precisely what I do best — and what I am looking for: applying computer vision to concrete industrial problems.\n\nAt Isitec, I built a real-time multi-camera perception system (~60 FPS) for 2D/3D parcel tracking and AGV communication, and a detection and segmentation engine (mAP@50 ≈ 0.96) optimized in INT8/FP16 and wired to sorting PLCs. Before that, at WASORIA, I compressed Vision Transformers for the edge (+25% segmentation speed, −40% latency on Jetson Orin Nano). Ten years of IT infrastructure administration round out this profile: I deliver robust solutions, from prototype to production.\n\nJoining {{entreprise}} would be an opportunity to bring this experience to your projects and to keep growing within a demanding team. I would welcome the chance to walk you through my work in an interview.\n\nYours sincerely,"
+      "body": "Dear {{destinataire}},\n\nI am writing to apply for the {{poste}} position at {{entreprise}}. With an M2 in Computer Vision and hands-on experience building real-time perception systems for industrial environments, I am particularly interested in {{entreprise}}'s work in {{domaine}}.\n\nAt Isitec International, I developed a real-time multi-camera perception system running at ~60 FPS for 2D/3D parcel tracking. I worked across the full pipeline, from camera calibration and tooling with isiCal to model optimization using FP16/INT8, OpenVINO and TensorRT, as well as PLC integration. I also developed isiGen, a synthetic-data pipeline using SDXL and SAM2 for automated dataset image generation and fast annotation, helping address the challenge of limited real-world labeled data. These projects gave me hands-on experience taking perception systems from development through optimization and deployment on production lines.\n\nMy experience also covers stereo vision, 3D localization, model acceleration and robotics, including ROS 2 and MoveIt. During my internship at WASORIA, I compressed the SAM image encoder, a Vision Transformer, using knowledge distillation and TensorRT optimization on a Jetson Orin Nano. This improved segmentation throughput by 25% while reducing inference latency by 40%. I am comfortable working primarily with Python and PyTorch, while also using C++ when real-time performance and system-level constraints require it.\n\n{{entreprise}}'s focus on {{focus}} closely aligns with the systems I have developed. I would be excited to bring my experience in computer vision, 3D perception, model optimization and edge deployment to your team and contribute to building reliable, high-performance perception systems.\n\nI would welcome the opportunity to discuss how my experience could contribute to {{entreprise}}'s goals. Thank you for your time and consideration.\n\nSincerely,",
+      "template": "Dear {{destinataire}},\n\nI am writing to apply for the {{poste}} position at {{entreprise}}. With an M2 in Computer Vision and hands-on experience building real-time perception systems for industrial environments, I am particularly interested in {{entreprise}}'s work in {{domaine}}.\n\nAt Isitec International, I developed a real-time multi-camera perception system running at ~60 FPS for 2D/3D parcel tracking. I worked across the full pipeline, from camera calibration and tooling with isiCal to model optimization using FP16/INT8, OpenVINO and TensorRT, as well as PLC integration. I also developed isiGen, a synthetic-data pipeline using SDXL and SAM2 for automated dataset image generation and fast annotation, helping address the challenge of limited real-world labeled data. These projects gave me hands-on experience taking perception systems from development through optimization and deployment on production lines.\n\nMy experience also covers stereo vision, 3D localization, model acceleration and robotics, including ROS 2 and MoveIt. During my internship at WASORIA, I compressed the SAM image encoder, a Vision Transformer, using knowledge distillation and TensorRT optimization on a Jetson Orin Nano. This improved segmentation throughput by 25% while reducing inference latency by 40%. I am comfortable working primarily with Python and PyTorch, while also using C++ when real-time performance and system-level constraints require it.\n\n{{entreprise}}'s focus on {{focus}} closely aligns with the systems I have developed. I would be excited to bring my experience in computer vision, 3D perception, model optimization and edge deployment to your team and contribute to building reliable, high-performance perception systems.\n\nI would welcome the opportunity to discuss how my experience could contribute to {{entreprise}}'s goals. Thank you for your time and consideration.\n\nSincerely,"
     }
   }
 }
