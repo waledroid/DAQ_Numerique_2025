@@ -163,13 +163,21 @@
     "interests": [],
     "letter": {
       "offer": {
+        "texte": "",
         "entreprise": "",
         "poste": "",
+        "focus": "",
+        "domaine": "",
+        "exigence1": "",
+        "exigence2": "",
+        "lieu": "",
+        "profile": "",
         "destinataire": "",
         "source": "",
         "villeDate": ""
       },
-      "body": "{{destinataire}},\n\nIngénieur Vision par Ordinateur & Edge-AI chez Isitec International, je conçois des systèmes de vision temps réel pour l'industrie : perception multi-caméras, suivi 2D/3D de colis, compression de modèles et déploiement sur cibles embarquées. Votre offre de {{poste}}, découverte via {{source}}, correspond précisément à ce que je sais faire — et à ce que je cherche : mettre la vision par ordinateur au service de problèmes industriels concrets.\n\nChez Isitec, j'ai développé un système de perception multi-caméras temps réel (~60 FPS) pour le suivi 2D/3D de colis et la communication avec des AGV, ainsi qu'un moteur de détection et de segmentation (mAP@50 ≈ 0,96) optimisé INT8/FP16 et relié aux automates de tri. Auparavant, chez WASORIA, j'ai compressé des Vision Transformers pour l'embarqué (+25 % de vitesse de segmentation, −40 % de latence sur Jetson Orin Nano). Dix ans d'administration d'infrastructures IT complètent ce profil : je livre des solutions robustes, du prototype au déploiement en production.\n\nRejoindre {{entreprise}} serait l'opportunité d'apporter cette expérience à vos projets et de continuer à progresser au sein d'une équipe exigeante. Je serais heureux de vous présenter mes réalisations lors d'un entretien.\n\nJe vous prie d'agréer, {{destinataire}}, l'expression de mes salutations distinguées."
+      "body": "{{destinataire}},\n\nIngénieur Vision par Ordinateur & Edge-AI chez Isitec International, je conçois des systèmes de vision temps réel pour l'industrie : perception multi-caméras, suivi 2D/3D de colis, compression de modèles et déploiement sur cibles embarquées. Votre offre de {{poste}}, découverte via {{source}}, correspond précisément à ce que je sais faire — et à ce que je cherche : mettre la vision par ordinateur au service de problèmes industriels concrets.\n\nChez Isitec, j'ai développé un système de perception multi-caméras temps réel (~60 FPS) pour le suivi 2D/3D de colis et la communication avec des AGV, ainsi qu'un moteur de détection et de segmentation (mAP@50 ≈ 0,96) optimisé INT8/FP16 et relié aux automates de tri. Auparavant, chez WASORIA, j'ai compressé des Vision Transformers pour l'embarqué (+25 % de vitesse de segmentation, −40 % de latence sur Jetson Orin Nano). Dix ans d'administration d'infrastructures IT complètent ce profil : je livre des solutions robustes, du prototype au déploiement en production.\n\nRejoindre {{entreprise}} serait l'opportunité d'apporter cette expérience à vos projets et de continuer à progresser au sein d'une équipe exigeante. Je serais heureux de vous présenter mes réalisations lors d'un entretien.\n\nJe vous prie d'agréer, {{destinataire}}, l'expression de mes salutations distinguées.",
+      "template": "{{destinataire}},\n\nIngénieur Vision par Ordinateur & Edge-AI chez Isitec International, je conçois des systèmes de vision temps réel pour l'industrie : perception multi-caméras, suivi 2D/3D de colis, compression de modèles et déploiement sur cibles embarquées. Votre offre de {{poste}}, découverte via {{source}}, correspond précisément à ce que je sais faire — et à ce que je cherche : mettre la vision par ordinateur au service de problèmes industriels concrets.\n\nChez Isitec, j'ai développé un système de perception multi-caméras temps réel (~60 FPS) pour le suivi 2D/3D de colis et la communication avec des AGV, ainsi qu'un moteur de détection et de segmentation (mAP@50 ≈ 0,96) optimisé INT8/FP16 et relié aux automates de tri. Auparavant, chez WASORIA, j'ai compressé des Vision Transformers pour l'embarqué (+25 % de vitesse de segmentation, −40 % de latence sur Jetson Orin Nano). Dix ans d'administration d'infrastructures IT complètent ce profil : je livre des solutions robustes, du prototype au déploiement en production.\n\nRejoindre {{entreprise}} serait l'opportunité d'apporter cette expérience à vos projets et de continuer à progresser au sein d'une équipe exigeante. Je serais heureux de vous présenter mes réalisations lors d'un entretien.\n\nJe vous prie d'agréer, {{destinataire}}, l'expression de mes salutations distinguées."
     }
   },
   "en": {
@@ -306,21 +314,21 @@
     "projects": [
       {
         "name": "IsiMonitor 3D — Industrial Vision",
+        "year": "2026",
         "stack": "GStreamer · ONNX Runtime · MQTT",
-        "desc": "Multi-camera 2D/3D warehouse tracking with a real-time digital twin, assisted calibration (isiCal) and synthetic data generation (isiGen).",
-        "year": "2026"
+        "desc": "Multi-camera 2D/3D warehouse tracking with a real-time digital twin, assisted calibration (isiCal) and synthetic data generation (isiGen)."
       },
       {
         "name": "IsiDetector — AI Parcel Detection & Sorting",
+        "year": "2026",
         "stack": "YOLOv26/RF-DETR · TensorRT/OpenVINO · ByteTrack · Docker",
-        "desc": "Real-time parcel detection and segmentation on conveyor belts (mAP@50 ≈ 0.96), INT8/FP16 model optimization, and UDP-triggered PLC sorting control.",
-        "year": "2026"
+        "desc": "Real-time parcel detection and segmentation on conveyor belts (mAP@50 ≈ 0.96), INT8/FP16 model optimization, and UDP-triggered PLC sorting control."
       },
       {
         "name": "ROSBot Harmony — Autonomous Robotics",
+        "year": "2024",
         "stack": "C++ · ROS 2 · MoveIt · PyTorch",
-        "desc": "Autonomous navigation, multi-robot coordination and motion planning for a mobile fleet.",
-        "year": "2024"
+        "desc": "Autonomous navigation, multi-robot coordination and motion planning for a mobile fleet."
       }
     ],
     "certifications": [
@@ -333,29 +341,24 @@
         "year": "2024"
       }
     ],
-    "interests": [
-      {
-        "name": "AI research & tech watch",
-        "year": ""
-      },
-      {
-        "name": "Acrylic painting",
-        "year": ""
-      },
-      {
-        "name": "Football",
-        "year": ""
-      }
-    ],
+    "interests": [],
     "letter": {
       "offer": {
+        "texte": "",
         "entreprise": "",
         "poste": "",
+        "focus": "",
+        "domaine": "",
+        "exigence1": "",
+        "exigence2": "",
+        "lieu": "",
+        "profile": "",
         "destinataire": "",
         "source": "",
         "villeDate": ""
       },
-      "body": "Dear {{destinataire}},\n\nAs a Computer Vision & Edge-AI Engineer at Isitec International, I design real-time vision systems for industry: multi-camera perception, 2D/3D parcel tracking, model compression and deployment on embedded targets. Your {{poste}} opening, which I found via {{source}}, matches precisely what I do best — and what I am looking for: applying computer vision to concrete industrial problems.\n\nAt Isitec, I built a real-time multi-camera perception system (~60 FPS) for 2D/3D parcel tracking and AGV communication, and a detection and segmentation engine (mAP@50 ≈ 0.96) optimized in INT8/FP16 and wired to sorting PLCs. Before that, at WASORIA, I compressed Vision Transformers for the edge (+25% segmentation speed, −40% latency on Jetson Orin Nano). Ten years of IT infrastructure administration round out this profile: I deliver robust solutions, from prototype to production.\n\nJoining {{entreprise}} would be an opportunity to bring this experience to your projects and to keep growing within a demanding team. I would welcome the chance to walk you through my work in an interview.\n\nYours sincerely,"
+      "body": "Dear {{destinataire}},\n\nAs a Computer Vision & Edge-AI Engineer at Isitec International, I design real-time vision systems for industry: multi-camera perception, 2D/3D parcel tracking, model compression and deployment on embedded targets. Your {{poste}} opening, which I found via {{source}}, matches precisely what I do best — and what I am looking for: applying computer vision to concrete industrial problems.\n\nAt Isitec, I built a real-time multi-camera perception system (~60 FPS) for 2D/3D parcel tracking and AGV communication, and a detection and segmentation engine (mAP@50 ≈ 0.96) optimized in INT8/FP16 and wired to sorting PLCs. Before that, at WASORIA, I compressed Vision Transformers for the edge (+25% segmentation speed, −40% latency on Jetson Orin Nano). Ten years of IT infrastructure administration round out this profile: I deliver robust solutions, from prototype to production.\n\nJoining {{entreprise}} would be an opportunity to bring this experience to your projects and to keep growing within a demanding team. I would welcome the chance to walk you through my work in an interview.\n\nYours sincerely,",
+      "template": "Dear {{destinataire}},\n\nAs a Computer Vision & Edge-AI Engineer at Isitec International, I design real-time vision systems for industry: multi-camera perception, 2D/3D parcel tracking, model compression and deployment on embedded targets. Your {{poste}} opening, which I found via {{source}}, matches precisely what I do best — and what I am looking for: applying computer vision to concrete industrial problems.\n\nAt Isitec, I built a real-time multi-camera perception system (~60 FPS) for 2D/3D parcel tracking and AGV communication, and a detection and segmentation engine (mAP@50 ≈ 0.96) optimized in INT8/FP16 and wired to sorting PLCs. Before that, at WASORIA, I compressed Vision Transformers for the edge (+25% segmentation speed, −40% latency on Jetson Orin Nano). Ten years of IT infrastructure administration round out this profile: I deliver robust solutions, from prototype to production.\n\nJoining {{entreprise}} would be an opportunity to bring this experience to your projects and to keep growing within a demanding team. I would welcome the chance to walk you through my work in an interview.\n\nYours sincerely,"
     }
   }
 }
