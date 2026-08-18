@@ -8,14 +8,25 @@
 //   GITHUB_TOKEN     fine-grained PAT, repo DAQ_Numerique_2025, Contents: R/W
 //   EDITOR_PASSWORD  the password you type in the editor to authorise a save
 // Optional overrides (sensible defaults below):
-//   GH_OWNER  GH_REPO  GH_BRANCH  GH_PATH
+//   GH_OWNER  GH_REPO  GH_BRANCH  GH_PATH  (GH_PATH_BLUE optionnel : cv_blue/cv.json)
 
 const OWNER  = process.env.GH_OWNER  || 'waledroid';
 const REPO   = process.env.GH_REPO   || 'DAQ_Numerique_2025';
 const BRANCH = process.env.GH_BRANCH || 'main';
 const GPATH  = process.env.GH_PATH   || 'portfolio/data/cv.json';
 
-const API_URL = `https://api.github.com/repos/${OWNER}/${REPO}/contents/${GPATH}`;
+// Documents éditables : ?doc=cv (défaut, CV ingénieur) ou ?doc=cv_blue (groupe
+// « CV Blue », cv_blue/cv.json). Même mot de passe, même dépôt/branche.
+const DOCS = {
+  cv: GPATH,
+  cv_blue: process.env.GH_PATH_BLUE || (/data\/cv\.json$/.test(GPATH) ? GPATH.replace(/data\/cv\.json$/, 'cv_blue/cv.json') : null),
+};
+// null si le document est inconnu ou non configuré (on n'écrase jamais l'autre fichier)
+const apiUrl = (event) => {
+  const doc = (event.queryStringParameters && event.queryStringParameters.doc) || 'cv';
+  const gpath = DOCS[doc];
+  return gpath ? `https://api.github.com/repos/${OWNER}/${REPO}/contents/${gpath}` : null;
+};
 
 const ghHeaders = () => ({
   Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
@@ -31,6 +42,8 @@ const json = (statusCode, body) => ({
 });
 
 exports.handler = async (event) => {
+  const API_URL = apiUrl(event);
+  if (!API_URL) return json(404, { error: 'document inconnu' });
   // ---- Read: latest committed CV (public, no password) --------------------
   if (event.httpMethod === 'GET') {
     if (!process.env.GITHUB_TOKEN) return json(500, { error: 'GITHUB_TOKEN manquant' });
@@ -63,7 +76,8 @@ exports.handler = async (event) => {
     // Accepte le document bilingue { fr: {identity…}, en: {identity…} }
     // comme l'ancien format plat { identity… }.
     if (!data || typeof data !== 'object' || Array.isArray(data) ||
-        !(data.identity || (data.fr && data.fr.identity))) {
+        !(data.identity || (data.fr && data.fr.identity) ||
+          (Array.isArray(data.cvs) && data.cvs.length && data.cvs[0].fr && data.cvs[0].fr.identity))) {
       return json(422, { error: 'structure de CV inattendue' });
     }
 
@@ -84,7 +98,7 @@ exports.handler = async (event) => {
         method: 'PUT',
         headers: ghHeaders(),
         body: JSON.stringify({
-          message: 'CV: mise à jour via l’éditeur',
+          message: (API_URL.includes('cv_blue') ? 'CV Blue' : 'CV') + ': mise à jour via l’éditeur',
           content,
           sha,
           branch: BRANCH,

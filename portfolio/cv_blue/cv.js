@@ -17,7 +17,7 @@
   const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
 
   const API = '../api/cv_blue';                // local node server.js (dev only) → cv_blue/cv.json
-  const SAVE_API = 'api/none'; // hosted proxy — holds the GitHub token server-side
+  const SAVE_API = '/.netlify/functions/cv?doc=cv_blue'; // hosted proxy — GitHub token côté serveur, même mot de passe que cv.html
   const SEED = 'cv.json';
   const DRAFT_KEY = 'cv-blue-draft-v1';
   const LANG_KEY = 'cv-blue-lang';
@@ -69,7 +69,7 @@
   // The Netlify function at SAVE_API keeps the GitHub token in its server-side
   // env (never shipped to the browser). Writes require the editor password,
   // which you type once per device; it lives only in this browser.
-  const PW_KEY = 'cv-blue-password';
+  const PW_KEY = 'edge-vision-cv-password'; // partagé avec cv.html : une seule connexion
   const pw = () => localStorage.getItem(PW_KEY) || '';
 
   let doc = null;
