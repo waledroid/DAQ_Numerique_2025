@@ -23,8 +23,8 @@ Serve over HTTP so the Three.js ES-module importmap, the CV PDF, and relative `a
 resolve (the 3D modules will not load from a `file://` origin):
 
 ```bash
-node server.js                # http://localhost:8000 — full site + CV save API (/api/cv)
-python3 -m http.server 8000   # read-only alternative; the CV editor falls back to localStorage
+node server.js                # http://localhost:46323 — full site + CV save API (/api/cv)
+python3 -m http.server 46323   # read-only alternative; the CV editor falls back to localStorage
 ```
 
 Nothing to build, lint, or test — changes are verified by eye in the browser (check the console
@@ -45,6 +45,17 @@ French CV via the micro template engine in `assets/js/cv.js` (`{{path}}` interpo
 one-page overflow warning), saves through `PUT /api/cv` when `server.js` runs (atomic write to
 `data/cv.json`; localStorage draft fallback on static hosting), and prints to PDF via the browser
 with exact `@page A4` CSS.
+
+**`cv_blue/`** ("CV Blue", linked from the footer chip and the contact page) is a second, self-
+contained editor for the hospitality / blue-collar CVs: `cv_blue/cv.html` + `cv_blue/cv.js`
+(same template & code lineage as `cv.html`/`cv.js`, relative `../assets` paths, no online login)
+rendering `cv_blue/cv.json` = `{ cvs: [ { id, label: {fr,en}, fr: {…, letter}, en: {…, letter} }, … ] }`
+— **one sub-tab per CV variant** (`restaurant`, `hotel`, …; `+ CV` duplicates the active one,
+rename/delete only in edit mode), **each with its own cover letter**. Per-variant styling hooks
+off `<body data-cv="<id>">`. Locally it saves through `PUT /api/cv_blue` (`server.js`); on the
+static host it falls back to a localStorage draft. It must never change the engineer CV.
+`.claude/agents/cv.md` defines the `cv` agent that tailors either document + writes the letter
+from a pasted job offer (facts only).
 
 ## Architecture — the shared design system
 

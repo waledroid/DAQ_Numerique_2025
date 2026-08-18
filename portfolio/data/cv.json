@@ -133,21 +133,21 @@
     "projects": [
       {
         "name": "IsiMonitor 3D — Vision industrielle",
+        "year": "2026",
         "stack": "GStreamer · ONNX Runtime · MQTT",
-        "desc": "Suivi 2D/3D multi-caméras d'entrepôt avec jumeau numérique temps réel, calibration assistée (isiCal) et génération de données synthétiques (isiGen).",
-        "year": "2026"
+        "desc": "Suivi 2D/3D multi-caméras d'entrepôt avec jumeau numérique temps réel, calibration assistée (isiCal) et génération de données synthétiques (isiGen)."
       },
       {
         "name": "IsiDetector — Détection Edge & IA",
+        "year": "2026",
         "stack": "YOLOv26/RF-DETR · TensorRT/OpenVINO · ByteTrack · Docker",
-        "desc": "Détection et segmentation de colis sur convoyeur (mAP@50 ≈ 0,96) avec optimisation INT8/FP16 et pilotage d'automates.",
-        "year": "2026"
+        "desc": "Détection et segmentation de colis sur convoyeur (mAP@50 ≈ 0,96) avec optimisation INT8/FP16 et pilotage d'automates."
       },
       {
         "name": "ROSBot Harmony — Robotique autonome",
+        "year": "2024",
         "stack": "C++ · ROS 2 · MoveIt · PyTorch",
-        "desc": "Navigation autonome, coordination multi-robots et planification de mouvements pour flotte mobile.",
-        "year": "2024"
+        "desc": "Navigation autonome, coordination multi-robots et planification de mouvements pour flotte mobile."
       }
     ],
     "certifications": [
@@ -163,8 +163,15 @@
     "interests": [],
     "letter": {
       "offer": {
+        "texte": "",
         "entreprise": "",
         "poste": "",
+        "focus": "",
+        "domaine": "",
+        "exigence1": "",
+        "exigence2": "",
+        "lieu": "",
+        "profile": "",
         "destinataire": "",
         "source": "",
         "villeDate": ""
@@ -350,8 +357,15 @@
     ],
     "letter": {
       "offer": {
+        "texte": "",
         "entreprise": "",
         "poste": "",
+        "focus": "",
+        "domaine": "",
+        "exigence1": "",
+        "exigence2": "",
+        "lieu": "",
+        "profile": "",
         "destinataire": "",
         "source": "",
         "villeDate": ""

@@ -129,6 +129,9 @@ h1, h2, h3, h4, .font-display { font-family: 'Space Grotesk', system-ui, sans-se
   box-shadow: var(--specular);
 }
 .chip i { color: var(--accent); }
+/* Chip cliquable (bouton « CV Blue ») : même look, léger retour au survol */
+.chip--btn { cursor: pointer; text-decoration: none; transition: border-color .2s, color .2s; }
+.chip--btn:hover { border-color: var(--accent); color: var(--mist); }
 
 /* ---------- Gradient / accent text ---------- */
 .text-gradient {

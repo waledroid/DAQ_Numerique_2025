@@ -80,7 +80,7 @@
               '<span class="font-display text-xl sm:text-2xl font-bold text-mist">Atanda Abdullahi<span class="text-accent">.</span></span>' +
               '<span class="font-signature text-2xl text-muted/70 hidden sm:inline-block">Atanda</span>' +
             '</a>' +
-            '<span class="chip"><span class="w-1.5 h-1.5 rounded-full bg-accent inline-block"></span>Disponible pour un entretien</span>' +
+            '<a href="cv_blue/cv.html" class="chip chip--btn" title="Ouvrir le groupe de CV « CV Blue »"><span class="w-1.5 h-1.5 rounded-full bg-accent inline-block"></span>CV Blue</a>' +
           '</div>' +
           '<div class="divider my-7"></div>' +
           '<div class="flex flex-wrap items-center justify-between gap-6">' +

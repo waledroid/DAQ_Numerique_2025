@@ -22,7 +22,9 @@ const path = require('path');
 
 const ROOT = __dirname;
 const DATA_FILE = path.join(ROOT, 'data', 'cv.json');
-const PORT = Number(process.env.PORT) || 8000;
+// CV alternatif local (dossier cv_blue/, gitignoré) : /api/cv_blue → cv_blue/cv.json
+const DATA_FILES = { '/api/cv': DATA_FILE, '/api/cv_blue': path.join(ROOT, 'cv_blue', 'cv.json') };
+const PORT = Number(process.env.PORT) || 46323;
 const MAX_BODY = 1024 * 1024; // 1 MB is plenty for a CV
 
 const MIME = {
@@ -54,7 +56,7 @@ function send(res, status, body, type) {
 const sendJSON = (res, status, obj) => send(res, status, JSON.stringify(obj));
 
 // ---- /api/cv --------------------------------------------------------------
-function handleApi(req, res) {
+function handleApi(req, res, DATA_FILE) {
   if (req.method === 'GET') {
     fs.readFile(DATA_FILE, (err, buf) => {
       if (err) return sendJSON(res, 500, { error: 'cv.json illisible' });
@@ -85,7 +87,8 @@ function handleApi(req, res) {
       // Accepte le document bilingue { fr: {identity…}, en: {identity…} }
       // comme l'ancien format plat { identity… }.
       if (!data || typeof data !== 'object' || Array.isArray(data) ||
-          !(data.identity || (data.fr && data.fr.identity))) {
+          !(data.identity || (data.fr && data.fr.identity) ||
+            (Array.isArray(data.cvs) && data.cvs.length && data.cvs[0].fr && data.cvs[0].fr.identity))) {
         return sendJSON(res, 422, { error: 'structure de CV inattendue' });
       }
       // Atomic write: tmp file then rename, so a crash never corrupts the CV
@@ -192,7 +195,7 @@ function handleStatic(req, res, urlPath) {
 
 const server = http.createServer((req, res) => {
   const urlPath = req.url.split('?')[0];
-  if (urlPath === '/api/cv') return handleApi(req, res);
+  if (DATA_FILES[urlPath]) return handleApi(req, res, DATA_FILES[urlPath]);
   if (urlPath === '/api/letter') return handleLetter(req, res);
   return handleStatic(req, res, urlPath);
 });

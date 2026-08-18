@@ -16,43 +16,49 @@
   const $ = (s, r) => (r || document).querySelector(s);
   const $$ = (s, r) => Array.from((r || document).querySelectorAll(s));
 
-  const API = 'api/cv';                      // local node server.js (dev only)
-  const SAVE_API = '/.netlify/functions/cv'; // hosted proxy — holds the GitHub token server-side
-  const SEED = 'data/cv.json';
-  const DRAFT_KEY = 'edge-vision-cv-draft-v1';
-  const LANG_KEY = 'edge-vision-cv-lang';
-  const VIEW_KEY = 'edge-vision-cv-view'; // 'cv' | 'letter'
+  const API = '../api/cv_blue';                // local node server.js (dev only) → cv_blue/cv.json
+  const SAVE_API = 'api/none'; // hosted proxy — holds the GitHub token server-side
+  const SEED = 'cv.json';
+  const DRAFT_KEY = 'cv-blue-draft-v1';
+  const LANG_KEY = 'cv-blue-lang';
+  const VIEW_KEY = 'cv-blue-view'; // 'cv' | 'letter'
+  const CV_KEY = 'cv-blue-variant'; // id du CV actif (onglet sous « CV »)
 
-  // ---- Bilingual document --------------------------------------------------
-  // data/cv.json = { fr: {...}, en: {...} } ; `doc` holds both languages,
-  // `state` points to the active one. The flag button swaps languages; the
-  // print button then produces the displayed language's PDF.
+  // ---- Bilingual, multi-CV document ---------------------------------------
+  // cv.json = { cvs: [ { id, label: {fr,en}, fr: {…, letter}, en: {…, letter} }, … ] }
+  // Plusieurs CV (un onglet chacun sous « CV »), chacun avec SA lettre de
+  // motivation. `doc` tient tout ; `state` pointe sur la langue active du CV
+  // actif, `letter` sur sa lettre (= state.letter).
   const I18N = {
     fr: {
-      title: 'CV — Atanda Abdullahi',
-      letterTitle: 'Lettre de motivation — Atanda Abdullahi',
+      title: 'CV — Abdullahi Atanda',
+      letterTitle: 'Lettre de motivation — Abdullahi Atanda',
       tabCv: 'CV', tabLetter: 'Lettre de motivation',
+      addCv: '+ CV', addCvPrompt: 'Nom du nouveau CV (copie du CV affiché) :', renameCv: 'Renommer ce CV', renamePrompt: 'Nouveau nom :',
+      deleteCv: 'Supprimer ce CV', deleteConfirm: (n) => `Supprimer le CV « ${n} » ? (effectif après Enregistrer)`,
       objetPrefix: 'Objet : Candidature au poste de ',
       contact: 'Contact',
       profile: 'Profil', skills: 'Compétences Clés', experience: 'Expérience Professionnelle',
       education: 'Formation', certifications: 'Certifications', projects: 'Projets',
-      languages: 'Langues', interests: 'Intérêts',
+      languages: 'Langues', interests: 'Centres d’intérêt', availability: 'Disponibilité',
       switchTo: 'Switch to English',
       // Texte utilisé quand un champ de l'offre est vide (lettre générique)
-      fallbacks: { destinataire: 'Madame, Monsieur', entreprise: 'votre entreprise', poste: 'Ingénieur Vision par Ordinateur', source: 'votre site carrières', domaine: 'la vision par ordinateur temps réel', focus: 'les systèmes de perception temps réel' },
+      fallbacks: { destinataire: 'Madame, Monsieur', entreprise: 'votre établissement', poste: 'Équipier polyvalent', source: 'votre annonce', domaine: 'la restauration rapide', focus: 'le service en période de forte affluence' },
       dateSuffix: (d) => `, le ${d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}`,
     },
     en: {
-      title: 'Resume — Atanda Abdullahi',
-      letterTitle: 'Cover Letter — Atanda Abdullahi',
+      title: 'Resume — Abdullahi Atanda',
+      letterTitle: 'Cover Letter — Abdullahi Atanda',
       tabCv: 'Resume', tabLetter: 'Cover letter',
+      addCv: '+ Resume', addCvPrompt: 'Name of the new resume (copy of the current one):', renameCv: 'Rename this resume', renamePrompt: 'New name:',
+      deleteCv: 'Delete this resume', deleteConfirm: (n) => `Delete resume “${n}”? (applied on Save)`,
       objetPrefix: 'Re: Application for ',
       contact: 'Contact',
       profile: 'Profile', skills: 'Core Skills', experience: 'Professional Experience',
       education: 'Education', certifications: 'Certifications', projects: 'Projects',
-      languages: 'Languages', interests: 'Interests',
+      languages: 'Languages', interests: 'Interests', availability: 'Availability',
       switchTo: 'Passer en français',
-      fallbacks: { destinataire: 'Hiring Manager', entreprise: 'your company', poste: 'Computer Vision Engineer', source: 'your careers site', domaine: 'real-time computer vision', focus: 'real-time perception systems' },
+      fallbacks: { destinataire: 'Hiring Manager', entreprise: 'your establishment', poste: 'Crew Member', source: 'your job posting', domaine: 'fast-food service', focus: 'busy service periods' },
       dateSuffix: (d) => `, ${d.toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}`,
     },
   };
@@ -63,40 +69,72 @@
   // The Netlify function at SAVE_API keeps the GitHub token in its server-side
   // env (never shipped to the browser). Writes require the editor password,
   // which you type once per device; it lives only in this browser.
-  const PW_KEY = 'edge-vision-cv-password';
+  const PW_KEY = 'cv-blue-password';
   const pw = () => localStorage.getItem(PW_KEY) || '';
 
   let doc = null;
   let lang = localStorage.getItem(LANG_KEY) === 'en' ? 'en' : 'fr';
   let view = localStorage.getItem(VIEW_KEY) === 'letter' ? 'letter' : 'cv';
+  let cvId = localStorage.getItem(CV_KEY) || '';
   let state = null;
+  let letter = null;
   let editing = false;
   let serverOk = false;
 
-  // Ancien format plat { identity… } (vieux brouillons) → enveloppé en bilingue.
+  const clone = (o) => JSON.parse(JSON.stringify(o));
+  const DEFAULT_CV = { id: 'restaurant', label: { fr: 'Restaurant', en: 'Restaurant' } };
+
+  // Migre les anciens formats vers { cvs: [ { id, label, fr, en } ] } :
+  //  - plat { identity… }                         (tout premiers brouillons)
+  //  - bilingue { fr: {…, letter}, en: {…, letter} } (un seul CV)
+  //  - { cvs, letter } (lettre partagée, transitoire) → lettre recopiée dans chaque CV
   function normalizeDoc(d) {
-    if (d && d.fr && d.fr.identity) {
-      if (!(d.en && d.en.identity)) d.en = JSON.parse(JSON.stringify(d.fr));
-    } else {
-      d = { fr: d, en: JSON.parse(JSON.stringify(d)) };
+    if (!(d && Array.isArray(d.cvs) && d.cvs.length)) {
+      let fr, en;
+      if (d && d.fr && d.fr.identity) { fr = d.fr; en = (d.en && d.en.identity) ? d.en : clone(d.fr); }
+      else { fr = d; en = clone(d); }
+      d = { cvs: [{ ...DEFAULT_CV, fr, en }] };
     }
-    // Vieux documents/brouillons sans lettre : structure vide, l'éditeur reste utilisable
-    ['fr', 'en'].forEach((l) => {
-      if (!d[l].letter) d[l].letter = { offer: { ...EMPTY_OFFER }, body: '' };
-      d[l].letter.offer = { ...EMPTY_OFFER, ...(d[l].letter.offer || {}) };
-      // `template` = lettre générique à {{marqueurs}}, préservée quand la
-      // génération remplace `body` ; « Vider » y revient.
-      if (!d[l].letter.template) d[l].letter.template = d[l].letter.body;
-      // Ville de l'expéditeur (la date, elle, est toujours générée du jour)
-      if (!d[l].letter.ville) d[l].letter.ville = 'Oullins';
+    const shared = d.letter || {};
+    delete d.letter;
+    d.cvs.forEach((cv, i) => {
+      if (!cv.id) cv.id = 'cv' + (i + 1);
+      if (typeof cv.label === 'string') cv.label = { fr: cv.label, en: cv.label };
+      if (!cv.label) cv.label = { fr: cv.id, en: cv.id };
+      if (!(cv.fr && cv.fr.identity)) cv.fr = clone(cv.en);
+      if (!(cv.en && cv.en.identity)) cv.en = clone(cv.fr);
+      ['fr', 'en'].forEach((l) => {
+        // Vieux documents/brouillons sans lettre : structure vide, l'éditeur reste utilisable
+        if (!cv[l].letter) cv[l].letter = shared[l] ? clone(shared[l]) : { offer: { ...EMPTY_OFFER }, body: '' };
+        const lt = cv[l].letter;
+        lt.offer = { ...EMPTY_OFFER, ...(lt.offer || {}) };
+        // `template` = lettre générique à {{marqueurs}}, préservée quand la
+        // génération remplace `body` ; « Vider » y revient.
+        if (!lt.template) lt.template = lt.body;
+        // Ville de l'expéditeur (la date, elle, est toujours générée du jour)
+        if (!lt.ville) lt.ville = 'Beaune';
+      });
     });
     return d;
   }
 
+  // CV actif (onglet) : retombe sur le premier si l'id mémorisé n'existe plus
+  function activeCv() {
+    let cv = doc.cvs.find((c) => c.id === cvId);
+    if (!cv) { cv = doc.cvs[0]; cvId = cv.id; localStorage.setItem(CV_KEY, cvId); }
+    return cv;
+  }
+  function bindState() {
+    state = activeCv()[lang];
+    letter = state.letter;
+    document.body.dataset.cv = cvId; // permet un style par variante (ex. taille de police)
+  }
+  const cvLabel = (cv) => (cv.label && (cv.label[lang] || cv.label.fr || cv.label.en)) || cv.id;
+
   function applyLang() {
     const t = I18N[lang];
     document.documentElement.lang = lang;
-    document.title = view === 'letter' ? t.letterTitle : t.title;
+    document.title = docTitle();
     $$('[data-i18n]').forEach((el) => {
       if (t[el.dataset.i18n]) el.textContent = t[el.dataset.i18n];
     });
@@ -123,8 +161,98 @@
       b.classList.add(...(view === v ? TAB_ON : TAB_OFF));
       b.setAttribute('aria-pressed', String(view === v));
     });
-    document.title = view === 'letter' ? I18N[lang].letterTitle : I18N[lang].title;
+    // style.display : la classe utilitaire `flex` l'emporterait sur l'attribut hidden
+    const tabs = $('#cv-tabs');
+    if (tabs) tabs.style.display = view === 'cv' ? '' : 'none';
+    renderCvTabs();
+    document.title = docTitle();
     checkOverflow();
+  }
+  // « CV Restaurant — Abdullahi Atanda » : sert aussi de nom de fichier PDF
+  function docTitle() {
+    const t = I18N[lang];
+    if (view === 'letter') return t.letterTitle;
+    if (!doc || doc.cvs.length < 2) return t.title;
+    return t.title.replace(' — ', ` ${cvLabel(activeCv())} — `);
+  }
+
+  // ---- Sous-onglets : variantes de CV ---------------------------------------
+  const SUB_ON = ['bg-emerald/15', 'text-emerald', 'border-emerald', 'font-medium'];
+  const SUB_OFF = ['border-line', 'text-muted', 'hover:text-mist', 'hover:border-emerald'];
+  const SUB_BASE = 'font-mono text-[0.62rem] tracking-widest uppercase rounded-full px-4 py-1.5 border transition';
+  function renderCvTabs() {
+    const host = $('#cv-tabs');
+    if (!host || !doc) return;
+    host.innerHTML = '';
+    const active = activeCv();
+    doc.cvs.forEach((cv) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = SUB_BASE + ' ' + (cv === active ? SUB_ON : SUB_OFF).join(' ');
+      b.textContent = cvLabel(cv);
+      b.setAttribute('aria-pressed', String(cv === active));
+      b.addEventListener('click', () => setCv(cv.id));
+      host.appendChild(b);
+    });
+    const t = I18N[lang];
+    const mk = (text, title, cls, fn) => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'edit-only ' + SUB_BASE + ' ' + cls;
+      b.textContent = text; b.title = title; b.setAttribute('aria-label', title);
+      b.addEventListener('click', fn);
+      host.appendChild(b);
+    };
+    mk(t.addCv, t.addCvPrompt, 'border-dashed border-line text-muted hover:text-accent hover:border-accent', addCv);
+    mk('✎', t.renameCv, 'border-line text-muted hover:text-mist', renameCv);
+    if (doc.cvs.length > 1) mk('✕', t.deleteCv, 'border-line text-muted hover:text-red-400 hover:border-red-400/60', deleteCv);
+  }
+  function setCv(id) {
+    if (id === cvId) return;
+    if (editing) activeCv()[lang] = collect(); // garde les modifs en cours
+    cvId = id;
+    localStorage.setItem(CV_KEY, id);
+    bindState();
+    renderCvTabs();
+    document.title = docTitle();
+    render();
+  }
+  const slug = (s) => String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'cv';
+  function addCv() {
+    const t = I18N[lang];
+    const name = (prompt(t.addCvPrompt, '') || '').trim();
+    if (!name) return;
+    if (editing) activeCv()[lang] = collect();
+    const src = activeCv();
+    let id = slug(name); let n = 2;
+    while (doc.cvs.some((c) => c.id === id)) id = slug(name) + '-' + n++;
+    doc.cvs.push({ id, label: { fr: name, en: name }, fr: clone(src.fr), en: clone(src.en) });
+    setCv(id);
+  }
+  function renameCv() {
+    const t = I18N[lang];
+    const cv = activeCv();
+    const name = (prompt(t.renamePrompt, cvLabel(cv)) || '').trim();
+    if (!name) return;
+    cv.label[lang] = name;
+    // même libellé dans l'autre langue s'il n'a jamais été personnalisé
+    const other = lang === 'fr' ? 'en' : 'fr';
+    if (!cv.label[other] || cv.label[other] === cv.id) cv.label[other] = name;
+    renderCvTabs();
+    document.title = docTitle();
+  }
+  function deleteCv() {
+    const t = I18N[lang];
+    if (doc.cvs.length < 2) return;
+    const cv = activeCv();
+    if (!confirm(t.deleteConfirm(cvLabel(cv)))) return;
+    doc.cvs = doc.cvs.filter((c) => c !== cv);
+    cvId = doc.cvs[0].id;
+    localStorage.setItem(CV_KEY, cvId);
+    bindState();
+    renderCvTabs();
+    document.title = docTitle();
+    render();
   }
 
   // ---- Lettre de motivation -------------------------------------------------
@@ -133,7 +261,7 @@
   // l'affichage par les détails de l'offre. En mode édition on montre le
   // gabarit brut : Enregistrer conserve le générique, jamais le texte rempli.
   function fillPlaceholders(text) {
-    const offer = state.letter.offer || {};
+    const offer = letter.offer || {};
     const fb = I18N[lang].fallbacks;
     return String(text || '')
       .replace(/\{\{(\w+)\}\}/g, (m, k) => (offer[k] || '').trim() || fb[k] || m)
@@ -142,9 +270,9 @@
       .replace(/(^|\n\s*\n)([a-zà-öø-ÿ])/g, (_m, p, c) => p + c.toUpperCase());
   }
   function renderLetter() {
-    if (!state || !state.letter) return;
+    if (!state || !letter) return;
     const t = I18N[lang];
-    const offer = state.letter.offer || {};
+    const offer = letter.offer || {};
     $('#lt-name').textContent = get(state, 'identity.name') || '';
     $('#lt-sign').textContent = get(state, 'identity.name') || '';
     $('#lt-title').textContent = get(state, 'identity.title') || '';
@@ -153,7 +281,7 @@
       .filter((c) => wanted.some((w) => (c.label || '').toLowerCase().includes(w)))
       .map((c) => c.value);
     $('#lt-contact').textContent = lines.join('\n');
-    $('#lt-city').textContent = (state.letter.ville || '').trim() || 'Oullins';
+    $('#lt-city').textContent = (letter.ville || '').trim() || 'Beaune';
     $('#lt-date').textContent = t.dateSuffix(new Date());
     $('#lt-recipient').textContent =
       [offer.entreprise, offer.lieu].map((s) => (s || '').trim()).filter(Boolean).join('\n');
@@ -162,7 +290,7 @@
     $('#lt-objet').textContent = lang === 'fr'
       ? 'Objet : Candidature au poste ' + (/^[aeiouyhàâéèêëîïôöûü]/i.test(poste) ? 'd’' : 'de ') + poste
       : t.objetPrefix + poste;
-    $('#lt-body').textContent = editing ? state.letter.body : fillPlaceholders(state.letter.body);
+    $('#lt-body').textContent = editing ? letter.body : fillPlaceholders(letter.body);
     checkOverflow();
   }
 
@@ -290,11 +418,21 @@
       if (!host) return;
       host.innerHTML = '';
       (state[key] || []).forEach((item) => appendItem(key, item));
+      markEmptySection(host);
     });
     renderLetter();
     applyEditable();
     autoSpace();
     checkOverflow();
+  }
+
+  // Le <h2 class="sec"> qui précède une liste vide est masqué hors édition
+  function markEmptySection(host) {
+    const h = host.previousElementSibling;
+    if (h && h.classList.contains('sec')) h.classList.toggle('is-empty', !host.children.length);
+  }
+  function markEmptySections() {
+    Object.keys(LISTS).forEach((key) => { const host = $(LISTS[key].host); if (host) markEmptySection(host); });
   }
 
   // ---- Auto spacing --------------------------------------------------------
@@ -392,11 +530,14 @@
     // En édition, #lt-body affiche le corps brut : c'est lui qu'on stocke.
     // S'il contient encore des {{marqueurs}}, c'est le gabarit générique
     // qui vient d'être retouché — on le synchronise aussi.
+    // En édition, #lt-body affiche le corps brut : c'est lui qu'on stocke.
+    // S'il contient encore des {{marqueurs}}, c'est le gabarit générique
+    // qui vient d'être retouché — on le synchronise aussi.
     const lb = $('#lt-body');
-    if (editing && lb) {
+    if (editing && lb && d.letter) {
       d.letter.body = lb.textContent;
       if (/\{\{\w+\}\}/.test(d.letter.body)) d.letter.template = d.letter.body;
-      d.letter.ville = ($('#lt-city').textContent || '').trim() || 'Oullins';
+      d.letter.ville = ($('#lt-city').textContent || '').trim() || 'Beaune';
     }
     return d;
   }
@@ -408,7 +549,9 @@
       else el.removeAttribute('contenteditable');
     });
   }
+  let docSnapshot = null; // état du document à l'entrée en édition (pour « Annuler »)
   function setEditing(on) {
+    if (on && !editing) docSnapshot = { doc: clone(doc), cvId };
     editing = on;
     document.body.classList.toggle('editing', on);
     $('#btn-edit').hidden = on;
@@ -448,8 +591,8 @@
   // ---- Persistence --------------------------------------------------------
   async function save() {
     const data = collect();
-    state = data;
-    doc[lang] = data;
+    activeCv()[lang] = data;
+    bindState();
 
     // 1. Hosted proxy when logged in (password set) — saves from any device
     if (pw()) {
@@ -533,7 +676,7 @@
       data = await r.json();
     }
     doc = normalizeDoc(data);
-    state = doc[lang];
+    bindState();
     applyLang();
     applyView();
     updateStatus();
@@ -600,6 +743,7 @@
   // ---- Onglets ------------------------------------------------------------
   function setView(v) {
     if (view === v) return;
+    if (editing) { activeCv()[lang] = collect(); bindState(); } // garde les modifs en cours (CV et lettre)
     view = v;
     localStorage.setItem(VIEW_KEY, v);
     applyView();
@@ -619,7 +763,7 @@
     industrial: { fr: 'profil : vision industrielle', en: 'profile: industrial vision' },
   };
   function offerFormValues() {
-    const o = { texte: $('#offer-text').value, profile: state.letter.offer.profile || '' };
+    const o = { texte: $('#offer-text').value, profile: letter.offer.profile || '' };
     OFFER_FIELDS.forEach((k) => { o[k] = $('#offer-' + k).value.trim(); });
     return o;
   }
@@ -629,7 +773,7 @@
     $('#offer-profile').textContent = o.profile ? (PROFILE_NAMES[o.profile] || {})[lang] || '' : '';
   }
   function openOffer() {
-    fillOfferForm(state.letter.offer);
+    fillOfferForm(letter.offer);
     offerModal.style.display = 'flex';
     setTimeout(() => $('#offer-text').focus(), 30);
   }
@@ -650,7 +794,7 @@
       if (res.fields[k]) $('#offer-' + k).value = res.fields[k];
       else if (!current[k]) $('#offer-' + k).value = '';
     });
-    state.letter.offer.profile = res.profile;
+    letter.offer.profile = res.profile;
     $('#offer-profile').textContent = (PROFILE_NAMES[res.profile] || {})[lang] || '';
     toast('Offre analysée — vérifiez/corrigez les champs puis Générer');
   });
@@ -660,8 +804,8 @@
     e.preventDefault();
     const o = offerFormValues();
     if ($('#offer-text').value.trim() && !o.profile) o.profile = LetterGen.detectProfile($('#offer-text').value);
-    state.letter.offer = { ...EMPTY_OFFER, ...o };
-    state.letter.body = LetterGen.generate({ ...o }, lang, o.profile || undefined);
+    letter.offer = { ...EMPTY_OFFER, ...o };
+    letter.body = LetterGen.generate({ ...o }, lang, o.profile || undefined);
     renderLetter();
     closeOffer();
     toast('Lettre générée — relisez, ajustez via ✎ Modifier, puis Enregistrer');
@@ -692,8 +836,8 @@
       const data = await r.json().catch(() => ({}));
       if (!r.ok || !data.letter) throw new Error(data.error || 'réponse IA invalide');
       const o = { ...EMPTY_OFFER, texte: text, ...(data.fields || {}) };
-      state.letter.offer = o;
-      state.letter.body = String(data.letter).trim();
+      letter.offer = o;
+      letter.body = String(data.letter).trim();
       fillOfferForm(o);
       renderLetter();
       closeOffer();
@@ -708,9 +852,9 @@
 
   // Vider : retour à la lettre générique ({{marqueurs}}), offre effacée
   $('#offer-clear').addEventListener('click', () => {
-    state.letter.offer = { ...EMPTY_OFFER };
-    state.letter.body = state.letter.template || state.letter.body;
-    fillOfferForm(state.letter.offer);
+    letter.offer = { ...EMPTY_OFFER };
+    letter.body = letter.template || letter.body;
+    fillOfferForm(letter.offer);
     renderLetter();
     closeOffer();
     toast('Offre vidée — lettre générique restaurée');
@@ -719,15 +863,21 @@
   // ---- Wiring -------------------------------------------------------------
   $('#btn-login').addEventListener('click', openLogin);
   $('#btn-edit').addEventListener('click', () => setEditing(true));
-  $('#btn-cancel').addEventListener('click', () => { setEditing(false); render(); });
+  $('#btn-cancel').addEventListener('click', () => {
+    // Annuler rétablit aussi les CV ajoutés/renommés/supprimés pendant l'édition
+    if (docSnapshot) { doc = normalizeDoc(docSnapshot.doc); cvId = docSnapshot.cvId; docSnapshot = null; bindState(); renderCvTabs(); }
+    setEditing(false);
+    render();
+  });
   $('#btn-save').addEventListener('click', save);
   $('#btn-print').addEventListener('click', () => window.print());
   $('#btn-lang').addEventListener('click', () => {
-    if (editing) doc[lang] = collect(); // garde les modifs en cours lors du basculement
+    if (editing) activeCv()[lang] = collect(); // garde les modifs en cours lors du basculement
     lang = lang === 'fr' ? 'en' : 'fr';
     localStorage.setItem(LANG_KEY, lang);
-    state = doc[lang];
+    bindState();
     applyLang();
+    renderCvTabs();
     render();
   });
   $('#btn-reset').addEventListener('click', async () => {
@@ -742,6 +892,7 @@
     const rm = e.target.closest('[data-rm]');
     if (rm && editing) {
       rm.closest('[data-item]').remove();
+      markEmptySections();
       autoSpace();
       checkOverflow();
       return;
@@ -750,6 +901,7 @@
     if (add && editing) {
       const key = add.dataset.add;
       const node = appendItem(key, LISTS[key].blank);
+      markEmptySections();
       applyEditable();
       const first = $('[data-field]', node);
       if (first) first.focus();

@@ -1,0 +1,622 @@
+{
+  "cvs": [
+    {
+      "id": "restaurant",
+      "label": {
+        "fr": "Restaurant",
+        "en": "Restaurant"
+      },
+      "fr": {
+        "identity": {
+          "name": "Abdullahi Atanda",
+          "title": "Équipier Polyvalent en Restauration Rapide — CDI temps partiel",
+          "tagline": ""
+        },
+        "contact": [
+          {
+            "label": "E-mail",
+            "value": "waledroid@gmail.com"
+          },
+          {
+            "label": "Téléphone",
+            "value": "+33 7 49 49 99 78"
+          },
+          {
+            "label": "Adresse",
+            "value": "Beaune / Côte-d'Or"
+          }
+        ],
+        "profile": "Équipier polyvalent avec 3 ans d'expérience chez McDonald's, habitué au travail en équipe et aux périodes de rush. Très à l'aise au poste frites, rapide et efficace. Expérience en préparation, service client et nettoyage. Sérieux, réactif et disponible pour un CDI à temps partiel.",
+        "experience": [
+          {
+            "role": "Équipier Polyvalent",
+            "company": "McDonald's",
+            "location": "Le Creusot (71) · CDI temps partiel",
+            "dates": "Sept. 2022 – Mars 2026",
+            "points": [
+              "Poste frites : maîtrise de la cuisson, gestion des productions, respect des standards, rapidité en rush",
+              "Préparation et emballage des produits (burgers, wraps, frites) selon les procédures McDonald's",
+              "Travail en UHC : conservation, rotation et présentation des produits",
+              "Service client au comptoir et remise des commandes en période de forte affluence",
+              "Nettoyage et entretien des équipements, postes et salle",
+              "Respect des règles d'hygiène, sécurité alimentaire et HACCP",
+              "Travail en équipe et polyvalence selon les besoins du service"
+            ]
+          },
+          {
+            "role": "Réceptionniste de Nuit",
+            "company": "Hôtel Ibis Budget",
+            "location": "Beaune (21) · CDD",
+            "dates": "Sept. 2025 – Nov. 2025",
+            "points": [
+              "Accueil des clients et gestion des demandes ainsi que des situations imprévues avec calme et réactivité",
+              "Encaissement et suivi des opérations de réception",
+              "Travail en autonomie de nuit tout en respectant les procédures et les standards de qualité de l'établissement"
+            ]
+          },
+          {
+            "role": "Technicien Informatique",
+            "company": "Allopanas Ordi",
+            "location": "Chalon-sur-Saône (71) · CDD",
+            "dates": "Nov. 2024 – Fév. 2025",
+            "points": [
+              "Accueil, accompagnement des clients, suivi des dossiers et communication",
+              "Diagnostic et résolution de demandes techniques",
+              "Organisation et gestion des priorités"
+            ]
+          }
+        ],
+        "education": [
+          {
+            "degree": "Bachelor en Informatique",
+            "school": "Dijon",
+            "dates": "2022 – 2024"
+          },
+          {
+            "degree": "Formation interne McDonald's",
+            "school": "Procédures de production, hygiène, sécurité alimentaire, service client et organisation des postes",
+            "dates": ""
+          }
+        ],
+        "skills": [
+          {
+            "category": "Restauration",
+            "items": [
+              "Poste frites",
+              "UHC",
+              "Emballage des commandes",
+              "Service client",
+              "Gestion du rush",
+              "Polyvalence",
+              "Rapidité d'exécution"
+            ]
+          },
+          {
+            "category": "Hygiène & sécurité",
+            "items": [
+              "Procédures HACCP",
+              "Hygiène alimentaire",
+              "Nettoyage & désinfection",
+              "Standards qualité"
+            ]
+          },
+          {
+            "category": "Qualités professionnelles",
+            "items": [
+              "Très rapide et efficace",
+              "Polyvalent",
+              "Travail en équipe",
+              "Réactif sous pression"
+            ]
+          }
+        ],
+        "languages": [
+          {
+            "name": "Anglais",
+            "level": "Natif"
+          },
+          {
+            "name": "Français",
+            "level": "Professionnel"
+          }
+        ],
+        "projects": [],
+        "certifications": [],
+        "interests": [
+          {
+            "name": "Voyages",
+            "year": ""
+          },
+          {
+            "name": "Photographie",
+            "year": ""
+          },
+          {
+            "name": "Football",
+            "year": ""
+          },
+          {
+            "name": "Cuisine",
+            "year": ""
+          }
+        ],
+        "availability": "Recherche CDI temps partiel — 20 à 24 h/semaine. Disponible soirs et week-ends, jours fériés, vacances scolaires et horaires variables selon les besoins de l'établissement. Mobilité : Beaune et alentours.",
+        "letter": {
+          "offer": {
+            "texte": "",
+            "entreprise": "",
+            "poste": "",
+            "focus": "",
+            "domaine": "",
+            "exigence1": "",
+            "exigence2": "",
+            "lieu": "",
+            "profile": "",
+            "destinataire": "",
+            "source": "",
+            "villeDate": ""
+          },
+          "ville": "Beaune",
+          "body": "{{destinataire}},\n\nJe vous adresse ma candidature pour rejoindre {{entreprise}} en tant que {{poste}}. Fort de trois ans d'expérience comme équipier polyvalent chez McDonald's, je suis habitué au travail en équipe, aux périodes de forte affluence et au respect strict des normes d'hygiène et de sécurité alimentaire.\n\nAu Creusot, j'ai occupé l'ensemble des postes : production (poste frites, UHC, emballage des commandes) et entretien des équipements. C'est au poste frites que j'ai le plus travaillé : j'en maîtrise parfaitement la cadence et j'y suis particulièrement rapide et efficace, même au plus fort du rush, tout en gardant mon calme et le respect des standards.\n\nDisponible pour un CDI à temps partiel (20 à 24 h/semaine), y compris les soirs, week-ends, jours fériés et vacances scolaires, je serais heureux de mettre mon expérience et mon sérieux au service de {{entreprise}}.\n\nJe me tiens à votre disposition pour un entretien à votre convenance.\n\nDans l'attente de votre retour, je vous prie d'agréer, {{destinataire}}, l'expression de mes salutations distinguées."
+        }
+      },
+      "en": {
+        "identity": {
+          "name": "Abdullahi Atanda",
+          "title": "Fast-Food Crew Member — Part-Time (Permanent Contract)",
+          "tagline": ""
+        },
+        "contact": [
+          {
+            "label": "E-mail",
+            "value": "waledroid@gmail.com"
+          },
+          {
+            "label": "Téléphone",
+            "value": "+33 7 49 49 99 78"
+          },
+          {
+            "label": "Adresse",
+            "value": "Beaune / Côte-d'Or, France"
+          }
+        ],
+        "profile": "Crew member with 3 years of experience at McDonald's, used to teamwork and rush periods. Very comfortable at the fry station, fast and efficient. Experienced in food preparation, customer service and cleaning. Reliable, responsive and available for a part-time permanent contract.",
+        "experience": [
+          {
+            "role": "Crew Member",
+            "company": "McDonald's",
+            "location": "Le Creusot (71), France · Part-time",
+            "dates": "Sept. 2022 – Mar. 2026",
+            "points": [
+              "Fry station: cooking control, production management, standards compliance, speed during rush periods",
+              "Preparation and packaging of products (burgers, wraps, fries) following McDonald's procedures",
+              "UHC work: holding, rotation and presentation of products",
+              "Front-counter customer service and order hand-off during peak hours",
+              "Cleaning and maintenance of equipment, stations and dining area",
+              "Compliance with hygiene, food safety and HACCP rules",
+              "Teamwork and flexibility across stations as needed"
+            ]
+          },
+          {
+            "role": "Night Receptionist",
+            "company": "Hôtel Ibis Budget",
+            "location": "Beaune (21), France · Fixed-term",
+            "dates": "Sept. 2025 – Nov. 2025",
+            "points": [
+              "Guest reception and handling of requests and unexpected situations with calm and responsiveness",
+              "Payments and front-desk operations follow-up",
+              "Autonomous night work while upholding the hotel's procedures and quality standards"
+            ]
+          },
+          {
+            "role": "IT Technician",
+            "company": "Allopanas Ordi",
+            "location": "Chalon-sur-Saône (71), France · Fixed-term",
+            "dates": "Nov. 2024 – Feb. 2025",
+            "points": [
+              "Customer reception, support, file follow-up and communication",
+              "Diagnosis and resolution of technical requests",
+              "Organisation and priority management"
+            ]
+          }
+        ],
+        "education": [
+          {
+            "degree": "Bachelor's Degree in Computer Science",
+            "school": "Dijon, France",
+            "dates": "2022 – 2024"
+          },
+          {
+            "degree": "McDonald's In-House Training",
+            "school": "Production procedures, hygiene, food safety, customer service and station organisation",
+            "dates": ""
+          }
+        ],
+        "skills": [
+          {
+            "category": "Food Service",
+            "items": [
+              "Fry station",
+              "UHC",
+              "Order packaging",
+              "Customer service",
+              "Rush management",
+              "Versatility",
+              "Speed of execution"
+            ]
+          },
+          {
+            "category": "Hygiene & Safety",
+            "items": [
+              "HACCP procedures",
+              "Food hygiene",
+              "Cleaning & sanitising",
+              "Quality standards"
+            ]
+          },
+          {
+            "category": "Professional Qualities",
+            "items": [
+              "Very fast and efficient",
+              "Versatile",
+              "Team player",
+              "Calm under pressure"
+            ]
+          }
+        ],
+        "languages": [
+          {
+            "name": "English",
+            "level": "Native"
+          },
+          {
+            "name": "French",
+            "level": "Professional"
+          }
+        ],
+        "projects": [],
+        "certifications": [],
+        "interests": [
+          {
+            "name": "Travel",
+            "year": ""
+          },
+          {
+            "name": "Photography",
+            "year": ""
+          },
+          {
+            "name": "Football",
+            "year": ""
+          },
+          {
+            "name": "Cooking",
+            "year": ""
+          }
+        ],
+        "availability": "Seeking a part-time permanent contract — 20 to 24 h/week. Available evenings and weekends, public holidays, school holidays and variable shifts depending on the needs of the establishment. Mobility: Beaune and surrounding area.",
+        "letter": {
+          "offer": {
+            "texte": "",
+            "entreprise": "",
+            "poste": "",
+            "focus": "",
+            "domaine": "",
+            "exigence1": "",
+            "exigence2": "",
+            "lieu": "",
+            "profile": "",
+            "destinataire": "",
+            "source": "",
+            "villeDate": ""
+          },
+          "ville": "Beaune",
+          "body": "Dear {{destinataire}},\n\nI am writing to apply to join {{entreprise}} as a {{poste}}. With three years of experience as a crew member at McDonald's, I am used to teamwork, rush periods and strict compliance with hygiene and food safety standards.\n\nIn Le Creusot I worked across every station: production (fry station, UHC, order packaging) and equipment cleaning. The fry station is where I have worked the most: I know its pace inside out and I am especially fast and efficient there, even at the height of the rush, while staying calm and keeping to the standards.\n\nAvailable for a part-time permanent contract (20 to 24 h/week), including evenings, weekends, public holidays and school holidays, I would be glad to bring my experience and reliability to {{entreprise}}.\n\nI remain at your disposal for an interview at your convenience.\n\nYours sincerely."
+        }
+      }
+    },
+    {
+      "id": "hotel",
+      "label": {
+        "fr": "Réceptionniste hôtel",
+        "en": "Hotel receptionist"
+      },
+      "fr": {
+        "identity": {
+          "name": "Abdullahi Atanda",
+          "title": "Réceptionniste de nuit — PMS FOLS — CDI temps partiel",
+          "tagline": ""
+        },
+        "contact": [
+          {
+            "label": "E-mail",
+            "value": "waledroid@gmail.com"
+          },
+          {
+            "label": "Téléphone",
+            "value": "+33 7 49 49 99 78"
+          },
+          {
+            "label": "Adresse",
+            "value": "21000 Beaune"
+          }
+        ],
+        "profile": "Réceptionniste de nuit, formé chez Ibis Budget sur FOLS. Autonome en garde nocturne, je recherche un CDI temps partiel. Anglais natif, français professionnel. Disponible nuits, week-ends et vacances scolaires.",
+        "experience": [
+          {
+            "role": "Réceptionniste de nuit",
+            "company": "Hôtel Ibis Budget",
+            "location": "Beaune (21)",
+            "dates": "Sept. 2025 – Nov. 2025",
+            "points": [
+              "Accueil, check-in/out et encaissement sur FOLS en autonomie nocturne",
+              "Gestion des réservations, modifications et demandes spécifiques",
+              "Coordination housekeeping ; gestion des imprévus et sécurité nocturne"
+            ]
+          },
+          {
+            "role": "Équipier polyvalent",
+            "company": "McDonald's",
+            "location": "Le Creusot (71)",
+            "dates": "Sept. 2022 – Oct. 2024",
+            "points": [
+              "Service client au comptoir et en salle ; gestion des flux",
+              "Préparation des commandes selon standards qualité et HACCP",
+              "Entretien et respect des protocoles d'hygiène des espaces"
+            ]
+          },
+          {
+            "role": "Technicien informatique",
+            "company": "Allopanas Ordi",
+            "location": "Chalon-sur-Saône (71)",
+            "dates": "Nov. 2024 – Fév. 2025",
+            "points": [
+              "Accueil et diagnostic de demandes urgentes (niveau 2)",
+              "Suivi administratif des dossiers et reporting des interventions",
+              "Accompagnement client dans la prise en main des solutions"
+            ]
+          }
+        ],
+        "education": [
+          {
+            "degree": "Bachelor en Informatique",
+            "school": "Dijon",
+            "dates": "2022 – 2024"
+          },
+          {
+            "degree": "Formation interne — Hôtel Ibis Budget Beaune",
+            "school": "Utilisation opérationnelle du FOLS, procédures d'accueil, standards qualité et gestion nocturne",
+            "dates": "2025"
+          }
+        ],
+        "skills": [
+          {
+            "category": "PMS & Outils",
+            "items": [
+              "FOLS (maîtrise opérationnelle)",
+              "Misterbooking",
+              "MS Excel"
+            ]
+          },
+          {
+            "category": "Réception",
+            "items": [
+              "Accueil",
+              "Réservations",
+              "Encaissement",
+              "Relation client",
+              "Autonomie"
+            ]
+          },
+          {
+            "category": "Qualités nocturnes",
+            "items": [
+              "Organisation",
+              "Communication",
+              "Calme sous pression",
+              "Réactivité"
+            ]
+          }
+        ],
+        "languages": [
+          {
+            "name": "Anglais",
+            "level": "Natif"
+          },
+          {
+            "name": "Français",
+            "level": "Professionnel"
+          }
+        ],
+        "projects": [],
+        "certifications": [],
+        "interests": [
+          {
+            "name": "Voyages",
+            "year": ""
+          },
+          {
+            "name": "Photographie",
+            "year": ""
+          },
+          {
+            "name": "Football",
+            "year": ""
+          },
+          {
+            "name": "Cuisine",
+            "year": ""
+          }
+        ],
+        "availability": "Recherche CDI temps partiel — 20 à 24 h/semaine. Nuits, week-ends, jours fériés et vacances scolaires. Mobilité : Beaune et villes voisines.",
+        "letter": {
+          "offer": {
+            "texte": "",
+            "entreprise": "",
+            "poste": "Réceptionniste de nuit",
+            "focus": "",
+            "domaine": "",
+            "exigence1": "",
+            "exigence2": "",
+            "lieu": "",
+            "profile": "",
+            "destinataire": "",
+            "source": "",
+            "villeDate": ""
+          },
+          "ville": "Beaune",
+          "body": "Madame, Monsieur,\n\nJe vous adresse ma candidature pour rejoindre votre établissement en tant que Réceptionniste de nuit. Lors de mon expérience à l’Hôtel Ibis Budget Beaune, j’ai assuré en autonomie les missions de réception durant les gardes nocturnes : accueil des clients, check-in/check-out, encaissements, gestion des réservations et traitement des demandes spécifiques sur FOLS.\n\nCette expérience m’a permis de développer mon autonomie, mon sens de l’accueil et ma capacité à rester calme et réactif face aux imprévus. J’ai également participé à la coordination avec le housekeeping et à la gestion de la sécurité durant la nuit.\n\nMon expérience de deux ans chez McDonald’s m’a par ailleurs appris à travailler efficacement en équipe, à gérer les périodes de forte affluence et à maintenir un bon niveau de service sous pression.\n\nSérieux, organisé et disponible, je recherche un CDI à temps partiel de 20 à 24 heures par semaine et suis disponible les nuits, week-ends, jours fériés et vacances scolaires. Je serais heureux de mettre mon expérience de la réception et mon sens du service au profit de votre établissement.\n\nJe me tiens à votre disposition pour un entretien à votre convenance.\n\nVeuillez agréer, Madame, Monsieur, l’expression de mes salutations distinguées.",
+          "template": "Madame, Monsieur,\n\nJe vous adresse ma candidature pour rejoindre votre établissement en tant que Réceptionniste de nuit. Lors de mon expérience à l’Hôtel Ibis Budget Beaune, j’ai assuré en autonomie les missions de réception durant les gardes nocturnes : accueil des clients, check-in/check-out, encaissements, gestion des réservations et traitement des demandes spécifiques sur FOLS.\n\nCette expérience m’a permis de développer mon autonomie, mon sens de l’accueil et ma capacité à rester calme et réactif face aux imprévus. J’ai également participé à la coordination avec le housekeeping et à la gestion de la sécurité durant la nuit.\n\nMon expérience de deux ans chez McDonald’s m’a par ailleurs appris à travailler efficacement en équipe, à gérer les périodes de forte affluence et à maintenir un bon niveau de service sous pression.\n\nSérieux, organisé et disponible, je recherche un CDI à temps partiel de 20 à 24 heures par semaine et suis disponible les nuits, week-ends, jours fériés et vacances scolaires. Je serais heureux de mettre mon expérience de la réception et mon sens du service au profit de votre établissement.\n\nJe me tiens à votre disposition pour un entretien à votre convenance.\n\nVeuillez agréer, Madame, Monsieur, l’expression de mes salutations distinguées."
+        }
+      },
+      "en": {
+        "identity": {
+          "name": "Abdullahi Atanda",
+          "title": "Night Receptionist — FOLS PMS — Part-Time (Permanent Contract)",
+          "tagline": ""
+        },
+        "contact": [
+          {
+            "label": "E-mail",
+            "value": "waledroid@gmail.com"
+          },
+          {
+            "label": "Phone",
+            "value": "+33 7 49 49 99 78"
+          },
+          {
+            "label": "Address",
+            "value": "21000 Beaune"
+          }
+        ],
+        "profile": "Night receptionist, trained on FOLS at Ibis Budget. Autonomous on night shifts, I am looking for a part-time permanent position. Native English, professional French. Available nights, weekends and school holidays.",
+        "experience": [
+          {
+            "role": "Night Receptionist",
+            "company": "Hôtel Ibis Budget",
+            "location": "Beaune (21)",
+            "dates": "Sept. 2025 – Nov. 2025",
+            "points": [
+              "Welcome, check-in/out and payments on FOLS, working the night shift autonomously",
+              "Handling bookings, changes and special requests",
+              "Coordination with housekeeping; handling incidents and night-time security"
+            ]
+          },
+          {
+            "role": "Crew Member",
+            "company": "McDonald's",
+            "location": "Le Creusot (71)",
+            "dates": "Sept. 2022 – Oct. 2024",
+            "points": [
+              "Customer service at the counter and in the dining area; managing rush periods",
+              "Order preparation to quality and HACCP standards",
+              "Cleaning and compliance with hygiene protocols"
+            ]
+          },
+          {
+            "role": "IT Technician",
+            "company": "Allopanas Ordi",
+            "location": "Chalon-sur-Saône (71)",
+            "dates": "Nov. 2024 – Feb. 2025",
+            "points": [
+              "Front-line reception and diagnosis of urgent requests (level 2)",
+              "Administrative follow-up of cases and intervention reporting",
+              "Helping customers get started with the solutions"
+            ]
+          }
+        ],
+        "education": [
+          {
+            "degree": "Bachelor's degree in Computer Science",
+            "school": "Dijon",
+            "dates": "2022 – 2024"
+          },
+          {
+            "degree": "In-house training — Hôtel Ibis Budget Beaune",
+            "school": "Operational use of FOLS, front-desk procedures, quality standards and night management",
+            "dates": "2025"
+          }
+        ],
+        "skills": [
+          {
+            "category": "PMS & Tools",
+            "items": [
+              "FOLS (operational proficiency)",
+              "Misterbooking",
+              "MS Excel"
+            ]
+          },
+          {
+            "category": "Front desk",
+            "items": [
+              "Welcome",
+              "Bookings",
+              "Payments",
+              "Customer relations",
+              "Autonomy"
+            ]
+          },
+          {
+            "category": "Night-shift qualities",
+            "items": [
+              "Organisation",
+              "Communication",
+              "Calm under pressure",
+              "Responsiveness"
+            ]
+          }
+        ],
+        "languages": [
+          {
+            "name": "English",
+            "level": "Native"
+          },
+          {
+            "name": "French",
+            "level": "Professional"
+          }
+        ],
+        "projects": [],
+        "certifications": [],
+        "interests": [
+          {
+            "name": "Travel",
+            "year": ""
+          },
+          {
+            "name": "Photography",
+            "year": ""
+          },
+          {
+            "name": "Football",
+            "year": ""
+          },
+          {
+            "name": "Cooking",
+            "year": ""
+          }
+        ],
+        "availability": "Seeking a part-time permanent contract — 20 to 24 h/week. Nights, weekends, public holidays and school holidays. Mobility: Beaune and neighbouring towns.",
+        "letter": {
+          "offer": {
+            "texte": "",
+            "entreprise": "",
+            "poste": "Night Receptionist",
+            "focus": "",
+            "domaine": "",
+            "exigence1": "",
+            "exigence2": "",
+            "lieu": "",
+            "profile": "",
+            "destinataire": "",
+            "source": "",
+            "villeDate": ""
+          },
+          "ville": "Beaune",
+          "body": "Dear Sir or Madam,\n\nI am writing to apply for the position of Night Receptionist at your establishment. During my time at the Hôtel Ibis Budget Beaune, I handled front-desk duties autonomously on night shifts: welcoming guests, check-in/check-out, payments, managing bookings and processing special requests on FOLS.\n\nThis experience allowed me to develop my autonomy, my sense of hospitality and my ability to stay calm and responsive when the unexpected happens. I also took part in coordination with housekeeping and in managing security during the night.\n\nMy two years at McDonald’s also taught me to work efficiently in a team, to handle busy periods and to maintain a good level of service under pressure.\n\nReliable, organised and available, I am looking for a part-time permanent contract of 20 to 24 hours per week and am available nights, weekends, public holidays and school holidays. I would be glad to put my front-desk experience and my sense of service to work for your establishment.\n\nI remain at your disposal for an interview at your convenience.\n\nYours faithfully,",
+          "template": "Dear Sir or Madam,\n\nI am writing to apply for the position of Night Receptionist at your establishment. During my time at the Hôtel Ibis Budget Beaune, I handled front-desk duties autonomously on night shifts: welcoming guests, check-in/check-out, payments, managing bookings and processing special requests on FOLS.\n\nThis experience allowed me to develop my autonomy, my sense of hospitality and my ability to stay calm and responsive when the unexpected happens. I also took part in coordination with housekeeping and in managing security during the night.\n\nMy two years at McDonald’s also taught me to work efficiently in a team, to handle busy periods and to maintain a good level of service under pressure.\n\nReliable, organised and available, I am looking for a part-time permanent contract of 20 to 24 hours per week and am available nights, weekends, public holidays and school holidays. I would be glad to put my front-desk experience and my sense of service to work for your establishment.\n\nI remain at your disposal for an interview at your convenience.\n\nYours faithfully,"
+        }
+      }
+    }
+  ]
+}
