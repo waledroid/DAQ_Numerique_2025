@@ -227,9 +227,9 @@
     body.editing .edit-only { display: inline-flex; }
     /* CV « Réceptionniste hôtel » (id hotel) : contenu plus court → texte agrandi
        pour occuper la page. `zoom` sur les blocs (pas la photo) garde les colonnes. */
-    body[data-cv="hotel"] .mainc > *,
-    body[data-cv="hotel"] .side > *:not(.cv-photo-wrap) { zoom: 1.13; }
-    body[data-cv="hotel"] .side > h2.sec { zoom: 1.04; } /* « Compétences clés » reste sur une ligne */
+    body[data-cv="hotel"] .mainc > *, body[data-cv="etage"] .mainc > *,
+    body[data-cv="hotel"] .side > *:not(.cv-photo-wrap), body[data-cv="etage"] .side > *:not(.cv-photo-wrap) { zoom: 1.13; }
+    body[data-cv="hotel"] .side > h2.sec, body[data-cv="etage"] .side > h2.sec { zoom: 1.04; } /* « Compétences clés » reste sur une ligne */
     /* Section vide : masquée hors édition */
     .sec.is-empty { display: none; }
     body.editing .sec.is-empty { display: block; opacity: .55; }

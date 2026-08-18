@@ -157,7 +157,8 @@
             "villeDate": ""
           },
           "ville": "Beaune",
-          "body": "{{destinataire}},\n\nJe vous adresse ma candidature pour rejoindre {{entreprise}} en tant que {{poste}}. Fort de trois ans d'expérience comme équipier polyvalent chez McDonald's, je suis habitué au travail en équipe, aux périodes de forte affluence et au respect strict des normes d'hygiène et de sécurité alimentaire.\n\nAu Creusot, j'ai occupé l'ensemble des postes : production (poste frites, UHC, emballage des commandes) et entretien des équipements. C'est au poste frites que j'ai le plus travaillé : j'en maîtrise parfaitement la cadence et j'y suis particulièrement rapide et efficace, même au plus fort du rush, tout en gardant mon calme et le respect des standards.\n\nDisponible pour un CDI à temps partiel (20 à 24 h/semaine), y compris les soirs, week-ends, jours fériés et vacances scolaires, je serais heureux de mettre mon expérience et mon sérieux au service de {{entreprise}}.\n\nJe me tiens à votre disposition pour un entretien à votre convenance.\n\nDans l'attente de votre retour, je vous prie d'agréer, {{destinataire}}, l'expression de mes salutations distinguées."
+          "body": "{{destinataire}},\n\nJe vous adresse ma candidature pour rejoindre {{entreprise}} en tant que {{poste}}. Fort de trois ans d'expérience comme équipier polyvalent chez McDonald's, je suis habitué au travail en équipe, aux périodes de forte affluence et au respect strict des normes d'hygiène et de sécurité alimentaire.\n\nAu Creusot, j'ai occupé l'ensemble des postes : production (poste frites, UHC, emballage des commandes) et entretien des équipements. C'est au poste frites que j'ai le plus travaillé : j'en maîtrise parfaitement la cadence et j'y suis particulièrement rapide et efficace, même au plus fort du rush, tout en gardant mon calme et le respect des standards.\n\nDisponible pour un CDI à temps partiel (20 à 24 h/semaine), y compris les soirs, week-ends, jours fériés et vacances scolaires, je serais heureux de mettre mon expérience et mon sérieux au service de {{entreprise}}.\n\nJe me tiens à votre disposition pour un entretien à votre convenance.\n\nDans l'attente de votre retour, je vous prie d'agréer, {{destinataire}}, l'expression de mes salutations distinguées.",
+          "template": "{{destinataire}},\n\nJe vous adresse ma candidature pour rejoindre {{entreprise}} en tant que {{poste}}. Fort de trois ans d'expérience comme équipier polyvalent chez McDonald's, je suis habitué au travail en équipe, aux périodes de forte affluence et au respect strict des normes d'hygiène et de sécurité alimentaire.\n\nAu Creusot, j'ai occupé l'ensemble des postes : production (poste frites, UHC, emballage des commandes) et entretien des équipements. C'est au poste frites que j'ai le plus travaillé : j'en maîtrise parfaitement la cadence et j'y suis particulièrement rapide et efficace, même au plus fort du rush, tout en gardant mon calme et le respect des standards.\n\nDisponible pour un CDI à temps partiel (20 à 24 h/semaine), y compris les soirs, week-ends, jours fériés et vacances scolaires, je serais heureux de mettre mon expérience et mon sérieux au service de {{entreprise}}.\n\nJe me tiens à votre disposition pour un entretien à votre convenance.\n\nDans l'attente de votre retour, je vous prie d'agréer, {{destinataire}}, l'expression de mes salutations distinguées."
         }
       },
       "en": {
@@ -311,7 +312,8 @@
             "villeDate": ""
           },
           "ville": "Beaune",
-          "body": "Dear {{destinataire}},\n\nI am writing to apply to join {{entreprise}} as a {{poste}}. With three years of experience as a crew member at McDonald's, I am used to teamwork, rush periods and strict compliance with hygiene and food safety standards.\n\nIn Le Creusot I worked across every station: production (fry station, UHC, order packaging) and equipment cleaning. The fry station is where I have worked the most: I know its pace inside out and I am especially fast and efficient there, even at the height of the rush, while staying calm and keeping to the standards.\n\nAvailable for a part-time permanent contract (20 to 24 h/week), including evenings, weekends, public holidays and school holidays, I would be glad to bring my experience and reliability to {{entreprise}}.\n\nI remain at your disposal for an interview at your convenience.\n\nYours sincerely."
+          "body": "Dear {{destinataire}},\n\nI am writing to apply to join {{entreprise}} as a {{poste}}. With three years of experience as a crew member at McDonald's, I am used to teamwork, rush periods and strict compliance with hygiene and food safety standards.\n\nIn Le Creusot I worked across every station: production (fry station, UHC, order packaging) and equipment cleaning. The fry station is where I have worked the most: I know its pace inside out and I am especially fast and efficient there, even at the height of the rush, while staying calm and keeping to the standards.\n\nAvailable for a part-time permanent contract (20 to 24 h/week), including evenings, weekends, public holidays and school holidays, I would be glad to bring my experience and reliability to {{entreprise}}.\n\nI remain at your disposal for an interview at your convenience.\n\nYours sincerely.",
+          "template": "Dear {{destinataire}},\n\nI am writing to apply to join {{entreprise}} as a {{poste}}. With three years of experience as a crew member at McDonald's, I am used to teamwork, rush periods and strict compliance with hygiene and food safety standards.\n\nIn Le Creusot I worked across every station: production (fry station, UHC, order packaging) and equipment cleaning. The fry station is where I have worked the most: I know its pace inside out and I am especially fast and efficient there, even at the height of the rush, while staying calm and keeping to the standards.\n\nAvailable for a part-time permanent contract (20 to 24 h/week), including evenings, weekends, public holidays and school holidays, I would be glad to bring my experience and reliability to {{entreprise}}.\n\nI remain at your disposal for an interview at your convenience.\n\nYours sincerely."
         }
       }
     },
@@ -338,7 +340,7 @@
           },
           {
             "label": "Adresse",
-            "value": "21000 Beaune"
+            "value": "21200 Beaune"
           }
         ],
         "profile": "Réceptionniste de nuit, formé chez Ibis Budget sur FOLS. Autonome en garde nocturne, je recherche un CDI temps partiel. Anglais natif, français professionnel. Disponible nuits, week-ends et vacances scolaires.",
@@ -615,6 +617,299 @@
           "ville": "Beaune",
           "body": "Dear Sir or Madam,\n\nI am writing to apply for the position of Night Receptionist at your establishment. During my time at the Hôtel Ibis Budget Beaune, I handled front-desk duties autonomously on night shifts: welcoming guests, check-in/check-out, payments, managing bookings and processing special requests on FOLS.\n\nThis experience allowed me to develop my autonomy, my sense of hospitality and my ability to stay calm and responsive when the unexpected happens. I also took part in coordination with housekeeping and in managing security during the night.\n\nMy two years at McDonald’s also taught me to work efficiently in a team, to handle busy periods and to maintain a good level of service under pressure.\n\nReliable, organised and available, I am looking for a part-time permanent contract of 20 to 24 hours per week and am available nights, weekends, public holidays and school holidays. I would be glad to put my front-desk experience and my sense of service to work for your establishment.\n\nI remain at your disposal for an interview at your convenience.\n\nYours faithfully,",
           "template": "Dear Sir or Madam,\n\nI am writing to apply for the position of Night Receptionist at your establishment. During my time at the Hôtel Ibis Budget Beaune, I handled front-desk duties autonomously on night shifts: welcoming guests, check-in/check-out, payments, managing bookings and processing special requests on FOLS.\n\nThis experience allowed me to develop my autonomy, my sense of hospitality and my ability to stay calm and responsive when the unexpected happens. I also took part in coordination with housekeeping and in managing security during the night.\n\nMy two years at McDonald’s also taught me to work efficiently in a team, to handle busy periods and to maintain a good level of service under pressure.\n\nReliable, organised and available, I am looking for a part-time permanent contract of 20 to 24 hours per week and am available nights, weekends, public holidays and school holidays. I would be glad to put my front-desk experience and my sense of service to work for your establishment.\n\nI remain at your disposal for an interview at your convenience.\n\nYours faithfully,"
+        }
+      }
+    },
+    {
+      "id": "etage",
+      "label": {
+        "fr": "Employé d’étage",
+        "en": "Room attendant"
+      },
+      "fr": {
+        "identity": {
+          "name": "Abdullahi Atanda",
+          "title": "Employé d’étage — CDI temps partiel",
+          "tagline": ""
+        },
+        "contact": [
+          {
+            "label": "E-mail",
+            "value": "waledroid@gmail.com"
+          },
+          {
+            "label": "Téléphone",
+            "value": "+33 7 49 49 99 78"
+          },
+          {
+            "label": "Adresse",
+            "value": "21200 Beaune"
+          }
+        ],
+        "profile": "Employé d’étage avec une expérience en hôtellerie chez Ibis Budget Beaune. Habitué aux standards d’hygiène, à l’entretien des espaces et à la coordination avec le housekeeping. Sérieux, autonome et réactif, je recherche un CDI temps partiel. Disponible les week-ends, jours fériés et vacances scolaires.",
+        "experience": [
+          {
+            "role": "Employé d’étage",
+            "company": "Hôtel Ibis Budget",
+            "location": "Beaune (21)",
+            "dates": "Sept. 2025 – Nov. 2025",
+            "points": [
+              "Nettoyage et remise en état des chambres selon les standards",
+              "Entretien des espaces communs (couloirs, escaliers, sanitaires)",
+              "Contrôle propreté et signalement des anomalies",
+              "Réapprovisionnement du linge, produits d’accueil et matériel",
+              "Respect des procédures d’hygiène et délais de préparation"
+            ]
+          },
+          {
+            "role": "Équipier polyvalent",
+            "company": "McDonald’s",
+            "location": "Le Creusot (71)",
+            "dates": "Sept. 2022 – Oct. 2024",
+            "points": [
+              "Entretien et nettoyage des espaces de travail, de la salle et des équipements",
+              "Respect strict des protocoles d’hygiène",
+              "Organisation du travail dans un environnement à forte activité et travail en équipe, respect des standards de qualité"
+            ]
+          },
+          {
+            "role": "Technicien informatique",
+            "company": "Allopanas Ordi",
+            "location": "Chalon-sur-Saône (71)",
+            "dates": "Nov. 2024 – Fév. 2025",
+            "points": [
+              "Accueil et accompagnement des clients",
+              "Organisation et suivi des interventions"
+            ]
+          }
+        ],
+        "education": [
+          {
+            "degree": "Bachelor en Informatique",
+            "school": "Dijon",
+            "dates": "2022 – 2024"
+          },
+          {
+            "degree": "Formation interne — Hôtel Ibis Budget Beaune",
+            "school": "Standards qualité, procédures hôtelières, accueil client et organisation du housekeeping",
+            "dates": "2025"
+          }
+        ],
+        "skills": [
+          {
+            "category": "Hôtellerie & Entretien",
+            "items": [
+              "Nettoyage des chambres",
+              "Entretien des espaces communs",
+              "Standards d’hygiène",
+              "Contrôle qualité",
+              "Housekeeping"
+            ]
+          },
+          {
+            "category": "Qualités professionnelles",
+            "items": [
+              "Organisation",
+              "Ponctualité",
+              "Autonomie",
+              "Réactivité",
+              "Travail en équipe",
+              "Sens du service"
+            ]
+          }
+        ],
+        "languages": [
+          {
+            "name": "Anglais",
+            "level": "Natif"
+          },
+          {
+            "name": "Français",
+            "level": "Professionnel"
+          }
+        ],
+        "projects": [],
+        "certifications": [],
+        "interests": [
+          {
+            "name": "Voyages",
+            "year": ""
+          },
+          {
+            "name": "Photographie",
+            "year": ""
+          },
+          {
+            "name": "Football",
+            "year": ""
+          },
+          {
+            "name": "Cuisine",
+            "year": ""
+          }
+        ],
+        "availability": "CDI temps partiel — 20 à 24 h/semaine. Disponible week-ends, jours fériés et vacances scolaires. Mobilité : Beaune et villes voisines.",
+        "letter": {
+          "offer": {
+            "texte": "",
+            "entreprise": "",
+            "poste": "Employé d’étage",
+            "focus": "",
+            "domaine": "",
+            "exigence1": "",
+            "exigence2": "",
+            "lieu": "",
+            "profile": "",
+            "destinataire": "",
+            "source": "",
+            "villeDate": ""
+          },
+          "ville": "Beaune",
+          "body": "Madame, Monsieur,\n\nJe vous adresse ma candidature pour rejoindre votre établissement en tant qu’Employé d’étage. Lors de mon expérience à l’Hôtel Ibis Budget Beaune, j’ai assuré le nettoyage et la remise en état des chambres selon les standards, l’entretien des espaces communs, le contrôle de la propreté et le réapprovisionnement du linge, des produits d’accueil et du matériel, dans le respect des procédures d’hygiène et des délais de préparation.\n\nCette expérience m’a permis de développer mon organisation, mon autonomie et ma réactivité, ainsi qu’une bonne coordination avec l’équipe housekeeping et la réception pour signaler les anomalies et tenir les délais.\n\nMon expérience de deux ans chez McDonald’s m’a par ailleurs habitué à un environnement à forte activité : entretien des espaces de travail et de la salle, respect strict des protocoles d’hygiène, travail en équipe et standards de qualité.\n\nSérieux, ponctuel et disponible, je recherche un CDI à temps partiel de 20 à 24 heures par semaine et suis disponible les week-ends, jours fériés et vacances scolaires. Je serais heureux de mettre mon sens du service et ma rigueur au profit de votre établissement.\n\nJe me tiens à votre disposition pour un entretien à votre convenance.\n\nVeuillez agréer, Madame, Monsieur, l’expression de mes salutations distinguées.",
+          "template": "Madame, Monsieur,\n\nJe vous adresse ma candidature pour rejoindre votre établissement en tant qu’Employé d’étage. Lors de mon expérience à l’Hôtel Ibis Budget Beaune, j’ai assuré le nettoyage et la remise en état des chambres selon les standards, l’entretien des espaces communs, le contrôle de la propreté et le réapprovisionnement du linge, des produits d’accueil et du matériel, dans le respect des procédures d’hygiène et des délais de préparation.\n\nCette expérience m’a permis de développer mon organisation, mon autonomie et ma réactivité, ainsi qu’une bonne coordination avec l’équipe housekeeping et la réception pour signaler les anomalies et tenir les délais.\n\nMon expérience de deux ans chez McDonald’s m’a par ailleurs habitué à un environnement à forte activité : entretien des espaces de travail et de la salle, respect strict des protocoles d’hygiène, travail en équipe et standards de qualité.\n\nSérieux, ponctuel et disponible, je recherche un CDI à temps partiel de 20 à 24 heures par semaine et suis disponible les week-ends, jours fériés et vacances scolaires. Je serais heureux de mettre mon sens du service et ma rigueur au profit de votre établissement.\n\nJe me tiens à votre disposition pour un entretien à votre convenance.\n\nVeuillez agréer, Madame, Monsieur, l’expression de mes salutations distinguées."
+        }
+      },
+      "en": {
+        "identity": {
+          "name": "Abdullahi Atanda",
+          "title": "Room Attendant — Part-Time (Permanent Contract)",
+          "tagline": ""
+        },
+        "contact": [
+          {
+            "label": "E-mail",
+            "value": "waledroid@gmail.com"
+          },
+          {
+            "label": "Phone",
+            "value": "+33 7 49 49 99 78"
+          },
+          {
+            "label": "Address",
+            "value": "21000 Beaune"
+          }
+        ],
+        "profile": "Room attendant with hotel experience at Ibis Budget Beaune. Used to hygiene standards, upkeep of rooms and common areas and coordination with housekeeping. Reliable, autonomous and responsive, I am looking for a part-time permanent position. Available weekends, public holidays and school holidays.",
+        "experience": [
+          {
+            "role": "Room Attendant",
+            "company": "Hôtel Ibis Budget",
+            "location": "Beaune (21)",
+            "dates": "Sept. 2025 – Nov. 2025",
+            "points": [
+              "Cleaning and preparing rooms to standard",
+              "Upkeep of common areas (corridors, stairs, restrooms)",
+              "Cleanliness checks and reporting of issues",
+              "Restocking linen, guest amenities and supplies",
+              "Compliance with hygiene procedures and preparation deadlines"
+            ]
+          },
+          {
+            "role": "Crew Member",
+            "company": "McDonald’s",
+            "location": "Le Creusot (71)",
+            "dates": "Sept. 2022 – Oct. 2024",
+            "points": [
+              "Cleaning and upkeep of work areas, dining room and equipment",
+              "Strict compliance with hygiene protocols",
+              "Organised work in a high-volume environment, teamwork and quality standards"
+            ]
+          },
+          {
+            "role": "IT Technician",
+            "company": "Allopanas Ordi",
+            "location": "Chalon-sur-Saône (71)",
+            "dates": "Nov. 2024 – Feb. 2025",
+            "points": [
+              "Welcoming and assisting customers",
+              "Organising and following up interventions"
+            ]
+          }
+        ],
+        "education": [
+          {
+            "degree": "Bachelor's degree in Computer Science",
+            "school": "Dijon",
+            "dates": "2022 – 2024"
+          },
+          {
+            "degree": "In-house training — Hôtel Ibis Budget Beaune",
+            "school": "Quality standards, hotel procedures, guest service and housekeeping organisation",
+            "dates": "2025"
+          }
+        ],
+        "skills": [
+          {
+            "category": "Hospitality & Cleaning",
+            "items": [
+              "Room cleaning",
+              "Common-area upkeep",
+              "Hygiene standards",
+              "Quality checks",
+              "Housekeeping"
+            ]
+          },
+          {
+            "category": "Professional qualities",
+            "items": [
+              "Organisation",
+              "Punctuality",
+              "Autonomy",
+              "Responsiveness",
+              "Teamwork",
+              "Service-minded"
+            ]
+          }
+        ],
+        "languages": [
+          {
+            "name": "English",
+            "level": "Native"
+          },
+          {
+            "name": "French",
+            "level": "Professional"
+          }
+        ],
+        "projects": [],
+        "certifications": [],
+        "interests": [
+          {
+            "name": "Travel",
+            "year": ""
+          },
+          {
+            "name": "Photography",
+            "year": ""
+          },
+          {
+            "name": "Football",
+            "year": ""
+          },
+          {
+            "name": "Cooking",
+            "year": ""
+          }
+        ],
+        "availability": "Part-time permanent contract — 20 to 24 h/week. Available weekends, public holidays and school holidays. Mobility: Beaune and neighbouring towns.",
+        "letter": {
+          "offer": {
+            "texte": "",
+            "entreprise": "",
+            "poste": "Room Attendant",
+            "focus": "",
+            "domaine": "",
+            "exigence1": "",
+            "exigence2": "",
+            "lieu": "",
+            "profile": "",
+            "destinataire": "",
+            "source": "",
+            "villeDate": ""
+          },
+          "ville": "Beaune",
+          "body": "Dear Sir or Madam,\n\nI am writing to apply for the position of Room Attendant at your establishment. During my time at the Hôtel Ibis Budget Beaune, I cleaned and prepared rooms to standard, maintained the common areas, carried out cleanliness checks and restocked linen, guest amenities and supplies, in compliance with hygiene procedures and preparation deadlines.\n\nThis experience allowed me to develop my organisation, autonomy and responsiveness, as well as good coordination with the housekeeping team and the front desk to report issues and meet deadlines.\n\nMy two years at McDonald’s also accustomed me to a high-volume environment: upkeep of work areas and the dining room, strict compliance with hygiene protocols, teamwork and quality standards.\n\nReliable, punctual and available, I am looking for a part-time permanent contract of 20 to 24 hours per week and am available weekends, public holidays and school holidays. I would be glad to put my sense of service and my rigour to work for your establishment.\n\nI remain at your disposal for an interview at your convenience.\n\nYours faithfully,",
+          "template": "Dear Sir or Madam,\n\nI am writing to apply for the position of Room Attendant at your establishment. During my time at the Hôtel Ibis Budget Beaune, I cleaned and prepared rooms to standard, maintained the common areas, carried out cleanliness checks and restocked linen, guest amenities and supplies, in compliance with hygiene procedures and preparation deadlines.\n\nThis experience allowed me to develop my organisation, autonomy and responsiveness, as well as good coordination with the housekeeping team and the front desk to report issues and meet deadlines.\n\nMy two years at McDonald’s also accustomed me to a high-volume environment: upkeep of work areas and the dining room, strict compliance with hygiene protocols, teamwork and quality standards.\n\nReliable, punctual and available, I am looking for a part-time permanent contract of 20 to 24 hours per week and am available weekends, public holidays and school holidays. I would be glad to put my sense of service and my rigour to work for your establishment.\n\nI remain at your disposal for an interview at your convenience.\n\nYours faithfully,"
         }
       }
     }
