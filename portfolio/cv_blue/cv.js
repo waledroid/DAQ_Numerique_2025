@@ -65,6 +65,18 @@
 
   const EMPTY_OFFER = { texte: '', entreprise: '', poste: '', focus: '', domaine: '', exigence1: '', exigence2: '', lieu: '', profile: '' };
 
+  // Intitulés propres à une variante de CV. Ex. « oenologie » : candidature à
+  // une formation, pas à un poste — la section « Disponibilité » porte le
+  // projet professionnel et l'objet de la lettre ne dit pas « au poste de ».
+  // `objet` ne s'applique que si aucun poste n'est saisi dans l'offre.
+  const I18N_CV = {
+    oenologie: {
+      fr: { availability: 'Projet Professionnel', objet: 'Objet : Candidature au DU Technicien en Œnologie' },
+      en: { availability: 'Career Objective', objet: 'Re: Application — DU Technicien en Œnologie (University Diploma in Oenology)' },
+    },
+  };
+  const cvI18n = () => (I18N_CV[cvId] || {})[lang] || {};
+
   // ---- Online editing from any device (phone included) --------------------
   // The Netlify function at SAVE_API keeps the GitHub token in its server-side
   // env (never shipped to the browser). Writes require the editor password,
@@ -135,8 +147,10 @@
     const t = I18N[lang];
     document.documentElement.lang = lang;
     document.title = docTitle();
+    const ov = cvI18n();
     $$('[data-i18n]').forEach((el) => {
-      if (t[el.dataset.i18n]) el.textContent = t[el.dataset.i18n];
+      const v = ov[el.dataset.i18n] || t[el.dataset.i18n];
+      if (v) el.textContent = v;
     });
     // toggleAttribute : `.hidden` (propriété HTMLElement) n'existe pas sur <svg>
     const flagEn = $('#flag-en');
@@ -214,7 +228,7 @@
     localStorage.setItem(CV_KEY, id);
     bindState();
     renderCvTabs();
-    document.title = docTitle();
+    applyLang(); // intitulés par variante (I18N_CV) + titre du document
     render();
   }
   const slug = (s) => String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'cv';
@@ -251,7 +265,7 @@
     localStorage.setItem(CV_KEY, cvId);
     bindState();
     renderCvTabs();
-    document.title = docTitle();
+    applyLang(); // intitulés par variante (I18N_CV) + titre du document
     render();
   }
 
@@ -287,9 +301,11 @@
       [offer.entreprise, offer.lieu].map((s) => (s || '').trim()).filter(Boolean).join('\n');
     const poste = (offer.poste || '').trim() || t.fallbacks.poste;
     // fr : élision devant voyelle/h — « au poste d'Ingénieur », « au poste de Data Scientist »
-    $('#lt-objet').textContent = lang === 'fr'
-      ? 'Objet : Candidature au poste ' + (/^[aeiouyhàâéèêëîïôöûü]/i.test(poste) ? 'd’' : 'de ') + poste
-      : t.objetPrefix + poste;
+    $('#lt-objet').textContent = (!(offer.poste || '').trim() && cvI18n().objet)
+      ? cvI18n().objet // variante avec objet dédié (ex. candidature à une formation)
+      : lang === 'fr'
+        ? 'Objet : Candidature au poste ' + (/^[aeiouyhàâéèêëîïôöûü]/i.test(poste) ? 'd’' : 'de ') + poste
+        : t.objetPrefix + poste;
     $('#lt-body').textContent = editing ? letter.body : fillPlaceholders(letter.body);
     checkOverflow();
   }

@@ -910,6 +910,311 @@
           "template": "Dear Sir or Madam,\n\nI am writing to apply for the position of Room Attendant at your establishment. During my time at the Hôtel Ibis Budget Beaune, I cleaned and prepared rooms to standard, maintained the common areas, carried out cleanliness checks and restocked linen, guest amenities and supplies, in compliance with hygiene procedures and preparation deadlines.\n\nThis experience allowed me to develop my organisation, autonomy and responsiveness, as well as good coordination with the housekeeping team and the front desk to report issues and meet deadlines.\n\nMy two years at McDonald’s also accustomed me to a high-volume environment: upkeep of work areas and the dining room, strict compliance with hygiene protocols, teamwork and quality standards.\n\nReliable, punctual and available, I am looking for a part-time permanent contract of 20 to 24 hours per week and am available weekends, public holidays and school holidays. I would be glad to put my sense of service and my rigour to work for your establishment.\n\nI remain at your disposal for an interview at your convenience.\n\nYours faithfully,"
         }
       }
+    },
+    {
+      "id": "oenologie",
+      "label": {
+        "fr": "Œnologie",
+        "en": "Oenology"
+      },
+      "fr": {
+        "identity": {
+          "name": "Abdullahi Atanda",
+          "title": "Candidature — DU Technicien en Œnologie",
+          "tagline": ""
+        },
+        "contact": [
+          {
+            "label": "E-mail",
+            "value": "waledroid@gmail.com"
+          },
+          {
+            "label": "Téléphone",
+            "value": "+33 7 49 49 99 78"
+          },
+          {
+            "label": "Adresse",
+            "value": "21200 Beaune"
+          },
+          {
+            "label": "LinkedIn",
+            "value": "linkedin.com/in/waledroid"
+          }
+        ],
+        "profile": "Profil scientifique et technique souhaitant se spécialiser dans le secteur vitivinicole. Mon parcours combine formation scientifique, analyse de données et expérience en production alimentaire. Habitué aux procédures, aux exigences d’hygiène et aux standards de qualité, je souhaite développer mes compétences en suivi analytique, fermentation et contrôle qualitatif des vins.",
+        "experience": [
+          {
+            "role": "Équipier Polyvalent en Restauration",
+            "company": "McDonald’s — CDI temps partiel",
+            "location": "Le Creusot (71)",
+            "dates": "Sept. 2022 – Mars 2026",
+            "points": [
+              "Production alimentaire dans le respect des procédures, standards de qualité et règles d’hygiène",
+              "Gestion du poste frites : cuisson, suivi des productions et maintien des standards pendant les périodes de forte activité",
+              "Conservation, rotation et présentation des produits selon les procédures UHC",
+              "Préparation et emballage des produits selon les procédures établies",
+              "Nettoyage et entretien des équipements et postes de production"
+            ]
+          },
+          {
+            "role": "Ingénieur Vision par Ordinateur",
+            "company": "Isitec International — Stage",
+            "location": "Millery, Lyon (69)",
+            "dates": "Mars 2026 – Août 2026",
+            "points": [
+              "Développement de systèmes d’analyse et de perception en temps réel pour des environnements industriels",
+              "Conception et expérimentation de solutions de traitement et d’analyse de données",
+              "Évaluation quantitative des performances et optimisation des solutions techniques",
+              "Documentation des travaux et collaboration dans un environnement industriel"
+            ]
+          }
+        ],
+        "education": [
+          {
+            "degree": "Master 2 — AI for One Health",
+            "school": "Université Grenoble Alpes (UGA) — formation à l’interface entre intelligence artificielle, analyse de données et sciences de la santé",
+            "dates": "2026"
+          },
+          {
+            "degree": "Master 2 — Vision par Ordinateur et Robotique",
+            "school": "Université de Bourgogne — analyse d’images, expérimentation, modélisation et traitement de données",
+            "dates": "2024"
+          },
+          {
+            "degree": "Diplôme d’Études Supérieures en Informatique",
+            "school": "University of Lagos, Nigeria",
+            "dates": "2015"
+          }
+        ],
+        "skills": [
+          {
+            "category": "Sciences & analyse",
+            "items": [
+              "Démarche scientifique et expérimentale",
+              "Analyse et interprétation de données",
+              "Analyse quantitative",
+              "Méthodologie expérimentale",
+              "Rigueur, suivi et documentation des résultats"
+            ]
+          },
+          {
+            "category": "Qualité & production",
+            "items": [
+              "Hygiène et sécurité alimentaire",
+              "Respect des procédures et protocoles",
+              "Standards de qualité",
+              "Organisation et traçabilité",
+              "Travail en environnement de production"
+            ]
+          },
+          {
+            "category": "Outils numériques",
+            "items": [
+              "Python",
+              "SQL",
+              "Analyse et visualisation de données",
+              "Git",
+              "Docker",
+              "Outils informatiques et bureautiques"
+            ]
+          }
+        ],
+        "languages": [
+          {
+            "name": "Anglais",
+            "level": "Langue maternelle"
+          },
+          {
+            "name": "Français",
+            "level": "Niveau B2"
+          }
+        ],
+        "projects": [],
+        "certifications": [],
+        "interests": [
+          {
+            "name": "Cuisine",
+            "year": ""
+          },
+          {
+            "name": "Photographie",
+            "year": ""
+          },
+          {
+            "name": "Voyages",
+            "year": ""
+          }
+        ],
+        "availability": "Acquérir, à travers le DU Technicien en œnologie, les compétences scientifiques et techniques nécessaires au suivi de la matière première, aux analyses œnologiques, à la gestion des fermentations, aux pratiques d’élevage et de stabilisation ainsi qu’à l’analyse sensorielle. À terme, intégrer progressivement la filière vitivinicole dans une fonction technique, analytique, de production ou de qualité.",
+        "letter": {
+          "offer": {
+            "texte": "",
+            "entreprise": "Institut Universitaire de la Vigne et du Vin Jules Guyot",
+            "poste": "",
+            "focus": "",
+            "domaine": "",
+            "exigence1": "",
+            "exigence2": "",
+            "lieu": "Dijon",
+            "profile": "",
+            "destinataire": "",
+            "source": "",
+            "villeDate": ""
+          },
+          "ville": "Beaune",
+          "body": "Madame, Monsieur,\n\nJe vous adresse ma candidature au DU Technicien en Œnologie de l’Institut Universitaire de la Vigne et du Vin Jules Guyot. Mon parcours est principalement scientifique et technologique, mais je souhaite aujourd’hui m’orienter vers un domaine qui m’intéresse particulièrement : la production du vin et le secteur vitivinicole. Cette formation représente pour moi l’opportunité d’acquérir les compétences pratiques nécessaires pour construire ce nouveau projet professionnel.\n\nTitulaire d’un Master 2 en Vision par Ordinateur et Robotique de l’Université de Bourgogne et d’un Master 2 en AI for One Health de l’Université Grenoble Alpes, j’ai développé une solide rigueur scientifique en expérimentation, analyse et résolution de problèmes. Le programme du DU m’attire particulièrement pour son approche pratique, notamment les fermentations, les analyses physico-chimiques et microbiologiques, l’élevage, le contrôle qualité et l’analyse sensorielle.\n\nMon intérêt pour cette filière est à la fois personnel et professionnel. Je souhaite mieux comprendre la production du vin et les différentes opportunités qu’offre ce secteur. À plus long terme, mon ambition est de valoriser les connaissances acquises en France dans un projet de production vitivinicole en Afrique. La formation à Dijon, au cœur d’un territoire reconnu pour son savoir-faire viticole, constitue pour moi une excellente occasion d’apprendre auprès de professionnels.\n\nMes expériences en production alimentaire chez McDonald’s au Creusot et comme ingénieur en vision par ordinateur chez Isitec International m’ont appris la rigueur, le respect des procédures, l’hygiène, le contrôle qualité et la démarche expérimentale. Ces compétences constituent une base que je souhaite aujourd’hui appliquer à l’œnologie.\n\nÀ l’issue du DU, je souhaite acquérir une première expérience dans la filière, notamment en production, analyse ou contrôle qualité, avant de développer progressivement mon projet entrepreneurial en Afrique. Bien que mon parcours soit différent de celui de nombreux candidats, je suis prêt à m’investir pleinement dans cette formation avec curiosité, sérieux et volonté d’apprendre.\n\nJe vous prie d’agréer, Madame, Monsieur, l’expression de mes salutations distinguées.",
+          "template": "Madame, Monsieur,\n\nJe vous adresse ma candidature au DU Technicien en Œnologie de l’Institut Universitaire de la Vigne et du Vin Jules Guyot. Mon parcours est principalement scientifique et technologique, mais je souhaite aujourd’hui m’orienter vers un domaine qui m’intéresse particulièrement : la production du vin et le secteur vitivinicole. Cette formation représente pour moi l’opportunité d’acquérir les compétences pratiques nécessaires pour construire ce nouveau projet professionnel.\n\nTitulaire d’un Master 2 en Vision par Ordinateur et Robotique de l’Université de Bourgogne et d’un Master 2 en AI for One Health de l’Université Grenoble Alpes, j’ai développé une solide rigueur scientifique en expérimentation, analyse et résolution de problèmes. Le programme du DU m’attire particulièrement pour son approche pratique, notamment les fermentations, les analyses physico-chimiques et microbiologiques, l’élevage, le contrôle qualité et l’analyse sensorielle.\n\nMon intérêt pour cette filière est à la fois personnel et professionnel. Je souhaite mieux comprendre la production du vin et les différentes opportunités qu’offre ce secteur. À plus long terme, mon ambition est de valoriser les connaissances acquises en France dans un projet de production vitivinicole en Afrique. La formation à Dijon, au cœur d’un territoire reconnu pour son savoir-faire viticole, constitue pour moi une excellente occasion d’apprendre auprès de professionnels.\n\nMes expériences en production alimentaire chez McDonald’s au Creusot et comme ingénieur en vision par ordinateur chez Isitec International m’ont appris la rigueur, le respect des procédures, l’hygiène, le contrôle qualité et la démarche expérimentale. Ces compétences constituent une base que je souhaite aujourd’hui appliquer à l’œnologie.\n\nÀ l’issue du DU, je souhaite acquérir une première expérience dans la filière, notamment en production, analyse ou contrôle qualité, avant de développer progressivement mon projet entrepreneurial en Afrique. Bien que mon parcours soit différent de celui de nombreux candidats, je suis prêt à m’investir pleinement dans cette formation avec curiosité, sérieux et volonté d’apprendre.\n\nJe vous prie d’agréer, Madame, Monsieur, l’expression de mes salutations distinguées."
+        }
+      },
+      "en": {
+        "identity": {
+          "name": "Abdullahi Atanda",
+          "title": "Application — University Diploma in Oenology (DU Technicien en Œnologie)",
+          "tagline": ""
+        },
+        "contact": [
+          {
+            "label": "E-mail",
+            "value": "waledroid@gmail.com"
+          },
+          {
+            "label": "Phone",
+            "value": "+33 7 49 49 99 78"
+          },
+          {
+            "label": "Address",
+            "value": "21200 Beaune, France"
+          },
+          {
+            "label": "LinkedIn",
+            "value": "linkedin.com/in/waledroid"
+          }
+        ],
+        "profile": "Scientific and technical profile seeking to specialise in the wine sector. My background combines scientific training, data analysis and experience in food production. Accustomed to procedures, hygiene requirements and quality standards, I wish to develop my skills in analytical monitoring, fermentation and wine quality control.",
+        "experience": [
+          {
+            "role": "Crew Member",
+            "company": "McDonald’s — part-time, permanent contract",
+            "location": "Le Creusot (71)",
+            "dates": "Sept. 2022 – March 2026",
+            "points": [
+              "Food production in compliance with procedures, quality standards and hygiene rules",
+              "Ran the fry station: cooking, production tracking and upholding standards during peak periods",
+              "Storage, rotation and presentation of products following UHC procedures",
+              "Preparation and packaging of products according to established procedures",
+              "Cleaning and upkeep of equipment and production stations"
+            ]
+          },
+          {
+            "role": "Computer Vision Engineer",
+            "company": "Isitec International — Internship",
+            "location": "Millery, Lyon (69)",
+            "dates": "March 2026 – August 2026",
+            "points": [
+              "Development of real-time analysis and perception systems for industrial environments",
+              "Design and experimentation of data processing and analysis solutions",
+              "Quantitative performance evaluation and optimisation of technical solutions",
+              "Documentation and collaboration in an industrial environment"
+            ]
+          }
+        ],
+        "education": [
+          {
+            "degree": "Master’s (M2) — AI for One Health",
+            "school": "Université Grenoble Alpes (UGA) — at the interface of artificial intelligence, data analysis and health sciences",
+            "dates": "2026"
+          },
+          {
+            "degree": "Master’s (M2) — Computer Vision and Robotics",
+            "school": "Université de Bourgogne — image analysis, experimentation, modelling and data processing",
+            "dates": "2024"
+          },
+          {
+            "degree": "Higher Diploma in Computer Science",
+            "school": "University of Lagos, Nigeria",
+            "dates": "2015"
+          }
+        ],
+        "skills": [
+          {
+            "category": "Science & Analysis",
+            "items": [
+              "Scientific and experimental approach",
+              "Data analysis and interpretation",
+              "Quantitative analysis",
+              "Experimental methodology",
+              "Rigorous tracking and documentation of results"
+            ]
+          },
+          {
+            "category": "Quality & Production",
+            "items": [
+              "Food hygiene and safety",
+              "Compliance with procedures and protocols",
+              "Quality standards",
+              "Organisation and traceability",
+              "Production environment experience"
+            ]
+          },
+          {
+            "category": "Digital Tools",
+            "items": [
+              "Python",
+              "SQL",
+              "Data analysis and visualisation",
+              "Git",
+              "Docker",
+              "IT and office tools"
+            ]
+          }
+        ],
+        "languages": [
+          {
+            "name": "English",
+            "level": "Native"
+          },
+          {
+            "name": "French",
+            "level": "B2"
+          }
+        ],
+        "projects": [],
+        "certifications": [],
+        "interests": [
+          {
+            "name": "Cooking",
+            "year": ""
+          },
+          {
+            "name": "Photography",
+            "year": ""
+          },
+          {
+            "name": "Travel",
+            "year": ""
+          }
+        ],
+        "availability": "Through the DU Technicien en Œnologie programme, acquire the scientific and technical skills required for raw-material monitoring, oenological analyses, fermentation management, ageing and stabilisation practices, and sensory analysis. In the longer term, progressively join the wine industry in a technical, analytical, production or quality role.",
+        "letter": {
+          "offer": {
+            "texte": "",
+            "entreprise": "Institut Universitaire de la Vigne et du Vin Jules Guyot",
+            "poste": "",
+            "focus": "",
+            "domaine": "",
+            "exigence1": "",
+            "exigence2": "",
+            "lieu": "Dijon",
+            "profile": "",
+            "destinataire": "",
+            "source": "",
+            "villeDate": ""
+          },
+          "ville": "Beaune",
+          "body": "Dear Sir or Madam,\n\nI am writing to apply for the DU Technicien en Œnologie at the Institut Universitaire de la Vigne et du Vin Jules Guyot. My background is mainly scientific and technological, but I now wish to move towards a field that particularly interests me: wine production and the wine sector. This programme is an opportunity for me to acquire the practical skills needed to build this new professional project.\n\nHolding a Master’s degree (M2) in Computer Vision and Robotics from the Université de Bourgogne and a Master’s (M2) in AI for One Health from the Université Grenoble Alpes, I have developed strong scientific rigour in experimentation, analysis and problem-solving. The DU programme particularly attracts me for its practical approach, notably fermentations, physico-chemical and microbiological analyses, ageing, quality control and sensory analysis.\n\nMy interest in this industry is both personal and professional. I want to better understand wine production and the various opportunities this sector offers. In the longer term, my ambition is to put the knowledge acquired in France to work in a wine production project in Africa. Studying in Dijon, in the heart of a region renowned for its winemaking expertise, is an excellent opportunity for me to learn from professionals.\n\nMy experience in food production at McDonald’s in Le Creusot and as a computer vision engineer at Isitec International taught me rigour, compliance with procedures, hygiene, quality control and the experimental approach. These skills form a foundation I now wish to apply to oenology.\n\nAfter the DU, I wish to gain a first experience in the industry, particularly in production, analysis or quality control, before progressively developing my entrepreneurial project in Africa. Although my background differs from that of many candidates, I am ready to fully commit to this programme with curiosity, seriousness and a willingness to learn.\n\nYours faithfully,",
+          "template": "Dear Sir or Madam,\n\nI am writing to apply for the DU Technicien en Œnologie at the Institut Universitaire de la Vigne et du Vin Jules Guyot. My background is mainly scientific and technological, but I now wish to move towards a field that particularly interests me: wine production and the wine sector. This programme is an opportunity for me to acquire the practical skills needed to build this new professional project.\n\nHolding a Master’s degree (M2) in Computer Vision and Robotics from the Université de Bourgogne and a Master’s (M2) in AI for One Health from the Université Grenoble Alpes, I have developed strong scientific rigour in experimentation, analysis and problem-solving. The DU programme particularly attracts me for its practical approach, notably fermentations, physico-chemical and microbiological analyses, ageing, quality control and sensory analysis.\n\nMy interest in this industry is both personal and professional. I want to better understand wine production and the various opportunities this sector offers. In the longer term, my ambition is to put the knowledge acquired in France to work in a wine production project in Africa. Studying in Dijon, in the heart of a region renowned for its winemaking expertise, is an excellent opportunity for me to learn from professionals.\n\nMy experience in food production at McDonald’s in Le Creusot and as a computer vision engineer at Isitec International taught me rigour, compliance with procedures, hygiene, quality control and the experimental approach. These skills form a foundation I now wish to apply to oenology.\n\nAfter the DU, I wish to gain a first experience in the industry, particularly in production, analysis or quality control, before progressively developing my entrepreneurial project in Africa. Although my background differs from that of many candidates, I am ready to fully commit to this programme with curiosity, seriousness and a willingness to learn.\n\nYours faithfully,"
+        }
+      }
     }
   ]
 }
