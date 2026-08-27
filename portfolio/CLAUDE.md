@@ -37,6 +37,40 @@ hero), `about.html`, `experience.html` (career timeline + education + certs), `p
 (filterable case studies + web-project modal), `lab.html` (interactive Vision Lab), `contact.html`
 (mailto-based form). The nav link set lives in **one place**: the `PAGES` array in `assets/js/main.js`.
 
+There is also **`isimonitor3d.html`** — the immersive ISI Monitor 3D case study (flagship project).
+Like cv.html it is a standalone page (NOT in the `PAGES` array; linked from the "Projets phares"
+card on the home page and the ISI Monitor 3D card on projects.html). It reuses the home-page
+story rig (`#story` / `.story-sticky` / `#story-canvas` / `.story-card` + the `story-static`
+fallback CSS) but loads its own ES module, `assets/js/isi3d-scene.js`: a scroll-scrubbed
+procedural digital twin (floor grid, racks, two camera frustums with volumetric coverage
+cones, ChArUco board, detection boxes, a walking YOLO-pose skeleton in soft cyan, an étagère
+with live 3×3 vide/plein cell states, metric zones, tracked pallet, UDP/MQTT pulses) across
+five chapters — hero → Calibrer →
+Détecter → Trianguler & suivre → Publier — followed by module cards, real screenshots, the
+project time-lapse video and the thesis citation (`assets/isimonitor3d.pdf`, copied from
+`~/isi_monitor3d/thesis/latex/`). All numbers come from the thesis. Approved ISI Monitor media
+(all under `assets/`): `im3d.mp4` (13 s live-dashboard clip, 720p, ~0.5 MB — plays as the
+project's autoplay-muted-loop "cover gif" on the home Projets phares card, the projects.html
+card and the case-study demo console; poster `img/im3d_poster.jpg`), `isimonitor3d.mp4`
+(3 min 50 full walkthrough time-lapse, 9.7 MB, 720p — click-to-play console on the case-study
+page; poster `img/isimonitor_poster.jpg`), `img/isimonitor1.png`
+(3D twin), `img/isimonitor_rack.png` (dashboard + étagère grid), `img/isimonitor_cam.png`
+(conveyor camera render), `img/isimonitor_carton.png` (live detection — **client logo
+deliberately blurred; keep it that way**). Never name the client in copy.
+
+There is also **`isidetector.html`** — the IsiDetector immersive case study (same pattern as
+isimonitor3d.html, standalone, NOT in `PAGES`). Its module `assets/js/isidet-scene.js` draws a
+procedural conveyor line (belt + gantry camera, looping carton/polybag parcels with mask/box
+overlays, FP32→FP16→INT8 compression trio, the 0.71 trigger line with a LIVE canvas-texture
+counter, UDP pulses to a PLC cabinet) across five chapters — hero → Segmenter → Compresser →
+Compter → Déclencher. Approved IsiDetector media: `assets/isi1.mp4` (12 s visionAI-platform
+clip, ~0.4 MB — autoplay-loop cover on the home IsiDetector card, projects.html card and the
+case-study demo console; poster `img/isi1_poster.jpg`) and `assets/isi_vid.mp4` (49 s platform
+walkthrough, 1.4 MB, click-to-play; poster `img/isi_vid_poster.jpg`). Facts come from the
+thesis (System B) + the ~/logistic repos; the committed site default is the FP32 OpenVINO IR
+(INT8 NNCF IR shipped/selectable) — don't claim INT8 is the running default. Never name the
+client.
+
 There is also **`cv.html`** — the interactive CV editor. It is deliberately a standalone tool page
 (own light "paper" styling, no injected nav/footer, NOT in the `PAGES` array); every "Voir le CV"
 button across the site links to it. It renders `data/cv.json` into a strict one-page A4 two-column

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="ISI Monitor 3D — étude de cas immersive : vision industrielle multi-caméras d'entrepôt, suivi métrique 2D/3D temps réel, jumeau numérique et publication UDP/MQTT vers AGV et WMS." />
+  <title>ISI Monitor 3D — Atanda Abdullahi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/tw-config.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://db.onlinewebfonts.com/c/b8cc7a4c2204f4530415a8552c2d827d?family=ANAPOLINO" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+</head>
+<body class="bg-ink text-mist">
+  <div id="cursor-dot"></div><div id="cursor-ring"></div>
+  <header data-site-nav></header>
+
+  <main>
+    <!-- ====== IMMERSIVE STORY (scroll-driven digital twin) ====== -->
+    <section id="story" class="relative" style="height:640vh">
+      <div class="story-sticky sticky top-0 h-screen overflow-hidden">
+        <div id="story-canvas" class="absolute inset-0"></div>
+
+        <!-- Chapter 0 — HERO -->
+        <article class="story-card panel p-8 sm:p-10 left-4 right-4 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 top-1/2 -translate-y-1/2 text-center"
+          data-chapter="0">
+          <p class="label justify-center">Projet phare · Vision industrielle</p>
+          <h1 class="font-display font-bold tracking-tight leading-[0.95] text-[clamp(2.2rem,6vw,3.6rem)] mt-3">
+            ISI Monitor <span class="text-gradient">3D</span>
+          </h1>
+          <p class="text-muted text-sm sm:text-base leading-relaxed mt-4 max-w-md mx-auto">
+            L'entrepôt en jumeau numérique : deux caméras calibrées, des positions métriques,
+            des sorties que les machines consomment.
+          </p>
+          <div class="flex flex-wrap justify-center gap-2 mt-6">
+            <span class="chip">2 CAMÉRAS RTSP</span>
+            <span class="chip">TEMPS RÉEL</span>
+            <span class="chip">UDP / MQTT</span>
+          </div>
+          <p class="font-mono text-[0.62rem] tracking-widest text-muted mt-7">
+            <i class="fa-solid fa-angles-down text-accent" aria-hidden="true"></i> FAITES DÉFILER
+          </p>
+        </article>
+
+        <!-- Chapter 1 — CALIBRER -->
+        <article class="story-card panel p-8 sm:p-10 left-4 right-4 sm:right-auto sm:left-[7%] bottom-[10%] sm:bottom-[16%]"
+          data-chapter="1">
+          <p class="label">01 · Calibrer</p>
+          <h2 class="font-display font-bold tracking-tight text-[clamp(1.5rem,3.6vw,2.2rem)] mt-4 leading-tight">
+            Une calibration, deux requêtes.
+          </h2>
+          <p class="text-muted text-sm sm:text-base leading-relaxed mt-3">
+            isiCal guide l'opérateur : intrinsèques ChArUco, extrinsèques AprilGrid,
+            ancrage du sol à Z&nbsp;=&nbsp;0. L'entrepôt devient un repère métrique unique.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-6">
+            <span class="chip">CHARUCO · APRILGRID</span>
+            <span class="chip">RÉSIDU 1,176 PX</span>
+            <span class="chip">SOL Z = 0</span>
+          </div>
+        </article>
+
+        <!-- Chapter 2 — DÉTECTER -->
+        <article class="story-card panel p-8 sm:p-10 left-4 right-4 sm:left-auto sm:right-[7%] top-1/2 -translate-y-1/2"
+          data-chapter="2">
+          <p class="label">02 · Détecter</p>
+          <h2 class="font-display font-bold tracking-tight text-[clamp(1.5rem,3.6vw,2.2rem)] mt-4 leading-tight">
+            Palette, carton, polybag.
+          </h2>
+          <p class="text-muted text-sm sm:text-base leading-relaxed mt-3">
+            Détection par zones (crops recadrés, une inférence batchée) : YOLO26-seg &amp;
+            RF-DETR-seg servis par ONNX Runtime, données préparées par isiGen
+            (SDXL&nbsp;+&nbsp;ControlNet&nbsp;+&nbsp;SAM2).
+          </p>
+          <div class="flex flex-wrap gap-2 mt-6">
+            <span class="chip">mAP@0.5 · 0,977</span>
+            <span class="chip">ONNX / TENSORRT</span>
+            <span class="chip">5 540 IMAGES</span>
+          </div>
+        </article>
+
+        <!-- Chapter 3 — TRIANGULER & SUIVRE -->
+        <article class="story-card panel p-8 sm:p-10 left-4 right-4 sm:right-auto sm:left-[7%] bottom-[10%] sm:bottom-[16%]"
+          data-chapter="3">
+          <p class="label">03 · Trianguler &amp; suivre</p>
+          <h2 class="font-display font-bold tracking-tight text-[clamp(1.5rem,3.6vw,2.2rem)] mt-4 leading-tight">
+            Des pixels aux mètres.
+          </h2>
+          <p class="text-muted text-sm sm:text-base leading-relaxed mt-3">
+            Homographie sol en continu, triangulation DLT à la demande, ByteTrack en
+            coordonnées métriques : identités stables, zones, états de palettes.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-6">
+            <span class="chip">HOMOGRAPHIE</span>
+            <span class="chip">DLT · SVD</span>
+            <span class="chip">BYTETRACK MÉTRIQUE</span>
+          </div>
+        </article>
+
+        <!-- Chapter 4 — PUBLIER -->
+        <article class="story-card panel p-8 sm:p-10 left-4 right-4 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 bottom-[6%] text-center"
+          data-chapter="4">
+          <p class="label justify-center">04 · Publier</p>
+          <h2 class="font-display font-bold tracking-tight text-[clamp(1.5rem,3.6vw,2.2rem)] mt-4 leading-tight">
+            Des sorties que les machines consomment.
+          </h2>
+          <p class="text-muted text-sm sm:text-base leading-relaxed mt-3">
+            JSON versionné publié en UDP/MQTT vers AGV &amp; WMS —
+            40,3&nbsp;ms de médiane capture→publication, pour une cible à 200&nbsp;ms.
+          </p>
+          <div class="flex flex-wrap justify-center gap-2 mt-6">
+            <span class="chip">MÉDIANE 40,3 MS</span>
+            <span class="chip">P95 78,1 MS</span>
+            <span class="chip">MQTT QoS 1</span>
+          </div>
+          <div class="flex flex-wrap justify-center items-center gap-4 mt-8">
+            <a href="#pipeline" class="btn" data-magnetic>
+              <i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Explorer le pipeline
+            </a>
+            <a href="assets/isimonitor3d.pdf" target="_blank" rel="noopener" class="btn btn--ghost" data-magnetic>
+              <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Lire le mémoire
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ====== PIPELINE — the five modules ====== -->
+    <section id="pipeline" class="border-t border-line bg-surface/30 scroll-mt-24">
+      <div class="max-w-shell mx-auto px-5 sm:px-8 py-24">
+        <p class="label" data-reveal>Architecture</p>
+        <h2 class="font-display font-bold tracking-tight text-[clamp(2rem,4.5vw,3.2rem)] mt-4" data-reveal data-delay="1">
+          Un flux de données, <span class="text-gradient">six modules</span>
+        </h2>
+        <p class="text-muted max-w-2xl mt-5 leading-relaxed" data-reveal data-delay="2">
+          Calibration et entraînement hors ligne, perception et géométrie en ligne — reliés par
+          deux contrats figés (calibration.json, schéma JSON versionné). Le moteur métrique
+          n'importe ni CUDA ni bibliothèque d'inférence.
+        </p>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+          <article class="panel p-7" data-reveal>
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">01 · Hors ligne</p>
+            <h3 class="font-display text-xl font-semibold mt-3">isiCal</h3>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Studio web de calibration guidée : capture auto des mires ChArUco (intrinsèques),
+              paires AprilGrid synchronisées (extrinsèques), consensus RANSAC pour ancrer le sol.
+              Sortie : <span class="text-mist">calibration.json</span> — K, D, R, t, H, P par caméra.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">MULTICAL</span><span class="chip">FASTAPI</span><span class="chip">≤ 2 PX</span>
+            </div>
+          </article>
+
+          <article class="panel p-7" data-reveal data-delay="1">
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">02 · Hors ligne</p>
+            <h3 class="font-display text-xl font-semibold mt-3">isiGen + isiDet</h3>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Pipeline de données : curation, masques SAM2, LoRA SDXL par classe, génération
+              ControlNet profondeur, filtre CLIP — puis fine-tuning YOLO26-seg / RF-DETR-seg
+              et export ONNX (opset 17, tête brute).
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">SDXL · CONTROLNET</span><span class="chip">SAM2</span><span class="chip">LORA</span>
+            </div>
+          </article>
+
+          <article class="panel p-7" data-reveal data-delay="2">
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">03 · En ligne</p>
+            <h3 class="font-display text-xl font-semibold mt-3">isiStream</h3>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Producteur de perception : ingestion RTSP GStreamer (H.264/H.265, NVDEC),
+              détection restreinte aux zones, pose YOLO11, gate de mouvement,
+              heartbeat « vide explicite » — un message de détections par caméra.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">GSTREAMER</span><span class="chip">ONNX RUNTIME</span><span class="chip">YOLO11-POSE</span>
+            </div>
+          </article>
+
+          <article class="panel p-7" data-reveal>
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">04 · En ligne</p>
+            <h3 class="font-display text-xl font-semibold mt-3">Backbone métrique</h3>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Le moteur géométrique : homographie sol, fusion multi-caméras (assignation
+              hongroise), triangulation DLT sur abonnement, ByteTrack en mètres avec Kalman.
+              Cinq interfaces à greffons, tout le reste volontairement concret.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">TRACK2D / 3D</span><span class="chip">KALMAN</span><span class="chip">HONGROIS</span>
+            </div>
+          </article>
+
+          <article class="panel p-7" data-reveal data-delay="1">
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">05 · Livraison</p>
+            <h3 class="font-display text-xl font-semibold mt-3">isiComms</h3>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Passerelle MQTT → REST pour les AGV et le WMS : topics versionnés, QoS 1 retenu
+              pour les états, reconnexion à backoff exponentiel, UI de sonde et Swagger.
+              La perte du broker ne dégrade que la livraison.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">MOSQUITTO</span><span class="chip">REST v1</span><span class="chip">SCHÉMA v6</span>
+            </div>
+          </article>
+
+          <article class="panel p-7" data-reveal data-delay="2">
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">06 · Opérateur</p>
+            <h3 class="font-display text-xl font-semibold mt-3">monitor_web</h3>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Dashboard FastAPI + HTMX : vidéo multiplexée sur un seul WebSocket, zones
+              dessinées au clic, grille « étagère » 3×3, démarrage/arrêt des deux processus —
+              et le jumeau numérique Three.js, mètres monde = unités 3D.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">THREE.JS</span><span class="chip">HTMX</span><span class="chip">WEBSOCKET</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== RACK CELLS (étagère) ====== -->
+    <section class="border-t border-line py-24">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <div class="grid lg:grid-cols-[1.4fr_1fr] gap-10 items-center">
+          <figure class="panel relative overflow-hidden rounded-[18px] order-2 lg:order-1" data-reveal>
+            <figcaption class="flex items-center justify-between gap-3 px-4 sm:px-5 py-3 border-b border-line font-mono text-[0.68rem] text-muted">
+              <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald inline-block"></span> LIVE · ÉTAGÈRE 3×3</span>
+              <span class="hidden sm:inline">yolo26n @ 320 px · vote 11/15</span>
+              <span>eta_1 · 9 cellules</span>
+            </figcaption>
+            <img src="assets/img/isimonitor_rack.png"
+                 alt="Dashboard en production : palette détectée en Zone 1, grille étagère 3×3 avec cellules vides/pleines classifiées, matrice d'état publiée en MQTT"
+                 loading="lazy" class="w-full h-auto object-cover" />
+          </figure>
+          <div class="order-1 lg:order-2" data-reveal data-delay="1">
+            <p class="label">Au-delà du sol</p>
+            <h2 class="font-display font-bold tracking-tight text-[clamp(1.8rem,4vw,2.8rem)] mt-4 leading-tight">
+              Neuf cellules, un clic.
+            </h2>
+            <p class="text-muted leading-relaxed mt-5">
+              Les bacs en hauteur échappent à l'homographie sol. L'opérateur clique les
+              quatre coins d'une étagère : le système la découpe en grille 3×3, classe chaque
+              cellule <span class="text-mist">vide / pleine</span> en une seule inférence
+              batchée, et un vote 11/15 stabilise l'état — une main qui passe ne fait pas
+              basculer une cellule.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-6">
+              <span class="chip">mAP@0.5 · 0,994</span>
+              <span class="chip">0,5 MS / CELLULE</span>
+              <span class="chip">MQTT RETENU</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== LIVE DEMO ====== -->
+    <section class="py-24 border-t border-line bg-surface/30">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <div class="flex flex-wrap items-end justify-between gap-4 mb-10">
+          <div>
+            <p class="label" data-reveal>Démo en direct</p>
+            <h2 class="font-display font-bold tracking-tight text-[clamp(1.8rem,4vw,2.8rem)] mt-4" data-reveal data-delay="1">
+              Le système, <span class="text-gradient">en marche</span>.
+            </h2>
+          </div>
+          <p class="font-mono text-xs text-muted max-w-sm" data-reveal data-delay="2">
+            Capture réelle du dashboard : personne suivie (pose + distances métriques),
+            palettes en zones de sortie, AGV en circulation — états publiés en continu.
+          </p>
+        </div>
+
+        <figure class="panel relative overflow-hidden rounded-[18px]" data-reveal data-delay="2">
+          <figcaption class="flex items-center justify-between gap-3 px-4 sm:px-5 py-3 border-b border-line font-mono text-[0.68rem] text-muted">
+            <span class="flex items-center gap-2"><span id="tl-rec" class="w-2 h-2 rounded-full bg-accent inline-block"></span> <span id="tl-status">DÉMO · LIVE</span></span>
+            <span class="hidden sm:inline">pose · zones · AGV · UDP/MQTT</span>
+            <span>13 s · boucle · 720p</span>
+          </figcaption>
+          <video id="tl-video" class="block w-full h-auto" preload="metadata"
+                 poster="assets/img/im3d_poster.jpg" autoplay muted loop controls playsinline
+                 aria-label="Démonstration en direct du dashboard ISI Monitor 3D : personne suivie avec squelette de pose et distances métriques, palettes en zones, AGV en circulation">
+            <source src="assets/im3d.mp4" type="video/mp4" />
+            Votre navigateur ne lit pas les vidéos HTML5 —
+            <a href="assets/im3d.mp4" class="text-accent">télécharger la démo</a>.
+          </video>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ====== FULL WALKTHROUGH (time-lapse) ====== -->
+    <section class="py-24">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <div class="flex flex-wrap items-end justify-between gap-4 mb-10">
+          <div>
+            <p class="label" data-reveal>Visite guidée</p>
+            <h2 class="font-display font-bold tracking-tight text-[clamp(1.8rem,4vw,2.8rem)] mt-4" data-reveal data-delay="1">
+              3 min 50, du terminal à l'<span class="text-gradient">AGV</span>.
+            </h2>
+          </div>
+          <p class="font-mono text-xs text-muted max-w-sm" data-reveal data-delay="2">
+            Le parcours complet enregistré : démarrage du nœud, studio de calibration isiCal,
+            dashboard en production, console de flotte AGV.
+          </p>
+        </div>
+
+        <figure class="panel relative overflow-hidden rounded-[18px]" data-reveal data-delay="2">
+          <figcaption class="flex items-center justify-between gap-3 px-4 sm:px-5 py-3 border-b border-line font-mono text-[0.68rem] text-muted">
+            <span class="flex items-center gap-2"><span id="ft-rec" class="w-2 h-2 rounded-full bg-accent inline-block"></span> <span id="ft-status">TIME-LAPSE · EN PAUSE</span></span>
+            <span class="hidden sm:inline">isical → isistream → backbone → dashboard → AGV</span>
+            <span>3 min 50 · 720p</span>
+          </figcaption>
+          <div class="relative">
+            <video id="ft-video" class="block w-full h-auto" preload="metadata"
+                   poster="assets/img/isimonitor_poster.jpg" controls playsinline
+                   aria-label="Visite guidée complète du projet ISI Monitor 3D : démarrage, calibration isiCal, dashboard en production et console de flotte AGV">
+              <source src="assets/isimonitor3d.mp4" type="video/mp4" />
+              Votre navigateur ne lit pas les vidéos HTML5 —
+              <a href="assets/isimonitor3d.mp4" class="text-accent">télécharger la visite guidée</a>.
+            </video>
+            <button id="ft-play" type="button"
+                    class="absolute inset-0 grid place-items-center bg-ink/40 backdrop-blur-[2px] transition-opacity duration-500"
+                    aria-label="Lancer la visite guidée complète">
+              <span class="btn pointer-events-none" style="padding: 1.1rem 2rem">
+                <i class="fa-solid fa-play" aria-hidden="true"></i> Lancer la visite complète
+              </span>
+            </button>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ====== MEASURED RESULTS ====== -->
+    <section class="border-t border-line bg-surface/30 py-24">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <p class="label" data-reveal>Résultats mesurés</p>
+        <h2 class="font-display font-bold tracking-tight text-[clamp(1.8rem,4vw,2.8rem)] mt-4" data-reveal data-delay="1">
+          Mesuré en conditions réelles, <span class="text-gradient">pas estimé</span>.
+        </h2>
+        <p class="text-muted max-w-2xl mt-5 leading-relaxed" data-reveal data-delay="2">
+          Latence relevée passivement sur le heartbeat MQTT de production (310 s, deux caméras,
+          charge complète). Précision détecteurs en validation. Rig de mesure : PC GPU RTX ;
+          cible de production : Jetson Orin NX 16 Go (même ONNX, même calibration, même contrat).
+        </p>
+
+        <dl class="grid grid-cols-2 lg:grid-cols-4 gap-px mt-12 border border-line rounded-2xl overflow-hidden bg-line" data-reveal data-delay="3">
+          <div class="bg-ink p-6">
+            <dt class="font-mono text-[0.62rem] tracking-widest uppercase text-muted">Capture → publication</dt>
+            <dd class="stat__num text-3xl sm:text-4xl mt-2 text-gradient">40,3 ms</dd>
+            <dd class="font-mono text-xs text-muted mt-2">médiane · p95 78,1 ms · cible &lt; 200 ms</dd>
+          </div>
+          <div class="bg-ink p-6">
+            <dt class="font-mono text-[0.62rem] tracking-widest uppercase text-muted">Détection palettes</dt>
+            <dd class="stat__num text-3xl sm:text-4xl mt-2 text-gradient">0,977</dd>
+            <dd class="font-mono text-xs text-muted mt-2">box mAP@0.5 · YOLO26l-seg · 1 049 images val</dd>
+          </div>
+          <div class="bg-ink p-6">
+            <dt class="font-mono text-[0.62rem] tracking-widest uppercase text-muted">Résidu de calibration</dt>
+            <dd class="stat__num text-3xl sm:text-4xl mt-2 text-gradient">1,176 px</dd>
+            <dd class="font-mono text-xs text-muted mt-2">consensus 2 caméras · seuil ≤ 2 px</dd>
+          </div>
+          <div class="bg-ink p-6">
+            <dt class="font-mono text-[0.62rem] tracking-widest uppercase text-muted">Cellules d'étagère</dt>
+            <dd class="stat__num text-3xl sm:text-4xl mt-2 text-gradient">0,994</dd>
+            <dd class="font-mono text-xs text-muted mt-2">box mAP@0.5 · vide / plein · grille 3×3</dd>
+          </div>
+        </dl>
+
+        <div class="grid md:grid-cols-3 gap-6 mt-10">
+          <article class="panel p-6" data-reveal>
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">TensorRT vs CUDA</p>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Inférence isolée <span class="text-mist">3,0× plus rapide</span> en moteur natif
+              TensorRT (4,55 ms vs 13,85 ms à 320 px) — et la preuve que le CPU
+              (letterbox, masques) devient le goulot à 640 px.
+            </p>
+          </article>
+          <article class="panel p-6" data-reveal data-delay="1">
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">Données synthétiques</p>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Ablation contrôlée : le synthétique seul s'effondre sur le réel (0,223 mAP),
+              mais en <span class="text-mist">augmentation</span> il gagne
+              <span class="text-mist">+0,05 de rappel</span> (0,941 → 0,962 mAP@0.5).
+            </p>
+          </article>
+          <article class="panel p-6" data-reveal data-delay="2">
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">Fiabilité industrielle</p>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              882 tests ; perte d'une caméra : Track2D continue, Track3D se suspend,
+              les identités survivent à la panne <span class="text-mist">et</span> au retour.
+              « Échouer honnêtement » : jamais de sortie silencieusement fausse.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== SIBLING SYSTEM — conveyor sorting ====== -->
+    <section class="py-24">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <p class="label" data-reveal>Même cœur, autre décision</p>
+        <h2 class="font-display font-bold tracking-tight text-[clamp(1.8rem,4vw,2.8rem)] mt-4" data-reveal data-delay="1">
+          Et sur une ligne de tri&nbsp;? <span class="text-gradient">Une décision par colis.</span>
+        </h2>
+        <p class="text-muted max-w-2xl mt-5 leading-relaxed" data-reveal data-delay="2">
+          Le même socle détection + déploiement edge alimente
+          <span class="text-mist">IsiDetector</span>, déployé en production sur la ligne de
+          tri d'un client (CPU seul) : chaque colis est classé
+          <span class="text-mist">carton / polybag</span> au franchissement de la ligne de
+          comptage, et une décision UDP part vers l'automate du trieur — dans sa fenêtre de
+          contrôle.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-6 mt-12 items-start">
+          <figure class="panel relative overflow-hidden rounded-[18px]" data-reveal>
+            <figcaption class="flex items-center justify-between gap-3 px-4 sm:px-5 py-3 border-b border-line font-mono text-[0.68rem] text-muted">
+              <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-emerald inline-block"></span> ACQUISITION</span>
+              <span>caméra zénithale · convoyeur</span>
+            </figcaption>
+            <img src="assets/img/isimonitor_cam.png"
+                 alt="Géométrie d'acquisition : caméra industrielle montée au-dessus du convoyeur à rouleaux, champ de vision couvrant les colis"
+                 loading="lazy" class="w-full h-auto object-cover grayscale hover:grayscale-0 transition duration-700" />
+          </figure>
+          <figure class="panel relative overflow-hidden rounded-[18px]" data-reveal data-delay="1">
+            <figcaption class="flex items-center justify-between gap-3 px-4 sm:px-5 py-3 border-b border-line font-mono text-[0.68rem] text-muted">
+              <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-accent inline-block"></span> DÉTECTION · LIVE</span>
+              <span>#31 carton · ligne de comptage</span>
+            </figcaption>
+            <img src="assets/img/isimonitor_carton.png"
+                 alt="Détection en production : carton suivi (piste numéro 31) franchissant la ligne de comptage blanche sur le convoyeur — visuels client anonymisés"
+                 loading="lazy" class="w-full h-auto object-cover" />
+            <span class="absolute bottom-3 right-3 chip bg-ink/70 backdrop-blur">visuel anonymisé</span>
+          </figure>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-3 mt-8" data-reveal>
+          <span class="chip">CPU SEUL · OPENVINO INT8</span>
+          <span class="chip">mAP@0.5 · 0,950 DÉPLOYÉ</span>
+          <span class="chip" style="text-transform:none">ÉMISSION UDP · 78 µs MÉD</span>
+          <a href="isidetector.html"
+             class="link-u w-fit font-mono text-sm text-accent inline-flex items-center gap-2">
+            <i class="fa-solid fa-cube" aria-hidden="true"></i> Étude de cas immersive IsiDetector
+          </a>
+          <a href="https://github.com/waledroid/IsiDetector" target="_blank" rel="noopener"
+             class="link-u w-fit font-mono text-sm text-muted hover:text-accent inline-flex items-center gap-2">
+            <i class="fa-brands fa-github" aria-hidden="true"></i> Dépôt
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== PUBLICATION ====== -->
+    <section class="py-24">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <div class="panel relative overflow-hidden p-8 sm:p-12" data-reveal>
+          <div class="grid-bg absolute inset-0 opacity-30" aria-hidden="true"></div>
+          <div class="relative grid lg:grid-cols-[1.5fr_1fr] gap-8 items-center">
+            <div>
+              <p class="label">Publication · Mémoire de master</p>
+              <h2 class="font-display font-bold tracking-tight text-[clamp(1.5rem,3.2vw,2.2rem)] mt-4 leading-tight">
+                Deployable Industrial Vision for Logistics
+              </h2>
+              <p class="text-muted text-sm sm:text-base leading-relaxed mt-3">
+                <em>Metric Multi-Camera Warehouse Monitoring and Real-Time Conveyor Parcel
+                Sorting on Edge Hardware.</em>
+              </p>
+              <p class="font-mono text-xs text-muted mt-5 leading-relaxed">
+                Abdullahi Adewale Atanda (Université Grenoble Alpes) · Yang Niu (ISITEC
+                International) — article de mémoire de master, 2026.
+              </p>
+              <div class="flex flex-wrap gap-2 mt-5">
+                <span class="chip">14 PAGES</span>
+                <span class="chip">UNIV. GRENOBLE ALPES</span>
+                <span class="chip"><i class="fa-solid fa-lock" aria-hidden="true"></i>PROJET PROPRIÉTAIRE ISITEC</span>
+              </div>
+            </div>
+            <div class="flex lg:justify-end">
+              <a href="assets/isimonitor3d.pdf" target="_blank" rel="noopener" class="btn" data-magnetic>
+                <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Lire le mémoire (PDF)
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== CTA ====== -->
+    <section class="pb-28">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <div class="panel p-10 sm:p-14 text-center" data-reveal>
+          <p class="label justify-center">Et ensuite</p>
+          <h2 class="font-display font-bold mt-5 leading-tight" style="font-size: clamp(1.8rem, 4vw, 3rem)">
+            Le même soin, pour votre <span class="text-gradient">problème de vision</span>.
+          </h2>
+          <div class="flex flex-wrap justify-center gap-4 mt-9">
+            <a href="contact.html" class="btn" data-magnetic>
+              <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Me contacter
+            </a>
+            <a href="projects.html" class="btn btn--ghost" data-magnetic>
+              <i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Tous les projets
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer data-site-footer></footer>
+
+  <!-- libs (order matters) -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script type="importmap">
+  { "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  } }
+  </script>
+  <script type="module" src="assets/js/isi3d-scene.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <!-- ====== PAGE LOGIC: live demo console ====== -->
+  <script>
+    (function () {
+      'use strict';
+      var video = document.getElementById('tl-video');
+      var status = document.getElementById('tl-status');
+      var rec = document.getElementById('tl-rec');
+      if (!video) return;
+
+      video.addEventListener('play', function () {
+        if (status) status.textContent = 'DÉMO · LIVE';
+        if (rec) rec.style.animation = 'tl-blink 1.1s steps(2, start) infinite';
+      });
+      video.addEventListener('pause', function () {
+        if (status) status.textContent = 'DÉMO · EN PAUSE';
+        if (rec) rec.style.animation = '';
+      });
+      // loop only while visible — pause off-screen, resume in view
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+          if (entries[0].isIntersecting) { video.play().catch(function () {}); }
+          else if (!video.paused) video.pause();
+        }, { threshold: 0.2 }).observe(video);
+      }
+      var style = document.createElement('style');
+      style.textContent = '@keyframes tl-blink { 50% { opacity: 0.25; } }';
+      document.head.appendChild(style);
+
+      /* ---- full walkthrough console (click-to-play) ---- */
+      var full = document.getElementById('ft-video');
+      var fullOverlay = document.getElementById('ft-play');
+      var fullStatus = document.getElementById('ft-status');
+      var fullRec = document.getElementById('ft-rec');
+      if (!full || !fullOverlay) return;
+
+      fullOverlay.addEventListener('click', function () { full.play(); });
+      full.addEventListener('play', function () {
+        fullOverlay.style.opacity = '0';
+        fullOverlay.style.pointerEvents = 'none';
+        if (fullStatus) fullStatus.textContent = 'TIME-LAPSE · LECTURE';
+        if (fullRec) fullRec.style.animation = 'tl-blink 1.1s steps(2, start) infinite';
+      });
+      full.addEventListener('pause', function () {
+        if (fullStatus) fullStatus.textContent = 'TIME-LAPSE · EN PAUSE';
+        if (fullRec) fullRec.style.animation = '';
+      });
+      // pause when scrolled far off-screen — no sound bleeding down the page
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function (entries) {
+          if (!entries[0].isIntersecting && !full.paused) full.pause();
+        }, { threshold: 0 }).observe(full);
+      }
+    })();
+  </script>
+</body>
+</html>

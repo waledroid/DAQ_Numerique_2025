@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="IsiDetector — étude de cas immersive : segmentation de colis sur convoyeur, déploiement CPU sur site (OpenVINO INT8), comptage par franchissement de ligne et déclenchement UDP vers l'automate de tri." />
+  <title>IsiDetector — Atanda Abdullahi</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/tw-config.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://db.onlinewebfonts.com/c/b8cc7a4c2204f4530415a8552c2d827d?family=ANAPOLINO" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+</head>
+<body class="bg-ink text-mist">
+  <div id="cursor-dot"></div><div id="cursor-ring"></div>
+  <header data-site-nav></header>
+
+  <main>
+    <!-- ====== IMMERSIVE STORY (scroll-driven sorting line) ====== -->
+    <section id="story" class="relative" style="height:640vh">
+      <div class="story-sticky sticky top-0 h-screen overflow-hidden">
+        <div id="story-canvas" class="absolute inset-0"></div>
+
+        <!-- Chapter 0 — HERO -->
+        <article class="story-card panel p-8 sm:p-10 left-4 right-4 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 top-1/2 -translate-y-1/2 text-center"
+          data-chapter="0">
+          <p class="label justify-center">Projet phare · Tri de colis</p>
+          <h1 class="font-display font-bold tracking-tight leading-[0.95] text-[clamp(2.2rem,6vw,3.6rem)] mt-3">
+            Isi<span class="text-gradient">Detector</span>
+          </h1>
+          <p class="text-muted text-sm sm:text-base leading-relaxed mt-4 max-w-md mx-auto">
+            Un colis, une décision. Déployé en production sur la ligne de tri d'un client —
+            sans GPU, sur le CPU du site.
+          </p>
+          <div class="flex flex-wrap justify-center gap-2 mt-6">
+            <span class="chip">PRODUCTION</span>
+            <span class="chip">CPU SEUL</span>
+            <span class="chip">CARTON / POLYBAG</span>
+          </div>
+          <p class="font-mono text-[0.62rem] tracking-widest text-muted mt-7">
+            <i class="fa-solid fa-angles-down text-accent" aria-hidden="true"></i> FAITES DÉFILER
+          </p>
+        </article>
+
+        <!-- Chapter 1 — SEGMENTER -->
+        <article class="story-card panel p-8 sm:p-10 left-4 right-4 sm:right-auto sm:left-[7%] bottom-[10%] sm:bottom-[16%]"
+          data-chapter="1">
+          <p class="label">01 · Segmenter</p>
+          <h2 class="font-display font-bold tracking-tight text-[clamp(1.5rem,3.6vw,2.2rem)] mt-4 leading-tight">
+            Voir chaque colis.
+          </h2>
+          <p class="text-muted text-sm sm:text-base leading-relaxed mt-3">
+            Segmentation d'instances YOLO26-seg / RF-DETR au-dessus du convoyeur :
+            chaque colis classé <span class="text-mist">carton</span> ou
+            <span class="text-mist">polybag</span>, masque et boîte au fil de l'eau.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-6">
+            <span class="chip">mAP@0.5 · 0,950 DÉPLOYÉ</span>
+            <span class="chip">320 PX</span>
+            <span class="chip">ONNX</span>
+          </div>
+        </article>
+
+        <!-- Chapter 2 — COMPRESSER -->
+        <article class="story-card panel p-8 sm:p-10 left-4 right-4 sm:left-auto sm:right-[7%] top-1/2 -translate-y-1/2"
+          data-chapter="2">
+          <p class="label">02 · Compresser</p>
+          <h2 class="font-display font-bold tracking-tight text-[clamp(1.5rem,3.6vw,2.2rem)] mt-4 leading-tight">
+            Tenir sur le CPU du site.
+          </h2>
+          <p class="text-muted text-sm sm:text-base leading-relaxed mt-3">
+            Pas de GPU sur site : OpenVINO sert le modèle à 21–23&nbsp;im/s sur le PC
+            industriel de la ligne, et la quantification NNCF INT8 le réduit de
+            11&nbsp;Mo à 2,8&nbsp;Mo (~3× plus rapide sur Intel VNNI).
+          </p>
+          <div class="flex flex-wrap gap-2 mt-6">
+            <span class="chip">OPENVINO · CPU</span>
+            <span class="chip">INT8 NNCF · TAILLE / 4</span>
+            <span class="chip">21–23 IM/S</span>
+          </div>
+        </article>
+
+        <!-- Chapter 3 — COMPTER -->
+        <article class="story-card panel p-8 sm:p-10 left-4 right-4 sm:right-auto sm:left-[7%] bottom-[10%] sm:bottom-[16%]"
+          data-chapter="3">
+          <p class="label">03 · Compter</p>
+          <h2 class="font-display font-bold tracking-tight text-[clamp(1.5rem,3.6vw,2.2rem)] mt-4 leading-tight">
+            Un franchissement, un événement.
+          </h2>
+          <p class="text-muted text-sm sm:text-base leading-relaxed mt-3">
+            ByteTrack suit chaque colis ; l'événement part quand le
+            <span class="text-mist">bord avant</span> franchit la ligne — placée à
+            <span class="text-mist">0,71</span> de la ROI par une étude sur 35 pistes
+            et 2&nbsp;609 détections du site.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-6">
+            <span class="chip">BYTETRACK</span>
+            <span class="chip">LIGNE 0,71</span>
+            <span class="chip">BORD AVANT</span>
+          </div>
+        </article>
+
+        <!-- Chapter 4 — DÉCLENCHER -->
+        <article class="story-card panel p-8 sm:p-10 left-4 right-4 sm:left-1/2 sm:right-auto sm:-translate-x-1/2 bottom-[6%] text-center"
+          data-chapter="4">
+          <p class="label justify-center">04 · Déclencher</p>
+          <h2 class="font-display font-bold tracking-tight text-[clamp(1.5rem,3.6vw,2.2rem)] mt-4 leading-tight">
+            Dans la fenêtre de l'automate.
+          </h2>
+          <p class="text-muted text-sm sm:text-base leading-relaxed mt-3">
+            Un datagramme UDP (~70&nbsp;octets) par colis, émis en 78&nbsp;µs médians —
+            calé dans la fenêtre de contrôle 600–1&nbsp;100&nbsp;ms du trieur.
+          </p>
+          <div class="flex flex-wrap justify-center gap-2 mt-6">
+            <span class="chip" style="text-transform:none">UDP · 78 µs MÉD</span>
+            <span class="chip">FENÊTRE 600–1100 MS</span>
+            <span class="chip">1 DÉCISION / COLIS</span>
+          </div>
+          <div class="flex flex-wrap justify-center items-center gap-4 mt-8">
+            <a href="#plateforme" class="btn" data-magnetic>
+              <i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Explorer la plateforme
+            </a>
+            <a href="https://github.com/waledroid/IsiDetector" target="_blank" rel="noopener" class="btn btn--ghost" data-magnetic>
+              <i class="fa-brands fa-github" aria-hidden="true"></i> Voir le dépôt
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ====== PLATFORM / ARCHITECTURE ====== -->
+    <section id="plateforme" class="border-t border-line bg-surface/30 scroll-mt-24">
+      <div class="max-w-shell mx-auto px-5 sm:px-8 py-24">
+        <p class="label" data-reveal>Architecture</p>
+        <h2 class="font-display font-bold tracking-tight text-[clamp(2rem,4.5vw,3.2rem)] mt-4" data-reveal data-delay="1">
+          De la caméra à l'automate, <span class="text-gradient">une chaîne courte</span>
+        </h2>
+        <p class="text-muted max-w-2xl mt-5 leading-relaxed" data-reveal data-delay="2">
+          Le même cœur détection + déploiement edge qu'ISI Monitor 3D — mais ici la sortie
+          n'est pas une position : c'est <span class="text-mist">un événement de tri par
+          colis</span>, minuté pour l'automate.
+        </p>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+          <article class="panel p-7" data-reveal>
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">01 · Acquisition</p>
+            <h3 class="font-display text-xl font-semibold mt-3">Caméra zénithale</h3>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Une caméra au-dessus du convoyeur, quatre sources interchangeables dans la
+              plateforme : caméra du site, image, vidéo, webcam — pour rejouer et valider
+              hors production.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">RTSP</span><span class="chip">REPLAY</span><span class="chip">ROI</span>
+            </div>
+          </article>
+
+          <article class="panel p-7" data-reveal data-delay="1">
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">02 · Détection</p>
+            <h3 class="font-display text-xl font-semibold mt-3">Moteur de segmentation</h3>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              YOLO26-seg &amp; RF-DETR configurables, servis en multi-backend — ONNX Runtime,
+              OpenVINO, TensorRT — le même modèle du PC d'entraînement au CPU du site.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">YOLO26-SEG</span><span class="chip">RF-DETR</span><span class="chip">MULTI-BACKEND</span>
+            </div>
+          </article>
+
+          <article class="panel p-7" data-reveal data-delay="2">
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">03 · MLOps</p>
+            <h3 class="font-display text-xl font-semibold mt-3">Compression &amp; benchmark</h3>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Outil TUI et scriptable : FP16, INT8 dynamique &amp; QDQ statique par canal,
+              simplification de graphe, export OpenVINO IR — puis benchmark (médiane/p95/FPS)
+              et validation d'accuracy contre la référence FP32.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">INT8/FP16</span><span class="chip">ONNXSIM</span><span class="chip">VERDICT GOOD</span>
+            </div>
+          </article>
+
+          <article class="panel p-7" data-reveal>
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">04 · Comptage</p>
+            <h3 class="font-display text-xl font-semibold mt-3">Suivi &amp; franchissement</h3>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              ByteTrack associe les détections en pistes ; mémoire du « déjà vu avant la
+              ligne » pour tolérer les trous de détection — jamais deux événements pour le
+              même colis.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">BYTETRACK</span><span class="chip">ANTI-DOUBLON</span><span class="chip">SEQ MONOTONE</span>
+            </div>
+          </article>
+
+          <article class="panel p-7" data-reveal data-delay="1">
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">05 · Déclenchement</p>
+            <h3 class="font-display text-xl font-semibold mt-3">IsiCom → automate</h3>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Un datagramme UDP par décision — classe, séquence, id de piste, horodatage —
+              consommé par le récepteur du client et relayé à l'automate du trieur dans sa
+              fenêtre de contrôle.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">UDP ~70 OCTETS</span><span class="chip">PLC</span><span class="chip" style="text-transform:none">78 µs MÉD</span>
+            </div>
+          </article>
+
+          <article class="panel p-7" data-reveal data-delay="2">
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">06 · Opérateur</p>
+            <h3 class="font-display text-xl font-semibold mt-3">Plateforme visionAI</h3>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Interface web bilingue FR/EN : inférence en direct avec compteurs, page
+              performance (FPS, latence, confiance, percentiles UDP), analytique et
+              paramètres — le poste de pilotage de la ligne.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">LIVE</span><span class="chip">PERFORMANCE</span><span class="chip">FR / EN</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== LIVE DEMO (short loop) ====== -->
+    <section class="py-24">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <div class="flex flex-wrap items-end justify-between gap-4 mb-10">
+          <div>
+            <p class="label" data-reveal>Démo en direct</p>
+            <h2 class="font-display font-bold tracking-tight text-[clamp(1.8rem,4vw,2.8rem)] mt-4" data-reveal data-delay="1">
+              La plateforme, <span class="text-gradient">en direct</span>.
+            </h2>
+          </div>
+          <p class="font-mono text-xs text-muted max-w-sm" data-reveal data-delay="2">
+            Capture réelle : un polybag détecté, compté et journalisé — le datagramme
+            apparaît dans le récepteur PLC à l'instant du franchissement.
+          </p>
+        </div>
+
+        <figure class="panel relative overflow-hidden rounded-[18px]" data-reveal data-delay="2">
+          <figcaption class="flex items-center justify-between gap-3 px-4 sm:px-5 py-3 border-b border-line font-mono text-[0.68rem] text-muted">
+            <span class="flex items-center gap-2"><span id="dm-rec" class="w-2 h-2 rounded-full bg-accent inline-block"></span> <span id="dm-status">DÉMO · LIVE</span></span>
+            <span class="hidden sm:inline">détection → comptage → UDP → récepteur PLC</span>
+            <span>12 s · boucle · 720p</span>
+          </figcaption>
+          <video id="dm-video" class="block w-full h-auto" preload="metadata"
+                 poster="assets/img/isi1_poster.jpg" autoplay muted loop controls playsinline
+                 aria-label="Démonstration en direct de la plateforme visionAI : détection d'un colis, comptage et datagramme UDP dans le récepteur PLC">
+            <source src="assets/isi1.mp4" type="video/mp4" />
+            Votre navigateur ne lit pas les vidéos HTML5 —
+            <a href="assets/isi1.mp4" class="text-accent">télécharger la démo</a>.
+          </video>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ====== FULL WALKTHROUGH ====== -->
+    <section class="py-24 border-t border-line bg-surface/30">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <div class="flex flex-wrap items-end justify-between gap-4 mb-10">
+          <div>
+            <p class="label" data-reveal>Visite guidée</p>
+            <h2 class="font-display font-bold tracking-tight text-[clamp(1.8rem,4vw,2.8rem)] mt-4" data-reveal data-delay="1">
+              49 secondes, du colis au <span class="text-gradient">datagramme</span>.
+            </h2>
+          </div>
+          <p class="font-mono text-xs text-muted max-w-sm" data-reveal data-delay="2">
+            Le tour complet de la plateforme : inférence en direct, cartons et polybags
+            comptés, page performance (FPS, percentiles UDP), analytique et paramètres.
+          </p>
+        </div>
+
+        <figure class="panel relative overflow-hidden rounded-[18px]" data-reveal data-delay="2">
+          <figcaption class="flex items-center justify-between gap-3 px-4 sm:px-5 py-3 border-b border-line font-mono text-[0.68rem] text-muted">
+            <span class="flex items-center gap-2"><span id="fw-rec" class="w-2 h-2 rounded-full bg-accent inline-block"></span> <span id="fw-status">VISITE · EN PAUSE</span></span>
+            <span class="hidden sm:inline">live → comptage → performance → analytique</span>
+            <span>49 s · 720p</span>
+          </figcaption>
+          <div class="relative">
+            <video id="fw-video" class="block w-full h-auto" preload="metadata"
+                   poster="assets/img/isi_vid_poster.jpg" controls playsinline
+                   aria-label="Visite guidée complète de la plateforme visionAI : inférence en direct, comptage, surveillance des performances et analytique">
+              <source src="assets/isi_vid.mp4" type="video/mp4" />
+              Votre navigateur ne lit pas les vidéos HTML5 —
+              <a href="assets/isi_vid.mp4" class="text-accent">télécharger la visite guidée</a>.
+            </video>
+            <button id="fw-play" type="button"
+                    class="absolute inset-0 grid place-items-center bg-ink/40 backdrop-blur-[2px] transition-opacity duration-500"
+                    aria-label="Lancer la visite guidée complète de la plateforme">
+              <span class="btn pointer-events-none" style="padding: 1.1rem 2rem">
+                <i class="fa-solid fa-play" aria-hidden="true"></i> Lancer la visite complète
+              </span>
+            </button>
+          </div>
+        </figure>
+      </div>
+    </section>
+
+    <!-- ====== MEASURED RESULTS ====== -->
+    <section class="border-t border-line py-24">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <p class="label" data-reveal>Résultats mesurés</p>
+        <h2 class="font-display font-bold tracking-tight text-[clamp(1.8rem,4vw,2.8rem)] mt-4" data-reveal data-delay="1">
+          En production, <span class="text-gradient">sans surveillance</span>.
+        </h2>
+        <p class="text-muted max-w-2xl mt-5 leading-relaxed" data-reveal data-delay="2">
+          Sessions de production multi-heures sans intervention, événements journalisés côté
+          client. Précision détecteur en validation ; le comptage lui-même n'a pas de vérité
+          terrain étiquetée — les chiffres comparent des configurations, honnêtement.
+        </p>
+
+        <dl class="grid grid-cols-2 lg:grid-cols-4 gap-px mt-12 border border-line rounded-2xl overflow-hidden bg-line" data-reveal data-delay="3">
+          <div class="bg-ink p-6">
+            <dt class="font-mono text-[0.62rem] tracking-widest uppercase text-muted">Détecteur déployé</dt>
+            <dd class="stat__num text-3xl sm:text-4xl mt-2 text-gradient">0,950</dd>
+            <dd class="font-mono text-xs text-muted mt-2">box mAP@0.5 · YOLO26n-seg · 320 px</dd>
+          </div>
+          <div class="bg-ink p-6">
+            <dt class="font-mono text-[0.62rem] tracking-widest uppercase text-muted">Modèle sur CPU</dt>
+            <dd class="stat__num text-3xl sm:text-4xl mt-2 text-gradient">2,8 Mo</dd>
+            <dd class="font-mono text-xs text-muted mt-2">INT8 OpenVINO · depuis 11,0 Mo FP32</dd>
+          </div>
+          <div class="bg-ink p-6">
+            <dt class="font-mono text-[0.62rem] tracking-widest uppercase text-muted">Émission UDP</dt>
+            <dd class="stat__num text-3xl sm:text-4xl mt-2 text-gradient">78 µs</dd>
+            <dd class="font-mono text-xs text-muted mt-2">médiane · p99 474 µs · ~3 000 évts/h max</dd>
+          </div>
+          <div class="bg-ink p-6">
+            <dt class="font-mono text-[0.62rem] tracking-widest uppercase text-muted">Sessions enregistrées</dt>
+            <dd class="stat__num text-3xl sm:text-4xl mt-2 text-gradient">8,6 h</dd>
+            <dd class="font-mono text-xs text-muted mt-2">21–23 im/s · 5 200+ événements journalisés</dd>
+          </div>
+        </dl>
+
+        <div class="grid md:grid-cols-3 gap-6 mt-10">
+          <article class="panel p-6" data-reveal>
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">La ligne à 0,71</p>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Position choisie par une étude de placement sur trois clips du site
+              (35 pistes, 2 609 détections) : l'ancre <span class="text-mist">bord
+              avant</span> se concentre à 0,70–0,72, là où un ancrage centre se disperse.
+            </p>
+          </article>
+          <article class="panel p-6" data-reveal data-delay="1">
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">CLAHE : désactivé</p>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Contre-intuitif et mesuré : activer l'égalisation de contraste
+              <span class="text-mist">réduisait</span> les comptages de cartons de 21 %
+              sur le même clip. En production : off.
+            </p>
+          </article>
+          <article class="panel p-6" data-reveal data-delay="2">
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">Timing avant tout</p>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Une classification n'a de valeur que si elle arrive dans la fenêtre
+              600–1 100 ms de l'automate — stations à ~1 100 ms d'écart, transit ~14 s.
+              La vision devient un maillon de la boucle de contrôle.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== SIBLING SYSTEM ====== -->
+    <section class="py-24">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <div class="panel relative overflow-hidden p-8 sm:p-12" data-reveal>
+          <div class="grid-bg absolute inset-0 opacity-30" aria-hidden="true"></div>
+          <div class="relative grid lg:grid-cols-[1.5fr_1fr] gap-8 items-center">
+            <div>
+              <p class="label">Même cœur, autre décision</p>
+              <h2 class="font-display font-bold tracking-tight text-[clamp(1.5rem,3.2vw,2.2rem)] mt-4 leading-tight">
+                Et dans l'entrepôt&nbsp;? Des positions métriques.
+              </h2>
+              <p class="text-muted text-sm sm:text-base leading-relaxed mt-3">
+                Le même socle détection + edge alimente <span class="text-mist">ISI Monitor
+                3D</span> : suivi métrique multi-caméras, jumeau numérique et états de zones
+                publiés vers AGV &amp; WMS.
+              </p>
+            </div>
+            <div class="flex lg:justify-end">
+              <a href="isimonitor3d.html" class="btn" data-magnetic>
+                <i class="fa-solid fa-cube" aria-hidden="true"></i> Voir l'étude de cas
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== PUBLICATION ====== -->
+    <section class="pb-24">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <div class="panel relative overflow-hidden p-8 sm:p-12" data-reveal>
+          <div class="grid-bg absolute inset-0 opacity-30" aria-hidden="true"></div>
+          <div class="relative grid lg:grid-cols-[1.5fr_1fr] gap-8 items-center">
+            <div>
+              <p class="label">Publication · Mémoire de master</p>
+              <h2 class="font-display font-bold tracking-tight text-[clamp(1.5rem,3.2vw,2.2rem)] mt-4 leading-tight">
+                Deployable Industrial Vision for Logistics
+              </h2>
+              <p class="text-muted text-sm sm:text-base leading-relaxed mt-3">
+                <em>Metric Multi-Camera Warehouse Monitoring and Real-Time Conveyor Parcel
+                Sorting on Edge Hardware</em> — IsiDetector y est le « Système B » :
+                déploiement CPU, étude de placement de ligne, sessions de production.
+              </p>
+              <p class="font-mono text-xs text-muted mt-5 leading-relaxed">
+                Abdullahi Adewale Atanda (Université Grenoble Alpes) · Yang Niu (ISITEC
+                International) — article de mémoire de master, 2026.
+              </p>
+              <div class="flex flex-wrap gap-2 mt-5">
+                <span class="chip">14 PAGES</span>
+                <span class="chip">UNIV. GRENOBLE ALPES</span>
+                <span class="chip"><i class="fa-solid fa-lock" aria-hidden="true"></i>CLIENT NON NOMMÉ</span>
+              </div>
+            </div>
+            <div class="flex lg:justify-end">
+              <a href="assets/isimonitor3d.pdf" target="_blank" rel="noopener" class="btn" data-magnetic>
+                <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Lire le mémoire (PDF)
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== CTA ====== -->
+    <section class="pb-28">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <div class="panel p-10 sm:p-14 text-center" data-reveal>
+          <p class="label justify-center">Et ensuite</p>
+          <h2 class="font-display font-bold mt-5 leading-tight" style="font-size: clamp(1.8rem, 4vw, 3rem)">
+            Une ligne à équiper, un process à <span class="text-gradient">fiabiliser</span>&nbsp;?
+          </h2>
+          <div class="flex flex-wrap justify-center gap-4 mt-9">
+            <a href="contact.html" class="btn" data-magnetic>
+              <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Me contacter
+            </a>
+            <a href="projects.html" class="btn btn--ghost" data-magnetic>
+              <i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Tous les projets
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer data-site-footer></footer>
+
+  <!-- libs (order matters) -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script type="importmap">
+  { "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  } }
+  </script>
+  <script type="module" src="assets/js/isidet-scene.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <!-- ====== PAGE LOGIC: video consoles ====== -->
+  <script>
+    (function () {
+      'use strict';
+      var style = document.createElement('style');
+      style.textContent = '@keyframes tl-blink { 50% { opacity: 0.25; } }';
+      document.head.appendChild(style);
+
+      /* ---- short demo (autoplay loop) ---- */
+      var demo = document.getElementById('dm-video');
+      var demoStatus = document.getElementById('dm-status');
+      var demoRec = document.getElementById('dm-rec');
+      if (demo) {
+        demo.addEventListener('play', function () {
+          if (demoStatus) demoStatus.textContent = 'DÉMO · LIVE';
+          if (demoRec) demoRec.style.animation = 'tl-blink 1.1s steps(2, start) infinite';
+        });
+        demo.addEventListener('pause', function () {
+          if (demoStatus) demoStatus.textContent = 'DÉMO · EN PAUSE';
+          if (demoRec) demoRec.style.animation = '';
+        });
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(function (entries) {
+            if (entries[0].isIntersecting) { demo.play().catch(function () {}); }
+            else if (!demo.paused) demo.pause();
+          }, { threshold: 0.2 }).observe(demo);
+        }
+      }
+
+      /* ---- full walkthrough (click-to-play) ---- */
+      var full = document.getElementById('fw-video');
+      var fullOverlay = document.getElementById('fw-play');
+      var fullStatus = document.getElementById('fw-status');
+      var fullRec = document.getElementById('fw-rec');
+      if (full && fullOverlay) {
+        fullOverlay.addEventListener('click', function () { full.play(); });
+        full.addEventListener('play', function () {
+          fullOverlay.style.opacity = '0';
+          fullOverlay.style.pointerEvents = 'none';
+          if (fullStatus) fullStatus.textContent = 'VISITE · LECTURE';
+          if (fullRec) fullRec.style.animation = 'tl-blink 1.1s steps(2, start) infinite';
+        });
+        full.addEventListener('pause', function () {
+          if (fullStatus) fullStatus.textContent = 'VISITE · EN PAUSE';
+          if (fullRec) fullRec.style.animation = '';
+        });
+        if ('IntersectionObserver' in window) {
+          new IntersectionObserver(function (entries) {
+            if (!entries[0].isIntersecting && !full.paused) full.pause();
+          }, { threshold: 0 }).observe(full);
+        }
+      }
+    })();
+  </script>
+</body>
+</html>

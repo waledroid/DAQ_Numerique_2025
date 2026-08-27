@@ -1,0 +1,6 @@
+# Fichiers parasites Windows/WSL
+*:Zone.Identifier
+
+# Vidéos sources brutes déposées à la racine (les versions web compressées
+# vivent dans portfolio/assets/) — ne jamais les committer.
+/*.mp4
