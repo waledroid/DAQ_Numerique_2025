@@ -1,8 +1,16 @@
 import { snapshotFields } from '../content/snapshot';
 import { applyMatches, currentAnswer } from '../content/fill';
 import {
-  clearUi, highlightField, mountSidebar, showPrompt, showSaveChip, showSummary, showToast,
+  clearUi, hidePilotUi, highlightField, mountSidebar, showApplyButton, showPilotControls,
+  showPilotStatus, showPrompt, showSaveChip, showSubmitConfirm, showSummary, showToast,
 } from '../content/ui';
+import {
+  clearPilot, clickOnce, fillPasswords, findAccountSubmit, findApplyCta, findNextButton,
+  findSubmitCandidate, hasCaptcha, loadPilot, looksEmailVerification, savePilot,
+  type PilotState,
+} from '../content/pilot';
+import { classifyPage, type PageSignals } from '../engine/pagestate';
+import { generatePassword } from '../engine/password';
 import {
   clearPendingSubmit, clearSession, extractJobMeta, isSubmitButton, loadPendingSubmit,
   loadSession, looksCompleted, savePendingSubmit, saveSession,
@@ -11,8 +19,8 @@ import { matchFields } from '../engine/matcher';
 import { APPLICATION_THRESHOLD, scoreApplicationPage } from '../engine/detection';
 import { makeLearned } from '../engine/learned';
 import {
-  addApplication, addLearnedAnswer, listProfiles, loadLearned, loadProfile, loadSettings,
-  loadStoredFile, saveSettings, switchProfile,
+  addApplication, addLearnedAnswer, listProfiles, loadCredential, loadLearned, loadProfile,
+  loadSettings, loadStoredFile, saveCredential, saveSettings, switchProfile,
 } from '../lib/storage';
 import { detectLang, t } from '../lib/i18n';
 import type { FieldSnapshot, Lang } from '../engine/types';
@@ -65,6 +73,12 @@ async function boot(): Promise<void> {
     }
   }
 
+  if (loadPilot()?.active) {
+    startSession();
+    await resumePilot();
+    return;
+  }
+
   if (loadSession()?.active) {
     startSession();
     return;
@@ -94,17 +108,30 @@ async function ensureSidebarMounted(): Promise<void> {
   });
 }
 
-async function maybeOfferFill(): Promise<void> {
-  if (loadSession()?.active) return;
-  if (location.href === lastPromptedUrl) return;
-  const info = {
+function pageSignals(): PageSignals {
+  return {
     url: location.href,
     title: document.title,
     text: (document.body?.innerText ?? '').slice(0, 20000),
     fieldCount: document.querySelectorAll('input, select, textarea').length,
     hasFileInput: document.querySelector('input[type="file"]') !== null,
+    passwordFieldCount: document.querySelectorAll('input[type="password"]').length,
+    hasApplyCta: findApplyCta(document) !== null,
   };
-  if (scoreApplicationPage(info) >= APPLICATION_THRESHOLD) {
+}
+
+async function maybeOfferFill(): Promise<void> {
+  if (loadSession()?.active || loadPilot()?.active) return;
+  if (location.href === lastPromptedUrl) return;
+  const signals = pageSignals();
+  const state = classifyPage(signals);
+  if (state === 'posting') {
+    lastPromptedUrl = location.href;
+    await ensureSidebarMounted();
+    showApplyButton(lang, () => void startPilot());
+    return;
+  }
+  if (state === 'application' || scoreApplicationPage(signals) >= APPLICATION_THRESHOLD) {
     lastPromptedUrl = location.href;
     await ensureSidebarMounted();
     showPrompt(lang, startSession, async () => {
@@ -125,8 +152,10 @@ function startSession(): void {
   installWatchers();
 }
 
-async function fillStep(): Promise<void> {
-  if (filling) return;
+interface FillCounts { filled: number; uncertain: number; unknown: number }
+
+async function fillStep(): Promise<FillCounts | null> {
+  if (filling) return null;
   filling = true;
   try {
     hadForms = document.querySelectorAll('form').length > 0;
@@ -148,6 +177,7 @@ async function fillStep(): Promise<void> {
       }
     }
     if (filled + uncertain + unknown > 0) showSummary(lang, { filled, uncertain, unknown });
+    return { filled, uncertain, unknown };
   } finally {
     filling = false;
   }
@@ -244,4 +274,211 @@ async function recordApplication(
   await addApplication({ ...meta, url, date: new Date().toISOString(), status: 'applied' });
   showToast(t('applicationTracked', lang));
   clearUi();
+}
+
+// --- Pilot mode: one click drives apply → account → fill → confirm ----------
+
+let pilotTimer: ReturnType<typeof setInterval> | undefined;
+let pilotBusy = false;
+
+const PILOT_MAX_MS = 15 * 60_000;
+const PILOT_STUCK_MS = 12_000;
+
+function fr(frText: string, enText: string): string {
+  return lang === 'fr' ? frText : enText;
+}
+
+async function startPilot(): Promise<void> {
+  savePilot({ active: true, paused: false, stage: 'starting', startedAt: Date.now(), lastClickAt: Date.now(), clicked: [] });
+  await ensureSidebarMounted();
+  startSession();
+  renderPilotControls();
+  showPilotStatus(lang, fr('Ouverture de la candidature…', 'Opening the application…'));
+  const cta = findApplyCta(document);
+  const p = loadPilot();
+  if (cta && p) clickOnce(cta, p, 'apply:' + (cta.textContent ?? ''));
+  beginPilotLoop();
+}
+
+async function resumePilot(): Promise<void> {
+  await ensureSidebarMounted();
+  renderPilotControls();
+  beginPilotLoop();
+}
+
+function renderPilotControls(): void {
+  const p = loadPilot();
+  showPilotControls(lang, {
+    paused: p?.paused ?? false,
+    onPause: () => {
+      const st = loadPilot();
+      if (st) {
+        st.paused = true;
+        savePilot(st);
+        showPilotStatus(lang, fr('En pause', 'Paused'));
+        renderPilotControls();
+      }
+    },
+    onResume: () => {
+      const st = loadPilot();
+      if (st) {
+        st.paused = false;
+        st.pauseReason = undefined;
+        st.lastClickAt = Date.now();
+        savePilot(st);
+        showPilotStatus(lang, fr('Reprise…', 'Resuming…'));
+        renderPilotControls();
+      }
+    },
+    onStop: stopPilot,
+  });
+}
+
+function stopPilot(): void {
+  clearPilot();
+  if (pilotTimer) {
+    clearInterval(pilotTimer);
+    pilotTimer = undefined;
+  }
+  hidePilotUi();
+  showPilotStatus(lang, fr('Pilote arrêté — izifill continue de remplir.', 'Pilot stopped — izifill keeps filling.'));
+}
+
+function pausePilot(reason: string): void {
+  const p = loadPilot();
+  if (!p) return;
+  p.paused = true;
+  p.pauseReason = reason;
+  savePilot(p);
+  showPilotStatus(lang, reason);
+  renderPilotControls();
+}
+
+function beginPilotLoop(): void {
+  if (pilotTimer) return;
+  pilotTimer = setInterval(() => void pilotTick(), 1200);
+  void pilotTick();
+}
+
+async function pilotTick(): Promise<void> {
+  const p = loadPilot();
+  if (!p?.active) {
+    if (pilotTimer) {
+      clearInterval(pilotTimer);
+      pilotTimer = undefined;
+    }
+    return;
+  }
+  if (p.paused || pilotBusy || p.stage === 'confirm') return;
+  if (Date.now() - p.startedAt > PILOT_MAX_MS) {
+    stopPilot();
+    return;
+  }
+  pilotBusy = true;
+  try {
+    if (hasCaptcha(document)) {
+      pausePilot(fr('CAPTCHA détecté — résolvez-le puis Reprendre.', 'CAPTCHA detected — solve it, then Resume.'));
+      return;
+    }
+    const bodyText = (document.body?.innerText ?? '').slice(0, 20000);
+    if (looksEmailVerification(bodyText)) {
+      pausePilot(fr('Vérifiez votre boîte mail, puis Reprendre.', 'Check your inbox, then Resume.'));
+      return;
+    }
+    const state = classifyPage(pageSignals());
+    if (state === 'signup' || state === 'login') await pilotAccount(state, p);
+    else if (state === 'application') await pilotFill(p);
+    else {
+      showPilotStatus(lang, fr('En attente de la page…', 'Waiting for the page…'));
+      if (Date.now() - p.lastClickAt > PILOT_STUCK_MS && p.stage !== 'starting') {
+        pausePilot(fr('Je ne reconnais pas cette page — continuez à la main puis Reprendre.',
+          'I don’t recognize this page — continue manually, then Resume.'));
+      }
+    }
+  } finally {
+    pilotBusy = false;
+  }
+}
+
+async function pilotAccount(kind: 'signup' | 'login', p: PilotState): Promise<void> {
+  p.stage = 'account';
+  savePilot(p);
+  showPilotStatus(lang, kind === 'signup'
+    ? fr('Création du compte…', 'Creating the account…')
+    : fr('Connexion…', 'Logging in…'));
+  await fillStep();
+  let cred = await loadCredential(location.hostname);
+  if (!cred) {
+    if (kind === 'login') {
+      pausePilot(fr('Aucun identifiant connu pour ce site — connectez-vous puis Reprendre.',
+        'No saved credentials for this site — log in, then Resume.'));
+      return;
+    }
+    const profile = await loadProfile();
+    cred = {
+      domain: location.hostname,
+      email: profile.contact.email,
+      password: generatePassword(),
+      createdAt: new Date().toISOString(),
+    };
+    await saveCredential(cred);
+    showToast(fr('Mot de passe généré (stocké sur cet ordinateur)', 'Password generated (stored on this computer)'));
+  }
+  const n = fillPasswords(document, cred.password);
+  if (n === 0) return; // page is transitioning
+  const btn = findAccountSubmit(document);
+  if (btn) {
+    const id = 'account:' + location.href;
+    if (!clickOnce(btn, p, id) && Date.now() - p.lastClickAt > PILOT_STUCK_MS) {
+      pausePilot(fr('Le compte ne se crée pas — terminez à la main puis Reprendre.',
+        'Account step is stuck — finish manually, then Resume.'));
+    }
+  } else if (Date.now() - p.lastClickAt > PILOT_STUCK_MS) {
+    pausePilot(fr('Bouton du compte introuvable — cliquez-le puis Reprendre.',
+      'Could not find the account button — click it, then Resume.'));
+  }
+}
+
+async function pilotFill(p: PilotState): Promise<void> {
+  p.stage = 'filling';
+  savePilot(p);
+  const counts = await fillStep();
+  if (!counts) return;
+  if (counts.unknown > 0) {
+    pausePilot(fr(`${counts.unknown} champ(s) à compléter — répondez puis Reprendre.`,
+      `${counts.unknown} field(s) need you — answer, then Resume.`));
+    return;
+  }
+  const next = findNextButton(document);
+  if (next) {
+    const id = 'next:' + location.href + ':' + (next.textContent ?? '');
+    if (!clickOnce(next, p, id) && Date.now() - p.lastClickAt > PILOT_STUCK_MS) {
+      pausePilot(fr('L’étape ne s’avance pas — cliquez Suivant puis Reprendre.',
+        'The step won’t advance — click Next, then Resume.'));
+    }
+    return;
+  }
+  const submit = findSubmitCandidate(document);
+  if (submit) {
+    p.stage = 'confirm';
+    savePilot(p);
+    showPilotStatus(lang, fr('Prêt à envoyer.', 'Ready to send.'));
+    showSubmitConfirm(lang,
+      () => {
+        const st = loadPilot();
+        if (st) clickOnce(submit, st, 'submit:' + location.href);
+        clearPilot();
+        hidePilotUi();
+      },
+      () => {
+        showPilotStatus(lang, fr('Cliquez sur Envoyer quand vous êtes prêt.', 'Click Send when you are ready.'));
+        clearPilot();
+        hidePilotUi();
+      });
+    return;
+  }
+  if (Date.now() - p.lastClickAt > PILOT_STUCK_MS) {
+    pausePilot(fr('Ni Suivant ni Envoyer trouvés — continuez à la main puis Reprendre.',
+      'No Next or Send button found — continue manually, then Resume.'));
+  }
 }

@@ -270,6 +270,9 @@ button.fill {
   transform: translateY(1px) scale(0.98);
 }
 
+.pilot-status { color: #a7f3d0; font-size: 12.5px; min-height: 1.2em; }
+.pilot-controls { display: flex; gap: 8px; }
+.pilot-controls button { flex: 1; }
 .izifill-toast {
   position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
   z-index: 2147483647;
@@ -496,6 +499,94 @@ export function showPrompt(lang: Lang, onYes: () => void, onNever: () => void): 
   question.append(title, yes, never);
   root().querySelector('.launcher')?.classList.add('pulse');
   expandSidebar();
+}
+
+export function showApplyButton(lang: Lang, onStart: () => void): void {
+  const sidebar = ensureSidebar(lang);
+  const question = sidebar.querySelector<HTMLElement>('.question')!;
+  question.textContent = '';
+  question.hidden = false;
+  const title = document.createElement('div');
+  title.textContent = lang === 'fr' ? 'Offre d’emploi détectée' : 'Job posting detected';
+  const apply = document.createElement('button');
+  apply.className = 'primary apply';
+  apply.textContent = lang === 'fr' ? 'Postuler avec izifill' : 'Apply with izifill';
+  apply.addEventListener('click', () => {
+    question.hidden = true;
+    onStart();
+  });
+  question.append(title, apply);
+  root().querySelector('.launcher')?.classList.add('pulse');
+  expandSidebar();
+}
+
+export function showSubmitConfirm(lang: Lang, onIzifill: () => void, onSelf: () => void): void {
+  const sidebar = ensureSidebar(lang);
+  const question = sidebar.querySelector<HTMLElement>('.question')!;
+  question.textContent = '';
+  question.hidden = false;
+  const title = document.createElement('div');
+  title.textContent = lang === 'fr' ? 'Envoyer la candidature ?' : 'Send the application?';
+  const go = document.createElement('button');
+  go.className = 'primary submit-go';
+  go.textContent = lang === 'fr' ? 'Envoyer avec izifill' : 'Submit with izifill';
+  go.addEventListener('click', () => {
+    question.hidden = true;
+    onIzifill();
+  });
+  const self = document.createElement('button');
+  self.className = 'secondary submit-self';
+  self.textContent = lang === 'fr' ? 'Je l’envoie moi-même' : 'I’ll submit myself';
+  self.addEventListener('click', () => {
+    question.hidden = true;
+    onSelf();
+  });
+  question.append(title, go, self);
+  root().querySelector('.launcher')?.classList.add('pulse');
+  expandSidebar();
+}
+
+export function showPilotStatus(lang: Lang, text: string): void {
+  const sidebar = ensureSidebar(lang);
+  let status = sidebar.querySelector<HTMLElement>('.pilot-status');
+  if (!status) {
+    status = document.createElement('div');
+    status.className = 'pilot-status';
+    sidebar.insertBefore(status, sidebar.querySelector('.summary'));
+  }
+  status.textContent = text;
+}
+
+export function showPilotControls(
+  lang: Lang,
+  opts: { paused: boolean; onPause: () => void; onResume: () => void; onStop: () => void },
+): void {
+  const sidebar = ensureSidebar(lang);
+  let row = sidebar.querySelector<HTMLElement>('.pilot-controls');
+  if (!row) {
+    row = document.createElement('div');
+    row.className = 'pilot-controls';
+    const header = sidebar.querySelector('.header')!;
+    header.insertAdjacentElement('afterend', row);
+  }
+  row.textContent = '';
+  const toggle = document.createElement('button');
+  toggle.className = 'secondary pilot-toggle';
+  toggle.textContent = opts.paused
+    ? (lang === 'fr' ? '▶ Reprendre' : '▶ Resume')
+    : (lang === 'fr' ? '⏸ Pause' : '⏸ Pause');
+  toggle.addEventListener('click', opts.paused ? opts.onResume : opts.onPause);
+  const stop = document.createElement('button');
+  stop.className = 'secondary pilot-stop';
+  stop.textContent = lang === 'fr' ? '✕ Stop' : '✕ Stop';
+  stop.addEventListener('click', opts.onStop);
+  row.append(toggle, stop);
+}
+
+export function hidePilotUi(): void {
+  const sidebar = sidebarEl();
+  sidebar?.querySelector('.pilot-controls')?.remove();
+  sidebar?.querySelector('.pilot-status')?.remove();
 }
 
 export function showSummary(lang: Lang, counts: { filled: number; uncertain: number; unknown: number }): void {

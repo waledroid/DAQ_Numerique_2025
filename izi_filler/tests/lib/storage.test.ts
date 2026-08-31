@@ -187,3 +187,17 @@ describe('per-profile stored files', () => {
     expect((await loadStoredFile('cv', area))?.name).toBe('new.pdf');
   });
 });
+
+describe('site credentials (local only)', () => {
+  it('saves, lists, loads and deletes per-domain credentials', async () => {
+    const area = new FakeArea();
+    const { saveCredential, loadCredential, listCredentials, deleteCredential } = await import('../../src/lib/storage');
+    await saveCredential({ domain: 'jobs.acme.fr', email: 'a@b.fr', password: 'S3cret!x', createdAt: '2026-08-31' }, area);
+    await saveCredential({ domain: 'careers.x.com', email: 'a@b.fr', password: 'Other1!x', createdAt: '2026-08-31' }, area);
+    expect((await loadCredential('jobs.acme.fr', area))?.password).toBe('S3cret!x');
+    expect(await loadCredential('unknown.com', area)).toBeUndefined();
+    expect((await listCredentials(area)).map((c) => c.domain).sort()).toEqual(['careers.x.com', 'jobs.acme.fr']);
+    await deleteCredential('jobs.acme.fr', area);
+    expect(await loadCredential('jobs.acme.fr', area)).toBeUndefined();
+  });
+});

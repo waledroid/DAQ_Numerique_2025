@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import {
   mountSidebar, showPrompt, showSummary, showToast, highlightField, showSaveChip, clearUi,
+  showApplyButton, showSubmitConfirm, showPilotStatus, showPilotControls,
 } from '../../src/content/ui';
 
 beforeEach(() => {
@@ -70,6 +71,45 @@ describe('showSummary', () => {
     showSummary('en', { filled: 3, uncertain: 1, unknown: 2 });
     expect(root().querySelector('.summary')!.textContent).toContain('3');
     expect(root().textContent).toContain('left for you');
+  });
+});
+
+describe('pilot UI', () => {
+  it('showApplyButton expands the sidebar and fires onStart', () => {
+    const onStart = vi.fn();
+    showApplyButton('fr', onStart);
+    const sidebar = root().querySelector('.sidebar')!;
+    expect(sidebar.classList.contains('open')).toBe(true);
+    const btn = root().querySelector<HTMLButtonElement>('.question button.apply')!;
+    expect(btn.textContent).toBe('Postuler avec izifill');
+    btn.click();
+    expect(onStart).toHaveBeenCalledOnce();
+  });
+  it('showSubmitConfirm offers both submit choices', () => {
+    const onIzifill = vi.fn();
+    const onSelf = vi.fn();
+    showSubmitConfirm('en', onIzifill, onSelf);
+    const buttons = root().querySelectorAll<HTMLButtonElement>('.question button');
+    expect(buttons).toHaveLength(2);
+    buttons[0].click();
+    expect(onIzifill).toHaveBeenCalledOnce();
+    expect(onSelf).not.toHaveBeenCalled();
+  });
+  it('showPilotStatus displays the status line', () => {
+    showPilotStatus('fr', 'Création du compte…');
+    expect(root().querySelector('.pilot-status')!.textContent).toBe('Création du compte…');
+  });
+  it('showPilotControls wires pause and stop', () => {
+    const onPause = vi.fn();
+    const onStop = vi.fn();
+    showPilotControls('en', { paused: false, onPause, onResume: vi.fn(), onStop });
+    const row = root().querySelector('.pilot-controls')!;
+    const buttons = row.querySelectorAll<HTMLButtonElement>('button');
+    expect(buttons).toHaveLength(2);
+    buttons[0].click();
+    expect(onPause).toHaveBeenCalledOnce();
+    buttons[1].click();
+    expect(onStop).toHaveBeenCalledOnce();
   });
 });
 

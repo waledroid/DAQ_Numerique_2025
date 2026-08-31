@@ -2,8 +2,9 @@ import { renderProfileForm, readProfileForm, TABS } from '../../pages/profile-fo
 import { completionPercent, mergeImportedProfile } from '../../engine/profile';
 import { mergeLearnedAnswers } from '../../engine/learned';
 import {
-  createProfile, deleteProfile, listProfiles, loadLearned, loadProfile, loadStoredFile,
-  renameProfile, saveLearned, saveProfile, saveStoredFile, switchProfile,
+  createProfile, deleteCredential, deleteProfile, listCredentials, listProfiles, loadLearned,
+  loadProfile, loadStoredFile, renameProfile, saveLearned, saveProfile, saveStoredFile,
+  switchProfile,
 } from '../../lib/storage';
 import { detectLang, t } from '../../lib/i18n';
 
@@ -132,6 +133,31 @@ async function reloadAll(): Promise<void> {
   const cl = await loadStoredFile('coverLetter');
   el('clName').textContent = cl ? '📎 ' + cl.name : '';
   await refreshLearned();
+  await refreshCreds();
+}
+
+async function refreshCreds(): Promise<void> {
+  const creds = await listCredentials();
+  const ul = el<HTMLUListElement>('creds');
+  ul.textContent = '';
+  for (const c of creds) {
+    const li = document.createElement('li');
+    li.textContent = `${c.domain} — ${c.email} `;
+    const del = document.createElement('button');
+    del.textContent = fr ? 'Supprimer' : 'Delete';
+    del.className = 'iz-remove';
+    del.addEventListener('click', async () => {
+      await deleteCredential(c.domain);
+      await refreshCreds();
+    });
+    li.appendChild(del);
+    ul.appendChild(li);
+  }
+  if (creds.length === 0) {
+    const li = document.createElement('li');
+    li.textContent = fr ? 'Aucun compte enregistré.' : 'No saved accounts.';
+    ul.appendChild(li);
+  }
 }
 
 async function refreshLearned(): Promise<void> {
@@ -198,6 +224,10 @@ async function main(): Promise<void> {
   el('filesTitle').textContent = fr ? 'Fichiers' : 'Files';
   el('clLabel').textContent = fr ? 'Lettre de motivation (fichier)' : 'Cover letter (file)';
   el('learnedTitle').textContent = fr ? 'Réponses apprises' : 'Learned answers';
+  el('credsTitle').textContent = fr ? 'Comptes créés (pilote)' : 'Created accounts (pilot)';
+  el('credsHint').textContent = fr
+    ? 'Mots de passe générés, stockés uniquement sur cet ordinateur.'
+    : 'Generated passwords, stored on this computer only.';
   el('save').textContent = fr ? 'Enregistrer cette section' : 'Save this section';
   el('exportBtn').textContent = fr ? 'Exporter (JSON)' : 'Export (JSON)';
   el('importBtn').textContent = fr ? 'Importer (JSON)' : 'Import (JSON)';
