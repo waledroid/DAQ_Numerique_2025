@@ -26,3 +26,13 @@ Visit a job application page → izifill offers to fill it. It fills each step a
 click Next (it never clicks anything itself), highlights what it filled (green),
 what it guessed (orange) and what it left for you (red), offers to remember your
 answers to custom questions, and records the application in the tracker when you submit.
+
+## Known limitations
+
+- Files (CV / cover letter) are stored locally and do not sync across devices.
+- Some sites block automatic CV attachment for security reasons — attach the file
+  manually on those sites.
+- Submit tracking needs a visible confirmation (a "thank you" page, or the form
+  disappearing) to record an application; a URL change alone is not treated as proof.
+- Single-page apps are detected by watching for URL changes (checked every second).
+  If the fill prompt doesn't appear on a new step, use the popup's "Fill this page".

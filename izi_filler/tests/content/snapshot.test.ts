@@ -71,4 +71,22 @@ describe('snapshotFields', () => {
     expect(f.tag).toBe('textarea');
     expect(f.ariaLabel).toBe('Lettre de motivation');
   });
+
+  it('strips stale refs from elements no longer in the current scan', () => {
+    document.body.innerHTML = `<input id="first" name="first">`;
+    snapshotFields(document);
+    const first = document.getElementById('first')!;
+    expect(first.getAttribute('data-izifill-ref')).toBe('0');
+
+    first.setAttribute('disabled', 'true');
+    const fresh = document.createElement('input');
+    fresh.id = 'second';
+    fresh.name = 'second';
+    document.body.appendChild(fresh);
+
+    snapshotFields(document);
+    expect(first.hasAttribute('data-izifill-ref')).toBe(false);
+    const matched = document.querySelector('[data-izifill-ref="0"]');
+    expect(matched).toBe(fresh);
+  });
 });

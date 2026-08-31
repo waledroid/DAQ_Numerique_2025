@@ -88,4 +88,16 @@ describe('applyMatches', () => {
     expect(outcomes[0].status).toBe('unknown');
     expect(outcomes[0].el).not.toBeNull();
   });
+
+  it('reports unknown and leaves data-izifill-done unset when a select value does not stick', () => {
+    document.body.innerHTML = '<select><option value="">--</option><option value="fr">France</option></select>';
+    const fields = snapshotFields(document);
+    const outcomes = applyMatches(document, fields, [
+      { ref: fields[0].ref, key: 'address.country', value: 'xx', confidence: 'high', source: 'profile' },
+    ]);
+    expect(outcomes[0].status).toBe('unknown');
+    const el = document.querySelector('select')!;
+    expect(el.value).toBe('');
+    expect(el.dataset.izifillDone).toBeUndefined();
+  });
 });

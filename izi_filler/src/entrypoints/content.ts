@@ -35,6 +35,7 @@ let lang: Lang = 'en';
 let filling = false;
 let hadForms = false;
 let watchersInstalled = false;
+let lastPromptedUrl = '';
 
 async function boot(): Promise<void> {
   if (window.top !== window && document.querySelectorAll('input, select, textarea').length < 3) {
@@ -52,7 +53,7 @@ async function boot(): Promise<void> {
   if (pending) {
     clearPendingSubmit();
     if (Date.now() - pending.at < 30_000 && loadSession()?.active &&
-        (location.href !== pending.url || looksCompleted(document, false, pending.hadForms))) {
+        looksCompleted(document, false, pending.hadForms)) {
       await addApplication({
         company: pending.company, title: pending.title, domain: pending.domain,
         url: pending.url, date: new Date().toISOString(), status: 'applied',
@@ -69,6 +70,20 @@ async function boot(): Promise<void> {
     return;
   }
 
+  maybeOfferFill();
+
+  let lastSeenUrl = location.href;
+  setInterval(() => {
+    if (location.href !== lastSeenUrl) {
+      lastSeenUrl = location.href;
+      maybeOfferFill();
+    }
+  }, 1000);
+}
+
+function maybeOfferFill(): void {
+  if (loadSession()?.active) return;
+  if (location.href === lastPromptedUrl) return;
   const info = {
     url: location.href,
     title: document.title,
@@ -77,6 +92,7 @@ async function boot(): Promise<void> {
     hasFileInput: document.querySelector('input[type="file"]') !== null,
   };
   if (scoreApplicationPage(info) >= APPLICATION_THRESHOLD) {
+    lastPromptedUrl = location.href;
     showPrompt(lang, startSession, async () => {
       const s = await loadSettings();
       if (!s.disabledDomains.includes(location.hostname)) s.disabledDomains.push(location.hostname);
@@ -184,11 +200,12 @@ function onDocClick(e: MouseEvent): void {
       clearInterval(timer);
       return;
     }
-    if (looksCompleted(document, location.href !== urlAtClick, hadFormsAtClick)) {
+    if (looksCompleted(document, false, hadFormsAtClick)) {
       clearInterval(timer);
       void recordApplication(meta, urlAtClick);
     } else if (Date.now() - started > 8000) {
       clearInterval(timer); // not the final submit (e.g. an "Apply" that opened the form)
+      clearPendingSubmit();
     }
   }, 400);
 }

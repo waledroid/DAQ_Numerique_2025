@@ -61,11 +61,11 @@ export class ChunkedStore {
   }
 
   private async read(area: AreaLike, key: string): Promise<string | undefined> {
-    const meta = (await area.get([`${key}__meta`]))[`${key}__meta`];
+    const all = await area.get(null);
+    const meta = all[`${key}__meta`];
     if (typeof meta !== 'number') return undefined;
     const keys = Array.from({ length: meta }, (_, i) => `${key}__${i}`);
-    const items = await area.get(keys);
-    return keys.map((k) => (items[k] as string) ?? '').join('');
+    return keys.map((k) => (all[k] as string) ?? '').join('');
   }
 
   async getJSON<T>(key: string): Promise<T | undefined> {

@@ -65,14 +65,17 @@ export function applyMatches(
       const chosen = radios.find((r) => r.value === m.value);
       if (!chosen) return { ref: m.ref, status: 'unknown', el };
       chosen.click();
+      if (!chosen.checked) return { ref: m.ref, status: 'unknown', el };
       radios.forEach((r) => (r.dataset.izifillDone = '1'));
     } else if (f.tag === 'select') {
       setNativeValue(el, m.value);
+      if ((el as HTMLSelectElement).value !== m.value) return { ref: m.ref, status: 'unknown', el };
       el.dataset.izifillDone = '1';
     } else {
       const cur = (el as HTMLInputElement).value;
       if (cur && cur !== m.value) return { ref: m.ref, status: 'skipped', el };
       setNativeValue(el, m.value);
+      if ((el as HTMLInputElement).value !== m.value) return { ref: m.ref, status: 'unknown', el };
       el.dataset.izifillDone = '1';
     }
     return { ref: m.ref, status: m.confidence === 'high' ? 'filled' : 'uncertain', el };

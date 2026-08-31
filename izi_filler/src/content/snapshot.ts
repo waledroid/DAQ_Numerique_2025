@@ -32,6 +32,7 @@ function contextFor(el: Element): string {
 }
 
 export function snapshotFields(doc: Document): FieldSnapshot[] {
+  doc.querySelectorAll('[data-izifill-ref]').forEach((el) => el.removeAttribute('data-izifill-ref'));
   const els = Array.from(doc.querySelectorAll<HTMLElement>('input, select, textarea'));
   const out: FieldSnapshot[] = [];
   const radioGroups = new Map<string, FieldSnapshot>();
