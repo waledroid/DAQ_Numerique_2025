@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>izifill — Candidatures</title>
+    <style>
+      body { font: 14px/1.6 system-ui, sans-serif; max-width: 900px; margin: 2rem auto; padding: 0 1rem; color: #111827; }
+      table { width: 100%; border-collapse: collapse; }
+      th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid #e5e7eb; }
+      select { font: inherit; padding: 4px; }
+      a { color: #2563eb; }
+      button { border: 0; background: #ef4444; color: #fff; border-radius: 6px; padding: 4px 10px; cursor: pointer; }
+      #empty { color: #6b7280; }
+    </style>
+  </head>
+  <body>
+    <h1 id="title"></h1>
+    <p id="empty" hidden></p>
+    <table id="table" hidden>
+      <thead><tr id="head"></tr></thead>
+      <tbody id="rows"></tbody>
+    </table>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
