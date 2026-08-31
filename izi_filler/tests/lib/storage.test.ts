@@ -24,6 +24,15 @@ class QuotaArea extends FakeArea {
   override async set(): Promise<void> { throw new Error('QUOTA_BYTES quota exceeded'); }
 }
 
+class FlakyQuotaArea extends FakeArea {
+  private callCount = 0;
+  override async set(items: Record<string, unknown>) {
+    this.callCount++;
+    if (this.callCount > 1) throw new Error('QUOTA_BYTES quota exceeded');
+    Object.assign(this.data, items);
+  }
+}
+
 afterEach(() => setStoreForTests(null));
 
 describe('ChunkedStore', () => {
@@ -56,6 +65,14 @@ describe('ChunkedStore', () => {
     const s = new ChunkedStore(new QuotaArea(), fallback);
     expect(await s.setJSON('k', { a: 1 })).toBe('fallback');
     expect(await s.getJSON('k')).toEqual({ a: 1 });
+  });
+  it('clears stale chunks when falling back to avoid shadowing', async () => {
+    const primary = new FlakyQuotaArea();
+    const fallback = new FakeArea();
+    const s = new ChunkedStore(primary, fallback);
+    expect(await s.setJSON('k', { v: 'old' })).toBe('primary');
+    expect(await s.setJSON('k', { v: 'new' })).toBe('fallback');
+    expect(await s.getJSON('k')).toEqual({ v: 'new' });
   });
 });
 

@@ -14,6 +14,19 @@ export class ChunkedStore {
     private maxItemBytes = 7000,
   ) {}
 
+  private async clearKey(area: AreaLike, key: string): Promise<void> {
+    try {
+      const all = await area.get(null);
+      const keysToRemove = Object.keys(all).filter((k) => {
+        const m = k.match(new RegExp(`^${key}__(meta|\\d+)$`));
+        return m !== null;
+      });
+      if (keysToRemove.length > 0) await area.remove(keysToRemove);
+    } catch {
+      // ignore errors
+    }
+  }
+
   private async write(area: AreaLike, key: string, json: string): Promise<void> {
     const chunkLen = Math.max(1, Math.floor(this.maxItemBytes / 4)); // utf-8 worst case
     const chunks: string[] = [];
@@ -33,10 +46,16 @@ export class ChunkedStore {
     const json = JSON.stringify(value);
     try {
       await this.write(this.primary, key, json);
+      // Clear stale chunks from fallback after successful primary write
+      if (this.fallback) {
+        await this.clearKey(this.fallback, key);
+      }
       return 'primary';
     } catch (e) {
       if (!this.fallback) throw e;
       await this.write(this.fallback, key, json);
+      // Clear stale chunks from primary after fallback write
+      await this.clearKey(this.primary, key);
       return 'fallback';
     }
   }
