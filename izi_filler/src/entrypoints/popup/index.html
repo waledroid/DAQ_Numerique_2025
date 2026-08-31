@@ -2,16 +2,93 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <title>izifill</title>
     <style>
-      body { font: 13px/1.5 system-ui, sans-serif; width: 220px; margin: 0; padding: 12px; }
-      h1 { font-size: 1rem; margin: 0 0 8px; }
-      button { display: block; width: 100%; margin: 6px 0; padding: 8px; border: 0; border-radius: 8px; background: #2563eb; color: #fff; font: inherit; cursor: pointer; }
-      button#fill { background: #16a34a; }
-      #count { color: #6b7280; font-size: 12px; }
+      body {
+        font: 13px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+        width: 240px;
+        margin: 0;
+        padding: 16px;
+        background: #0f172a;
+        color: #f8fafc;
+        box-sizing: border-box;
+      }
+      .brand-header {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+        padding-bottom: 8px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      }
+      .brand-icon {
+        width: 24px;
+        height: 24px;
+        border-radius: 7px;
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 12px;
+        font-weight: 800;
+        color: #fff;
+        box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);
+      }
+      h1 {
+        font-size: 15px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
+        margin: 0;
+        color: #f8fafc;
+      }
+      button {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+        width: 100%;
+        margin: 7px 0;
+        padding: 9px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.06);
+        color: #cbd5e1;
+        font: 500 13px inherit;
+        cursor: pointer;
+        transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      button:hover {
+        background: rgba(255, 255, 255, 0.12);
+        color: #f8fafc;
+        transform: translateY(-1px);
+      }
+      button:active {
+        transform: translateY(1px) scale(0.98);
+      }
+      button#fill {
+        background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        border-color: rgba(255, 255, 255, 0.2);
+        color: #ffffff;
+        font-weight: 600;
+        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      }
+      button#fill:hover {
+        background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+        box-shadow: 0 6px 18px rgba(16, 185, 129, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+      }
+      #count {
+        color: #94a3b8;
+        font-size: 11.5px;
+        text-align: center;
+        margin: 10px 0 2px;
+      }
     </style>
   </head>
   <body>
-    <h1>izifill</h1>
+    <div class="brand-header">
+      <div class="brand-icon">⚡</div>
+      <h1>izifill</h1>
+    </div>
     <button id="fill"></button>
     <button id="profile"></button>
     <button id="tracker"></button>
