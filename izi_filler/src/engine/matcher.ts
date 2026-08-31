@@ -14,15 +14,66 @@ export function matchFields(fields: FieldSnapshot[], profile: Profile, learned: 
   return fields.map((f) => matchField(f, profile, learned));
 }
 
+// Cross-language equivalents so a stored answer in one language can select
+// its counterpart option on a site in the other language.
+const EQUIVALENTS: string[][] = [
+  ['oui', 'yes'],
+  ['non', 'no'],
+  ['monsieur', 'mr', 'mister'],
+  ['madame', 'mme', 'mrs', 'ms', 'madam'],
+  ['homme', 'male', 'masculin', 'man'],
+  ['femme', 'female', 'feminin', 'woman'],
+  ['immediate', 'immediatement', 'immediately', 'asap', 'des que possible'],
+];
+const EQUIV_LOOKUP = new Map<string, Set<string>>();
+for (const group of EQUIVALENTS) {
+  const set = new Set(group);
+  for (const word of group) EQUIV_LOOKUP.set(word, set);
+}
+
+// "38 000" / "20,000" → 38000 / 20000; null unless the text is purely a number.
+function parseNumeric(normalized: string): number | null {
+  const joined = normalized.replace(/(\d)\s+(?=\d)/g, '$1');
+  const m = joined.match(/^\s*(\d+)\s*$/);
+  return m ? Number(m[1]) : null;
+}
+
+// Parses bracket-shaped option text: "moins de X", "X à Y", "plus de X" (FR/EN).
+function parseRange(normalized: string): { min: number; max: number } | null {
+  const t = normalized.replace(/(\d)\s+(?=\d)/g, '$1');
+  let m = t.match(/(?:moins de?|less than|under|jusqu a)\s*(\d+)/);
+  if (m) return { min: -Infinity, max: Number(m[1]) };
+  m = t.match(/(\d+)\s*(?:a|to|et|jusqu a)\s*(\d+)/);
+  if (m) return { min: Number(m[1]), max: Number(m[2]) };
+  m = t.match(/(?:plus de?|more than|over|au dela de)\s*(\d+)/);
+  if (m) return { min: Number(m[1]), max: Infinity };
+  m = t.match(/(\d+)\s*(?:et plus|and (?:more|above|up))/);
+  if (m) return { min: Number(m[1]), max: Infinity };
+  return null;
+}
+
 export function resolveOption(f: FieldSnapshot, value: string): string | null {
   const v = normalize(value);
   if (!v) return null;
   for (const o of f.options) {
     if (normalize(o.text) === v || normalize(o.value) === v) return o.value;
   }
+  const equivalents = EQUIV_LOOKUP.get(v);
+  if (equivalents) {
+    for (const o of f.options) {
+      if (equivalents.has(normalize(o.text))) return o.value;
+    }
+  }
   for (const o of f.options) {
     const t = normalize(o.text);
     if (t && (contains(t, v) || contains(v, t))) return o.value;
+  }
+  const num = parseNumeric(v);
+  if (num !== null) {
+    for (const o of f.options) {
+      const range = parseRange(normalize(o.text));
+      if (range && num >= range.min && num <= range.max) return o.value;
+    }
   }
   return null;
 }

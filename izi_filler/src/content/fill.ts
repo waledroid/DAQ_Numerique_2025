@@ -19,6 +19,22 @@ export function setNativeValue(el: HTMLElement, value: string): void {
   el.dispatchEvent(new Event('change', { bubbles: true }));
 }
 
+// The user's current answer in a form control, as text usable for learning:
+// selects and radios yield the visible option label, inputs their value.
+export function currentAnswer(el: HTMLElement, field: FieldSnapshot): string {
+  if (field.type === 'radio') {
+    const checked = el.ownerDocument.querySelector<HTMLInputElement>(
+      `input[type="radio"][data-izifill-ref="${field.ref}"]:checked`,
+    );
+    if (!checked) return '';
+    return field.options.find((o) => o.value === checked.value)?.text ?? checked.value;
+  }
+  if (el instanceof HTMLSelectElement) {
+    return el.selectedOptions[0]?.textContent?.trim() ?? el.value;
+  }
+  return (el as HTMLInputElement).value ?? '';
+}
+
 export function injectFile(el: HTMLInputElement, file: StoredFile): boolean {
   try {
     const bin = atob(file.data);

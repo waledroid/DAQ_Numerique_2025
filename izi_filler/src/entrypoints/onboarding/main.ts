@@ -1,5 +1,6 @@
 import { renderProfileForm, readProfileForm, TABS } from '../../pages/profile-form';
 import { completionPercent, mergeImportedProfile } from '../../engine/profile';
+import { mergeLearnedAnswers } from '../../engine/learned';
 import {
   createProfile, deleteProfile, listProfiles, loadLearned, loadProfile, loadStoredFile,
   renameProfile, saveLearned, saveProfile, saveStoredFile, switchProfile,
@@ -178,6 +179,10 @@ async function importProfileFile(file: File): Promise<void> {
   try {
     const parsed: unknown = JSON.parse(await file.text());
     await saveProfile(mergeImportedProfile(parsed));
+    const importedLearned = (parsed as Record<string, unknown> | null)?.learnedAnswers;
+    const existing = await loadLearned();
+    const merged = mergeLearnedAnswers(existing, importedLearned, lang);
+    if (merged.length !== existing.length) await saveLearned(merged);
     await reloadAll();
     toast(fr ? 'Profil importé ✔' : 'Profile imported ✔');
   } catch {

@@ -1,7 +1,33 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { applyMatches, setNativeValue } from '../../src/content/fill';
+import { applyMatches, setNativeValue, currentAnswer } from '../../src/content/fill';
 import { snapshotFields } from '../../src/content/snapshot';
 import type { FieldMatch } from '../../src/engine/types';
+
+describe('currentAnswer', () => {
+  it('returns the selected option text for selects', () => {
+    document.body.innerHTML = '<select><option value="m">Monsieur</option><option value="f">Madame</option></select>';
+    const fields = snapshotFields(document);
+    const el = document.querySelector('select')!;
+    el.value = 'm';
+    expect(currentAnswer(el, fields[0])).toBe('Monsieur');
+  });
+  it('returns the checked radio label for radio groups', () => {
+    document.body.innerHTML = `
+      <label><input type="radio" name="civ" value="m">Monsieur</label>
+      <label><input type="radio" name="civ" value="f">Madame</label>`;
+    const fields = snapshotFields(document);
+    const radio = document.querySelector<HTMLInputElement>('input[value="m"]')!;
+    radio.checked = true;
+    expect(currentAnswer(radio, fields[0])).toBe('Monsieur');
+  });
+  it('returns the value for text inputs', () => {
+    document.body.innerHTML = '<input>';
+    const fields = snapshotFields(document);
+    const el = document.querySelector('input')!;
+    el.value = 'Bac+5';
+    expect(currentAnswer(el, fields[0])).toBe('Bac+5');
+  });
+});
 
 describe('setNativeValue', () => {
   it('sets the value and dispatches bubbling input and change events', () => {

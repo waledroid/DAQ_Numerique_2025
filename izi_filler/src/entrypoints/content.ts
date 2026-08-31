@@ -1,5 +1,5 @@
 import { snapshotFields } from '../content/snapshot';
-import { applyMatches } from '../content/fill';
+import { applyMatches, currentAnswer } from '../content/fill';
 import {
   clearUi, highlightField, mountSidebar, showPrompt, showSaveChip, showSummary, showToast,
 } from '../content/ui';
@@ -156,15 +156,25 @@ async function fillStep(): Promise<void> {
 function attachLearner(el: HTMLElement, field?: FieldSnapshot): void {
   if (!field || el.dataset.izifillLearn) return;
   el.dataset.izifillLearn = '1';
-  el.addEventListener('blur', () => {
-    const value = (el as HTMLInputElement).value?.trim();
-    const question = field.label || field.ariaLabel || field.placeholder;
-    if (!value || !question) return;
+  const question = field.label || field.ariaLabel || field.placeholder;
+  if (!question) return;
+  const offer = (): void => {
+    const value = currentAnswer(el, field).trim();
+    if (!value) return;
     showSaveChip(el, lang, async () => {
       await addLearnedAnswer(makeLearned(question, value, lang));
       showToast(t('answerSaved', lang));
     });
-  });
+  };
+  if (field.type === 'radio') {
+    el.ownerDocument
+      .querySelectorAll<HTMLInputElement>(`input[type="radio"][data-izifill-ref="${field.ref}"]`)
+      .forEach((r) => r.addEventListener('change', offer));
+  } else if (field.tag === 'select') {
+    el.addEventListener('change', offer);
+  } else {
+    el.addEventListener('blur', offer);
+  }
 }
 
 function installWatchers(): void {

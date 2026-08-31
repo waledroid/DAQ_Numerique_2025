@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { jaccard, findLearnedAnswer, makeLearned } from '../../src/engine/learned';
+import { jaccard, findLearnedAnswer, makeLearned, mergeLearnedAnswers } from '../../src/engine/learned';
 
 const learned = [
   makeLearned('Quelle est votre disponibilité ?', 'Immédiate', 'fr'),
@@ -32,6 +32,23 @@ describe('findLearnedAnswer', () => {
   });
   it('returns null for empty question', () => {
     expect(findLearnedAnswer('', learned)).toBeNull();
+  });
+});
+
+describe('mergeLearnedAnswers', () => {
+  it('adds imported question/answer pairs and dedupes by normalized key', () => {
+    const existing = [makeLearned('Civilité', 'Monsieur', 'fr')];
+    const merged = mergeLearnedAnswers(existing, [
+      { question: 'Civilité ?', answer: 'Monsieur' },
+      { question: 'Disponibilité', answer: 'Immédiate' },
+    ], 'fr');
+    expect(merged).toHaveLength(2);
+    expect(merged[1].answer).toBe('Immédiate');
+  });
+  it('ignores non-arrays and malformed items', () => {
+    const existing = [makeLearned('Civilité', 'Monsieur', 'fr')];
+    expect(mergeLearnedAnswers(existing, 'nope', 'fr')).toHaveLength(1);
+    expect(mergeLearnedAnswers(existing, [{ question: 42 }, null, { answer: 'x' }], 'fr')).toHaveLength(1);
   });
 });
 

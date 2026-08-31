@@ -31,6 +31,19 @@ function contextFor(el: Element): string {
   return text(el.closest('fieldset')?.querySelector('legend') ?? null);
 }
 
+const CONTROL_TAGS = new Set(['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON']);
+
+// Last-resort label: short text just before the control (many sites put the
+// question in a bare <div>/<p> with no <label> association).
+function precedingText(el: Element): string {
+  const prev = el.previousElementSibling ?? el.parentElement?.previousElementSibling;
+  if (!prev) return '';
+  if (CONTROL_TAGS.has(prev.tagName)) return '';
+  if (prev.querySelector('input, select, textarea')) return '';
+  const value = text(prev);
+  return value.length > 0 && value.length <= 120 ? value : '';
+}
+
 export function snapshotFields(doc: Document): FieldSnapshot[] {
   doc.querySelectorAll('[data-izifill-ref]').forEach((el) => el.removeAttribute('data-izifill-ref'));
   const els = Array.from(doc.querySelectorAll<HTMLElement>('input, select, textarea'));
@@ -82,7 +95,7 @@ export function snapshotFields(doc: Document): FieldSnapshot[] {
       autocomplete: el.getAttribute('autocomplete') ?? '',
       placeholder: el.getAttribute('placeholder') ?? '',
       ariaLabel: el.getAttribute('aria-label') ?? '',
-      label: labelFor(el, doc),
+      label: labelFor(el, doc) || (el.getAttribute('aria-label') ? '' : precedingText(el)),
       context: contextFor(el),
       options:
         tag === 'select'

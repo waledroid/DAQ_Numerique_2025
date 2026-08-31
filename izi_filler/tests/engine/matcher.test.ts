@@ -153,6 +153,89 @@ describe('resolveOption', () => {
     const f = field({ tag: 'select', options: [{ value: 'FR', text: 'France (métropolitaine)' }] });
     expect(resolveOption(f, 'France')).toBe('FR');
   });
+
+  it('bridges French and English equivalents (oui/yes, male/homme, monsieur/mr)', () => {
+    const yn = field({ tag: 'select', options: [{ value: 'y', text: 'Yes' }, { value: 'n', text: 'No' }] });
+    expect(resolveOption(yn, 'Oui')).toBe('y');
+    expect(resolveOption(yn, 'Non')).toBe('n');
+    const genre = field({ tag: 'select', options: [{ value: 'h', text: 'Homme' }, { value: 'f', text: 'Femme' }] });
+    expect(resolveOption(genre, 'Male')).toBe('h');
+    const civ = field({ tag: 'select', options: [{ value: 'mr', text: 'Mr' }, { value: 'mrs', text: 'Mrs' }] });
+    expect(resolveOption(civ, 'Monsieur')).toBe('mr');
+  });
+
+  it('picks the numeric bracket containing the answer', () => {
+    const salary = field({ tag: 'select', options: [
+      { value: 'a', text: 'Moins de 20 000' },
+      { value: 'b', text: '20 000 à 30 000' },
+      { value: 'c', text: '30 000 à 45 000' },
+      { value: 'd', text: 'Plus de 45 000' },
+    ] });
+    expect(resolveOption(salary, '38000')).toBe('c');
+    expect(resolveOption(salary, '15 000')).toBe('a');
+    expect(resolveOption(salary, '60000')).toBe('d');
+    const years = field({ tag: 'select', options: [
+      { value: 'j', text: "Moins d'un an" },
+      { value: 'k', text: '1 à 2 ans' },
+      { value: 'l', text: '2 à 5 ans' },
+      { value: 'm', text: 'Plus de 5 ans' },
+    ] });
+    expect(resolveOption(years, '3')).toBe('l');
+    const en = field({ tag: 'select', options: [
+      { value: 'x', text: 'Less than 20,000' },
+      { value: 'y', text: '20,000 to 30,000' },
+      { value: 'z', text: 'More than 30,000' },
+    ] });
+    expect(resolveOption(en, '25000')).toBe('y');
+  });
+
+  it('does not bracket-match non-numeric answers', () => {
+    const salary = field({ tag: 'select', options: [{ value: 'a', text: 'Moins de 20 000' }] });
+    expect(resolveOption(salary, 'selon profil')).toBeNull();
+  });
+});
+
+describe('cross-language and jobposting.pro regressions', () => {
+  it('fills a Yes/No radio from a French Oui answer', () => {
+    const p = emptyProfile();
+    p.eligibility.workPermit = 'Oui';
+    const m = matchField(
+      field({ type: 'radio', label: 'Are you legally entitled to work in France?', options: [
+        { value: 'y', text: 'Yes' }, { value: 'n', text: 'No' },
+      ] }),
+      p, [],
+    );
+    expect(m.value).toBe('y');
+  });
+  it('matches "Vos compétences clés :" to the skills field', () => {
+    const p = emptyProfile();
+    p.skills = 'Python, C++';
+    const m = matchField(field({ tag: 'textarea', type: '', label: 'Vos compétences clés :' }), p, []);
+    expect(m).toMatchObject({ key: 'skills', value: 'Python, C++' });
+  });
+  it('answers a salary-bracket select from a numeric profile salary', () => {
+    const p = emptyProfile();
+    p.standardAnswers.salary = '38000';
+    const m = matchField(
+      field({ tag: 'select', type: '', label: 'Prétentions salariales (brut annuel)', options: [
+        { value: 'a', text: 'Moins de 20 000' }, { value: 'b', text: '20 000 à 30 000' },
+        { value: 'c', text: '30 000 à 45 000' }, { value: 'd', text: 'Plus de 45 000' },
+      ] }),
+      p, [],
+    );
+    expect(m.value).toBe('c');
+  });
+  it('answers a learned bracket question (Expérience → 3 years)', () => {
+    const learned = [makeLearned('Expérience', '3', 'fr')];
+    const m = matchField(
+      field({ tag: 'select', type: '', label: 'Expérience', options: [
+        { value: 'j', text: "Moins d'un an" }, { value: 'k', text: '1 à 2 ans' },
+        { value: 'l', text: '2 à 5 ans' },
+      ] }),
+      emptyProfile(), learned,
+    );
+    expect(m).toMatchObject({ value: 'l', source: 'learned' });
+  });
 });
 
 describe('matchFields', () => {

@@ -30,6 +30,28 @@ export function findLearnedAnswer(
   return { entry: best, confidence: bestScore >= 0.85 ? 'high' : 'low' };
 }
 
+// Merges question/answer pairs from an imported JSON file into an existing
+// learned list, deduplicating by normalized question key.
+export function mergeLearnedAnswers(
+  existing: LearnedAnswer[],
+  imported: unknown,
+  lang: Lang,
+): LearnedAnswer[] {
+  if (!Array.isArray(imported)) return existing;
+  const out = [...existing];
+  for (const item of imported) {
+    if (item === null || typeof item !== 'object') continue;
+    const { question, answer } = item as { question?: unknown; answer?: unknown };
+    if (typeof question !== 'string' || typeof answer !== 'string') continue;
+    if (!question.trim() || !answer.trim()) continue;
+    const entry = makeLearned(question, answer, lang);
+    if (entry.normalizedKey && !out.some((e) => e.normalizedKey === entry.normalizedKey)) {
+      out.push(entry);
+    }
+  }
+  return out;
+}
+
 export function makeLearned(questionText: string, answer: string, lang: Lang): LearnedAnswer {
   return {
     questionText,

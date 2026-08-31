@@ -65,6 +65,20 @@ describe('snapshotFields', () => {
     expect(fields[0].name).toBe('y');
   });
 
+  it('falls back to short preceding-sibling text when no label exists', () => {
+    document.body.innerHTML = `
+      <div>Vos compétences clés :</div>
+      <textarea name="skills"></textarea>`;
+    const [f] = snapshotFields(document);
+    expect(f.label).toBe('Vos compétences clés :');
+  });
+
+  it('does not use a preceding form control as a label', () => {
+    document.body.innerHTML = `<input name="a"><input name="b">`;
+    const fields = snapshotFields(document);
+    expect(fields[1].label).toBe('');
+  });
+
   it('captures aria-label and textarea', () => {
     document.body.innerHTML = `<textarea aria-label="Lettre de motivation"></textarea>`;
     const [f] = snapshotFields(document);
