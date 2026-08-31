@@ -17,11 +17,19 @@ function toast(msg: string): void {
   setTimeout(() => (node.style.display = 'none'), 3000);
 }
 
+async function fileToStoredFile(file: File): Promise<{ name: string; mime: string; data: string }> {
+  const buf = await file.arrayBuffer();
+  let bin = '';
+  const bytes = new Uint8Array(buf);
+  for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  return { name: file.name, mime: file.type, data: btoa(bin) };
+}
+
 async function refreshLearned(): Promise<void> {
   const list = await loadLearned();
   const ul = el<HTMLUListElement>('learned');
   ul.textContent = '';
-  for (const [i, entry] of list.entries()) {
+  for (const entry of list) {
     const li = document.createElement('li');
     li.textContent = `${entry.questionText} → ${entry.answer} `;
     const del = document.createElement('button');
@@ -29,9 +37,12 @@ async function refreshLearned(): Promise<void> {
     del.className = 'iz-remove';
     del.addEventListener('click', async () => {
       const current = await loadLearned();
-      current.splice(i, 1);
-      await saveLearned(current);
-      await refreshLearned();
+      const idx = current.findIndex((e) => e.questionText === entry.questionText && e.answer === entry.answer);
+      if (idx >= 0) {
+        current.splice(idx, 1);
+        await saveLearned(current);
+        await refreshLearned();
+      }
     });
     li.appendChild(del);
     ul.appendChild(li);
@@ -47,6 +58,7 @@ async function main(): Promise<void> {
     : 'Fill your profile once — izifill will fill your applications.';
   el('progressLabel').textContent = fr ? 'Profil complété :' : 'Profile completion:';
   el('filesTitle').textContent = fr ? 'Fichiers' : 'Files';
+  el('clLabel').textContent = fr ? 'Lettre de motivation (fichier)' : 'Cover letter (file)';
   el('learnedTitle').textContent = fr ? 'Réponses apprises' : 'Learned answers';
   el('save').textContent = fr ? 'Enregistrer le profil' : 'Save profile';
 
@@ -56,6 +68,9 @@ async function main(): Promise<void> {
 
   const cv = await loadStoredFile('cv');
   if (cv) el('cvName').textContent = '📎 ' + cv.name;
+
+  const cl = await loadStoredFile('coverLetter');
+  if (cl) el('clName').textContent = '📎 ' + cl.name;
 
   el('save').addEventListener('click', async () => {
     const updated = readProfileForm(el('form'));
@@ -67,13 +82,19 @@ async function main(): Promise<void> {
   el<HTMLInputElement>('cvFile').addEventListener('change', async (e) => {
     const file = (e.target as HTMLInputElement).files?.[0];
     if (!file) return;
-    const buf = await file.arrayBuffer();
-    let bin = '';
-    const bytes = new Uint8Array(buf);
-    for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
-    await saveStoredFile('cv', { name: file.name, mime: file.type, data: btoa(bin) });
+    const stored = await fileToStoredFile(file);
+    await saveStoredFile('cv', stored);
     el('cvName').textContent = '📎 ' + file.name;
     toast(fr ? 'CV enregistré ✔ (local à cet ordinateur)' : 'CV saved ✔ (local to this computer)');
+  });
+
+  el<HTMLInputElement>('clFile').addEventListener('change', async (e) => {
+    const file = (e.target as HTMLInputElement).files?.[0];
+    if (!file) return;
+    const stored = await fileToStoredFile(file);
+    await saveStoredFile('coverLetter', stored);
+    el('clName').textContent = '📎 ' + file.name;
+    toast(fr ? 'Lettre enregistrée ✔ (locale à cet ordinateur)' : 'Cover letter saved ✔ (local to this computer)');
   });
 
   await refreshLearned();
