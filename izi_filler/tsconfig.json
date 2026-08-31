@@ -1,0 +1,14 @@
+{
+  "extends": "./.wxt/tsconfig.json",
+  "compilerOptions": {
+    "strict": true,
+    "types": [
+      "chrome"
+    ]
+  },
+  "include": [
+    "src",
+    "tests",
+    ".wxt/wxt.d.ts"
+  ]
+}
