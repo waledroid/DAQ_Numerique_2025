@@ -25,6 +25,7 @@ describe('findLearnedAnswer', () => {
       makeLearned('Pourquoi souhaitez-vous travailler ici ?', 'Motivation X', 'fr'),
     ]);
     expect(hit?.entry.answer).toBe('Motivation X');
+    expect(hit?.confidence).toBe('low');
   });
   it('returns null for unrelated questions', () => {
     expect(findLearnedAnswer('Numéro de sécurité sociale', learned)).toBeNull();

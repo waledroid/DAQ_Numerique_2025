@@ -2,7 +2,7 @@ const STOPWORDS = new Set([
   // FR
   'le', 'la', 'les', 'l', 'de', 'des', 'du', 'd', 'un', 'une', 'votre', 'vos', 'vous',
   'est', 'et', 'ou', 'au', 'aux', 'ce', 'cette', 'svp', 'veuillez', 'merci',
-  'quel', 'quelle', 'quels', 'quelles', 'pourquoi', 'comment', 'combien', 'dans', 'notre', 'equipe', 'voulez', 'souhaitez',
+  'quel', 'quelle', 'quels', 'quelles', 'pourquoi', 'comment', 'combien', 'dans', 'notre', 'voulez', 'souhaitez',
   // EN
   'the', 'a', 'an', 'your', 'you', 'of', 'to', 'in', 'for', 'is', 'are', 'do', 'does',
   'please', 'what', 'why', 'how', 'much', 'many',
