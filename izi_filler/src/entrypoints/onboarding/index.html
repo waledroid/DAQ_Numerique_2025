@@ -12,9 +12,7 @@
         max-width: 760px;
         margin: 2rem auto;
         padding: 0 1.25rem 4rem;
-        background: #080c13;
-        background-image: radial-gradient(ellipse at 50% 0%, rgba(16, 185, 129, 0.08) 0%, transparent 65%);
-        background-attachment: fixed;
+        background: #0b101b;
         color: #f1f5f9;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
@@ -37,7 +35,6 @@
         font-weight: 800;
         color: #fff;
         border: 1px solid rgba(255, 255, 255, 0.22);
-        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
       }
       h1 {
         font-size: 1.6rem;
@@ -60,39 +57,33 @@
         margin: 1rem 0 0.5rem;
       }
       .pill {
-        padding: 7px 16px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 6px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
         border-radius: 9999px;
-        background: rgba(16, 24, 36, 0.65);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+        background: transparent;
         color: #cbd5e1;
         font: 500 13px inherit;
         cursor: pointer;
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
-        transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: all 0.18s ease;
       }
       .pill:hover {
-        background: rgba(24, 34, 50, 0.85);
+        background: rgba(255, 255, 255, 0.05);
         color: #f8fafc;
-        border-color: rgba(52, 211, 153, 0.35);
-        transform: translateY(-1px);
+        border-color: rgba(255, 255, 255, 0.3);
       }
       .pill.active {
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.95) 100%);
-        border-color: rgba(255, 255, 255, 0.25);
+        background: #10b981;
+        border-color: #10b981;
         color: #ffffff;
         font-weight: 600;
-        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.35);
       }
       .pill.add {
         font-weight: 700;
-        background: rgba(16, 185, 129, 0.15);
-        border-color: rgba(52, 211, 153, 0.3);
+        border-color: rgba(52, 211, 153, 0.4);
         color: #34d399;
       }
       .pill.add:hover {
-        background: rgba(16, 185, 129, 0.25);
+        background: rgba(16, 185, 129, 0.15);
         color: #6ee7b7;
       }
       .pill.tool {
@@ -101,37 +92,32 @@
       #ioBar {
         display: flex;
         gap: 8px;
-        margin: 0.5rem 0 1.2rem;
+        margin: 0.5rem 0 1rem;
       }
       #ioBar button {
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 9px;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 8px;
         color: #94a3b8;
         font-size: 12px;
         padding: 6px 12px;
-        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        cursor: pointer;
         transition: all 0.18s ease;
       }
       #ioBar button:hover {
-        background: rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.06);
         color: #f8fafc;
-        border-color: rgba(255, 255, 255, 0.14);
+        border-color: rgba(255, 255, 255, 0.25);
       }
       .progress-card {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        padding: 8px 14px;
-        background: rgba(14, 20, 30, 0.65);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
-        border-radius: 12px;
-        margin: 0.4rem 0 1.2rem;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        padding: 6px 14px;
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 9999px;
+        margin: 0.2rem 0 1rem;
       }
       #progressLabel {
         color: #94a3b8;
@@ -141,53 +127,54 @@
       #progress {
         font-weight: 700;
         font-size: 13.5px;
-        color: #34d399;
-        text-shadow: 0 0 10px rgba(16, 185, 129, 0.35);
+        color: #10b981;
       }
       #tabs {
         display: flex;
-        gap: 6px;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-        margin: 1.2rem 0 0;
+        gap: 8px;
+        border-bottom: none;
+        margin: 1.2rem 0 0.8rem;
         overflow-x: auto;
-        padding-bottom: 2px;
+        padding-bottom: 4px;
       }
       #tabs button {
-        background: none;
+        background: transparent;
         color: #94a3b8;
-        border: 0;
-        border-bottom: 2px solid transparent;
-        border-radius: 0;
-        padding: 10px 16px;
-        font: 500 13.5px inherit;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 9999px;
+        padding: 7px 16px;
+        font: 500 13px inherit;
         cursor: pointer;
-        transition: all 0.2s ease;
+        transition: all 0.18s ease;
         white-space: nowrap;
       }
       #tabs button:hover {
         color: #f8fafc;
+        border-color: rgba(255, 255, 255, 0.4);
+        background: rgba(255, 255, 255, 0.04);
       }
       #tabs button.active {
-        color: #34d399;
-        border-bottom-color: #10b981;
+        color: #10b981;
+        border: 1.5px solid #10b981;
+        background: transparent;
         font-weight: 600;
-        text-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+        text-shadow: none;
+        box-shadow: none;
       }
       .iz-group {
-        background: rgba(14, 20, 30, 0.65);
-        backdrop-filter: blur(24px) saturate(200%);
-        -webkit-backdrop-filter: blur(24px) saturate(200%);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.95);
+        color: #0f172a;
+        border: 1px solid rgba(255, 255, 255, 0.5);
         border-radius: 16px;
-        padding: 1.25rem 1.4rem;
+        padding: 1.3rem 1.5rem;
         margin: 1.2rem 0;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
       }
       .iz-group h2 {
         font-size: 1.05rem;
         font-weight: 700;
         letter-spacing: -0.2px;
-        color: #f8fafc;
+        color: #0f172a;
         margin: 0 0 1rem;
         display: flex;
         align-items: center;
@@ -195,56 +182,53 @@
       }
       .iz-field {
         display: block;
-        margin: 0.8rem 0;
+        margin: 0.85rem 0;
       }
       .iz-field span {
         display: block;
         font-size: 0.85rem;
-        font-weight: 500;
-        color: #94a3b8;
+        font-weight: 600;
+        color: #334155;
         margin-bottom: 5px;
       }
       .iz-field input, .iz-field textarea {
         width: 100%;
         padding: 9px 12px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid #cbd5e1;
         border-radius: 10px;
-        background: rgba(10, 15, 24, 0.7);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        color: #f8fafc;
+        background: #ffffff;
+        color: #0f172a;
         font: inherit;
         box-sizing: border-box;
-        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
-        transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05);
+        transition: border-color 0.2s, box-shadow 0.2s;
         outline: none;
       }
       .iz-field input:focus, .iz-field textarea:focus {
         border-color: #10b981;
-        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        background: rgba(14, 21, 33, 0.85);
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2);
       }
       .iz-field input[type="file"] {
         padding: 8px 10px;
         cursor: pointer;
+        background: #f8fafc;
       }
       .iz-field input[type="file"]::file-selector-button {
         padding: 5px 12px;
         border-radius: 8px;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-        background: rgba(255, 255, 255, 0.08);
-        color: #cbd5e1;
+        border: 1px solid #cbd5e1;
+        background: #e2e8f0;
+        color: #1e293b;
         font: 500 12px inherit;
         cursor: pointer;
         margin-right: 10px;
         transition: all 0.18s ease;
       }
       .iz-field input[type="file"]::file-selector-button:hover {
-        background: rgba(255, 255, 255, 0.14);
-        color: #fff;
+        background: #cbd5e1;
       }
       .iz-item {
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        border-top: 1px solid #e2e8f0;
         padding-top: 1rem;
         margin-top: 1rem;
       }
@@ -252,42 +236,39 @@
         padding: 9px 16px;
         border: 1px solid rgba(255, 255, 255, 0.1);
         border-radius: 10px;
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.95) 100%);
+        background: #10b981;
         color: #fff;
         font: 600 13px inherit;
         cursor: pointer;
-        box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
-        transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+        transition: all 0.18s ease;
       }
       button:hover {
+        background: #059669;
         transform: translateY(-1px);
-        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45);
       }
       button.iz-remove {
-        background: rgba(239, 68, 68, 0.15);
-        border: 1px solid rgba(239, 68, 68, 0.3);
-        color: #fca5a5;
-        font-weight: 500;
+        background: #fee2e2;
+        border: 1px solid #fca5a5;
+        color: #dc2626;
+        font-weight: 600;
         margin-top: 0.6rem;
         box-shadow: none;
       }
       button.iz-remove:hover {
-        background: rgba(239, 68, 68, 0.25);
-        color: #fecaca;
-        border-color: rgba(239, 68, 68, 0.45);
+        background: #fecaca;
+        border-color: #f87171;
       }
       [data-add] {
-        background: rgba(16, 185, 129, 0.12);
-        border: 1px solid rgba(52, 211, 153, 0.28);
-        color: #34d399;
+        background: #ecfdf5;
+        border: 1px solid #a7f3d0;
+        color: #059669;
         font-weight: 600;
         margin-top: 0.8rem;
         box-shadow: none;
       }
       [data-add]:hover {
-        background: rgba(16, 185, 129, 0.22);
-        color: #6ee7b7;
-        border-color: rgba(52, 211, 153, 0.45);
+        background: #d1fae5;
+        border-color: #6ee7b7;
       }
       #save {
         position: sticky;
@@ -297,24 +278,25 @@
         font-size: 14.5px;
         font-weight: 700;
         letter-spacing: -0.2px;
-        border-radius: 13px;
-        background: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(4, 120, 87, 0.95) 100%);
-        box-shadow: 0 8px 30px rgba(16, 185, 129, 0.45), 0 0 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35);
-        backdrop-filter: blur(16px);
+        border-radius: 12px;
+        background: #10b981;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
         margin-top: 1.5rem;
+      }
+      #save:hover {
+        background: #059669;
       }
       #toast {
         position: fixed;
         bottom: 2rem;
         right: 2rem;
-        background: rgba(8, 14, 22, 0.92);
-        backdrop-filter: blur(28px) saturate(220%);
-        -webkit-backdrop-filter: blur(28px) saturate(220%);
+        background: #0f172a;
         color: #f8fafc;
-        border: 1px solid rgba(52, 211, 153, 0.45);
+        border: 1px solid #10b981;
         padding: 10px 22px;
         border-radius: 9999px;
-        box-shadow: 0 16px 44px rgba(0, 0, 0, 0.65), 0 0 24px rgba(16, 185, 129, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+        box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
         display: none;
         font-weight: 600;
         z-index: 99999;
@@ -331,21 +313,27 @@
         gap: 8px;
         padding: 8px 12px;
         margin: 0.5rem 0;
-        background: rgba(10, 15, 24, 0.55);
-        border: 1px solid rgba(255, 255, 255, 0.07);
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
         border-radius: 10px;
-        color: #cbd5e1;
+        color: #1e293b;
       }
       #cvName, #clName {
         font-size: 0.85rem;
-        color: #34d399;
+        color: #059669;
+        font-weight: 600;
         margin: 0.3rem 0;
       }
     </style>
   </head>
   <body>
     <div class="page-header">
-      <div class="brand-icon">⚡</div>
+      <div class="brand-icon">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" style="display:block">
+          <path d="M13.5 2.5L7 12.5H12L9.5 21.5L18 10.5H13L16 2.5H13.5Z" fill="#ffffff"/>
+          <circle cx="18" cy="4.5" r="1.8" fill="#6ee7b7"/>
+        </svg>
+      </div>
       <h1>izifill</h1>
     </div>
     <p id="intro"></p>

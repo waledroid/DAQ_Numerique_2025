@@ -379,7 +379,10 @@ export function mountSidebar(lang: Lang, opts?: Partial<SidebarOptions>): void {
     launcher.title = 'izifill';
     const logoBadge = document.createElement('span');
     logoBadge.className = 'iz-logo';
-    logoBadge.textContent = 'iz';
+    logoBadge.innerHTML = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" style="display:block">
+      <path d="M13.5 2.5L7 12.5H12L9.5 21.5L18 10.5H13L16 2.5H13.5Z" fill="#ffffff"/>
+      <circle cx="18" cy="4.5" r="1.8" fill="#6ee7b7"/>
+    </svg>`;
     launcher.appendChild(logoBadge);
     makeDraggable(launcher);
     r.appendChild(launcher);
@@ -393,7 +396,10 @@ export function mountSidebar(lang: Lang, opts?: Partial<SidebarOptions>): void {
     brandWrap.className = 'brand-wrap';
     const brandIcon = document.createElement('span');
     brandIcon.className = 'brand-icon';
-    brandIcon.textContent = '⚡';
+    brandIcon.innerHTML = `<svg viewBox="0 0 24 24" width="14" height="14" fill="none" style="display:block">
+      <path d="M13.5 2.5L7 12.5H12L9.5 21.5L18 10.5H13L16 2.5H13.5Z" fill="#ffffff"/>
+      <circle cx="18" cy="4.5" r="1.8" fill="#6ee7b7"/>
+    </svg>`;
     const brand = document.createElement('span');
     brand.className = 'brand';
     brand.textContent = 'izifill';
