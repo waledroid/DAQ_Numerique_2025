@@ -41,6 +41,7 @@ export const PROFILE_GROUPS: GroupDef[] = [
   ] },
   { id: 'links', fr: 'Liens', en: 'Links', fields: [
     { key: 'links.linkedin', fr: 'LinkedIn', en: 'LinkedIn' },
+    { key: 'links.github', fr: 'GitHub', en: 'GitHub' },
     { key: 'links.portfolio', fr: 'Portfolio / site web', en: 'Portfolio / website' },
   ] },
   { id: 'experience', fr: 'Expériences', en: 'Experience', repeatKey: 'experience',
@@ -67,6 +68,34 @@ export const PROFILE_GROUPS: GroupDef[] = [
     { key: 'standardAnswers.remotePreference', fr: 'Télétravail souhaité', en: 'Remote preference' },
     { key: 'standardAnswers.coverLetter', fr: 'Lettre de motivation (texte)', en: 'Cover letter (text)', type: 'textarea' },
   ] },
+  { id: 'eeo', fr: 'Égalité professionnelle (EEO)', en: 'Equal Employment', fields: [
+    { key: 'eeo.usWorkAuthorization', fr: 'Autorisé à travailler aux États-Unis ? (Yes/No)', en: 'Authorized to work in the US? (Yes/No)' },
+    { key: 'eeo.requiresSponsorship', fr: 'Besoin de sponsoring visa ? (Yes/No)', en: 'Require visa sponsorship? (Yes/No)' },
+    { key: 'eeo.disability', fr: 'Situation de handicap ? (Yes/No)', en: 'Do you have a disability? (Yes/No)' },
+    { key: 'eeo.gender', fr: 'Genre', en: 'Gender' },
+    { key: 'eeo.lgbtq', fr: 'Vous identifiez-vous comme LGBTQ+ ? (Yes/No)', en: 'Identify as LGBTQ+? (Yes/No)' },
+    { key: 'eeo.veteran', fr: 'Vétéran ? (Yes/No)', en: 'Are you a veteran? (Yes/No)' },
+    { key: 'eeo.race', fr: 'Origine ethnique (libellé US)', en: 'Race' },
+    { key: 'eeo.hispanic', fr: 'Hispanique ou latino ? (Yes/No)', en: 'Hispanic or Latino? (Yes/No)' },
+    { key: 'eeo.sexualOrientation', fr: 'Orientation sexuelle', en: 'Sexual orientation' },
+    { key: 'eeo.pronouns', fr: 'Pronoms', en: 'Pronouns' },
+  ] },
+];
+
+export interface TabDef {
+  id: string;
+  fr: string;
+  en: string;
+  groupIds: string[];
+}
+
+export const TABS: TabDef[] = [
+  { id: 'personal', fr: 'Personnel', en: 'Personal',
+    groupIds: ['identity', 'contact', 'address', 'links', 'eligibility', 'standard'] },
+  { id: 'education', fr: 'Formation', en: 'Education', groupIds: ['education'] },
+  { id: 'experience', fr: 'Expériences', en: 'Work Experience', groupIds: ['experience'] },
+  { id: 'skills', fr: 'Compétences', en: 'Skills', groupIds: ['skillsLang'] },
+  { id: 'eeo', fr: 'EEO', en: 'Equal Employment', groupIds: ['eeo'] },
 ];
 
 function makeInput(def: FieldDef, value: string, attr: 'data-key' | 'data-item-key'): HTMLElement {
@@ -107,6 +136,7 @@ export function renderProfileForm(container: HTMLElement, profile: Profile, lang
   for (const group of PROFILE_GROUPS) {
     const section = document.createElement('section');
     section.className = 'iz-group';
+    section.setAttribute('data-group', group.id);
     const h = document.createElement('h2');
     h.textContent = lang === 'fr' ? group.fr : group.en;
     section.appendChild(h);

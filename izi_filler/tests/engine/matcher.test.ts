@@ -81,6 +81,73 @@ describe('matchField', () => {
   });
 });
 
+describe('equal employment (EEO) questions', () => {
+  const p = emptyProfile();
+  p.eeo.usWorkAuthorization = 'No';
+  p.eeo.requiresSponsorship = 'Yes';
+  p.eeo.gender = 'Male';
+  p.eeo.disability = 'No';
+  p.eeo.race = 'Black or African American';
+  p.eeo.pronouns = 'He/Him';
+  p.eeo.veteran = 'No';
+  p.eeo.hispanic = 'No';
+  p.links.github = 'https://github.com/waledroid';
+
+  it('answers the US work-authorization question (not the FR permit)', () => {
+    const m = matchField(
+      field({ type: 'radio', label: 'Are you authorized to work in the United States?', options: [
+        { value: 'y', text: 'Yes' }, { value: 'n', text: 'No' },
+      ] }),
+      p, [],
+    );
+    expect(m).toMatchObject({ key: 'eeo.usWorkAuthorization', value: 'n' });
+  });
+  it('answers the visa sponsorship question', () => {
+    const m = matchField(
+      field({ type: 'radio', label: 'Will you now or in the future require sponsorship for employment visa status?', options: [
+        { value: 'yes', text: 'Yes' }, { value: 'no', text: 'No' },
+      ] }),
+      p, [],
+    );
+    expect(m).toMatchObject({ key: 'eeo.requiresSponsorship', value: 'yes' });
+  });
+  it('answers gender as a select', () => {
+    const m = matchField(
+      field({ tag: 'select', type: '', label: 'What is your gender?', options: [
+        { value: 'm', text: 'Male' }, { value: 'f', text: 'Female' },
+      ] }),
+      p, [],
+    );
+    expect(m).toMatchObject({ key: 'eeo.gender', value: 'm', confidence: 'high' });
+  });
+  it('answers disability, veteran and hispanic yes/no questions', () => {
+    const yn = [{ value: 'yes', text: 'Yes' }, { value: 'no', text: 'No' }];
+    expect(matchField(field({ type: 'radio', label: 'Do you have a disability?', options: yn }), p, []).value).toBe('no');
+    expect(matchField(field({ type: 'radio', label: 'Are you a veteran?', options: yn }), p, []).value).toBe('no');
+    expect(matchField(field({ type: 'radio', label: 'Are you Hispanic or Latino?', options: yn }), p, []).value).toBe('no');
+  });
+  it('answers race and pronouns', () => {
+    const race = matchField(
+      field({ tag: 'select', type: '', label: 'How would you identify your race?', options: [
+        { value: 'w', text: 'White' }, { value: 'b', text: 'Black or African American' },
+      ] }),
+      p, [],
+    );
+    expect(race).toMatchObject({ key: 'eeo.race', value: 'b' });
+    const pron = matchField(
+      field({ tag: 'select', type: '', label: 'What Are Your Pronouns?', options: [
+        { value: 'he', text: 'He/Him' }, { value: 'she', text: 'She/Her' },
+      ] }),
+      p, [],
+    );
+    expect(pron).toMatchObject({ key: 'eeo.pronouns', value: 'he' });
+  });
+  it('matches a GitHub field to links.github', () => {
+    const m = matchField(field({ label: 'GitHub' }), p, []);
+    expect(m).toMatchObject({ key: 'links.github', value: 'https://github.com/waledroid' });
+  });
+});
+
 describe('resolveOption', () => {
   it('matches by containment both ways', () => {
     const f = field({ tag: 'select', options: [{ value: 'FR', text: 'France (métropolitaine)' }] });

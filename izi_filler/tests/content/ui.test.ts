@@ -1,5 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
-import { showPrompt, showSummary, showToast, highlightField, showSaveChip, clearUi } from '../../src/content/ui';
+import {
+  mountSidebar, showPrompt, showSummary, showToast, highlightField, showSaveChip, clearUi,
+} from '../../src/content/ui';
 
 beforeEach(() => {
   clearUi();
@@ -10,23 +12,63 @@ function root(): ShadowRoot {
   return document.getElementById('izifill-root')!.shadowRoot!;
 }
 
+describe('mountSidebar', () => {
+  it('renders a collapsed launcher and a sidebar with profile options', () => {
+    const onProfileChange = vi.fn();
+    mountSidebar('en', {
+      profiles: [{ id: 'a', name: 'Engineer' }, { id: 'b', name: 'Hotel' }],
+      activeId: 'b',
+      onProfileChange,
+      onFill: vi.fn(),
+      onOpenProfile: vi.fn(),
+      onOpenTracker: vi.fn(),
+    });
+    expect(root().querySelector('.launcher')).not.toBeNull();
+    const sidebar = root().querySelector('.sidebar')!;
+    expect(sidebar.classList.contains('open')).toBe(false);
+    const select = root().querySelector<HTMLSelectElement>('select.profiles')!;
+    expect([...select.options].map((o) => o.textContent)).toEqual(['Engineer', 'Hotel']);
+    expect(select.value).toBe('b');
+    select.value = 'a';
+    select.dispatchEvent(new Event('change'));
+    expect(onProfileChange).toHaveBeenCalledWith('a');
+  });
+
+  it('toggles open on launcher click and fires onFill from the fill button', () => {
+    const onFill = vi.fn();
+    mountSidebar('fr', {
+      profiles: [{ id: 'a', name: 'P' }], activeId: 'a',
+      onProfileChange: vi.fn(), onFill, onOpenProfile: vi.fn(), onOpenTracker: vi.fn(),
+    });
+    const launcher = root().querySelector<HTMLButtonElement>('.launcher')!;
+    launcher.click();
+    expect(root().querySelector('.sidebar')!.classList.contains('open')).toBe(true);
+    root().querySelector<HTMLButtonElement>('button.fill')!.click();
+    expect(onFill).toHaveBeenCalledOnce();
+    root().querySelector<HTMLButtonElement>('button.close')!.click();
+    expect(root().querySelector('.sidebar')!.classList.contains('open')).toBe(false);
+  });
+});
+
 describe('showPrompt', () => {
-  it('renders two buttons and wires callbacks', () => {
+  it('expands the sidebar with a question and wires callbacks', () => {
     const onYes = vi.fn();
     const onNever = vi.fn();
     showPrompt('fr', onYes, onNever);
-    const buttons = root().querySelectorAll('button');
+    const sidebar = root().querySelector('.sidebar')!;
+    expect(sidebar.classList.contains('open')).toBe(true);
+    const buttons = root().querySelectorAll<HTMLButtonElement>('.question button');
     expect(buttons).toHaveLength(2);
-    (buttons[0] as HTMLButtonElement).click();
+    buttons[0].click();
     expect(onYes).toHaveBeenCalledOnce();
     expect(onNever).not.toHaveBeenCalled();
   });
 });
 
 describe('showSummary', () => {
-  it('shows the counts', () => {
+  it('shows the counts in the sidebar', () => {
     showSummary('en', { filled: 3, uncertain: 1, unknown: 2 });
-    expect(root().textContent).toContain('3');
+    expect(root().querySelector('.summary')!.textContent).toContain('3');
     expect(root().textContent).toContain('left for you');
   });
 });

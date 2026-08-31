@@ -38,17 +38,41 @@ export interface EducationEntry {
   year: string;
 }
 
+export interface EeoAnswers {
+  usWorkAuthorization: string;
+  requiresSponsorship: string;
+  disability: string;
+  gender: string;
+  lgbtq: string;
+  veteran: string;
+  race: string;
+  hispanic: string;
+  sexualOrientation: string;
+  pronouns: string;
+}
+
 export interface Profile {
   identity: { firstName: string; lastName: string; birthDate: string; nationality: string };
   contact: { email: string; phone: string };
   address: { street: string; city: string; postalCode: string; country: string };
   eligibility: { workPermit: string; drivingLicence: string };
-  links: { linkedin: string; portfolio: string };
+  links: { linkedin: string; portfolio: string; github: string };
   experience: ExperienceEntry[];
   education: EducationEntry[];
   languages: string;
   skills: string;
   standardAnswers: { salary: string; noticePeriod: string; remotePreference: string; coverLetter: string };
+  eeo: EeoAnswers;
+}
+
+export interface ProfileMeta {
+  id: string;
+  name: string;
+}
+
+export interface ProfileRegistry {
+  list: ProfileMeta[];
+  activeId: string;
 }
 
 export interface LearnedAnswer {

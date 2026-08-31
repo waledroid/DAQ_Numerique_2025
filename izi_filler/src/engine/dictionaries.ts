@@ -31,13 +31,25 @@ export const LABEL_SYNONYMS: Record<string, string[]> = {
   'eligibility.workPermit': ['permis de travail', 'work permit', 'autorise a travailler', 'authorized to work', 'work authorization', 'droit de travailler', 'legally entitled to work'],
   'eligibility.drivingLicence': ['permis de conduire', 'driving licence', 'driver s license', 'drivers license', 'permis b'],
   'links.linkedin': ['profil linkedin', 'linkedin url', 'linkedin profile', 'linkedin'],
-  'links.portfolio': ['site personnel', 'personal website', 'portfolio', 'site web', 'website', 'github'],
+  'links.portfolio': ['site personnel', 'personal website', 'portfolio', 'site web', 'website'],
+  'links.github': ['github profile', 'github url', 'github'],
   languages: ['langues parlees', 'spoken languages', 'langues', 'languages'],
   skills: ['competences cles', 'key skills', 'competences', 'skills'],
   'standardAnswers.salary': ['pretentions salariales', 'salary expectations', 'expected salary', 'remuneration souhaitee', 'salaire souhaite', 'salaire', 'salary', 'remuneration'],
   'standardAnswers.noticePeriod': ['periode de preavis', 'notice period', 'preavis', 'date de disponibilite', 'disponibilite', 'availability'],
   'standardAnswers.remotePreference': ['teletravail', 'remote work', 'travail a distance', 'remote'],
   'standardAnswers.coverLetter': ['lettre de motivation', 'cover letter', 'motivation'],
+  // US Equal Employment Opportunity questions (typically Workday/Greenhouse/Lever forms)
+  'eeo.usWorkAuthorization': ['authorized to work in the united states', 'authorized to work in the us', 'legally authorized to work in the united states', 'us work authorization'],
+  'eeo.requiresSponsorship': ['require sponsorship for employment visa', 'sponsorship for employment visa', 'require sponsorship', 'visa sponsorship', 'sponsorship'],
+  'eeo.disability': ['do you have a disability', 'disability status', 'disability', 'situation de handicap', 'handicap'],
+  'eeo.gender': ['what is your gender', 'gender identity', 'gender', 'genre', 'sexe'],
+  'eeo.lgbtq': ['identify as lgbtq', 'lgbtq'],
+  'eeo.veteran': ['are you a veteran', 'protected veteran', 'veteran status', 'veteran'],
+  'eeo.race': ['identify your race', 'race ethnicity', 'race', 'ethnicity', 'ethnicite'],
+  'eeo.hispanic': ['hispanic or latino', 'hispanic latino', 'hispanic'],
+  'eeo.sexualOrientation': ['sexual orientation', 'orientation sexuelle'],
+  'eeo.pronouns': ['what are your pronouns', 'pronouns', 'pronoms'],
 };
 
 export const CV_FILE_SYNONYMS = ['cv', 'curriculum vitae', 'resume', 'votre cv'];

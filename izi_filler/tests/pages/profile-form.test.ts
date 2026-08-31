@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { renderProfileForm, readProfileForm } from '../../src/pages/profile-form';
+import { renderProfileForm, readProfileForm, PROFILE_GROUPS, TABS } from '../../src/pages/profile-form';
 import { emptyProfile } from '../../src/engine/profile';
 
 let container: HTMLElement;
@@ -27,6 +27,38 @@ describe('renderProfileForm', () => {
     renderProfileForm(container, p, 'en');
     const item = container.querySelector('[data-repeat="experience"] .iz-item')!;
     expect(item.querySelector<HTMLInputElement>('[data-item-key="title"]')!.value).toBe('Dev');
+  });
+});
+
+describe('tabs', () => {
+  it('cover every profile group exactly once', () => {
+    const tabbed = TABS.flatMap((t) => t.groupIds);
+    expect([...tabbed].sort()).toEqual(PROFILE_GROUPS.map((g) => g.id).sort());
+    expect(TABS.map((t) => t.en)).toEqual([
+      'Personal', 'Education', 'Work Experience', 'Skills', 'Equal Employment',
+    ]);
+  });
+  it('sections carry a data-group attribute for tab switching', () => {
+    renderProfileForm(container, emptyProfile(), 'en');
+    const groups = [...container.querySelectorAll('section.iz-group')].map((s) => s.getAttribute('data-group'));
+    expect(groups).toEqual(PROFILE_GROUPS.map((g) => g.id));
+  });
+});
+
+describe('equal employment group', () => {
+  it('renders eeo fields and the github link field', () => {
+    const p = emptyProfile();
+    p.eeo.gender = 'Male';
+    p.links.github = 'https://github.com/waledroid';
+    renderProfileForm(container, p, 'en');
+    expect(container.querySelector<HTMLInputElement>('[data-key="eeo.gender"]')!.value).toBe('Male');
+    expect(container.querySelector<HTMLInputElement>('[data-key="links.github"]')!.value).toBe('https://github.com/waledroid');
+    expect(container.querySelector('[data-key="eeo.pronouns"]')).not.toBeNull();
+  });
+  it('round-trips eeo answers', () => {
+    renderProfileForm(container, emptyProfile(), 'en');
+    container.querySelector<HTMLInputElement>('[data-key="eeo.requiresSponsorship"]')!.value = 'Yes';
+    expect(readProfileForm(container).eeo.requiresSponsorship).toBe('Yes');
   });
 });
 

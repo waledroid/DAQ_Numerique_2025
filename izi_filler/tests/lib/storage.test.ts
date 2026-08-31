@@ -2,6 +2,7 @@ import { describe, it, expect, afterEach } from 'vitest';
 import {
   ChunkedStore, setStoreForTests, loadProfile, saveProfile, loadSettings,
   addApplication, loadApplications, saveStoredFile, loadStoredFile,
+  listProfiles, createProfile, switchProfile, deleteProfile, renameProfile,
   type AreaLike, type StoredFile,
 } from '../../src/lib/storage';
 import { emptyProfile } from '../../src/engine/profile';
@@ -99,9 +100,90 @@ describe('repos', () => {
 
 describe('stored files', () => {
   it('round-trips a file through an injected area', async () => {
+    setStoreForTests(new ChunkedStore(new FakeArea()));
     const area = new FakeArea();
     const f: StoredFile = { name: 'cv.pdf', mime: 'application/pdf', data: 'AAAA' };
     await saveStoredFile('cv', f, area);
     expect(await loadStoredFile('cv', area)).toEqual(f);
+  });
+});
+
+describe('profile registry', () => {
+  it('migrates a legacy single profile into the registry as "Principal"', async () => {
+    const store = new ChunkedStore(new FakeArea());
+    setStoreForTests(store);
+    const legacy = emptyProfile();
+    legacy.identity.firstName = 'Ada';
+    await store.setJSON('izifill_profile', legacy);
+    const reg = await listProfiles();
+    expect(reg.list).toHaveLength(1);
+    expect(reg.list[0].name).toBe('Principal');
+    expect(reg.activeId).toBe(reg.list[0].id);
+    expect((await loadProfile()).identity.firstName).toBe('Ada');
+  });
+
+  it('starts with one default profile when nothing exists', async () => {
+    setStoreForTests(new ChunkedStore(new FakeArea()));
+    const reg = await listProfiles();
+    expect(reg.list).toHaveLength(1);
+    expect((await loadProfile()).identity.firstName).toBe('');
+  });
+
+  it('creates, switches between, and deletes profiles with separate data', async () => {
+    setStoreForTests(new ChunkedStore(new FakeArea()));
+    const first = (await listProfiles()).activeId;
+    const created = await createProfile('Hotel');
+    let reg = await listProfiles();
+    expect(reg.list.map((p) => p.name)).toContain('Hotel');
+    expect(reg.activeId).toBe(created.id);
+
+    const prof = emptyProfile();
+    prof.identity.firstName = 'Bob';
+    await saveProfile(prof);
+    await switchProfile(first);
+    expect((await loadProfile()).identity.firstName).toBe('');
+    await switchProfile(created.id);
+    expect((await loadProfile()).identity.firstName).toBe('Bob');
+
+    await deleteProfile(created.id);
+    reg = await listProfiles();
+    expect(reg.list.find((p) => p.id === created.id)).toBeUndefined();
+    expect(reg.activeId).toBe(first);
+  });
+
+  it('renames a profile', async () => {
+    setStoreForTests(new ChunkedStore(new FakeArea()));
+    const reg = await listProfiles();
+    await renameProfile(reg.activeId, 'Ingénieur');
+    expect((await listProfiles()).list[0].name).toBe('Ingénieur');
+  });
+
+  it('refuses to delete the last remaining profile', async () => {
+    setStoreForTests(new ChunkedStore(new FakeArea()));
+    const reg = await listProfiles();
+    await deleteProfile(reg.activeId);
+    expect((await listProfiles()).list).toHaveLength(1);
+  });
+});
+
+describe('per-profile stored files', () => {
+  it('reads the legacy file key for the migrated default profile only', async () => {
+    setStoreForTests(new ChunkedStore(new FakeArea()));
+    const area = new FakeArea();
+    await area.set({ izifill_file_cv: { name: 'old.pdf', mime: 'application/pdf', data: 'AA' } });
+    expect((await loadStoredFile('cv', area))?.name).toBe('old.pdf');
+
+    await saveStoredFile('cv', { name: 'new.pdf', mime: 'application/pdf', data: 'BB' }, area);
+    expect((await loadStoredFile('cv', area))?.name).toBe('new.pdf');
+
+    await createProfile('Autre');
+    expect(await loadStoredFile('cv', area)).toBeUndefined();
+    await saveStoredFile('cv', { name: 'autre.pdf', mime: 'application/pdf', data: 'CC' }, area);
+    expect((await loadStoredFile('cv', area))?.name).toBe('autre.pdf');
+
+    const reg = await listProfiles();
+    const defaultId = reg.list[0].id;
+    await switchProfile(defaultId);
+    expect((await loadStoredFile('cv', area))?.name).toBe('new.pdf');
   });
 });

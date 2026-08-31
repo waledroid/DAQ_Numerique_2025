@@ -1,5 +1,7 @@
 import { emptyProfile } from '../engine/profile';
-import type { ApplicationEntry, LearnedAnswer, Profile, Settings } from '../engine/types';
+import type {
+  ApplicationEntry, LearnedAnswer, Profile, ProfileMeta, ProfileRegistry, Settings,
+} from '../engine/types';
 
 export interface AreaLike {
   get(keys: string[] | null): Promise<Record<string, unknown>>;
@@ -81,11 +83,20 @@ export class ChunkedStore {
 }
 
 const KEYS = {
-  profile: 'izifill_profile',
+  profile: 'izifill_profile', // legacy single-profile key, migrated into the registry
+  registry: 'izifill_profiles',
   learned: 'izifill_learned',
   apps: 'izifill_apps',
   settings: 'izifill_settings',
 };
+
+// The migrated/first profile keeps this fixed id so legacy file keys can be
+// used as a fallback for it (and only it).
+const DEFAULT_PROFILE_ID = 'p_default';
+
+function profileKey(id: string): string {
+  return 'izifill_profile__' + id;
+}
 
 let store: ChunkedStore | null = null;
 
@@ -98,11 +109,67 @@ function defaultStore(): ChunkedStore {
   return store;
 }
 
+export async function listProfiles(): Promise<ProfileRegistry> {
+  const existing = await defaultStore().getJSON<ProfileRegistry>(KEYS.registry);
+  if (existing && Array.isArray(existing.list) && existing.list.length > 0) return existing;
+  const reg: ProfileRegistry = {
+    list: [{ id: DEFAULT_PROFILE_ID, name: 'Principal' }],
+    activeId: DEFAULT_PROFILE_ID,
+  };
+  const legacy = await defaultStore().getJSON<Profile>(KEYS.profile);
+  if (legacy) await defaultStore().setJSON(profileKey(DEFAULT_PROFILE_ID), legacy);
+  await defaultStore().setJSON(KEYS.registry, reg);
+  return reg;
+}
+
+async function saveRegistry(reg: ProfileRegistry): Promise<void> {
+  await defaultStore().setJSON(KEYS.registry, reg);
+}
+
+export async function createProfile(name: string): Promise<ProfileMeta> {
+  const reg = await listProfiles();
+  const meta: ProfileMeta = {
+    id: 'p_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6),
+    name,
+  };
+  reg.list.push(meta);
+  reg.activeId = meta.id;
+  await saveRegistry(reg);
+  return meta;
+}
+
+export async function switchProfile(id: string): Promise<void> {
+  const reg = await listProfiles();
+  if (reg.list.some((p) => p.id === id)) {
+    reg.activeId = id;
+    await saveRegistry(reg);
+  }
+}
+
+export async function renameProfile(id: string, name: string): Promise<void> {
+  const reg = await listProfiles();
+  const meta = reg.list.find((p) => p.id === id);
+  if (meta) {
+    meta.name = name;
+    await saveRegistry(reg);
+  }
+}
+
+export async function deleteProfile(id: string): Promise<void> {
+  const reg = await listProfiles();
+  if (reg.list.length <= 1) return; // always keep at least one profile
+  reg.list = reg.list.filter((p) => p.id !== id);
+  if (reg.activeId === id) reg.activeId = reg.list[0].id;
+  await saveRegistry(reg);
+}
+
 export async function loadProfile(): Promise<Profile> {
-  return (await defaultStore().getJSON<Profile>(KEYS.profile)) ?? emptyProfile();
+  const reg = await listProfiles();
+  return (await defaultStore().getJSON<Profile>(profileKey(reg.activeId))) ?? emptyProfile();
 }
 export async function saveProfile(p: Profile): Promise<void> {
-  await defaultStore().setJSON(KEYS.profile, p);
+  const reg = await listProfiles();
+  await defaultStore().setJSON(profileKey(reg.activeId), p);
 }
 export async function loadLearned(): Promise<LearnedAnswer[]> {
   return (await defaultStore().getJSON<LearnedAnswer[]>(KEYS.learned)) ?? [];
@@ -144,9 +211,19 @@ function localArea(): AreaLike {
 }
 
 export async function saveStoredFile(kind: 'cv' | 'coverLetter', file: StoredFile, area?: AreaLike): Promise<void> {
-  await (area ?? localArea()).set({ ['izifill_file_' + kind]: file });
+  const reg = await listProfiles();
+  await (area ?? localArea()).set({ ['izifill_file_' + kind + '__' + reg.activeId]: file });
 }
 export async function loadStoredFile(kind: 'cv' | 'coverLetter', area?: AreaLike): Promise<StoredFile | undefined> {
-  const key = 'izifill_file_' + kind;
-  return (await (area ?? localArea()).get([key]))[key] as StoredFile | undefined;
+  const reg = await listProfiles();
+  const a = area ?? localArea();
+  const key = 'izifill_file_' + kind + '__' + reg.activeId;
+  const found = (await a.get([key]))[key] as StoredFile | undefined;
+  if (found) return found;
+  if (reg.activeId === DEFAULT_PROFILE_ID) {
+    // Files uploaded before multi-profile support live under the legacy key.
+    const legacyKey = 'izifill_file_' + kind;
+    return (await a.get([legacyKey]))[legacyKey] as StoredFile | undefined;
+  }
+  return undefined;
 }

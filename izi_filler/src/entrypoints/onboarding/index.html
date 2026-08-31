@@ -5,7 +5,17 @@
     <title>izifill — Profil</title>
     <style>
       body { font: 14px/1.6 system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; color: #111827; }
-      h1 { font-size: 1.4rem; }
+      h1 { font-size: 1.4rem; margin-bottom: .3rem; }
+      #profilesBar { display: flex; flex-wrap: wrap; gap: 6px; margin: .8rem 0; }
+      .pill { padding: 6px 14px; border: 1px solid #d1d5db; border-radius: 999px; background: #f9fafb; color: #111827; font: inherit; cursor: pointer; }
+      .pill.active { background: #2563eb; border-color: #2563eb; color: #fff; }
+      .pill.add { font-weight: 700; }
+      .pill.tool { padding: 6px 10px; }
+      #ioBar { display: flex; gap: 8px; margin: .4rem 0 1rem; }
+      #ioBar button { background: #374151; padding: 6px 12px; }
+      #tabs { display: flex; gap: 4px; border-bottom: 2px solid #e5e7eb; margin: 1rem 0 0; }
+      #tabs button { background: none; color: #4b5563; border: 0; border-bottom: 3px solid transparent; border-radius: 0; padding: 8px 14px; font: inherit; cursor: pointer; }
+      #tabs button.active { color: #2563eb; border-bottom-color: #2563eb; font-weight: 600; }
       .iz-group { border: 1px solid #e5e7eb; border-radius: 10px; padding: 1rem; margin: 1rem 0; }
       .iz-group h2 { font-size: 1rem; margin: 0 0 .8rem; }
       .iz-field { display: block; margin: .5rem 0; }
@@ -23,7 +33,14 @@
   <body>
     <h1>izifill</h1>
     <p id="intro"></p>
+    <div id="profilesBar"></div>
+    <div id="ioBar">
+      <button id="exportBtn" type="button"></button>
+      <button id="importBtn" type="button"></button>
+      <input type="file" id="importFile" accept=".json,application/json" hidden />
+    </div>
     <p><span id="progressLabel"></span> <span id="progress"></span></p>
+    <div id="tabs"></div>
     <div id="form"></div>
     <section class="iz-group" id="filesSection">
       <h2 id="filesTitle"></h2>

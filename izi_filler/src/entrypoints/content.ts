@@ -1,7 +1,7 @@
 import { snapshotFields } from '../content/snapshot';
 import { applyMatches } from '../content/fill';
 import {
-  clearUi, highlightField, showPrompt, showSaveChip, showSummary, showToast,
+  clearUi, highlightField, mountSidebar, showPrompt, showSaveChip, showSummary, showToast,
 } from '../content/ui';
 import {
   clearPendingSubmit, clearSession, extractJobMeta, isSubmitButton, loadPendingSubmit,
@@ -11,8 +11,8 @@ import { matchFields } from '../engine/matcher';
 import { APPLICATION_THRESHOLD, scoreApplicationPage } from '../engine/detection';
 import { makeLearned } from '../engine/learned';
 import {
-  addApplication, addLearnedAnswer, loadLearned, loadProfile, loadSettings,
-  loadStoredFile, saveSettings,
+  addApplication, addLearnedAnswer, listProfiles, loadLearned, loadProfile, loadSettings,
+  loadStoredFile, saveSettings, switchProfile,
 } from '../lib/storage';
 import { detectLang, t } from '../lib/i18n';
 import type { FieldSnapshot, Lang } from '../engine/types';
@@ -70,18 +70,31 @@ async function boot(): Promise<void> {
     return;
   }
 
-  maybeOfferFill();
+  await maybeOfferFill();
 
   let lastSeenUrl = location.href;
   setInterval(() => {
     if (location.href !== lastSeenUrl) {
       lastSeenUrl = location.href;
-      maybeOfferFill();
+      void maybeOfferFill();
     }
   }, 1000);
 }
 
-function maybeOfferFill(): void {
+async function ensureSidebarMounted(): Promise<void> {
+  if (document.getElementById('izifill-root')?.shadowRoot?.querySelector('.sidebar')) return;
+  const reg = await listProfiles();
+  mountSidebar(lang, {
+    profiles: reg.list,
+    activeId: reg.activeId,
+    onProfileChange: (id) => void switchProfile(id),
+    onFill: startSession,
+    onOpenProfile: () => void chrome.runtime.sendMessage({ type: 'izifill:open', page: 'onboarding' }),
+    onOpenTracker: () => void chrome.runtime.sendMessage({ type: 'izifill:open', page: 'tracker' }),
+  });
+}
+
+async function maybeOfferFill(): Promise<void> {
   if (loadSession()?.active) return;
   if (location.href === lastPromptedUrl) return;
   const info = {
@@ -93,6 +106,7 @@ function maybeOfferFill(): void {
   };
   if (scoreApplicationPage(info) >= APPLICATION_THRESHOLD) {
     lastPromptedUrl = location.href;
+    await ensureSidebarMounted();
     showPrompt(lang, startSession, async () => {
       const s = await loadSettings();
       if (!s.disabledDomains.includes(location.hostname)) s.disabledDomains.push(location.hostname);
@@ -103,6 +117,7 @@ function maybeOfferFill(): void {
 }
 
 function startSession(): void {
+  void ensureSidebarMounted();
   const sess = loadSession() ?? { active: true, step: 0, startedAt: new Date().toISOString() };
   sess.active = true;
   saveSession(sess);
