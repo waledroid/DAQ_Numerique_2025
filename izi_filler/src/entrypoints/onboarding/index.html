@@ -4,34 +4,350 @@
     <meta charset="utf-8" />
     <title>izifill — Profil</title>
     <style>
-      body { font: 14px/1.6 system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; color: #111827; }
-      h1 { font-size: 1.4rem; margin-bottom: .3rem; }
-      #profilesBar { display: flex; flex-wrap: wrap; gap: 6px; margin: .8rem 0; }
-      .pill { padding: 6px 14px; border: 1px solid #d1d5db; border-radius: 999px; background: #f9fafb; color: #111827; font: inherit; cursor: pointer; }
-      .pill.active { background: #2563eb; border-color: #2563eb; color: #fff; }
-      .pill.add { font-weight: 700; }
-      .pill.tool { padding: 6px 10px; }
-      #ioBar { display: flex; gap: 8px; margin: .4rem 0 1rem; }
-      #ioBar button { background: #374151; padding: 6px 12px; }
-      #tabs { display: flex; gap: 4px; border-bottom: 2px solid #e5e7eb; margin: 1rem 0 0; }
-      #tabs button { background: none; color: #4b5563; border: 0; border-bottom: 3px solid transparent; border-radius: 0; padding: 8px 14px; font: inherit; cursor: pointer; }
-      #tabs button.active { color: #2563eb; border-bottom-color: #2563eb; font-weight: 600; }
-      .iz-group { border: 1px solid #e5e7eb; border-radius: 10px; padding: 1rem; margin: 1rem 0; }
-      .iz-group h2 { font-size: 1rem; margin: 0 0 .8rem; }
-      .iz-field { display: block; margin: .5rem 0; }
-      .iz-field span { display: block; font-size: .85rem; color: #4b5563; }
-      .iz-field input, .iz-field textarea { width: 100%; padding: 6px 8px; border: 1px solid #d1d5db; border-radius: 6px; font: inherit; box-sizing: border-box; }
-      .iz-item { border-top: 1px dashed #d1d5db; padding-top: .5rem; margin-top: .5rem; }
-      button { padding: 8px 14px; border: 0; border-radius: 8px; background: #2563eb; color: #fff; font: inherit; cursor: pointer; }
-      button.iz-remove, [data-add] { background: #6b7280; margin-top: .5rem; }
-      #progress { font-weight: 600; color: #16a34a; }
-      #save { position: sticky; bottom: 1rem; }
-      #toast { position: fixed; bottom: 1rem; right: 1rem; background: #16a34a; color: #fff; padding: 10px 16px; border-radius: 8px; display: none; }
-      ul#learned li { margin: .3rem 0; }
+      :root {
+        color-scheme: dark;
+      }
+      body {
+        font: 14px/1.6 -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+        max-width: 760px;
+        margin: 2rem auto;
+        padding: 0 1.25rem 4rem;
+        background: #080c13;
+        background-image: radial-gradient(ellipse at 50% 0%, rgba(16, 185, 129, 0.08) 0%, transparent 65%);
+        background-attachment: fixed;
+        color: #f1f5f9;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+      .page-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 0.4rem;
+      }
+      .page-header .brand-icon {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.95) 100%);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        font-weight: 800;
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.22);
+        box-shadow: 0 4px 14px rgba(16, 185, 129, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      }
+      h1 {
+        font-size: 1.6rem;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        margin: 0;
+        color: #f8fafc;
+      }
+      #intro {
+        color: #94a3b8;
+        font-size: 0.95rem;
+        margin-top: 0.2rem;
+        margin-bottom: 1.2rem;
+      }
+      #profilesBar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 8px;
+        margin: 1rem 0 0.5rem;
+      }
+      .pill {
+        padding: 7px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 9999px;
+        background: rgba(16, 24, 36, 0.65);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        color: #cbd5e1;
+        font: 500 13px inherit;
+        cursor: pointer;
+        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+        transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      .pill:hover {
+        background: rgba(24, 34, 50, 0.85);
+        color: #f8fafc;
+        border-color: rgba(52, 211, 153, 0.35);
+        transform: translateY(-1px);
+      }
+      .pill.active {
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.95) 100%);
+        border-color: rgba(255, 255, 255, 0.25);
+        color: #ffffff;
+        font-weight: 600;
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+      }
+      .pill.add {
+        font-weight: 700;
+        background: rgba(16, 185, 129, 0.15);
+        border-color: rgba(52, 211, 153, 0.3);
+        color: #34d399;
+      }
+      .pill.add:hover {
+        background: rgba(16, 185, 129, 0.25);
+        color: #6ee7b7;
+      }
+      .pill.tool {
+        padding: 6px 12px;
+      }
+      #ioBar {
+        display: flex;
+        gap: 8px;
+        margin: 0.5rem 0 1.2rem;
+      }
+      #ioBar button {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 9px;
+        color: #94a3b8;
+        font-size: 12px;
+        padding: 6px 12px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+        transition: all 0.18s ease;
+      }
+      #ioBar button:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #f8fafc;
+        border-color: rgba(255, 255, 255, 0.14);
+      }
+      .progress-card {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 14px;
+        background: rgba(14, 20, 30, 0.65);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 12px;
+        margin: 0.4rem 0 1.2rem;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+      #progressLabel {
+        color: #94a3b8;
+        font-size: 13px;
+        font-weight: 500;
+      }
+      #progress {
+        font-weight: 700;
+        font-size: 13.5px;
+        color: #34d399;
+        text-shadow: 0 0 10px rgba(16, 185, 129, 0.35);
+      }
+      #tabs {
+        display: flex;
+        gap: 6px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        margin: 1.2rem 0 0;
+        overflow-x: auto;
+        padding-bottom: 2px;
+      }
+      #tabs button {
+        background: none;
+        color: #94a3b8;
+        border: 0;
+        border-bottom: 2px solid transparent;
+        border-radius: 0;
+        padding: 10px 16px;
+        font: 500 13.5px inherit;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        white-space: nowrap;
+      }
+      #tabs button:hover {
+        color: #f8fafc;
+      }
+      #tabs button.active {
+        color: #34d399;
+        border-bottom-color: #10b981;
+        font-weight: 600;
+        text-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+      }
+      .iz-group {
+        background: rgba(14, 20, 30, 0.65);
+        backdrop-filter: blur(24px) saturate(200%);
+        -webkit-backdrop-filter: blur(24px) saturate(200%);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        padding: 1.25rem 1.4rem;
+        margin: 1.2rem 0;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+      }
+      .iz-group h2 {
+        font-size: 1.05rem;
+        font-weight: 700;
+        letter-spacing: -0.2px;
+        color: #f8fafc;
+        margin: 0 0 1rem;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .iz-field {
+        display: block;
+        margin: 0.8rem 0;
+      }
+      .iz-field span {
+        display: block;
+        font-size: 0.85rem;
+        font-weight: 500;
+        color: #94a3b8;
+        margin-bottom: 5px;
+      }
+      .iz-field input, .iz-field textarea {
+        width: 100%;
+        padding: 9px 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        background: rgba(10, 15, 24, 0.7);
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        color: #f8fafc;
+        font: inherit;
+        box-sizing: border-box;
+        box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.35);
+        transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        outline: none;
+      }
+      .iz-field input:focus, .iz-field textarea:focus {
+        border-color: #10b981;
+        box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        background: rgba(14, 21, 33, 0.85);
+      }
+      .iz-field input[type="file"] {
+        padding: 8px 10px;
+        cursor: pointer;
+      }
+      .iz-field input[type="file"]::file-selector-button {
+        padding: 5px 12px;
+        border-radius: 8px;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        background: rgba(255, 255, 255, 0.08);
+        color: #cbd5e1;
+        font: 500 12px inherit;
+        cursor: pointer;
+        margin-right: 10px;
+        transition: all 0.18s ease;
+      }
+      .iz-field input[type="file"]::file-selector-button:hover {
+        background: rgba(255, 255, 255, 0.14);
+        color: #fff;
+      }
+      .iz-item {
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        padding-top: 1rem;
+        margin-top: 1rem;
+      }
+      button {
+        padding: 9px 16px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.95) 100%);
+        color: #fff;
+        font: 600 13px inherit;
+        cursor: pointer;
+        box-shadow: 0 4px 16px rgba(16, 185, 129, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+      }
+      button:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45);
+      }
+      button.iz-remove {
+        background: rgba(239, 68, 68, 0.15);
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        color: #fca5a5;
+        font-weight: 500;
+        margin-top: 0.6rem;
+        box-shadow: none;
+      }
+      button.iz-remove:hover {
+        background: rgba(239, 68, 68, 0.25);
+        color: #fecaca;
+        border-color: rgba(239, 68, 68, 0.45);
+      }
+      [data-add] {
+        background: rgba(16, 185, 129, 0.12);
+        border: 1px solid rgba(52, 211, 153, 0.28);
+        color: #34d399;
+        font-weight: 600;
+        margin-top: 0.8rem;
+        box-shadow: none;
+      }
+      [data-add]:hover {
+        background: rgba(16, 185, 129, 0.22);
+        color: #6ee7b7;
+        border-color: rgba(52, 211, 153, 0.45);
+      }
+      #save {
+        position: sticky;
+        bottom: 1.5rem;
+        width: 100%;
+        padding: 13px 20px;
+        font-size: 14.5px;
+        font-weight: 700;
+        letter-spacing: -0.2px;
+        border-radius: 13px;
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(4, 120, 87, 0.95) 100%);
+        box-shadow: 0 8px 30px rgba(16, 185, 129, 0.45), 0 0 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+        backdrop-filter: blur(16px);
+        margin-top: 1.5rem;
+      }
+      #toast {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        background: rgba(8, 14, 22, 0.92);
+        backdrop-filter: blur(28px) saturate(220%);
+        -webkit-backdrop-filter: blur(28px) saturate(220%);
+        color: #f8fafc;
+        border: 1px solid rgba(52, 211, 153, 0.45);
+        padding: 10px 22px;
+        border-radius: 9999px;
+        box-shadow: 0 16px 44px rgba(0, 0, 0, 0.65), 0 0 24px rgba(16, 185, 129, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+        display: none;
+        font-weight: 600;
+        z-index: 99999;
+      }
+      ul#learned {
+        list-style: none;
+        padding: 0;
+        margin: 0.5rem 0 0;
+      }
+      ul#learned li {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 8px 12px;
+        margin: 0.5rem 0;
+        background: rgba(10, 15, 24, 0.55);
+        border: 1px solid rgba(255, 255, 255, 0.07);
+        border-radius: 10px;
+        color: #cbd5e1;
+      }
+      #cvName, #clName {
+        font-size: 0.85rem;
+        color: #34d399;
+        margin: 0.3rem 0;
+      }
     </style>
   </head>
   <body>
-    <h1>izifill</h1>
+    <div class="page-header">
+      <div class="brand-icon">⚡</div>
+      <h1>izifill</h1>
+    </div>
     <p id="intro"></p>
     <div id="profilesBar"></div>
     <div id="ioBar">
@@ -39,7 +355,9 @@
       <button id="importBtn" type="button"></button>
       <input type="file" id="importFile" accept=".json,application/json" hidden />
     </div>
-    <p><span id="progressLabel"></span> <span id="progress"></span></p>
+    <div class="progress-card">
+      <span id="progressLabel"></span> <span id="progress"></span>
+    </div>
     <div id="tabs"></div>
     <div id="form"></div>
     <section class="iz-group" id="filesSection">
