@@ -1,0 +1,41 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>izifill — Profil</title>
+    <style>
+      body { font: 14px/1.6 system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; color: #111827; }
+      h1 { font-size: 1.4rem; }
+      .iz-group { border: 1px solid #e5e7eb; border-radius: 10px; padding: 1rem; margin: 1rem 0; }
+      .iz-group h2 { font-size: 1rem; margin: 0 0 .8rem; }
+      .iz-field { display: block; margin: .5rem 0; }
+      .iz-field span { display: block; font-size: .85rem; color: #4b5563; }
+      .iz-field input, .iz-field textarea { width: 100%; padding: 6px 8px; border: 1px solid #d1d5db; border-radius: 6px; font: inherit; box-sizing: border-box; }
+      .iz-item { border-top: 1px dashed #d1d5db; padding-top: .5rem; margin-top: .5rem; }
+      button { padding: 8px 14px; border: 0; border-radius: 8px; background: #2563eb; color: #fff; font: inherit; cursor: pointer; }
+      button.iz-remove, [data-add] { background: #6b7280; margin-top: .5rem; }
+      #progress { font-weight: 600; color: #16a34a; }
+      #save { position: sticky; bottom: 1rem; }
+      #toast { position: fixed; bottom: 1rem; right: 1rem; background: #16a34a; color: #fff; padding: 10px 16px; border-radius: 8px; display: none; }
+      ul#learned li { margin: .3rem 0; }
+    </style>
+  </head>
+  <body>
+    <h1>izifill</h1>
+    <p id="intro"></p>
+    <p><span id="progressLabel"></span> <span id="progress"></span></p>
+    <div id="form"></div>
+    <section class="iz-group" id="filesSection">
+      <h2 id="filesTitle"></h2>
+      <label class="iz-field"><span>CV (PDF)</span><input type="file" id="cvFile" accept=".pdf,.doc,.docx" /></label>
+      <p id="cvName"></p>
+    </section>
+    <section class="iz-group">
+      <h2 id="learnedTitle"></h2>
+      <ul id="learned"></ul>
+    </section>
+    <button id="save"></button>
+    <div id="toast"></div>
+    <script type="module" src="./main.ts"></script>
+  </body>
+</html>
