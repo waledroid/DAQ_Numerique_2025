@@ -62,8 +62,13 @@ async function render(): Promise<void> {
     }
     select.addEventListener('change', async () => {
       const current = await loadApplications();
-      current[i].status = select.value as ApplicationEntry['status'];
-      await saveApplications(current);
+      const idx = current.findIndex((a) => a.url === app.url && a.date === app.date);
+      if (idx >= 0) {
+        current[idx].status = select.value as ApplicationEntry['status'];
+        await saveApplications(current);
+      } else {
+        await render();
+      }
     });
     status.appendChild(select);
 
@@ -72,8 +77,11 @@ async function render(): Promise<void> {
     del.textContent = fr ? 'Supprimer' : 'Delete';
     del.addEventListener('click', async () => {
       const current = await loadApplications();
-      current.splice(i, 1);
-      await saveApplications(current);
+      const idx = current.findIndex((a) => a.url === app.url && a.date === app.date);
+      if (idx >= 0) {
+        current.splice(idx, 1);
+        await saveApplications(current);
+      }
       await render();
     });
     actions.appendChild(del);
