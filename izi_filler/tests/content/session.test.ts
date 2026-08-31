@@ -51,6 +51,13 @@ describe('extractJobMeta', () => {
     expect(m.title).toBe('Data Analyst');
     expect(m.company).toBe('BigCorp');
   });
+  it('keeps hyphenated compound titles intact', () => {
+    document.head.innerHTML = '';
+    document.title = 'Développeur Full-Stack - ACME';
+    const m = extractJobMeta(document, 'https://jobs.acme.fr/postuler');
+    expect(m.title).toBe('Développeur Full-Stack');
+    expect(m.company).toBe('ACME');
+  });
 });
 
 describe('looksCompleted', () => {

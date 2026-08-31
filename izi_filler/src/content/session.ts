@@ -57,7 +57,7 @@ export function extractJobMeta(doc: Document, url: string): { company: string; t
   const og = (p: string) => doc.querySelector(`meta[property="${p}"]`)?.getAttribute('content') ?? '';
   let title = og('og:title') || doc.title || '';
   let company = og('og:site_name');
-  const parts = title.split(/[|·–—-]/).map((s) => s.trim()).filter(Boolean);
+  const parts = title.split(/\s[-–—]\s|[|·]/).map((s) => s.trim()).filter(Boolean);
   if (parts.length > 1) {
     title = parts[0];
     if (!company) company = parts[parts.length - 1];
