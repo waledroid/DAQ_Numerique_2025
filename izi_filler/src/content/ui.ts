@@ -13,61 +13,63 @@ const CSS = `
 
 .launcher {
   position: fixed; right: 0; top: 40%; z-index: 2147483647;
-  width: 48px; height: 50px;
-  border: 1px solid rgba(255, 255, 255, 0.18);
+  width: 48px; height: 52px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-right: 0;
-  border-radius: 14px 0 0 14px;
-  background: rgba(18, 24, 34, 0.82);
-  backdrop-filter: blur(24px) saturate(190%) contrast(105%);
-  -webkit-backdrop-filter: blur(24px) saturate(190%) contrast(105%);
+  border-radius: 16px 0 0 16px;
+  background: rgba(10, 15, 24, 0.82);
+  backdrop-filter: blur(28px) saturate(210%) contrast(110%);
+  -webkit-backdrop-filter: blur(28px) saturate(210%) contrast(110%);
   color: #f8fafc;
   font: 700 13px -apple-system, BlinkMacSystemFont, "SF Pro Text", sans-serif;
   cursor: grab;
-  box-shadow: -4px 6px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  box-shadow: -6px 8px 32px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.4);
   touch-action: none;
   display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px;
-  transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+  transition: width 0.22s cubic-bezier(0.16, 1, 0.3, 1), background 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease, border-color 0.2s ease;
   user-select: none;
 }
 .launcher:hover {
-  width: 54px;
-  background: rgba(22, 30, 42, 0.92);
-  box-shadow: -6px 8px 28px rgba(16, 185, 129, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  width: 56px;
+  background: rgba(14, 21, 33, 0.9);
+  border-color: rgba(52, 211, 153, 0.45);
+  box-shadow: -8px 10px 36px rgba(0, 0, 0, 0.65), 0 0 20px rgba(16, 185, 129, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
-.launcher:active { cursor: grabbing; transform: scale(0.96); }
+.launcher:active { cursor: grabbing; transform: scale(0.95); }
 .launcher .iz-logo {
   display: inline-flex; align-items: center; justify-content: center;
-  width: 26px; height: 26px; border-radius: 8px;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  width: 28px; height: 28px; border-radius: 9px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.95) 100%);
   color: #ffffff; font-weight: 800; font-size: 12px; letter-spacing: -0.5px;
-  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 .launcher.pulse { animation: izpulse 1.4s cubic-bezier(0.4, 0, 0.2, 1) 3; }
 @keyframes izpulse {
   0%, 100% {
-    box-shadow: -4px 6px 24px rgba(0, 0, 0, 0.35), 0 0 0 0 rgba(16, 185, 129, 0.8);
+    box-shadow: -6px 8px 32px rgba(0, 0, 0, 0.55), 0 0 0 0 rgba(16, 185, 129, 0.8);
   }
   50% {
-    transform: scale(1.1);
+    transform: scale(1.08);
     border-color: rgba(52, 211, 153, 0.7);
-    box-shadow: -6px 8px 30px rgba(16, 185, 129, 0.55), 0 0 0 8px rgba(16, 185, 129, 0);
+    box-shadow: -8px 10px 40px rgba(0, 0, 0, 0.7), 0 0 24px rgba(16, 185, 129, 0.6), 0 0 0 8px rgba(16, 185, 129, 0);
   }
 }
 
 .sidebar {
-  position: fixed; right: 0; top: 0; height: 100vh; width: 336px; z-index: 2147483647;
-  background: rgba(15, 23, 34, 0.84);
-  backdrop-filter: blur(32px) saturate(200%) contrast(105%);
-  -webkit-backdrop-filter: blur(32px) saturate(200%) contrast(105%);
+  position: fixed; right: 0; top: 0; height: 100vh; width: 340px; z-index: 2147483647;
+  background: rgba(8, 12, 19, 0.85);
+  backdrop-filter: blur(36px) saturate(220%) contrast(110%);
+  -webkit-backdrop-filter: blur(36px) saturate(220%) contrast(110%);
   color: #f1f5f9;
   font: 13px/1.5 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
-  border-left: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: -16px 0 44px rgba(0, 0, 0, 0.5), inset 1px 0 0 rgba(255, 255, 255, 0.08);
-  padding: 16px 14px; box-sizing: border-box;
+  border-left: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: -20px 0 56px rgba(0, 0, 0, 0.65), inset 1px 0 0 rgba(255, 255, 255, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+  padding: 18px 16px; box-sizing: border-box;
   transform: translateX(105%);
   transition: transform 0.34s cubic-bezier(0.16, 1, 0.3, 1);
-  display: flex; flex-direction: column; gap: 12px;
+  display: flex; flex-direction: column; gap: 14px;
   overflow-y: auto; overflow-x: hidden;
 }
 .sidebar.open { transform: translateX(0); }
@@ -79,27 +81,34 @@ const CSS = `
 
 .header {
   display: flex; align-items: center; justify-content: space-between;
-  padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 10px 12px;
+  background: rgba(18, 26, 38, 0.55);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 14px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.12);
 }
 .header .brand-wrap {
   display: flex; align-items: center; gap: 8px;
 }
 .header .brand-icon {
-  width: 22px; height: 22px; border-radius: 7px;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  width: 24px; height: 24px; border-radius: 8px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.95) 100%);
   display: flex; align-items: center; justify-content: center;
-  font-size: 11px; font-weight: 800; color: #fff;
-  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.35);
+  font-size: 12px; font-weight: 800; color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
 }
 .header .brand {
   font-weight: 700; font-size: 15px; letter-spacing: -0.3px; color: #f8fafc;
 }
 .header .brand-badge {
-  font-size: 10px; font-weight: 600; text-transform: uppercase;
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
   letter-spacing: 0.5px; padding: 2px 7px; border-radius: 12px;
-  background: rgba(16, 185, 129, 0.14); color: #34d399;
-  border: 1px solid rgba(52, 211, 153, 0.25);
+  background: rgba(16, 185, 129, 0.15); color: #34d399;
+  border: 1px solid rgba(52, 211, 153, 0.28);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.2);
 }
 button.close {
   width: 28px; height: 28px; border-radius: 50%;
@@ -107,85 +116,100 @@ button.close {
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #94a3b8; font-size: 12px; cursor: pointer;
   display: flex; align-items: center; justify-content: center;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
   transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 button.close:hover {
   background: rgba(255, 255, 255, 0.14);
   color: #f8fafc; transform: scale(1.08);
+  border-color: rgba(255, 255, 255, 0.2);
 }
 button.close:active { transform: scale(0.92); }
 
 select.profiles {
-  width: 100%; padding: 8px 12px; border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(255, 255, 255, 0.05);
+  width: 100%; padding: 10px 14px; border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 22, 33, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   color: #f8fafc; font: 500 13px -apple-system, BlinkMacSystemFont, sans-serif;
   outline: none; cursor: pointer; box-sizing: border-box;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2334d399' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 10px center;
-  padding-right: 28px;
+  background-position: right 12px center;
+  padding-right: 32px;
 }
 select.profiles:hover {
-  background-color: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.18);
+  background-color: rgba(20, 30, 45, 0.75);
+  border-color: rgba(52, 211, 153, 0.35);
 }
 select.profiles:focus {
   border-color: #10b981;
-  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25);
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.25), 0 4px 16px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 select.profiles option {
-  background: #0f172a;
+  background: #0b111a;
   color: #f8fafc;
 }
 
 .question {
-  background: linear-gradient(145deg, rgba(16, 185, 129, 0.12), rgba(15, 23, 34, 0.65));
-  border: 1px solid rgba(52, 211, 153, 0.3);
-  border-radius: 12px; padding: 12px 14px;
-  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
+  background: linear-gradient(145deg, rgba(16, 185, 129, 0.12), rgba(10, 15, 24, 0.8));
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(52, 211, 153, 0.28);
+  border-radius: 14px; padding: 14px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 0 16px rgba(16, 185, 129, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.14);
   animation: izfadein 0.25s ease-out;
 }
 @keyframes izfadein { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
 .question > div:first-child {
-  font-weight: 600; font-size: 13px; color: #f8fafc; margin-bottom: 10px; line-height: 1.4;
+  font-weight: 600; font-size: 13px; color: #f8fafc; margin-bottom: 12px; line-height: 1.45;
 }
 
 .sidebar button.primary {
-  padding: 9px 14px; border: 1px solid rgba(255, 255, 255, 0.2);
-  border-radius: 9px;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  padding: 10px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 11px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.95) 0%, rgba(5, 150, 105, 0.95) 100%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   color: #ffffff; font: 600 13px -apple-system, BlinkMacSystemFont, sans-serif;
   cursor: pointer; margin: 4px 6px 0 0;
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.38), inset 0 1px 0 rgba(255, 255, 255, 0.35), inset 0 -1px 0 rgba(0, 0, 0, 0.25);
   transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   display: inline-flex; align-items: center; justify-content: center; gap: 6px;
 }
 .sidebar button.primary:hover {
-  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  background: linear-gradient(135deg, rgba(52, 211, 153, 0.98) 0%, rgba(16, 185, 129, 0.98) 100%);
+  box-shadow: 0 8px 26px rgba(16, 185, 129, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.45);
   transform: translateY(-1px);
 }
 .sidebar button.primary:active {
   transform: translateY(1px) scale(0.98);
-  box-shadow: 0 2px 6px rgba(16, 185, 129, 0.3);
+  box-shadow: 0 2px 8px rgba(16, 185, 129, 0.3);
 }
 
 .sidebar button.secondary {
-  padding: 9px 12px; border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 9px;
-  background: rgba(255, 255, 255, 0.06);
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 11px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   color: #cbd5e1; font: 500 13px -apple-system, BlinkMacSystemFont, sans-serif;
   cursor: pointer; margin: 4px 0 0 0;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   transition: all 0.18s ease;
   display: inline-flex; align-items: center; justify-content: center;
 }
 .sidebar button.secondary:hover {
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.11);
   color: #f8fafc;
   border-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-1px);
 }
 .sidebar button.secondary:active {
   transform: scale(0.98);
@@ -193,46 +217,53 @@ select.profiles option {
 
 button.fill {
   width: 100%; margin: 0;
-  padding: 12px 16px;
+  padding: 13px 18px;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: -0.2px;
-  border-radius: 11px;
+  border-radius: 13px;
 }
 
 .summary {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(14, 20, 30, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 10px;
-  padding: 10px 12px;
+  border-radius: 12px;
+  padding: 12px 14px;
   color: #cbd5e1;
-  font-size: 12px;
-  line-height: 1.45;
+  font-size: 12.5px;
+  line-height: 1.5;
   min-height: 1.4em;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 }
 .summary:empty { display: none; }
 
 .footer {
   margin-top: auto;
   display: flex; gap: 8px;
-  padding-top: 10px;
+  padding-top: 12px;
   border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 .footer button {
-  flex: 1; padding: 9px 8px;
+  flex: 1; padding: 10px 10px;
   border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 9px;
-  background: rgba(255, 255, 255, 0.05);
+  border-radius: 11px;
+  background: rgba(16, 24, 36, 0.65);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   color: #cbd5e1;
   font: 500 12px -apple-system, BlinkMacSystemFont, sans-serif;
   cursor: pointer;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.08);
   display: inline-flex; align-items: center; justify-content: center; gap: 5px;
   transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .footer button:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(24, 34, 50, 0.8);
   color: #f8fafc;
-  border-color: rgba(255, 255, 255, 0.16);
+  border-color: rgba(52, 211, 153, 0.35);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3), 0 0 12px rgba(16, 185, 129, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.14);
   transform: translateY(-1px);
 }
 .footer button:active {
@@ -242,15 +273,15 @@ button.fill {
 .izifill-toast {
   position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
   z-index: 2147483647;
-  background: rgba(15, 23, 34, 0.9);
-  backdrop-filter: blur(24px) saturate(190%);
-  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  background: rgba(8, 14, 22, 0.92);
+  backdrop-filter: blur(28px) saturate(220%);
+  -webkit-backdrop-filter: blur(28px) saturate(220%);
   color: #f8fafc;
-  border: 1px solid rgba(52, 211, 153, 0.4);
+  border: 1px solid rgba(52, 211, 153, 0.45);
   border-radius: 9999px;
-  padding: 10px 20px;
+  padding: 10px 22px;
   font: 600 13px -apple-system, BlinkMacSystemFont, sans-serif;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4), 0 0 16px rgba(16, 185, 129, 0.25);
+  box-shadow: 0 16px 44px rgba(0, 0, 0, 0.65), 0 0 24px rgba(16, 185, 129, 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.22);
   display: flex; align-items: center; gap: 8px;
   animation: iztoastin 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -260,21 +291,21 @@ button.fill {
 }
 
 .izifill-chip {
-  margin: 4px; padding: 4px 10px;
+  margin: 4px; padding: 4px 12px;
   font: 600 12px -apple-system, BlinkMacSystemFont, sans-serif;
-  background: rgba(16, 185, 129, 0.92);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(16, 185, 129, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
   color: #ffffff;
-  border: 1px solid rgba(255, 255, 255, 0.25);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   border-radius: 9999px; cursor: pointer;
-  box-shadow: 0 2px 10px rgba(16, 185, 129, 0.35);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.35);
   transition: all 0.16s ease;
   display: inline-flex; align-items: center; gap: 4px;
 }
 .izifill-chip:hover {
   background: rgba(5, 150, 105, 0.95);
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.5);
+  box-shadow: 0 6px 18px rgba(16, 185, 129, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.45);
   transform: scale(1.03);
 }
 `;
