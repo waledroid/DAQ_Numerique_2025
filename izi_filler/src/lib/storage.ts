@@ -1,0 +1,133 @@
+import { emptyProfile } from '../engine/profile';
+import type { ApplicationEntry, LearnedAnswer, Profile, Settings } from '../engine/types';
+
+export interface AreaLike {
+  get(keys: string[] | null): Promise<Record<string, unknown>>;
+  set(items: Record<string, unknown>): Promise<void>;
+  remove(keys: string | string[]): Promise<void>;
+}
+
+export class ChunkedStore {
+  constructor(
+    private primary: AreaLike,
+    private fallback: AreaLike | null = null,
+    private maxItemBytes = 7000,
+  ) {}
+
+  private async write(area: AreaLike, key: string, json: string): Promise<void> {
+    const chunkLen = Math.max(1, Math.floor(this.maxItemBytes / 4)); // utf-8 worst case
+    const chunks: string[] = [];
+    for (let i = 0; i < json.length; i += chunkLen) chunks.push(json.slice(i, i + chunkLen));
+    const items: Record<string, unknown> = { [`${key}__meta`]: chunks.length };
+    chunks.forEach((c, i) => (items[`${key}__${i}`] = c));
+    await area.set(items);
+    const all = await area.get(null);
+    const stale = Object.keys(all).filter((k) => {
+      const m = k.match(new RegExp(`^${key}__(\\d+)$`));
+      return m !== null && Number(m[1]) >= chunks.length;
+    });
+    if (stale.length > 0) await area.remove(stale);
+  }
+
+  async setJSON(key: string, value: unknown): Promise<'primary' | 'fallback'> {
+    const json = JSON.stringify(value);
+    try {
+      await this.write(this.primary, key, json);
+      return 'primary';
+    } catch (e) {
+      if (!this.fallback) throw e;
+      await this.write(this.fallback, key, json);
+      return 'fallback';
+    }
+  }
+
+  private async read(area: AreaLike, key: string): Promise<string | undefined> {
+    const meta = (await area.get([`${key}__meta`]))[`${key}__meta`];
+    if (typeof meta !== 'number') return undefined;
+    const keys = Array.from({ length: meta }, (_, i) => `${key}__${i}`);
+    const items = await area.get(keys);
+    return keys.map((k) => (items[k] as string) ?? '').join('');
+  }
+
+  async getJSON<T>(key: string): Promise<T | undefined> {
+    let json = await this.read(this.primary, key);
+    if (json === undefined && this.fallback) json = await this.read(this.fallback, key);
+    if (json === undefined || json === '') return undefined;
+    try {
+      return JSON.parse(json) as T;
+    } catch {
+      return undefined;
+    }
+  }
+}
+
+const KEYS = {
+  profile: 'izifill_profile',
+  learned: 'izifill_learned',
+  apps: 'izifill_apps',
+  settings: 'izifill_settings',
+};
+
+let store: ChunkedStore | null = null;
+
+export function setStoreForTests(s: ChunkedStore | null): void {
+  store = s;
+}
+
+function defaultStore(): ChunkedStore {
+  store ??= new ChunkedStore(chrome.storage.sync, chrome.storage.local);
+  return store;
+}
+
+export async function loadProfile(): Promise<Profile> {
+  return (await defaultStore().getJSON<Profile>(KEYS.profile)) ?? emptyProfile();
+}
+export async function saveProfile(p: Profile): Promise<void> {
+  await defaultStore().setJSON(KEYS.profile, p);
+}
+export async function loadLearned(): Promise<LearnedAnswer[]> {
+  return (await defaultStore().getJSON<LearnedAnswer[]>(KEYS.learned)) ?? [];
+}
+export async function saveLearned(l: LearnedAnswer[]): Promise<void> {
+  await defaultStore().setJSON(KEYS.learned, l);
+}
+export async function addLearnedAnswer(entry: LearnedAnswer): Promise<void> {
+  const list = await loadLearned();
+  list.unshift(entry);
+  await saveLearned(list);
+}
+export async function loadApplications(): Promise<ApplicationEntry[]> {
+  return (await defaultStore().getJSON<ApplicationEntry[]>(KEYS.apps)) ?? [];
+}
+export async function saveApplications(a: ApplicationEntry[]): Promise<void> {
+  await defaultStore().setJSON(KEYS.apps, a);
+}
+export async function addApplication(entry: ApplicationEntry): Promise<void> {
+  const list = await loadApplications();
+  list.unshift(entry);
+  await saveApplications(list);
+}
+export async function loadSettings(): Promise<Settings> {
+  return (await defaultStore().getJSON<Settings>(KEYS.settings)) ?? { disabledDomains: [], fillUncertain: true };
+}
+export async function saveSettings(s: Settings): Promise<void> {
+  await defaultStore().setJSON(KEYS.settings, s);
+}
+
+export interface StoredFile {
+  name: string;
+  mime: string;
+  data: string; // base64, no data-URL prefix
+}
+
+function localArea(): AreaLike {
+  return chrome.storage.local as unknown as AreaLike;
+}
+
+export async function saveStoredFile(kind: 'cv' | 'coverLetter', file: StoredFile, area?: AreaLike): Promise<void> {
+  await (area ?? localArea()).set({ ['izifill_file_' + kind]: file });
+}
+export async function loadStoredFile(kind: 'cv' | 'coverLetter', area?: AreaLike): Promise<StoredFile | undefined> {
+  const key = 'izifill_file_' + kind;
+  return (await (area ?? localArea()).get([key]))[key] as StoredFile | undefined;
+}
