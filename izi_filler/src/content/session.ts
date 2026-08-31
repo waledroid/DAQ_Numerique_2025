@@ -78,3 +78,38 @@ export function looksCompleted(doc: Document, urlChanged: boolean, hadForms: boo
   if (hadForms && doc.querySelectorAll('form').length === 0) return true;
   return false;
 }
+
+const PENDING_KEY = 'izifill_pending_submit';
+
+export interface PendingSubmit {
+  company: string;
+  title: string;
+  domain: string;
+  url: string;
+  at: number;
+  hadForms: boolean;
+}
+
+export function savePendingSubmit(p: PendingSubmit): void {
+  try {
+    sessionStorage.setItem(PENDING_KEY, JSON.stringify(p));
+  } catch {
+    // ignore
+  }
+}
+
+export function loadPendingSubmit(): PendingSubmit | null {
+  try {
+    return JSON.parse(sessionStorage.getItem(PENDING_KEY) ?? 'null');
+  } catch {
+    return null;
+  }
+}
+
+export function clearPendingSubmit(): void {
+  try {
+    sessionStorage.removeItem(PENDING_KEY);
+  } catch {
+    // ignore
+  }
+}

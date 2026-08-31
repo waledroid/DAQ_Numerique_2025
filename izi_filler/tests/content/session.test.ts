@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import {
   loadSession, saveSession, clearSession, isSubmitButton, extractJobMeta, looksCompleted,
+  loadPendingSubmit, savePendingSubmit, clearPendingSubmit,
 } from '../../src/content/session';
 
 beforeEach(() => {
@@ -15,6 +16,25 @@ describe('session storage', () => {
     expect(loadSession()?.step).toBe(2);
     clearSession();
     expect(loadSession()).toBeNull();
+  });
+});
+
+describe('pending submit storage', () => {
+  it('round-trips and clears', () => {
+    expect(loadPendingSubmit()).toBeNull();
+    savePendingSubmit({
+      company: 'ACME', title: 'Développeur', domain: 'jobs.acme.fr',
+      url: 'https://jobs.acme.fr/postuler', at: 1234, hadForms: true,
+    });
+    const p = loadPendingSubmit();
+    expect(p?.company).toBe('ACME');
+    expect(p?.title).toBe('Développeur');
+    expect(p?.domain).toBe('jobs.acme.fr');
+    expect(p?.url).toBe('https://jobs.acme.fr/postuler');
+    expect(p?.at).toBe(1234);
+    expect(p?.hadForms).toBe(true);
+    clearPendingSubmit();
+    expect(loadPendingSubmit()).toBeNull();
   });
 });
 

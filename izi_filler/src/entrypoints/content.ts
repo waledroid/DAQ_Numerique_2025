@@ -4,7 +4,8 @@ import {
   clearUi, highlightField, showPrompt, showSaveChip, showSummary, showToast,
 } from '../content/ui';
 import {
-  clearSession, extractJobMeta, isSubmitButton, loadSession, looksCompleted, saveSession,
+  clearPendingSubmit, clearSession, extractJobMeta, isSubmitButton, loadPendingSubmit,
+  loadSession, looksCompleted, savePendingSubmit, saveSession,
 } from '../content/session';
 import { matchFields } from '../engine/matcher';
 import { APPLICATION_THRESHOLD, scoreApplicationPage } from '../engine/detection';
@@ -19,6 +20,7 @@ import type { FieldSnapshot, Lang } from '../engine/types';
 export default defineContentScript({
   matches: ['<all_urls>'],
   runAt: 'document_idle',
+  allFrames: true,
   async main() {
     try {
       await boot();
@@ -45,6 +47,22 @@ async function boot(): Promise<void> {
   chrome.runtime.onMessage.addListener((msg: { type?: string }) => {
     if (msg?.type === 'izifill:fill') startSession();
   });
+
+  const pending = loadPendingSubmit();
+  if (pending) {
+    clearPendingSubmit();
+    if (Date.now() - pending.at < 30_000 && loadSession()?.active &&
+        (location.href !== pending.url || looksCompleted(document, false, pending.hadForms))) {
+      await addApplication({
+        company: pending.company, title: pending.title, domain: pending.domain,
+        url: pending.url, date: new Date().toISOString(), status: 'applied',
+      });
+      showToast(t('applicationTracked', lang));
+      clearSession();
+      clearUi();
+      return;
+    }
+  }
 
   if (loadSession()?.active) {
     startSession();
@@ -158,13 +176,15 @@ function onDocClick(e: MouseEvent): void {
   if (!target || !isSubmitButton(target)) return;
   const urlAtClick = location.href;
   const meta = extractJobMeta(document, urlAtClick);
+  const hadFormsAtClick = hadForms;
+  savePendingSubmit({ ...meta, url: urlAtClick, at: Date.now(), hadForms: hadFormsAtClick });
   const started = Date.now();
   const timer = setInterval(() => {
     if (!loadSession()?.active) {
       clearInterval(timer);
       return;
     }
-    if (looksCompleted(document, location.href !== urlAtClick, hadForms)) {
+    if (looksCompleted(document, location.href !== urlAtClick, hadFormsAtClick)) {
       clearInterval(timer);
       void recordApplication(meta, urlAtClick);
     } else if (Date.now() - started > 8000) {
@@ -178,6 +198,7 @@ async function recordApplication(
   url: string,
 ): Promise<void> {
   clearSession(); // first, so concurrent timers can't double-record
+  clearPendingSubmit();
   await addApplication({ ...meta, url, date: new Date().toISOString(), status: 'applied' });
   showToast(t('applicationTracked', lang));
   clearUi();
