@@ -81,6 +81,33 @@ describe('matchField', () => {
   });
 });
 
+describe('Lever-style name-attribute matching', () => {
+  const p = emptyProfile();
+  p.identity.firstName = 'Ada';
+  p.identity.lastName = 'Lovelace';
+  p.address.city = 'Lyon';
+  p.links.linkedin = 'https://linkedin.com/in/ada';
+  p.links.github = 'https://github.com/ada';
+
+  it('matches a bare name="name" field to the full name', () => {
+    const m = matchField(field({ name: 'name' }), p, []);
+    expect(m).toMatchObject({ key: 'identity.fullName', value: 'Ada Lovelace' });
+  });
+  it('matches name="location" to the city', () => {
+    const m = matchField(field({ name: 'location' }), p, []);
+    expect(m).toMatchObject({ key: 'address.city', value: 'Lyon' });
+  });
+  it('matches urls[LinkedIn]/urls[GitHub] to the link fields', () => {
+    expect(matchField(field({ name: 'urls[LinkedIn]' }), p, []).key).toBe('links.linkedin');
+    expect(matchField(field({ name: 'urls[GitHub]' }), p, []).key).toBe('links.github');
+  });
+  it('does not match name="firstname" to full name (stays specific)', () => {
+    p.identity.firstName = 'Ada';
+    const m = matchField(field({ name: 'firstname' }), p, []);
+    expect(m.key).toBe('identity.firstName');
+  });
+});
+
 describe('equal employment (EEO) questions', () => {
   const p = emptyProfile();
   p.eeo.usWorkAuthorization = 'No';
