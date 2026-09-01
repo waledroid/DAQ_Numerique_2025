@@ -2,3 +2,4 @@ node_modules/
 profile.private.json
 .output/
 .wxt/
+public/seed/
