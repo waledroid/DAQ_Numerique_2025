@@ -137,6 +137,8 @@
     const fb = I18N[lang].fallbacks;
     return String(text || '')
       .replace(/\{\{(\w+)\}\}/g, (m, k) => (offer[k] || '').trim() || fb[k] || m)
+      // élision : « en tant que Ingénieur » → « en tant qu'Ingénieur »
+      .replace(/en tant que ([aeiouyhàâéèêëîïôöûü])/gi, "en tant qu'$1")
       // un remplacement en minuscules (« votre entreprise ») peut ouvrir un
       // paragraphe : on remet la majuscule en tête de paragraphe
       .replace(/(^|\n\s*\n)([a-zà-öø-ÿ])/g, (_m, p, c) => p + c.toUpperCase());
