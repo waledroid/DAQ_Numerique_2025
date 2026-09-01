@@ -168,6 +168,7 @@ async function ensureSidebarMounted(): Promise<void> {
 }
 
 function pageSignals(): PageSignals {
+  const cta = findApplyCta(document);
   return {
     url: location.href,
     title: document.title,
@@ -175,8 +176,20 @@ function pageSignals(): PageSignals {
     fieldCount: document.querySelectorAll('input, select, textarea').length,
     hasFileInput: document.querySelector('input[type="file"]') !== null,
     passwordFieldCount: document.querySelectorAll('input[type="password"]').length,
-    hasApplyCta: findApplyCta(document) !== null,
+    hasApplyCta: cta !== null,
+    hasApplyLink: isApplyLink(cta),
   };
+}
+
+// True when the apply control navigates to a separate application (an <a href>
+// or a button that isn't a form submit) rather than submitting an inline form.
+function isApplyLink(cta: HTMLElement | null): boolean {
+  if (!cta) return false;
+  if (cta.tagName === 'A') return cta.hasAttribute('href');
+  const type = (cta.getAttribute('type') || '').toLowerCase();
+  if (cta.tagName === 'BUTTON') return type !== 'submit';
+  if (cta.tagName === 'INPUT') return type !== 'submit';
+  return true; // role="button" on a div/span, etc.
 }
 
 async function maybeOfferFill(): Promise<void> {

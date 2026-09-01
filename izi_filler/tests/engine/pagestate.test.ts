@@ -4,7 +4,7 @@ import { classifyPage, isApplyCta, type PageSignals } from '../../src/engine/pag
 function signals(partial: Partial<PageSignals>): PageSignals {
   return {
     url: 'https://example.com', title: '', text: '', fieldCount: 0,
-    hasFileInput: false, passwordFieldCount: 0, hasApplyCta: false,
+    hasFileInput: false, passwordFieldCount: 0, hasApplyCta: false, hasApplyLink: false,
     ...partial,
   };
 }
@@ -32,8 +32,25 @@ describe('classifyPage', () => {
       url: 'https://example.fr/offre/dev',
       title: 'Développeur Web — CDI',
       text: 'Description du poste... Postuler',
-      fieldCount: 1, hasApplyCta: true,
+      fieldCount: 1, hasApplyCta: true, hasApplyLink: true,
     }))).toBe('posting');
+  });
+  it('treats a posting with an apply LINK as posting even with incidental search inputs', () => {
+    // Idemia/Avature pattern: "Apply now" link + job-search bar + talent-community signup
+    expect(classifyPage(signals({
+      url: 'https://careers.example.com/job/research-engineer',
+      title: 'Research Engineer in Computer Vision',
+      text: 'Apply now. Job description... application talent community search jobs',
+      fieldCount: 18, hasApplyCta: true, hasApplyLink: true,
+    }))).toBe('posting');
+  });
+  it('still treats an inline form (no apply link) as application', () => {
+    expect(classifyPage(signals({
+      url: 'https://jobs.example.fr/candidature/1',
+      title: 'Compléter votre candidature',
+      text: 'Civilité Disponibilité Prétentions salariales postuler candidature',
+      fieldCount: 6, hasApplyCta: false, hasApplyLink: false,
+    }))).toBe('application');
   });
   it('classifies a plain page as other', () => {
     expect(classifyPage(signals({ text: 'Recette de pâtes', fieldCount: 1 }))).toBe('other');

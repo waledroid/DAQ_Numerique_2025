@@ -6,6 +6,9 @@ export type PageState = 'posting' | 'signup' | 'login' | 'application' | 'other'
 export interface PageSignals extends PageInfo {
   passwordFieldCount: number;
   hasApplyCta: boolean;
+  // The apply action is a navigation link / non-submit button (opens the real
+  // application elsewhere), as opposed to a submit inside an inline form.
+  hasApplyLink: boolean;
 }
 
 const SIGNUP_WORDS = [
@@ -38,6 +41,9 @@ export function classifyPage(s: PageSignals): PageState {
   if (s.passwordFieldCount === 1) {
     return has(SIGNUP_WORDS) && !has(LOGIN_WORDS) ? 'signup' : 'login';
   }
+  // An apply *link* means the real application opens elsewhere: it's a posting,
+  // even when the page also carries a job-search bar or newsletter inputs.
+  if (s.hasApplyLink) return 'posting';
   if (s.fieldCount >= 3 && scoreApplicationPage(s) >= APPLICATION_THRESHOLD) return 'application';
   if (s.hasApplyCta) return 'posting';
   return 'other';
