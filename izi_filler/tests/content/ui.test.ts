@@ -52,17 +52,49 @@ describe('mountSidebar', () => {
 });
 
 describe('showPrompt', () => {
-  it('expands the sidebar with a question and wires callbacks', () => {
+  it('prepares the question WITHOUT auto-opening the sidebar, and wires callbacks', () => {
     const onYes = vi.fn();
     const onNever = vi.fn();
     showPrompt('fr', onYes, onNever);
     const sidebar = root().querySelector('.sidebar')!;
-    expect(sidebar.classList.contains('open')).toBe(true);
+    // The sidebar must stay closed until the user clicks the pin.
+    expect(sidebar.classList.contains('open')).toBe(false);
     const buttons = root().querySelectorAll<HTMLButtonElement>('.question button');
     expect(buttons).toHaveLength(2);
     buttons[0].click();
     expect(onYes).toHaveBeenCalledOnce();
     expect(onNever).not.toHaveBeenCalled();
+  });
+});
+
+describe('auto-close on inactivity', () => {
+  function mount() {
+    mountSidebar('en', { profiles: [], activeId: '', onProfileChange: vi.fn(), onFill: vi.fn(), onOpenProfile: vi.fn(), onOpenTracker: vi.fn() });
+  }
+  it('closes 5s after opening with no activity, and only the pin reopens it', () => {
+    vi.useFakeTimers();
+    mount();
+    const launcher = root().querySelector<HTMLButtonElement>('.launcher')!;
+    const sidebar = root().querySelector('.sidebar')!;
+    launcher.click(); // open via pin
+    expect(sidebar.classList.contains('open')).toBe(true);
+    vi.advanceTimersByTime(5000);
+    expect(sidebar.classList.contains('open')).toBe(false);
+    vi.useRealTimers();
+  });
+  it('activity inside the sidebar resets the timer and keeps it open', () => {
+    vi.useFakeTimers();
+    mount();
+    const launcher = root().querySelector<HTMLButtonElement>('.launcher')!;
+    const sidebar = root().querySelector('.sidebar')!;
+    launcher.click();
+    vi.advanceTimersByTime(4000);
+    sidebar.dispatchEvent(new Event('pointerdown', { bubbles: true }));
+    vi.advanceTimersByTime(4000); // 8s total, but only 4s since activity
+    expect(sidebar.classList.contains('open')).toBe(true);
+    vi.advanceTimersByTime(1500);
+    expect(sidebar.classList.contains('open')).toBe(false);
+    vi.useRealTimers();
   });
 });
 
@@ -93,11 +125,11 @@ describe('launcher state', () => {
 });
 
 describe('pilot UI', () => {
-  it('showApplyButton expands the sidebar and fires onStart', () => {
+  it('showApplyButton prepares the apply button without auto-opening', () => {
     const onStart = vi.fn();
     showApplyButton('fr', onStart);
     const sidebar = root().querySelector('.sidebar')!;
-    expect(sidebar.classList.contains('open')).toBe(true);
+    expect(sidebar.classList.contains('open')).toBe(false);
     const btn = root().querySelector<HTMLButtonElement>('.question button.apply')!;
     expect(btn.textContent).toBe('Postuler avec izifill');
     btn.click();

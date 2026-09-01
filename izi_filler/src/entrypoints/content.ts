@@ -1,9 +1,9 @@
 import { snapshotFields } from '../content/snapshot';
 import { applyMatches, currentAnswer } from '../content/fill';
 import {
-  clearUi, hidePilotUi, highlightField, mountSidebar, setLauncherState, showApplyButton,
-  showPilotControls, showPilotStatus, showPrompt, showSaveChip, showSubmitConfirm, showSummary,
-  showToast,
+  clearUi, collapseSidebar, hidePilotUi, highlightField, mountSidebar, setLauncherState,
+  showApplyButton, showPilotControls, showPilotStatus, showPrompt, showSaveChip,
+  showSubmitConfirm, showSummary, showToast,
 } from '../content/ui';
 import {
   clearPilot, clickOnce, fillPasswords, findAccountSubmit, findApplyCta, findConsentAccept,
@@ -89,6 +89,10 @@ async function boot(): Promise<void> {
     if (msg?.type === 'izifill:fill') startSession();
   });
 
+  // Pin is permanently visible in the top frame; the sidebar stays closed until
+  // the user clicks the pin. (Embedded application iframes mount on demand.)
+  if (window.top === window) await ensureSidebarMounted();
+
   const pending = loadPendingSubmit();
   if (pending) {
     clearPendingSubmit();
@@ -100,7 +104,7 @@ async function boot(): Promise<void> {
       });
       showToast(t('applicationTracked', lang));
       clearSession();
-      clearUi();
+      collapseSidebar(); // submission → close the sidebar, keep the pin
       return;
     }
   }
@@ -373,7 +377,8 @@ async function recordApplication(
   clearPendingSubmit();
   await addApplication({ ...meta, url, date: new Date().toISOString(), status: 'applied' });
   showToast(t('applicationTracked', lang));
-  clearUi();
+  setLauncherState('idle');
+  collapseSidebar(); // submission → close the sidebar, keep the pin
 }
 
 // --- Pilot mode: one click drives apply → account → fill → confirm ----------
@@ -579,9 +584,11 @@ async function pilotFill(p: PilotState): Promise<void> {
     showSubmitConfirm(lang,
       () => {
         const st = loadPilot();
-        if (st) clickOnce(submit, st, 'submit:' + location.href);
+        if (st) clickOnce(submit, st, 'submit:' + location.href); // submission
         clearPilot();
         hidePilotUi();
+        setLauncherState('idle');
+        collapseSidebar();
       },
       () => {
         showPilotStatus(lang, fr('Cliquez sur Envoyer quand vous êtes prêt.', 'Click Send when you are ready.'));

@@ -366,12 +366,44 @@ export function setLauncherState(state: 'idle' | 'ready' | 'active'): void {
   if (state !== 'idle') launcher.classList.add(state);
 }
 
+// The sidebar auto-closes after this long without activity while open.
+const INACTIVITY_MS = 5000;
+let inactivityTimer: ReturnType<typeof setTimeout> | undefined;
+
+function clearInactivity(): void {
+  if (inactivityTimer) {
+    clearTimeout(inactivityTimer);
+    inactivityTimer = undefined;
+  }
+}
+
+// (Re)start the 5s auto-close countdown, but only while the sidebar is open.
+function armInactivity(): void {
+  clearInactivity();
+  if (sidebarEl()?.classList.contains('open')) {
+    inactivityTimer = setTimeout(collapseSidebar, INACTIVITY_MS);
+  }
+}
+
+// Any activity (sidebar interaction, autofill, status update) resets the timer.
+export function keepSidebarAlive(): void {
+  armInactivity();
+}
+
 export function expandSidebar(): void {
-  sidebarEl()?.classList.add('open');
+  const sidebar = sidebarEl();
+  if (!sidebar) return;
+  sidebar.classList.add('open');
+  armInactivity();
 }
 
 export function collapseSidebar(): void {
+  clearInactivity();
   sidebarEl()?.classList.remove('open');
+}
+
+export function isSidebarOpen(): boolean {
+  return sidebarEl()?.classList.contains('open') ?? false;
 }
 
 function makeDraggable(launcher: HTMLElement): void {
@@ -468,9 +500,15 @@ export function mountSidebar(lang: Lang, opts?: Partial<SidebarOptions>): void {
     sidebar.append(header, select, question, fill, summary, footer);
     r.appendChild(sidebar);
 
+    // The pin is the only way to open the sidebar; clicking it toggles.
     launcher.addEventListener('click', () => {
-      sidebar!.classList.toggle('open');
+      if (sidebar!.classList.contains('open')) collapseSidebar();
+      else expandSidebar();
     });
+
+    // Any interaction inside the sidebar keeps it open (resets the 5s timer).
+    ['pointerdown', 'click', 'input', 'change', 'keydown', 'wheel', 'focusin'].forEach((ev) =>
+      sidebar!.addEventListener(ev, keepSidebarAlive, true));
   }
 
   const select = sidebar.querySelector<HTMLSelectElement>('select.profiles')!;
@@ -524,7 +562,7 @@ export function showPrompt(lang: Lang, onYes: () => void, onNever: () => void): 
   never.addEventListener('click', onNever);
   question.append(title, yes, never);
   root().querySelector('.launcher')?.classList.add('pulse');
-  expandSidebar();
+  keepSidebarAlive();
 }
 
 export function showApplyButton(lang: Lang, onStart: () => void): void {
@@ -543,7 +581,7 @@ export function showApplyButton(lang: Lang, onStart: () => void): void {
   });
   question.append(title, apply);
   root().querySelector('.launcher')?.classList.add('pulse');
-  expandSidebar();
+  keepSidebarAlive();
 }
 
 export function showSubmitConfirm(lang: Lang, onIzifill: () => void, onSelf: () => void): void {
@@ -569,7 +607,7 @@ export function showSubmitConfirm(lang: Lang, onIzifill: () => void, onSelf: () 
   });
   question.append(title, go, self);
   root().querySelector('.launcher')?.classList.add('pulse');
-  expandSidebar();
+  keepSidebarAlive();
 }
 
 export function showPilotStatus(lang: Lang, text: string): void {
@@ -581,6 +619,7 @@ export function showPilotStatus(lang: Lang, text: string): void {
     sidebar.insertBefore(status, sidebar.querySelector('.summary'));
   }
   status.textContent = text;
+  keepSidebarAlive();
 }
 
 export function showPilotControls(
@@ -618,6 +657,7 @@ export function hidePilotUi(): void {
 export function showSummary(lang: Lang, counts: { filled: number; uncertain: number; unknown: number }): void {
   const sidebar = ensureSidebar(lang);
   sidebar.querySelector<HTMLElement>('.summary')!.textContent = t('summary', lang, counts);
+  keepSidebarAlive();
 }
 
 export function showToast(message: string): void {
