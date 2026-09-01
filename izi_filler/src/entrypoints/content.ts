@@ -1,8 +1,9 @@
 import { snapshotFields } from '../content/snapshot';
 import { applyMatches, currentAnswer } from '../content/fill';
 import {
-  clearUi, hidePilotUi, highlightField, mountSidebar, showApplyButton, showPilotControls,
-  showPilotStatus, showPrompt, showSaveChip, showSubmitConfirm, showSummary, showToast,
+  clearUi, hidePilotUi, highlightField, mountSidebar, setLauncherState, showApplyButton,
+  showPilotControls, showPilotStatus, showPrompt, showSaveChip, showSubmitConfirm, showSummary,
+  showToast,
 } from '../content/ui';
 import {
   clearPilot, clickOnce, fillPasswords, findAccountSubmit, findApplyCta, findNextButton,
@@ -104,14 +105,17 @@ async function boot(): Promise<void> {
     }
   }
 
-  // A session/pilot left in this tab's sessionStorage from earlier testing can
-  // hijack a fresh page. If we land on a job posting (apply CTA, no form to
-  // fill) or a plain page, a lingering session is stale — clear it and offer.
+  // Keep a fill session alive across every page of an application until submit.
+  // Only drop it when it is genuinely stale: older than the TTL, or when we've
+  // clearly landed on a *new* job posting (a fresh apply flow starting over).
+  const SESSION_TTL_MS = 30 * 60_000;
   const bootState = classifyPage(pageSignals());
   const pilot = loadPilot();
   if (pilot?.active) {
-    if (bootState === 'application' || bootState === 'signup' || bootState === 'login') {
+    const fresh = Date.now() - pilot.startedAt < SESSION_TTL_MS;
+    if (fresh && bootState !== 'posting') {
       console.info('[izifill] resuming pilot on', bootState);
+      setLauncherState('active');
       startSession();
       await resumePilot();
       return;
@@ -119,9 +123,13 @@ async function boot(): Promise<void> {
     console.info('[izifill] clearing stale pilot on', bootState);
     clearPilot();
   }
-  if (loadSession()?.active) {
-    if (bootState === 'application' || bootState === 'signup' || bootState === 'login') {
-      console.info('[izifill] resuming session on', bootState);
+  const sess = loadSession();
+  if (sess?.active) {
+    const age = Date.now() - new Date(sess.startedAt).getTime();
+    const fresh = age >= 0 && age < SESSION_TTL_MS;
+    if (fresh && bootState !== 'posting') {
+      console.info('[izifill] resuming session on', bootState, '— still filling until submit');
+      setLauncherState('active');
       startSession();
       return;
     }
@@ -186,12 +194,14 @@ async function maybeOfferFill(): Promise<void> {
   if (state === 'posting') {
     lastPromptedUrl = location.href;
     await ensureSidebarMounted();
+    setLauncherState('ready');
     showApplyButton(lang, () => void startPilot());
     return;
   }
   if (state === 'application' || scoreApplicationPage(signals) >= APPLICATION_THRESHOLD) {
     lastPromptedUrl = location.href;
     await ensureSidebarMounted();
+    setLauncherState('ready');
     showPrompt(lang, startSession, async () => {
       const s = await loadSettings();
       if (!s.disabledDomains.includes(location.hostname)) s.disabledDomains.push(location.hostname);
@@ -203,6 +213,7 @@ async function maybeOfferFill(): Promise<void> {
 
 function startSession(): void {
   void ensureSidebarMounted();
+  setLauncherState('active');
   const sess = loadSession() ?? { active: true, step: 0, startedAt: new Date().toISOString() };
   sess.active = true;
   saveSession(sess);
@@ -404,6 +415,7 @@ function stopPilot(): void {
     pilotTimer = undefined;
   }
   hidePilotUi();
+  setLauncherState('active'); // a plain fill session may still be running
   showPilotStatus(lang, fr('Pilote arrêté — izifill continue de remplir.', 'Pilot stopped — izifill keeps filling.'));
 }
 

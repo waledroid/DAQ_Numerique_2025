@@ -45,6 +45,23 @@ const CSS = `
   box-shadow: 0 4px 14px rgba(16, 185, 129, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
+.launcher.ready {
+  background: rgba(30, 22, 6, 0.86);
+  border-color: rgba(251, 191, 36, 0.5);
+  box-shadow: -6px 8px 32px rgba(0, 0, 0, 0.55), 0 0 20px rgba(251, 191, 36, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+.launcher.ready .iz-logo {
+  background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+  box-shadow: 0 4px 14px rgba(245, 158, 11, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+.launcher.active .iz-logo {
+  background: linear-gradient(135deg, #34d399 0%, #10b981 100%);
+  box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+  animation: izlogopulse 1.6s ease-in-out infinite;
+}
+@keyframes izlogopulse {
+  50% { box-shadow: 0 0 14px 3px rgba(16, 185, 129, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.4); }
+}
 .launcher.pulse { animation: izpulse 1.4s cubic-bezier(0.4, 0, 0.2, 1) 3; }
 @keyframes izpulse {
   0%, 100% {
@@ -338,6 +355,15 @@ function root(): ShadowRoot {
 
 function sidebarEl(): HTMLElement | null {
   return root().querySelector<HTMLElement>('.sidebar');
+}
+
+// idle = nothing to do; ready (amber) = izifill found an apply/fill action;
+// active (green pulse) = a fill session is running.
+export function setLauncherState(state: 'idle' | 'ready' | 'active'): void {
+  const launcher = root().querySelector<HTMLElement>('.launcher');
+  if (!launcher) return;
+  launcher.classList.remove('ready', 'active');
+  if (state !== 'idle') launcher.classList.add(state);
 }
 
 export function expandSidebar(): void {

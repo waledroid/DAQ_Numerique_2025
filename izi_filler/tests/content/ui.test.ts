@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import {
   mountSidebar, showPrompt, showSummary, showToast, highlightField, showSaveChip, clearUi,
-  showApplyButton, showSubmitConfirm, showPilotStatus, showPilotControls,
+  showApplyButton, showSubmitConfirm, showPilotStatus, showPilotControls, setLauncherState,
 } from '../../src/content/ui';
 
 beforeEach(() => {
@@ -71,6 +71,24 @@ describe('showSummary', () => {
     showSummary('en', { filled: 3, uncertain: 1, unknown: 2 });
     expect(root().querySelector('.summary')!.textContent).toContain('3');
     expect(root().textContent).toContain('left for you');
+  });
+});
+
+describe('launcher state', () => {
+  it('toggles ready (found) and active (filling) classes on the launcher', () => {
+    mountSidebar('en', { profiles: [], activeId: '', onProfileChange: vi.fn(), onFill: vi.fn(), onOpenProfile: vi.fn(), onOpenTracker: vi.fn() });
+    const launcher = root().querySelector('.launcher')!;
+    setLauncherState('ready');
+    expect(launcher.classList.contains('ready')).toBe(true);
+    setLauncherState('active');
+    expect(launcher.classList.contains('ready')).toBe(false);
+    expect(launcher.classList.contains('active')).toBe(true);
+    setLauncherState('idle');
+    expect(launcher.classList.contains('ready')).toBe(false);
+    expect(launcher.classList.contains('active')).toBe(false);
+  });
+  it('is a no-op when no launcher exists yet', () => {
+    expect(() => setLauncherState('ready')).not.toThrow();
   });
 });
 
