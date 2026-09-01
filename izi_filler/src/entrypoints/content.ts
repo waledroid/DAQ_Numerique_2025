@@ -112,13 +112,19 @@ async function boot(): Promise<void> {
 
   await maybeOfferFill();
 
+  // Keep looking for a short window after load and after each SPA navigation:
+  // many job sites (React/Vue SPAs like Welcome to the Jungle) render the apply
+  // button or form only after hydration, with no URL change to trigger a recheck.
   let lastSeenUrl = location.href;
+  let scanUntil = Date.now() + 30_000;
   safeInterval(() => {
     if (location.href !== lastSeenUrl) {
       lastSeenUrl = location.href;
-      void maybeOfferFill();
+      lastPromptedUrl = '';
+      scanUntil = Date.now() + 30_000;
     }
-  }, 1000);
+    if (Date.now() <= scanUntil) void maybeOfferFill();
+  }, 1200);
 }
 
 async function ensureSidebarMounted(): Promise<void> {
@@ -149,6 +155,7 @@ function pageSignals(): PageSignals {
 async function maybeOfferFill(): Promise<void> {
   if (loadSession()?.active || loadPilot()?.active) return;
   if (location.href === lastPromptedUrl) return;
+  if ((await loadSettings()).disabledDomains.includes(location.hostname)) return;
   const signals = pageSignals();
   const state = classifyPage(signals);
   if (state === 'posting') {
