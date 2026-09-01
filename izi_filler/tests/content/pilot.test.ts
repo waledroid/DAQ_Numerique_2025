@@ -2,6 +2,7 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import {
   loadPilot, savePilot, clearPilot, findApplyCta, findNextButton, findSubmitCandidate,
   findAccountSubmit, hasCaptcha, looksEmailVerification, clickOnce, fillPasswords,
+  tickConsentBoxes, findConsentAccept,
   type PilotState,
 } from '../../src/content/pilot';
 
@@ -85,6 +86,42 @@ describe('clickOnce', () => {
     expect(clickOnce(btn, state, 'go')).toBe(false);
     expect(spy).toHaveBeenCalledOnce();
     expect(loadPilot()?.clicked).toContain('go');
+  });
+});
+
+describe('tickConsentBoxes', () => {
+  it('ticks required terms/privacy checkboxes but not marketing ones', () => {
+    document.body.innerHTML = `
+      <label><input type="checkbox" id="terms">J'accepte les conditions générales d'utilisation</label>
+      <label><input type="checkbox" id="privacy">I have read and agree to the privacy policy</label>
+      <label><input type="checkbox" id="news">Send me the newsletter and marketing offers</label>`;
+    const n = tickConsentBoxes(document);
+    expect(n).toBe(2);
+    expect((document.getElementById('terms') as HTMLInputElement).checked).toBe(true);
+    expect((document.getElementById('privacy') as HTMLInputElement).checked).toBe(true);
+    expect((document.getElementById('news') as HTMLInputElement).checked).toBe(false);
+  });
+  it('does not re-tick an already-checked box and ignores unrelated ones', () => {
+    document.body.innerHTML = `
+      <label><input type="checkbox" id="a" checked>I agree to the terms</label>
+      <label><input type="checkbox" id="b">Remember me</label>`;
+    expect(tickConsentBoxes(document)).toBe(0);
+    expect((document.getElementById('b') as HTMLInputElement).checked).toBe(false);
+  });
+});
+
+describe('findConsentAccept', () => {
+  it('finds accept / agree / j-accepte buttons', () => {
+    document.body.innerHTML = `
+      <button id="cancel">Refuser</button>
+      <button id="ok">Tout accepter</button>`;
+    expect(findConsentAccept(document)?.id).toBe('ok');
+    document.body.innerHTML = `<span role="button" id="agree">I Agree</span>`;
+    expect(findConsentAccept(document)?.id).toBe('agree');
+  });
+  it('returns null when there is no accept control', () => {
+    document.body.innerHTML = '<button>Suivant</button>';
+    expect(findConsentAccept(document)).toBeNull();
   });
 });
 

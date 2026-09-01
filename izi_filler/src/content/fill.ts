@@ -54,7 +54,7 @@ export function applyMatches(
   doc: Document,
   fields: FieldSnapshot[],
   matches: FieldMatch[],
-  files?: { cv?: StoredFile },
+  files?: { cv?: StoredFile; coverLetter?: StoredFile },
 ): FillOutcome[] {
   const byRef = new Map(fields.map((f) => [f.ref, f]));
   return matches.map((m): FillOutcome => {
@@ -64,8 +64,9 @@ export function applyMatches(
     if (m.source === 'unknown') return { ref: m.ref, status: 'unknown', el };
     if (el.dataset.izifillDone) return { ref: m.ref, status: 'skipped', el };
 
-    if (m.key === 'files.cv') {
-      if (files?.cv && injectFile(el as HTMLInputElement, files.cv)) {
+    if (m.key === 'files.cv' || m.key === 'files.coverLetter') {
+      const file = m.key === 'files.cv' ? files?.cv : files?.coverLetter;
+      if (file && injectFile(el as HTMLInputElement, file)) {
         el.dataset.izifillDone = '1';
         return { ref: m.ref, status: 'filled', el };
       }

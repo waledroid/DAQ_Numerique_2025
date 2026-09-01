@@ -121,6 +121,72 @@ export function clickOnce(el: HTMLElement, state: PilotState, id: string): boole
   return true;
 }
 
+// Text near a checkbox that marks it a required consent (terms/privacy) vs. an
+// optional marketing opt-in we must leave alone.
+const CONSENT_WORDS = [
+  'terms', 'term of use', 'terms of use', 'terms and conditions', 'conditions',
+  'conditions generales', 'i agree', 'agree', 'consent', 'privacy', 'data privacy',
+  'personal data', 'donnees personnelles', 'gdpr', 'rgpd', 'confidentialite',
+  'traitement des donnees', 'read and accept', 'lu et accepte', 'declaration',
+  'politique de confidentialite', 'protection des donnees',
+];
+const MARKETING_WORDS = [
+  'newsletter', 'marketing', 'promotional', 'promotions', 'offres commerciales',
+  'communications commerciales', 'third party', 'partenaires', 'remember me',
+  'se souvenir', 'stay signed in',
+];
+
+function checkboxLabel(cb: HTMLInputElement): string {
+  const doc = cb.ownerDocument;
+  if (cb.id) {
+    try {
+      const l = doc.querySelector(`label[for="${cb.id}"]`);
+      if (l?.textContent) return l.textContent;
+    } catch {
+      // invalid id for a selector — fall through
+    }
+  }
+  const wrap = cb.closest('label');
+  if (wrap?.textContent) return wrap.textContent;
+  const aria = cb.getAttribute('aria-label');
+  if (aria) return aria;
+  return cb.parentElement?.textContent ?? '';
+}
+
+// Ticks required terms/privacy consent checkboxes (never marketing opt-ins).
+// Returns how many it ticked.
+export function tickConsentBoxes(doc: Document): number {
+  let ticked = 0;
+  doc.querySelectorAll<HTMLInputElement>('input[type="checkbox"]').forEach((cb) => {
+    if (cb.disabled || cb.checked) return;
+    const txt = normalize(checkboxLabel(cb));
+    if (!txt) return;
+    const isMarketing = MARKETING_WORDS.some((w) => txt.includes(w));
+    const isConsent = CONSENT_WORDS.some((w) => txt.includes(w));
+    if (isConsent && !isMarketing) {
+      cb.click();
+      ticked++;
+    }
+  });
+  return ticked;
+}
+
+const ACCEPT_WORDS = [
+  'tout accepter', 'accept all', 'accepter tout', 'i accept', 'i agree', 'accept',
+  'accepter', 'j accepte', 'agree', 'got it', 'ok', 'compris', 'allow all', 'confirmer',
+];
+
+// A consent/cookie "Accept" control to click through a gate (includes SAPUI5
+// span[role=button]).
+export function findConsentAccept(doc: Document): HTMLElement | null {
+  for (const el of usableCandidates(doc)) {
+    const t = normalize(buttonText(el));
+    if (!t || t.length > 24) continue;
+    if (ACCEPT_WORDS.some((w) => t === w || (' ' + t + ' ').includes(' ' + w + ' '))) return el;
+  }
+  return null;
+}
+
 export function fillPasswords(doc: Document, password: string): number {
   const inputs = Array.from(doc.querySelectorAll<HTMLInputElement>('input[type="password"]')).filter(
     (i) => !i.disabled,

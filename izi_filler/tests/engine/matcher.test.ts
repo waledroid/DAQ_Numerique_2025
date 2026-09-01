@@ -75,6 +75,11 @@ describe('matchField', () => {
     const m = matchField(field({ type: 'file', label: 'Votre CV' }), profile, []);
     expect(m).toMatchObject({ key: 'files.cv', source: 'profile' });
   });
+  it('detects a cover-letter file input separately from the CV', () => {
+    expect(matchField(field({ type: 'file', label: 'Lettre de motivation' }), profile, []).key).toBe('files.coverLetter');
+    expect(matchField(field({ type: 'file', label: 'Cover letter' }), profile, []).key).toBe('files.coverLetter');
+    expect(matchField(field({ type: 'file', label: 'Resume / CV' }), profile, []).key).toBe('files.cv');
+  });
   it('skips checkboxes and hidden inputs', () => {
     expect(matchField(field({ type: 'checkbox', label: 'Prénom' }), profile, []).source).toBe('unknown');
     expect(matchField(field({ type: 'hidden', label: 'Prénom' }), profile, []).source).toBe('unknown');

@@ -1,7 +1,7 @@
 import { normalize } from './normalize';
 import { getProfileValue } from './profile';
 import { findLearnedAnswer } from './learned';
-import { AUTOCOMPLETE_MAP, CV_FILE_SYNONYMS, LABEL_SYNONYMS } from './dictionaries';
+import { AUTOCOMPLETE_MAP, COVER_LETTER_FILE_SYNONYMS, CV_FILE_SYNONYMS, LABEL_SYNONYMS } from './dictionaries';
 import type { Confidence, FieldMatch, FieldSnapshot, LearnedAnswer, Profile } from './types';
 
 const SKIP_TYPES = new Set(['hidden', 'submit', 'button', 'image', 'reset', 'password', 'search', 'checkbox']);
@@ -85,10 +85,15 @@ export function matchField(f: FieldSnapshot, profile: Profile, learned: LearnedA
   const weak = [f.placeholder, f.name, f.id, f.context].map(normalize).filter(Boolean);
 
   if (f.type === 'file') {
-    const isCv = [...strong, ...weak].some((h) => CV_FILE_SYNONYMS.some((s) => contains(h, s)));
-    return isCv
-      ? { ref: f.ref, key: 'files.cv', confidence: 'high', source: 'profile' }
-      : { ref: f.ref, source: 'unknown' };
+    const haystacks = [...strong, ...weak];
+    // Cover letter is checked first — it is more specific than the bare CV terms.
+    if (haystacks.some((h) => COVER_LETTER_FILE_SYNONYMS.some((s) => contains(h, s)))) {
+      return { ref: f.ref, key: 'files.coverLetter', confidence: 'high', source: 'profile' };
+    }
+    if (haystacks.some((h) => CV_FILE_SYNONYMS.some((s) => contains(h, s)))) {
+      return { ref: f.ref, key: 'files.cv', confidence: 'high', source: 'profile' };
+    }
+    return { ref: f.ref, source: 'unknown' };
   }
 
   let key: string | undefined;

@@ -53,3 +53,4 @@ export const LABEL_SYNONYMS: Record<string, string[]> = {
 };
 
 export const CV_FILE_SYNONYMS = ['cv', 'curriculum vitae', 'resume', 'votre cv'];
+export const COVER_LETTER_FILE_SYNONYMS = ['lettre de motivation', 'cover letter', 'motivation letter', 'lettre'];

@@ -6,9 +6,9 @@ import {
   showToast,
 } from '../content/ui';
 import {
-  clearPilot, clickOnce, fillPasswords, findAccountSubmit, findApplyCta, findNextButton,
-  findSubmitCandidate, hasCaptcha, loadPilot, looksEmailVerification, savePilot,
-  type PilotState,
+  clearPilot, clickOnce, fillPasswords, findAccountSubmit, findApplyCta, findConsentAccept,
+  findNextButton, findSubmitCandidate, hasCaptcha, loadPilot, looksEmailVerification, savePilot,
+  tickConsentBoxes, type PilotState,
 } from '../content/pilot';
 import { classifyPage, type PageSignals } from '../engine/pagestate';
 import { generatePassword } from '../engine/password';
@@ -242,9 +242,11 @@ async function fillStep(): Promise<FillCounts | null> {
   try {
     hadForms = document.querySelectorAll('form').length > 0;
     const fields = snapshotFields(document);
-    const [profile, learned, cv] = await Promise.all([loadProfile(), loadLearned(), loadStoredFile('cv')]);
+    const [profile, learned, cv, coverLetter] = await Promise.all([
+      loadProfile(), loadLearned(), loadStoredFile('cv'), loadStoredFile('coverLetter'),
+    ]);
     const matches = matchFields(fields, profile, learned);
-    const outcomes = applyMatches(document, fields, matches, { cv });
+    const outcomes = applyMatches(document, fields, matches, { cv, coverLetter });
     let filled = 0;
     let uncertain = 0;
     let unknown = 0;
@@ -473,7 +475,19 @@ async function pilotTick(): Promise<void> {
       pausePilot(fr('Vérifiez votre boîte mail, puis Reprendre.', 'Check your inbox, then Resume.'));
       return;
     }
+    // Tick required terms/privacy consent and click through consent/cookie gates.
+    const ticked = tickConsentBoxes(document);
+    if (ticked > 0) showPilotStatus(lang, fr('Conditions acceptées…', 'Consent accepted…'));
     const state = classifyPage(pageSignals());
+    // On a page that is neither an account nor an application form, a consent /
+    // cookie "Accept" wall may be blocking progress — click it once.
+    if (state !== 'signup' && state !== 'login' && state !== 'application') {
+      const accept = findConsentAccept(document);
+      if (accept && clickOnce(accept, p, 'consent:' + location.href + ':' + (accept.textContent ?? ''))) {
+        showPilotStatus(lang, fr('Bandeau accepté…', 'Accepted the banner…'));
+        return;
+      }
+    }
     if (state === 'signup' || state === 'login') await pilotAccount(state, p);
     else if (state === 'application') await pilotFill(p);
     else {
