@@ -49,12 +49,12 @@
   // volontairement larges, sans se limiter à la vision industrielle.
   const GENERIC = {
     fr: {
-      ouverture: "Madame, Monsieur,\n\nIngénieur Vision par Ordinateur & Edge-AI chez Isitec International, je conçois des systèmes de vision temps réel du prototype à la production — de l'entraînement des modèles jusqu'à leur déploiement embarqué. C'est cette expérience de bout en bout que je souhaite mettre au service de vos projets d'IA visuelle.",
-      adequation: "Mon travail couvre l'ensemble de la chaîne : détection et segmentation temps réel (YOLO/RF-DETR, ViT), optimisation et compression de modèles (distillation, INT8/FP16, TensorRT/OpenVINO) et déploiement fiable, du serveur GPU à la carte embarquée. ",
+      ouverture: "Madame, Monsieur,\n\nIngénieur Vision par Ordinateur & IA embarquée chez Isitec International, je construis des systèmes d'intelligence artificielle temps réel, du prototype à la production : j'entraîne les modèles, je les compresse pour l'embarqué, puis je les déploie de façon fiable sur le terrain. Que le poste relève de la vision par ordinateur, du deep learning ou de l'optimisation de modèles, c'est cette maîtrise de bout en bout que je souhaite mettre au service de vos projets.",
+      adequation: "Ces deux expériences résument ma pratique : détection et segmentation temps réel (YOLO/RF-DETR, ViT), compression de modèles (distillation, quantification INT8/FP16, TensorRT/OpenVINO) et déploiement embarqué sur cartes NVIDIA Jetson. Titulaire d'un Master 2 en Vision par Ordinateur, je programme en Python et PyTorch, et en C++ dès que le temps réel l'impose — avec le même objectif à chaque fois : livrer des systèmes fiables, pas seulement des prototypes.",
     },
     en: {
-      ouverture: "Dear Hiring Manager,\n\nI am a Computer Vision & Edge-AI Engineer at Isitec International, where I build real-time vision systems end to end — from model training to embedded deployment. I would like to bring that full-pipeline experience to your visual-AI projects.",
-      adequation: "My work spans the whole pipeline: real-time detection and segmentation (YOLO/RF-DETR, ViT), model optimization and compression (distillation, INT8/FP16, TensorRT/OpenVINO) and reliable deployment from GPU server to embedded board. ",
+      ouverture: "Dear Hiring Manager,\n\nI am a Computer Vision & Edge-AI Engineer at Isitec International, where I build real-time AI systems from prototype to production: I train the models, compress them to run on-device, and deploy them reliably in the field. Whether the role centers on computer vision, deep learning or model optimization, it is this end-to-end experience I would like to bring to your projects.",
+      adequation: "These two projects capture how I work: real-time detection and segmentation (YOLO/RF-DETR, ViT), model compression (distillation, INT8/FP16 quantization, TensorRT/OpenVINO) and on-device deployment on NVIDIA Jetson. With an M2 in Computer Vision, I code in Python and PyTorch, and in C++ whenever real-time constraints demand it — always with the same goal: shipping reliable systems, not just prototypes.",
     },
   };
 
@@ -177,7 +177,7 @@
         ? GENERIC.fr.ouverture
         : `Madame, Monsieur,\n\nActuellement Ingénieur Vision par Ordinateur & Edge-AI chez Isitec International, je vous adresse ma candidature au poste ${/^[aeiouyhàâéèêëîïôöûü]/i.test(poste) ? "d'" : 'de '}${poste} chez ${entreprise}.${domaine ? ` Votre travail autour de ${domaine} rejoint directement ce qui m'anime : ${focus}.` : ` Votre positionnement sur ${focus} rejoint directement ce qui m'anime.`}`;
       const adequation = isGeneric
-        ? `${GENERIC.fr.adequation}${EXPERIENCE.profil.fr}`
+        ? GENERIC.fr.adequation
         : `${reqs.length ? `Votre besoin en ${reqs.join(' et ')} correspond à mon quotidien : ` : 'Mon quotidien couvre précisément ce périmètre : '}${P.skills.fr}. ${EXPERIENCE.profil.fr}`;
       const cloture = `Je serais heureux d'échanger sur la façon dont cette expérience peut servir vos projets, lors d'un entretien${lieu ? `, à ${lieu} ou en visioconférence` : ''}. Je vous remercie de l'attention portée à ma candidature et vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.`;
       return [ouverture, first, second, adequation, cloture].join('\n\n');
@@ -187,7 +187,7 @@
       ? GENERIC.en.ouverture
       : `Dear Hiring Manager,\n\nI am writing to apply for the ${poste} position at ${entreprise}. As a Computer Vision & Edge-AI Engineer at Isitec International, I focus on exactly what this role calls for: ${focus}.${domaine ? ` I am particularly drawn to ${entreprise}'s work on ${domaine}.` : ''}`;
     const match = isGeneric
-      ? `${GENERIC.en.adequation}${EXPERIENCE.profil.en}`
+      ? GENERIC.en.adequation
       : `${reqs.length ? `Your need for ${reqs.join(' and ')} maps directly onto my day-to-day work: ` : 'My day-to-day work covers precisely this scope: '}${P.skills.en}. ${EXPERIENCE.profil.en}`;
     const closing = `I would welcome the opportunity to discuss how this experience could contribute to your team${lieu ? ` in ${lieu}` : ''}. Thank you for your time and consideration.\n\nYours sincerely,`;
     return [opening, first, second, match, closing].join('\n\n');
