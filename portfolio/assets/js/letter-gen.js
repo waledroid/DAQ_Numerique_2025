@@ -44,6 +44,20 @@
     },
   };
 
+  // ---- Positionnement générique (candidature large « CV / IA », sans offre) --
+  // Utilisé quand aucune entreprise n'est extraite : ouverture et adéquation
+  // volontairement larges, sans se limiter à la vision industrielle.
+  const GENERIC = {
+    fr: {
+      ouverture: "Madame, Monsieur,\n\nIngénieur Vision par Ordinateur & Edge-AI chez Isitec International, je conçois des systèmes de vision temps réel du prototype à la production — de l'entraînement des modèles jusqu'à leur déploiement embarqué. C'est cette expérience de bout en bout que je souhaite mettre au service de vos projets d'IA visuelle.",
+      adequation: "Mon travail couvre l'ensemble de la chaîne : détection et segmentation temps réel (YOLO/RF-DETR, ViT), optimisation et compression de modèles (distillation, INT8/FP16, TensorRT/OpenVINO) et déploiement fiable, du serveur GPU à la carte embarquée. ",
+    },
+    en: {
+      ouverture: "Dear Hiring Manager,\n\nI am a Computer Vision & Edge-AI Engineer at Isitec International, where I build real-time vision systems end to end — from model training to embedded deployment. I would like to bring that full-pipeline experience to your visual-AI projects.",
+      adequation: "My work spans the whole pipeline: real-time detection and segmentation (YOLO/RF-DETR, ViT), model optimization and compression (distillation, INT8/FP16, TensorRT/OpenVINO) and reliable deployment from GPU server to embedded board. ",
+    },
+  };
+
   // ---- Profils de poste : mots-clés pondérés --------------------------------
   const PROFILES = {
     robotics3d: {
@@ -144,6 +158,7 @@
     const profile = profileOverride || (PROFILES[f.profile] ? f.profile : null) || 'industrial';
     const L = lang === 'en' ? 'en' : 'fr';
     const P = PROFILES[profile];
+    const isGeneric = !(f.entreprise || '').trim();
     const entreprise = (f.entreprise || '').trim() || (L === 'fr' ? 'votre entreprise' : 'your company');
     const poste = (f.poste || '').trim() || (L === 'fr' ? 'Ingénieur Vision par Ordinateur' : 'Computer Vision Engineer');
     const focus = (f.focus || '').trim() || P.label[L];
@@ -158,14 +173,22 @@
       : (profile === 'robotics3d' ? EXPERIENCE.rosbot[L] + ' ' + EXPERIENCE.wasoria[L] : EXPERIENCE.wasoria[L]);
 
     if (L === 'fr') {
-      const ouverture = `Madame, Monsieur,\n\nActuellement Ingénieur Vision par Ordinateur & Edge-AI chez Isitec International, je vous adresse ma candidature au poste ${/^[aeiouyhàâéèêëîïôöûü]/i.test(poste) ? "d'" : 'de '}${poste} chez ${entreprise}.${domaine ? ` Votre travail autour de ${domaine} rejoint directement ce qui m'anime : ${focus}.` : ` Votre positionnement sur ${focus} rejoint directement ce qui m'anime.`}`;
-      const adequation = `${reqs.length ? `Votre besoin en ${reqs.join(' et ')} correspond à mon quotidien : ` : 'Mon quotidien couvre précisément ce périmètre : '}${P.skills.fr}. ${EXPERIENCE.profil.fr}`;
-      const cloture = `Je serais heureux de vous présenter ces réalisations lors d'un entretien${lieu ? `, à ${lieu} ou en visioconférence` : ''}. Je vous remercie de l'attention portée à ma candidature et vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.`;
+      const ouverture = isGeneric
+        ? GENERIC.fr.ouverture
+        : `Madame, Monsieur,\n\nActuellement Ingénieur Vision par Ordinateur & Edge-AI chez Isitec International, je vous adresse ma candidature au poste ${/^[aeiouyhàâéèêëîïôöûü]/i.test(poste) ? "d'" : 'de '}${poste} chez ${entreprise}.${domaine ? ` Votre travail autour de ${domaine} rejoint directement ce qui m'anime : ${focus}.` : ` Votre positionnement sur ${focus} rejoint directement ce qui m'anime.`}`;
+      const adequation = isGeneric
+        ? `${GENERIC.fr.adequation}${EXPERIENCE.profil.fr}`
+        : `${reqs.length ? `Votre besoin en ${reqs.join(' et ')} correspond à mon quotidien : ` : 'Mon quotidien couvre précisément ce périmètre : '}${P.skills.fr}. ${EXPERIENCE.profil.fr}`;
+      const cloture = `Je serais heureux d'échanger sur la façon dont cette expérience peut servir vos projets, lors d'un entretien${lieu ? `, à ${lieu} ou en visioconférence` : ''}. Je vous remercie de l'attention portée à ma candidature et vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.`;
       return [ouverture, first, second, adequation, cloture].join('\n\n');
     }
 
-    const opening = `Dear Hiring Manager,\n\nI am writing to apply for the ${poste} position at ${entreprise}. As a Computer Vision & Edge-AI Engineer at Isitec International, I focus on exactly what this role calls for: ${focus}.${domaine ? ` I am particularly drawn to ${entreprise}'s work on ${domaine}.` : ''}`;
-    const match = `${reqs.length ? `Your need for ${reqs.join(' and ')} maps directly onto my day-to-day work: ` : 'My day-to-day work covers precisely this scope: '}${P.skills.en}. ${EXPERIENCE.profil.en}`;
+    const opening = isGeneric
+      ? GENERIC.en.ouverture
+      : `Dear Hiring Manager,\n\nI am writing to apply for the ${poste} position at ${entreprise}. As a Computer Vision & Edge-AI Engineer at Isitec International, I focus on exactly what this role calls for: ${focus}.${domaine ? ` I am particularly drawn to ${entreprise}'s work on ${domaine}.` : ''}`;
+    const match = isGeneric
+      ? `${GENERIC.en.adequation}${EXPERIENCE.profil.en}`
+      : `${reqs.length ? `Your need for ${reqs.join(' and ')} maps directly onto my day-to-day work: ` : 'My day-to-day work covers precisely this scope: '}${P.skills.en}. ${EXPERIENCE.profil.en}`;
     const closing = `I would welcome the opportunity to discuss how this experience could contribute to your team${lieu ? ` in ${lieu}` : ''}. Thank you for your time and consideration.\n\nYours sincerely,`;
     return [opening, first, second, match, closing].join('\n\n');
   }
