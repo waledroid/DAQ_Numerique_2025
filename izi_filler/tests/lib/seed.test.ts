@@ -75,6 +75,23 @@ describe('seedFromBundle', () => {
     expect(await loadProfile()).toEqual(emptyProfile());
   });
 
+  it('restores CV and cover-letter files embedded in profile.json', async () => {
+    const local = new FakeArea();
+    setStoreForTests(new ChunkedStore(new FakeArea()));
+    const seeded = await seedFromBundle(getUrl, fakeFetch({
+      'seed/profile.json': { ok: true, json: {
+        identity: { firstName: 'Ada' },
+        files: {
+          cv: { name: 'my-cv.pdf', mime: 'application/pdf', data: 'QUJD' },
+          coverLetter: { name: 'cl.pdf', mime: 'application/pdf', data: 'WFla' },
+        },
+      } },
+    }), local);
+    expect(seeded).toBe(true);
+    expect((await loadStoredFile('cv', local))?.name).toBe('my-cv.pdf');
+    expect((await loadStoredFile('coverLetter', local))?.name).toBe('cl.pdf');
+  });
+
   it('falls back to cv.docx when cv.pdf is absent', async () => {
     const local = new FakeArea();
     setStoreForTests(new ChunkedStore(new FakeArea()));

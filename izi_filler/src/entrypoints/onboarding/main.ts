@@ -190,13 +190,16 @@ async function refreshLearned(): Promise<void> {
 }
 
 async function exportProfile(): Promise<void> {
-  const reg = await listProfiles();
-  const active = reg.list.find((p) => p.id === reg.activeId);
   const profile = await loadProfile();
-  const blob = new Blob([JSON.stringify(profile, null, 2)], { type: 'application/json' });
+  const learnedAnswers = (await loadLearned()).map((e) => ({ question: e.questionText, answer: e.answer }));
+  const [cv, cl] = await Promise.all([loadStoredFile('cv'), loadStoredFile('coverLetter')]);
+  // A complete, self-contained backup: profile data + learned answers + files.
+  // Drop this over public/seed/profile.json and rebuild to make it the seed.
+  const out = { ...profile, learnedAnswers, files: { cv, coverLetter: cl } };
+  const blob = new Blob([JSON.stringify(out, null, 2)], { type: 'application/json' });
   const a = document.createElement('a');
   a.href = URL.createObjectURL(blob);
-  a.download = (active?.name ?? 'profil') + '.izifill.json';
+  a.download = 'profile.json';
   a.click();
   URL.revokeObjectURL(a.href);
 }
@@ -204,11 +207,19 @@ async function exportProfile(): Promise<void> {
 async function importProfileFile(file: File): Promise<void> {
   try {
     const parsed: unknown = JSON.parse(await file.text());
+    const record = (parsed as Record<string, unknown> | null) ?? {};
     await saveProfile(mergeImportedProfile(parsed));
-    const importedLearned = (parsed as Record<string, unknown> | null)?.learnedAnswers;
     const existing = await loadLearned();
-    const merged = mergeLearnedAnswers(existing, importedLearned, lang);
+    const merged = mergeLearnedAnswers(existing, record.learnedAnswers, lang);
     if (merged.length !== existing.length) await saveLearned(merged);
+    // Restore CV / cover letter if the backup embedded them.
+    const files = record.files as { cv?: unknown; coverLetter?: unknown } | undefined;
+    const valid = (v: unknown): v is { name: string; mime: string; data: string } =>
+      !!v && typeof v === 'object' && typeof (v as { data?: unknown }).data === 'string';
+    if (files) {
+      if (valid(files.cv)) await saveStoredFile('cv', files.cv);
+      if (valid(files.coverLetter)) await saveStoredFile('coverLetter', files.coverLetter);
+    }
     await reloadAll();
     toast(fr ? 'Profil importé ✔' : 'Profile imported ✔');
   } catch {

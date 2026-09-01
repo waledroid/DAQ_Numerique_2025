@@ -11,6 +11,15 @@ const CV_CANDIDATES: [string, string][] = [
   ['seed/cv.doc', 'application/msword'],
 ];
 
+function isStoredFile(v: unknown): v is { name: string; mime: string; data: string } {
+  return (
+    v !== null && typeof v === 'object' &&
+    typeof (v as Record<string, unknown>).name === 'string' &&
+    typeof (v as Record<string, unknown>).mime === 'string' &&
+    typeof (v as Record<string, unknown>).data === 'string'
+  );
+}
+
 function bytesToBase64(buf: ArrayBuffer): string {
   const bytes = new Uint8Array(buf);
   let bin = '';
@@ -43,9 +52,25 @@ export async function seedFromBundle(
   }
 
   await saveProfile(mergeImportedProfile(data));
-  const learned = (data as Record<string, unknown> | null)?.learnedAnswers;
+  const record = (data as Record<string, unknown> | null) ?? {};
+  const learned = record.learnedAnswers;
   const merged = mergeLearnedAnswers(await loadLearned(), learned, 'fr');
   if (merged.length > 0) await saveLearned(merged);
+
+  // Files embedded in profile.json (from Export) restore both CV and cover
+  // letter in one shot; separate seed/cv.* files below are the older fallback.
+  const files = record.files as { cv?: unknown; coverLetter?: unknown } | undefined;
+  let restoredCv = false;
+  if (files && typeof files === 'object') {
+    if (isStoredFile(files.cv)) {
+      await saveStoredFile('cv', files.cv, fileArea);
+      restoredCv = true;
+    }
+    if (isStoredFile(files.coverLetter)) {
+      await saveStoredFile('coverLetter', files.coverLetter, fileArea);
+    }
+  }
+  if (restoredCv) return true;
 
   for (const [path, mime] of CV_CANDIDATES) {
     try {
