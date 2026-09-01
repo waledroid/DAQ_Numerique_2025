@@ -44,6 +44,7 @@ let filling = false;
 let hadForms = false;
 let watchersInstalled = false;
 let lastPromptedUrl = '';
+let lastLoggedState = '';
 
 // After the extension is reloaded/updated, an old content script left on the
 // page throws "Extension context invalidated" on any chrome.* call. Detect
@@ -77,7 +78,11 @@ async function boot(): Promise<void> {
   }
   const settings = await loadSettings();
   lang = settings.locale ?? detectLang();
-  if (settings.disabledDomains.includes(location.hostname)) return;
+  console.info('[izifill] running on', location.hostname, '| top frame:', window.top === window);
+  if (settings.disabledDomains.includes(location.hostname)) {
+    console.info('[izifill] this domain is disabled (Jamais sur ce site)');
+    return;
+  }
 
   chrome.runtime.onMessage.addListener((msg: { type?: string }) => {
     if (msg?.type === 'izifill:fill') startSession();
@@ -158,6 +163,12 @@ async function maybeOfferFill(): Promise<void> {
   if ((await loadSettings()).disabledDomains.includes(location.hostname)) return;
   const signals = pageSignals();
   const state = classifyPage(signals);
+  if (state !== lastLoggedState) {
+    lastLoggedState = state;
+    console.info('[izifill] scan →', state, '| fields:', signals.fieldCount,
+      '| pw:', signals.passwordFieldCount, '| applyCta:', signals.hasApplyCta,
+      '| score:', scoreApplicationPage(signals));
+  }
   if (state === 'posting') {
     lastPromptedUrl = location.href;
     await ensureSidebarMounted();
