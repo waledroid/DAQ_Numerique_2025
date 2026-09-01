@@ -246,6 +246,17 @@ async function fillStep(): Promise<FillCounts | null> {
       loadProfile(), loadLearned(), loadStoredFile('cv'), loadStoredFile('coverLetter'),
     ]);
     const matches = matchFields(fields, profile, learned);
+    // Warn clearly when a CV/cover-letter upload field exists but no file is
+    // stored for the active profile — otherwise it just goes red with no reason.
+    const wantsCv = matches.some((m) => m.key === 'files.cv');
+    const wantsCl = matches.some((m) => m.key === 'files.coverLetter');
+    if (wantsCv && !cv) {
+      console.info('[izifill] a CV upload field was found but no CV is stored for this profile');
+      showToast(fr('Aucun CV enregistré — ajoutez-en un dans « Mon profil ».', 'No CV stored — add one in "My profile".'));
+    }
+    if (wantsCl && !coverLetter) {
+      console.info('[izifill] a cover-letter upload field was found but none is stored for this profile');
+    }
     const outcomes = applyMatches(document, fields, matches, { cv, coverLetter });
     let filled = 0;
     let uncertain = 0;
