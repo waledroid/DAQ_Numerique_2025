@@ -45,6 +45,32 @@ let hadForms = false;
 let watchersInstalled = false;
 let lastPromptedUrl = '';
 
+// After the extension is reloaded/updated, an old content script left on the
+// page throws "Extension context invalidated" on any chrome.* call. Detect
+// that so our periodic loops can stop quietly instead of spamming errors.
+function extensionAlive(): boolean {
+  try {
+    return !!chrome.runtime?.id;
+  } catch {
+    return false;
+  }
+}
+
+// A setInterval that clears itself once the extension context is gone.
+function safeInterval(fn: () => void, ms: number): void {
+  const id = setInterval(() => {
+    if (!extensionAlive()) {
+      clearInterval(id);
+      return;
+    }
+    try {
+      fn();
+    } catch {
+      // ignore transient errors from a page navigating/tearing down
+    }
+  }, ms);
+}
+
 async function boot(): Promise<void> {
   if (window.top !== window && document.querySelectorAll('input, select, textarea').length < 3) {
     return; // skip trivial iframes (ads, widgets); real embedded application forms still qualify
@@ -87,7 +113,7 @@ async function boot(): Promise<void> {
   await maybeOfferFill();
 
   let lastSeenUrl = location.href;
-  setInterval(() => {
+  safeInterval(() => {
     if (location.href !== lastSeenUrl) {
       lastSeenUrl = location.href;
       void maybeOfferFill();
@@ -216,17 +242,22 @@ function installWatchers(): void {
   const rescan = () => {
     clearTimeout(debounce);
     debounce = setTimeout(() => {
-      if (loadSession()?.active) void fillStep();
+      if (extensionAlive() && loadSession()?.active) void fillStep();
     }, 800);
   };
 
-  new MutationObserver((muts) => {
+  const observer = new MutationObserver((muts) => {
+    if (!extensionAlive()) {
+      observer.disconnect();
+      return;
+    }
     // Ignore mutations caused by our own floating UI.
     if (muts.every((m) => (m.target as Element).closest?.('#izifill-root'))) return;
     rescan();
-  }).observe(document.documentElement, { childList: true, subtree: true });
+  });
+  observer.observe(document.documentElement, { childList: true, subtree: true });
 
-  setInterval(() => {
+  safeInterval(() => {
     if (location.href !== lastUrl) {
       lastUrl = location.href;
       const s = loadSession();
@@ -251,7 +282,7 @@ function onDocClick(e: MouseEvent): void {
   savePendingSubmit({ ...meta, url: urlAtClick, at: Date.now(), hadForms: hadFormsAtClick });
   const started = Date.now();
   const timer = setInterval(() => {
-    if (!loadSession()?.active) {
+    if (!extensionAlive() || !loadSession()?.active) {
       clearInterval(timer);
       return;
     }
@@ -362,7 +393,7 @@ function beginPilotLoop(): void {
 
 async function pilotTick(): Promise<void> {
   const p = loadPilot();
-  if (!p?.active) {
+  if (!p?.active || !extensionAlive()) {
     if (pilotTimer) {
       clearInterval(pilotTimer);
       pilotTimer = undefined;
