@@ -104,15 +104,29 @@ async function boot(): Promise<void> {
     }
   }
 
-  if (loadPilot()?.active) {
-    startSession();
-    await resumePilot();
-    return;
+  // A session/pilot left in this tab's sessionStorage from earlier testing can
+  // hijack a fresh page. If we land on a job posting (apply CTA, no form to
+  // fill) or a plain page, a lingering session is stale — clear it and offer.
+  const bootState = classifyPage(pageSignals());
+  const pilot = loadPilot();
+  if (pilot?.active) {
+    if (bootState === 'application' || bootState === 'signup' || bootState === 'login') {
+      console.info('[izifill] resuming pilot on', bootState);
+      startSession();
+      await resumePilot();
+      return;
+    }
+    console.info('[izifill] clearing stale pilot on', bootState);
+    clearPilot();
   }
-
   if (loadSession()?.active) {
-    startSession();
-    return;
+    if (bootState === 'application' || bootState === 'signup' || bootState === 'login') {
+      console.info('[izifill] resuming session on', bootState);
+      startSession();
+      return;
+    }
+    console.info('[izifill] clearing stale session on', bootState);
+    clearSession();
   }
 
   await maybeOfferFill();
