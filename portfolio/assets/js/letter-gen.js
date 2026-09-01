@@ -44,19 +44,30 @@
     },
   };
 
-  // ---- Positionnement générique (candidature large « CV / IA », sans offre) --
-  // Utilisé quand aucune entreprise n'est extraite : ouverture et adéquation
-  // volontairement larges, sans se limiter à la vision industrielle.
-  const GENERIC = {
-    fr: {
-      ouverture: "Madame, Monsieur,\n\nIngénieur Vision par Ordinateur & IA embarquée chez Isitec International, je construis des systèmes d'intelligence artificielle temps réel, du prototype à la production : j'entraîne les modèles, je les compresse pour l'embarqué, puis je les déploie de façon fiable sur le terrain. Que le poste relève de la vision par ordinateur, du deep learning ou de l'optimisation de modèles, c'est cette maîtrise de bout en bout que je souhaite mettre au service de vos projets.",
-      adequation: "Ces deux expériences résument ma pratique, du traitement d'image classique au deep learning : vision géométrique et calibration (OpenCV, stéréo), ingénierie des caractéristiques et des données jusqu'à la génération de données synthétiques, détection et segmentation temps réel (YOLO/RF-DETR, ViT), puis compression de modèles (distillation, quantification INT8/FP16, TensorRT/OpenVINO) et déploiement embarqué sur cartes NVIDIA Jetson. Titulaire d'un Master 2 en Vision par Ordinateur, je programme en Python et PyTorch, et en C++ dès que le temps réel l'impose — avec le même objectif à chaque fois : livrer des systèmes fiables, pas seulement des prototypes.",
-    },
-    en: {
-      ouverture: "Dear Hiring Manager,\n\nI am a Computer Vision & Edge-AI Engineer at Isitec International, where I build real-time AI systems from prototype to production: I train the models, compress them to run on-device, and deploy them reliably in the field. Whether the role centers on computer vision, deep learning or model optimization, it is this end-to-end experience I would like to bring to your projects.",
-      adequation: "These two projects capture how I work, from classical image processing to deep learning: geometric vision and calibration (OpenCV, stereo), feature and data engineering through to synthetic-data generation, real-time detection and segmentation (YOLO/RF-DETR, ViT), then model compression (distillation, INT8/FP16 quantization, TensorRT/OpenVINO) and on-device deployment on NVIDIA Jetson. With an M2 in Computer Vision, I code in Python and PyTorch, and in C++ whenever real-time constraints demand it — always with the same goal: shipping reliable systems, not just prototypes.",
-    },
-  };
+  // ---- Lettre générique (candidature large, sans offre analysée) ------------
+  // Version préférée : ouverture (M2 + perception temps réel), projet Isitec
+  // avec bilan, paragraphe d'ampleur (stéréo/3D/robotique + WASORIA + langages),
+  // paragraphe d'adéquation, puis clôture. `poste`/`entreprise` s'insèrent avec
+  // leurs valeurs par défaut génériques.
+  function genericLetter(L, poste, entreprise) {
+    if (L === 'fr') {
+      const qu = /^[aeiouyhàâéèêëîïôöûü]/i.test(poste) ? "qu'" : 'que ';
+      return [
+        `Madame, Monsieur,\n\nJe vous adresse ma candidature pour rejoindre ${entreprise} en tant ${qu}${poste}. Titulaire d'un Master 2 en Vision par Ordinateur et fort d'une expérience concrète des systèmes de perception temps réel en environnement industriel, je suis particulièrement intéressé par le travail de ${entreprise} autour de la vision par ordinateur temps réel.`,
+        `Chez Isitec International, j'ai développé un système de perception multi-caméras temps réel (~60 FPS) pour le suivi 2D/3D de colis. J'interviens sur toute la chaîne : calibration des caméras et outillage avec isiCal, optimisation de modèles (FP16/INT8, OpenVINO, TensorRT) et intégration aux automates (PLC). J'ai également développé isiGen, une chaîne de données synthétiques (SDXL, SAM2) pour la génération automatisée d'images de datasets et l'annotation rapide, afin de pallier le manque de données réelles étiquetées. Ces projets m'ont appris à mener des systèmes de perception du développement jusqu'à l'optimisation et au déploiement sur ligne de production.`,
+        `Mon expérience couvre aussi la vision stéréo, la localisation 3D, l'accélération de modèles et la robotique, dont ROS 2 et MoveIt. Lors de mon stage chez WASORIA, j'ai compressé l'encodeur d'images de SAM, un Vision Transformer, par distillation de connaissances et optimisation TensorRT sur Jetson Orin Nano : +25 % de débit de segmentation et −40 % de latence d'inférence. Je travaille principalement en Python et PyTorch, et en C++ lorsque les contraintes temps réel et système l'exigent.`,
+        `L'accent mis par ${entreprise} sur les systèmes de perception temps réel rejoint directement les systèmes que j'ai développés. Je serais ravi d'apporter à votre équipe mon expérience en vision par ordinateur, perception 3D, optimisation de modèles et déploiement edge, et de contribuer à des systèmes de perception fiables et performants.`,
+        `Je serais heureux d'échanger sur la façon dont mon expérience peut contribuer aux objectifs de ${entreprise}. Je vous remercie de votre attention et vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.`,
+      ].join('\n\n');
+    }
+    return [
+      `Dear Hiring Manager,\n\nI am writing to apply to join ${entreprise} as a ${poste}. With an M2 in Computer Vision and hands-on experience building real-time perception systems in industrial settings, I am especially interested in ${entreprise}'s work on real-time computer vision.`,
+      `At Isitec International, I built a real-time multi-camera perception system (~60 FPS) for 2D/3D parcel tracking. I work across the full pipeline: camera calibration and tooling with isiCal, model optimization (FP16/INT8, OpenVINO, TensorRT) and PLC integration. I also developed isiGen, a synthetic-data pipeline (SDXL, SAM2) for automated dataset image generation and fast annotation, addressing the shortage of real labeled data. These projects taught me to take perception systems from development through optimization to production-line deployment.`,
+      `My experience also covers stereo vision, 3D localization, model acceleration and robotics, including ROS 2 and MoveIt. During my internship at WASORIA, I compressed the SAM image encoder, a Vision Transformer, using knowledge distillation and TensorRT optimization on a Jetson Orin Nano — improving segmentation throughput by 25% and reducing inference latency by 40%. I work primarily in Python and PyTorch, and in C++ when real-time and system constraints require it.`,
+      `${entreprise.charAt(0).toUpperCase() + entreprise.slice(1)}'s focus on real-time perception systems maps directly onto the systems I have built. I would be glad to bring my experience in computer vision, 3D perception, model optimization and edge deployment to your team, and to contribute to reliable, high-performance perception systems.`,
+      `I would welcome the chance to discuss how my experience can contribute to ${entreprise}'s goals. Thank you for your consideration.\n\nYours sincerely,`,
+    ].join('\n\n');
+  }
 
   // ---- Profils de poste : mots-clés pondérés --------------------------------
   const PROFILES = {
@@ -161,6 +172,9 @@
     const isGeneric = !(f.entreprise || '').trim();
     const entreprise = (f.entreprise || '').trim() || (L === 'fr' ? 'votre entreprise' : 'your company');
     const poste = (f.poste || '').trim() || (L === 'fr' ? 'Ingénieur Vision par Ordinateur' : 'Computer Vision Engineer');
+
+    // Aucune offre analysée → lettre générique préférée.
+    if (isGeneric) return genericLetter(L, poste, entreprise);
     const focus = (f.focus || '').trim() || P.label[L];
     const domaine = (f.domaine || '').trim();
     const reqs = [f.exigence1, f.exigence2].map((s) => (s || '').trim()).filter(Boolean);
@@ -173,22 +187,14 @@
       : (profile === 'robotics3d' ? EXPERIENCE.rosbot[L] + ' ' + EXPERIENCE.wasoria[L] : EXPERIENCE.wasoria[L]);
 
     if (L === 'fr') {
-      const ouverture = isGeneric
-        ? GENERIC.fr.ouverture
-        : `Madame, Monsieur,\n\nActuellement Ingénieur Vision par Ordinateur & Edge-AI chez Isitec International, je vous adresse ma candidature au poste ${/^[aeiouyhàâéèêëîïôöûü]/i.test(poste) ? "d'" : 'de '}${poste} chez ${entreprise}.${domaine ? ` Votre travail autour de ${domaine} rejoint directement ce qui m'anime : ${focus}.` : ` Votre positionnement sur ${focus} rejoint directement ce qui m'anime.`}`;
-      const adequation = isGeneric
-        ? GENERIC.fr.adequation
-        : `${reqs.length ? `Votre besoin en ${reqs.join(' et ')} correspond à mon quotidien : ` : 'Mon quotidien couvre précisément ce périmètre : '}${P.skills.fr}. ${EXPERIENCE.profil.fr}`;
+      const ouverture = `Madame, Monsieur,\n\nActuellement Ingénieur Vision par Ordinateur & Edge-AI chez Isitec International, je vous adresse ma candidature au poste ${/^[aeiouyhàâéèêëîïôöûü]/i.test(poste) ? "d'" : 'de '}${poste} chez ${entreprise}.${domaine ? ` Votre travail autour de ${domaine} rejoint directement ce qui m'anime : ${focus}.` : ` Votre positionnement sur ${focus} rejoint directement ce qui m'anime.`}`;
+      const adequation = `${reqs.length ? `Votre besoin en ${reqs.join(' et ')} correspond à mon quotidien : ` : 'Mon quotidien couvre précisément ce périmètre : '}${P.skills.fr}. ${EXPERIENCE.profil.fr}`;
       const cloture = `Je serais heureux d'échanger sur la façon dont cette expérience peut servir vos projets, lors d'un entretien${lieu ? `, à ${lieu} ou en visioconférence` : ''}. Je vous remercie de l'attention portée à ma candidature et vous prie d'agréer, Madame, Monsieur, l'expression de mes salutations distinguées.`;
       return [ouverture, first, second, adequation, cloture].join('\n\n');
     }
 
-    const opening = isGeneric
-      ? GENERIC.en.ouverture
-      : `Dear Hiring Manager,\n\nI am writing to apply for the ${poste} position at ${entreprise}. As a Computer Vision & Edge-AI Engineer at Isitec International, I focus on exactly what this role calls for: ${focus}.${domaine ? ` I am particularly drawn to ${entreprise}'s work on ${domaine}.` : ''}`;
-    const match = isGeneric
-      ? GENERIC.en.adequation
-      : `${reqs.length ? `Your need for ${reqs.join(' and ')} maps directly onto my day-to-day work: ` : 'My day-to-day work covers precisely this scope: '}${P.skills.en}. ${EXPERIENCE.profil.en}`;
+    const opening = `Dear Hiring Manager,\n\nI am writing to apply for the ${poste} position at ${entreprise}. As a Computer Vision & Edge-AI Engineer at Isitec International, I focus on exactly what this role calls for: ${focus}.${domaine ? ` I am particularly drawn to ${entreprise}'s work on ${domaine}.` : ''}`;
+    const match = `${reqs.length ? `Your need for ${reqs.join(' and ')} maps directly onto my day-to-day work: ` : 'My day-to-day work covers precisely this scope: '}${P.skills.en}. ${EXPERIENCE.profil.en}`;
     const closing = `I would welcome the opportunity to discuss how this experience could contribute to your team${lieu ? ` in ${lieu}` : ''}. Thank you for your time and consideration.\n\nYours sincerely,`;
     return [opening, first, second, match, closing].join('\n\n');
   }
