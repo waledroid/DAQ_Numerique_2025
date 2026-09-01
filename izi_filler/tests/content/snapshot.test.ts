@@ -73,6 +73,28 @@ describe('snapshotFields', () => {
     expect(f.label).toBe('Vos compétences clés :');
   });
 
+  it('resolves a lone label inside the same wrapper div (Bootstrap col pattern)', () => {
+    document.body.innerHTML = `
+      <div class="col-md-6">
+        <label>Civilité</label>
+        <select name="sexe"><option value="2">Madame</option><option value="1">Monsieur</option></select>
+      </div>`;
+    const [f] = snapshotFields(document);
+    expect(f.label).toBe('Civilité');
+  });
+
+  it('does not misattribute a wrapper label when the div holds several controls', () => {
+    document.body.innerHTML = `
+      <div>
+        <label>Ville</label>
+        <input name="city">
+        <input name="zip">
+      </div>`;
+    const fields = snapshotFields(document);
+    // Only the first control may borrow the lone label; the second must not.
+    expect(fields[1].label).toBe('');
+  });
+
   it('does not use a preceding form control as a label', () => {
     document.body.innerHTML = `<input name="a"><input name="b">`;
     const fields = snapshotFields(document);

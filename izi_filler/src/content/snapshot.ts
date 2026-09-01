@@ -33,15 +33,33 @@ function contextFor(el: Element): string {
 
 const CONTROL_TAGS = new Set(['INPUT', 'SELECT', 'TEXTAREA', 'BUTTON']);
 
-// Last-resort label: short text just before the control (many sites put the
-// question in a bare <div>/<p> with no <label> association).
-function precedingText(el: Element): string {
-  const prev = el.previousElementSibling ?? el.parentElement?.previousElementSibling;
-  if (!prev) return '';
-  if (CONTROL_TAGS.has(prev.tagName)) return '';
-  if (prev.querySelector('input, select, textarea')) return '';
-  const value = text(prev);
+function usable(node: Element | null): string {
+  if (!node) return '';
+  if (CONTROL_TAGS.has(node.tagName)) return '';
+  if (node.querySelector('input, select, textarea')) return '';
+  const value = text(node);
   return value.length > 0 && value.length <= 120 ? value : '';
+}
+
+// Last-resort label for controls with no <label for>/wrapping/aria association.
+// Covers two very common patterns:
+//   1. a bare <div>/<p> holding the question, right before the control;
+//   2. the Bootstrap column layout: <div><label>X</label><select>…</select></div>,
+//      where the label is a sibling with no `for`.
+function precedingText(el: Element): string {
+  const sibling = usable(el.previousElementSibling);
+  if (sibling) return sibling;
+  // A lone label inside the same wrapper, only when that wrapper holds exactly
+  // one control (so we never borrow another field's label).
+  const parent = el.parentElement;
+  if (parent && parent.querySelectorAll('input, select, textarea').length === 1) {
+    const label = parent.querySelector('label');
+    if (label) {
+      const value = text(label);
+      if (value.length > 0 && value.length <= 120) return value;
+    }
+  }
+  return usable(el.parentElement?.previousElementSibling ?? null);
 }
 
 export function snapshotFields(doc: Document): FieldSnapshot[] {
