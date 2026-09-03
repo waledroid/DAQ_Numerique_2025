@@ -50,7 +50,7 @@
         "location": "Le Creusot 71200",
         "dates": "Fév. 2024 – Juil. 2024",
         "points": [
-          "Encodeur d'images NanoSAM — Compression de Vision Transformers (ViT) : distillation et optimisation TensorRT sur Jetson Orin Nano, +25 % de débit de segmentation et −40 % de latence d'inférence."
+          "Encodeur d'images NanoSAM — Compression ViT : distillation et optimisation TensorRT sur Jetson Orin Nano, +25 % de débit de segmentation et −40 % de latence d'inférence."
         ]
       },
       {
