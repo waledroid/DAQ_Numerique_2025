@@ -74,6 +74,10 @@
       fr: { availability: 'Projet Professionnel', objet: 'Objet : Candidature au DU Technicien en Œnologie' },
       en: { availability: 'Career Objective', objet: 'Re: Application — DU Technicien en Œnologie (University Diploma in Oenology)' },
     },
+    'alternance-reception': {
+      fr: { objet: 'Objet : Candidature en contrat de professionnalisation – Réceptionniste polyvalent' },
+      en: { objet: 'Re: Application – Professionalisation contract, versatile receptionist' },
+    },
   };
   const cvI18n = () => (I18N_CV[cvId] || {})[lang] || {};
 
@@ -368,8 +372,22 @@
     const cfg = LISTS[key];
     const node = tpl(cfg.tpl, cfg.map ? cfg.map(data) : data);
     if (key === 'experience') {
-      const ul = $('[data-points]', node);
-      (data.points || []).forEach((p) => ul.appendChild(tpl('tpl-point', { text: p })));
+      const groupsHost = $('[data-groups]', node);
+      const flat = $('[data-flatpoints]', node);
+      // Sous-groupes optionnels (ex. « Réception » / « Hébergement ») : sinon puces plates
+      if (Array.isArray(data.groups) && data.groups.length) {
+        if (flat) flat.remove();
+        data.groups.forEach((g) => {
+          const gn = tpl('tpl-exp-group', { title: g.title || '' });
+          const gul = $('[data-points]', gn);
+          (g.points || []).forEach((p) => gul.appendChild(tpl('tpl-point', { text: p })));
+          groupsHost.appendChild(gn);
+        });
+      } else {
+        if (groupsHost) groupsHost.remove();
+        const ul = $('[data-points]', node);
+        (data.points || []).forEach((p) => ul.appendChild(tpl('tpl-point', { text: p })));
+      }
     }
     if (key === 'skills') {
       const itemsEl = $('[data-field="items"]', node);
@@ -429,6 +447,15 @@
     $$('[data-edit]').forEach((el) => {
       el.textContent = get(state, el.dataset.edit) || '';
     });
+    // Masque le titre + le texte d'une section de texte libre vide
+    // (ex. « Disponibilité » déjà reprise dans le profil) hors édition.
+    const avail = $('[data-edit="availability"]');
+    if (avail) {
+      const empty = !String(get(state, 'availability') || '').trim();
+      avail.classList.toggle('is-empty-text', empty);
+      const h = avail.previousElementSibling;
+      if (h && h.classList.contains('sec')) h.classList.toggle('is-empty', empty);
+    }
     Object.keys(LISTS).forEach((key) => {
       const host = $(LISTS[key].host);
       if (!host) return;
@@ -521,13 +548,25 @@
     d.interests = $$('#interest-list [data-item]').map((it) => ({
       name: fieldOf(it, 'name'), year: fieldOf(it, 'year'),
     }));
-    d.experience = $$('#exp-list [data-item]').map((it) => ({
-      role: fieldOf(it, 'role'),
-      company: fieldOf(it, 'company'),
-      location: fieldOf(it, 'location'),
-      dates: fieldOf(it, 'dates'),
-      points: $$('[data-field="point"]', it).map((p) => p.textContent.trim()).filter(Boolean),
-    }));
+    d.experience = $$('#exp-list [data-item]').map((it) => {
+      const base = {
+        role: fieldOf(it, 'role'),
+        company: fieldOf(it, 'company'),
+        location: fieldOf(it, 'location'),
+        dates: fieldOf(it, 'dates'),
+      };
+      const groupNodes = $$('[data-expgroup]', it);
+      if (groupNodes.length) {
+        base.points = [];
+        base.groups = groupNodes.map((g) => ({
+          title: fieldOf(g, 'grouptitle'),
+          points: $$('[data-field="point"]', g).map((p) => p.textContent.trim()).filter(Boolean),
+        }));
+      } else {
+        base.points = $$('[data-field="point"]', it).map((p) => p.textContent.trim()).filter(Boolean);
+      }
+      return base;
+    });
     d.education = $$('#edu-list [data-item]').map((it) => ({
       degree: fieldOf(it, 'degree'), school: fieldOf(it, 'school'), dates: fieldOf(it, 'dates'),
     }));
@@ -927,7 +966,8 @@
     }
     const addPoint = e.target.closest('[data-addpoint]');
     if (addPoint && editing) {
-      const ul = $('[data-points]', addPoint.closest('[data-item]'));
+      const scope = addPoint.closest('[data-expgroup]') || addPoint.closest('[data-item]');
+      const ul = $('[data-points]', scope);
       const li = tpl('tpl-point', { text: 'Nouvelle réalisation.' });
       li.setAttribute('contenteditable', 'true');
       ul.appendChild(li);

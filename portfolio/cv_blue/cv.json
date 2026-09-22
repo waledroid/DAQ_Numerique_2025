@@ -1214,6 +1214,367 @@
           "template": "Dear Sir or Madam,\n\nI am writing to apply for the DU Technicien en Œnologie at the Institut Universitaire de la Vigne et du Vin Jules Guyot. My background is mainly scientific and technological, but I now wish to move towards a field that particularly interests me: wine production and the wine sector. This programme is an opportunity for me to acquire the practical skills needed to build this new professional project.\n\nHolding a Master’s degree (M2) in Computer Vision and Robotics from the Université de Bourgogne and a Master’s (M2) in AI for One Health from the Université Grenoble Alpes, I have developed strong scientific rigour in experimentation, analysis and problem-solving. The DU programme particularly attracts me for its practical approach, notably fermentations, physico-chemical and microbiological analyses, ageing, quality control and sensory analysis.\n\nMy interest in this industry is both personal and professional. I want to better understand wine production and the various opportunities this sector offers. In the longer term, my ambition is to put the knowledge acquired in France to work in a wine production project in Africa. Studying in Dijon, in the heart of a region renowned for its winemaking expertise, is an excellent opportunity for me to learn from professionals.\n\nMy experience in food production at McDonald’s in Le Creusot and as a computer vision engineer at Isitec International taught me rigour, compliance with procedures, hygiene, quality control and the experimental approach. These skills form a foundation I now wish to apply to oenology.\n\nAfter the DU, I wish to gain a first experience in the industry, particularly in production, analysis or quality control, before progressively developing my entrepreneurial project in Africa. Although my background differs from that of many candidates, I am ready to fully commit to this programme with curiosity, seriousness and a willingness to learn.\n\nYours faithfully,"
         }
       }
+    },
+    {
+      "id": "alternance-reception",
+      "label": {
+        "fr": "Alternance Réception",
+        "en": "Reception apprenticeship"
+      },
+      "fr": {
+        "identity": {
+          "name": "Abdullahi Atanda",
+          "title": "Réceptionniste polyvalent · Employé d'étage",
+          "tagline": "Alternance · Contrat de professionnalisation — Réception hôtelière"
+        },
+        "contact": [
+          {
+            "label": "E-mail",
+            "value": "waledroid@gmail.com"
+          },
+          {
+            "label": "Téléphone",
+            "value": "+33 7 49 49 99 78"
+          },
+          {
+            "label": "Adresse",
+            "value": "71200 Le Creusot"
+          }
+        ],
+        "profile": "Réceptionniste polyvalent avec expérience en réception, hébergement et petit-déjeuner. Formé au PMS FOLS chez Ibis Budget Beaune : accueil, check-in/out, réservations et encaissement. Sérieux, autonome et orienté client, je souhaite poursuivre mon parcours dans le cadre d’un contrat de professionnalisation en réception, avec une disponibilité pour les horaires de nuit, week-ends et jours fériés.",
+        "experience": [
+          {
+            "role": "Réceptionniste polyvalent · Employé d'étage",
+            "company": "Hôtel Ibis Budget",
+            "location": "Beaune (21)",
+            "dates": "Sept. 2025 – Nov. 2025",
+            "points": [],
+            "groups": [
+              {
+                "title": "Réception",
+                "points": [
+                  "Accueil, check-in/out et encaissement sur FOLS",
+                  "Gestion des réservations et demandes clients",
+                  "Autonomie, notamment en horaires de nuit",
+                  "Coordination avec le housekeeping"
+                ]
+              },
+              {
+                "title": "Hébergement & petit-déjeuner",
+                "points": [
+                  "Nettoyage et remise en état des chambres",
+                  "Entretien des espaces communs",
+                  "Gestion du linge et des produits d’accueil",
+                  "Préparation et réapprovisionnement du buffet petit-déjeuner"
+                ]
+              }
+            ]
+          },
+          {
+            "role": "Technicien informatique",
+            "company": "Allopanas Ordi",
+            "location": "Chalon-sur-Saône (71)",
+            "dates": "Nov. 2024 – Fév. 2025",
+            "points": [
+              "Accueil client et diagnostic de demandes",
+              "Suivi administratif et reporting",
+              "Assistance et accompagnement client"
+            ]
+          },
+          {
+            "role": "Équipier polyvalent",
+            "company": "McDonald's",
+            "location": "Le Creusot (71)",
+            "dates": "Sept. 2022 – Oct. 2024",
+            "points": [
+              "Accueil et service client",
+              "Gestion des flux en période de forte activité",
+              "Préparation selon standards qualité et HACCP",
+              "Hygiène, entretien et travail en équipe"
+            ]
+          }
+        ],
+        "education": [
+          {
+            "degree": "Bachelor en Informatique",
+            "school": "Dijon",
+            "dates": "2022 – 2024"
+          },
+          {
+            "degree": "Formation interne — Réception hôtelière",
+            "school": "Hôtel Ibis Budget Beaune — FOLS, procédures d'accueil, standards qualité",
+            "dates": "2025"
+          }
+        ],
+        "skills": [
+          {
+            "category": "Réception",
+            "items": [
+              "Accueil",
+              "Check-in/out",
+              "Réservations",
+              "Encaissement",
+              "Relation client"
+            ]
+          },
+          {
+            "category": "Hébergement",
+            "items": [
+              "Chambres",
+              "Espaces communs",
+              "Linge",
+              "Produits d'accueil",
+              "Petit-déjeuner buffet"
+            ]
+          },
+          {
+            "category": "PMS & Outils",
+            "items": [
+              "FOLS",
+              "MS Excel",
+              "Outils bureautiques"
+            ]
+          },
+          {
+            "category": "Qualités",
+            "items": [
+              "Autonomie",
+              "Organisation",
+              "Réactivité",
+              "Rigueur",
+              "Adaptabilité",
+              "Esprit d'équipe"
+            ]
+          }
+        ],
+        "languages": [
+          {
+            "name": "Anglais",
+            "level": "Natif"
+          },
+          {
+            "name": "Français",
+            "level": "Courant"
+          }
+        ],
+        "projects": [],
+        "certifications": [],
+        "interests": [
+          {
+            "name": "Voyages",
+            "year": ""
+          },
+          {
+            "name": "Photographie",
+            "year": ""
+          },
+          {
+            "name": "Football",
+            "year": ""
+          },
+          {
+            "name": "Cuisine",
+            "year": ""
+          }
+        ],
+        "availability": "",
+        "letter": {
+          "offer": {
+            "texte": "",
+            "entreprise": "",
+            "poste": "",
+            "focus": "",
+            "domaine": "",
+            "exigence1": "",
+            "exigence2": "",
+            "lieu": "",
+            "profile": "",
+            "destinataire": "",
+            "source": "",
+            "villeDate": ""
+          },
+          "ville": "Beaune",
+          "body": "Madame, Monsieur,\n\nSouhaitant poursuivre mon parcours dans l’hôtellerie, je recherche un contrat de professionnalisation en réception afin de développer mes compétences et d’évoluer durablement dans ce secteur.\n\nLors de mon expérience chez Ibis Budget Beaune, j’ai exercé des missions polyvalentes en réception et en hébergement. Formé au PMS FOLS, j’ai notamment assuré l’accueil des clients, les check-in/check-out, la gestion des réservations et les encaissements. J’ai également participé à l’entretien des chambres et des espaces communs ainsi qu’à la préparation du petit-déjeuner.\n\nMon expérience chez McDonald’s m’a également permis de développer mon sens du service client, ma réactivité et mon esprit d’équipe, dans un environnement exigeant et à forte fréquentation. Ces compétences sont directement utiles dans le secteur hôtelier, où la qualité de l’accueil, l’organisation et la capacité à gérer les demandes des clients sont essentielles.\n\nSérieux, autonome et adaptable, je souhaite aujourd’hui approfondir mes compétences au sein d’une équipe hôtelière et contribuer à la qualité de l’accueil et du service. Je suis également disponible pour les différents horaires de l’hôtellerie, y compris les nuits, week-ends et jours fériés.\n\nJe serais heureux de pouvoir vous rencontrer afin de vous présenter ma motivation et mon projet professionnel.\n\nJe vous prie d’agréer, Madame, Monsieur, l’expression de mes salutations distinguées.",
+          "template": "Madame, Monsieur,\n\nSouhaitant poursuivre mon parcours dans l’hôtellerie, je recherche un contrat de professionnalisation en réception afin de développer mes compétences et d’évoluer durablement dans ce secteur.\n\nLors de mon expérience chez Ibis Budget Beaune, j’ai exercé des missions polyvalentes en réception et en hébergement. Formé au PMS FOLS, j’ai notamment assuré l’accueil des clients, les check-in/check-out, la gestion des réservations et les encaissements. J’ai également participé à l’entretien des chambres et des espaces communs ainsi qu’à la préparation du petit-déjeuner.\n\nMon expérience chez McDonald’s m’a également permis de développer mon sens du service client, ma réactivité et mon esprit d’équipe, dans un environnement exigeant et à forte fréquentation. Ces compétences sont directement utiles dans le secteur hôtelier, où la qualité de l’accueil, l’organisation et la capacité à gérer les demandes des clients sont essentielles.\n\nSérieux, autonome et adaptable, je souhaite aujourd’hui approfondir mes compétences au sein d’une équipe hôtelière et contribuer à la qualité de l’accueil et du service. Je suis également disponible pour les différents horaires de l’hôtellerie, y compris les nuits, week-ends et jours fériés.\n\nJe serais heureux de pouvoir vous rencontrer afin de vous présenter ma motivation et mon projet professionnel.\n\nJe vous prie d’agréer, Madame, Monsieur, l’expression de mes salutations distinguées."
+        }
+      },
+      "en": {
+        "identity": {
+          "name": "Abdullahi Atanda",
+          "title": "Versatile Receptionist · Room Attendant",
+          "tagline": "Work-study · Professionalisation contract — Hotel reception"
+        },
+        "contact": [
+          {
+            "label": "E-mail",
+            "value": "waledroid@gmail.com"
+          },
+          {
+            "label": "Phone",
+            "value": "+33 7 49 49 99 78"
+          },
+          {
+            "label": "Address",
+            "value": "71200 Le Creusot"
+          }
+        ],
+        "profile": "Versatile receptionist with experience in front desk, housekeeping and breakfast service. Trained on the FOLS PMS at Ibis Budget Beaune: welcome, check-in/out, bookings and payments. Reliable, autonomous and customer-focused, I wish to continue my career through a professionalisation contract in reception, with availability for night shifts, weekends and public holidays.",
+        "experience": [
+          {
+            "role": "Versatile Receptionist · Room Attendant",
+            "company": "Hôtel Ibis Budget",
+            "location": "Beaune (21)",
+            "dates": "Sept. 2025 – Nov. 2025",
+            "points": [],
+            "groups": [
+              {
+                "title": "Front desk",
+                "points": [
+                  "Welcome, check-in/out and payments on FOLS",
+                  "Managing bookings and guest requests",
+                  "Autonomy, including night shifts",
+                  "Coordination with housekeeping"
+                ]
+              },
+              {
+                "title": "Housekeeping & breakfast",
+                "points": [
+                  "Cleaning and preparing rooms",
+                  "Upkeep of common areas",
+                  "Managing linen and guest amenities",
+                  "Preparing and restocking the breakfast buffet"
+                ]
+              }
+            ]
+          },
+          {
+            "role": "IT Technician",
+            "company": "Allopanas Ordi",
+            "location": "Chalon-sur-Saône (71)",
+            "dates": "Nov. 2024 – Feb. 2025",
+            "points": [
+              "Front-line customer service and diagnosis of requests",
+              "Administrative follow-up and reporting",
+              "Customer support and guidance"
+            ]
+          },
+          {
+            "role": "Crew Member",
+            "company": "McDonald's",
+            "location": "Le Creusot (71)",
+            "dates": "Sept. 2022 – Oct. 2024",
+            "points": [
+              "Customer service",
+              "Managing flows during peak periods",
+              "Preparation to quality and HACCP standards",
+              "Hygiene, cleaning and teamwork"
+            ]
+          }
+        ],
+        "education": [
+          {
+            "degree": "Bachelor's Degree in Computer Science",
+            "school": "Dijon, France",
+            "dates": "2022 – 2024"
+          },
+          {
+            "degree": "In-house training — Hotel reception",
+            "school": "Hôtel Ibis Budget Beaune — FOLS, front-desk procedures, quality standards",
+            "dates": "2025"
+          }
+        ],
+        "skills": [
+          {
+            "category": "Front desk",
+            "items": [
+              "Welcome",
+              "Check-in/out",
+              "Bookings",
+              "Payments",
+              "Customer relations"
+            ]
+          },
+          {
+            "category": "Housekeeping",
+            "items": [
+              "Rooms",
+              "Common areas",
+              "Linen",
+              "Guest amenities",
+              "Breakfast buffet"
+            ]
+          },
+          {
+            "category": "PMS & Tools",
+            "items": [
+              "FOLS",
+              "MS Excel",
+              "Office tools"
+            ]
+          },
+          {
+            "category": "Professional qualities",
+            "items": [
+              "Autonomy",
+              "Organisation",
+              "Responsiveness",
+              "Rigour",
+              "Adaptability",
+              "Teamwork"
+            ]
+          }
+        ],
+        "languages": [
+          {
+            "name": "English",
+            "level": "Native"
+          },
+          {
+            "name": "French",
+            "level": "Fluent"
+          }
+        ],
+        "projects": [],
+        "certifications": [],
+        "interests": [
+          {
+            "name": "Travel",
+            "year": ""
+          },
+          {
+            "name": "Photography",
+            "year": ""
+          },
+          {
+            "name": "Football",
+            "year": ""
+          },
+          {
+            "name": "Cooking",
+            "year": ""
+          }
+        ],
+        "availability": "",
+        "letter": {
+          "offer": {
+            "texte": "",
+            "entreprise": "",
+            "poste": "",
+            "focus": "",
+            "domaine": "",
+            "exigence1": "",
+            "exigence2": "",
+            "lieu": "",
+            "profile": "",
+            "destinataire": "",
+            "source": "",
+            "villeDate": ""
+          },
+          "ville": "Beaune",
+          "body": "Dear Sir or Madam,\n\nWishing to continue my career in the hotel industry, I am looking for a professionalisation contract in reception in order to develop my skills and grow sustainably in this sector.\n\nDuring my experience at Ibis Budget Beaune, I carried out versatile duties in front desk and housekeeping. Trained on the FOLS PMS, I handled guest welcome, check-in/check-out, bookings and payments. I also took part in cleaning rooms and common areas as well as preparing breakfast.\n\nMy experience at McDonald’s also allowed me to develop my customer-service skills, my responsiveness and my team spirit in a demanding, high-traffic environment. These skills are directly useful in the hotel sector, where the quality of the welcome, organisation and the ability to handle guest requests are essential.\n\nReliable, autonomous and adaptable, I now wish to deepen my skills within a hotel team and contribute to the quality of the welcome and service. I am also available for the different hotel shifts, including nights, weekends and public holidays.\n\nI would be glad to meet you to present my motivation and my professional project.\n\nYours sincerely.",
+          "template": "Dear Sir or Madam,\n\nWishing to continue my career in the hotel industry, I am looking for a professionalisation contract in reception in order to develop my skills and grow sustainably in this sector.\n\nDuring my experience at Ibis Budget Beaune, I carried out versatile duties in front desk and housekeeping. Trained on the FOLS PMS, I handled guest welcome, check-in/check-out, bookings and payments. I also took part in cleaning rooms and common areas as well as preparing breakfast.\n\nMy experience at McDonald’s also allowed me to develop my customer-service skills, my responsiveness and my team spirit in a demanding, high-traffic environment. These skills are directly useful in the hotel sector, where the quality of the welcome, organisation and the ability to handle guest requests are essential.\n\nReliable, autonomous and adaptable, I now wish to deepen my skills within a hotel team and contribute to the quality of the welcome and service. I am also available for the different hotel shifts, including nights, weekends and public holidays.\n\nI would be glad to meet you to present my motivation and my professional project.\n\nYours sincerely."
+        }
+      }
     }
   ]
 }
