@@ -121,9 +121,16 @@ function init() {
     const border = opts.border || 'rgba(163, 230, 53, 0.5)';
 
     const cv = document.createElement('canvas');
-    cv.width = 560;
+    let ctx = cv.getContext('2d');
+    ctx.font = font;
+    let maxW = 0;
+    lines.forEach((l) => {
+      const w = ctx.measureText(l).width;
+      if (w > maxW) maxW = w;
+    });
+    cv.width = Math.max(540, Math.ceil(maxW + 76));
     cv.height = 128 * lines.length;
-    const ctx = cv.getContext('2d');
+    ctx = cv.getContext('2d');
 
     ctx.fillStyle = bg;
     ctx.strokeStyle = border;
@@ -304,6 +311,41 @@ function init() {
   frontGlass.rotation.x = Math.PI / 2;
   frontGlass.position.z = 0.85;
   lensAssembly.add(frontGlass);
+
+  // Fresnel coating glints & optical reticle ring
+  const glintGeo = new THREE.PlaneGeometry(0.68, 0.44);
+  const glintC = new THREE.Mesh(
+    glintGeo,
+    new THREE.MeshBasicMaterial({
+      color: CYAN,
+      map: softGlowTexture,
+      transparent: true,
+      opacity: 0.48,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    })
+  );
+  glintC.position.set(-0.34, 0.16, 0.92);
+  const glintV = new THREE.Mesh(
+    glintGeo,
+    new THREE.MeshBasicMaterial({
+      color: 0xa855f7,
+      map: softGlowTexture,
+      transparent: true,
+      opacity: 0.38,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+    })
+  );
+  glintV.position.set(0.36, -0.14, 0.92);
+  lensAssembly.add(glintC, glintV);
+
+  const reticleRing = new THREE.Mesh(
+    new THREE.RingGeometry(1.36, 1.38, 64),
+    new THREE.MeshBasicMaterial({ color: ACCENT, transparent: true, opacity: 0.45, depthWrite: false })
+  );
+  reticleRing.position.z = 1.02;
+  lensAssembly.add(reticleRing);
 
   // Converging Optical Light Rays
   const RAY_COUNT = 16;
@@ -794,7 +836,7 @@ function init() {
   const CAMERA_KEYS = [
     { at: 0.00, pos: new THREE.Vector3(0, 0.8, 7.8),  look: new THREE.Vector3(0, 0.15, 0) },
     { at: 0.25, pos: new THREE.Vector3(0, 1.9, 7.2),  look: new THREE.Vector3(0, -0.35, 0) },
-    { at: 0.46, pos: new THREE.Vector3(0, 0.9, 5.4),  look: new THREE.Vector3(0, 0.0, 0) },
+    { at: 0.46, pos: new THREE.Vector3(0, 0.9, 6.8),  look: new THREE.Vector3(0, -0.05, 0) },
     { at: 0.66, pos: new THREE.Vector3(0, 2.0, 6.8),  look: new THREE.Vector3(0, -0.30, 0.35) },
     { at: 0.92, pos: new THREE.Vector3(0, 1.75, 7.4), look: new THREE.Vector3(0, -0.25, 0.2) },
     { at: 1.00, pos: new THREE.Vector3(0, 1.85, 7.6), look: new THREE.Vector3(0, -0.25, 0.2) },
@@ -915,9 +957,10 @@ function init() {
     dustPoints.rotation.x = t * 0.008;
 
     // --- CHAPTER 0: HERO (Zenithal Optics & CMOS Sensor) ---
-    const ch0Alpha = 1 - smoothstep(0.13, 0.19, p);
+    const ch0Alpha = 1 - smoothstep(0.12, 0.16, p);
     ch0Group.visible = ch0Alpha > 0.001;
     if (ch0Group.visible) {
+      ch0Group.position.y = 0.2 - (1 - ch0Alpha) * 0.3;
       lensAssembly.rotation.y = 0.36 + p * 0.45 + Math.sin(t * 0.5) * 0.04;
       rayMat.opacity = 0.35 * ch0Alpha;
       metalBodyMat.opacity = ch0Alpha;
@@ -927,27 +970,30 @@ function init() {
       ch0HudMat.opacity = 0.9 * ch0Alpha;
     }
 
-    // --- CHAPTER 2: COMPRESSER (Neural Network & OpenVINO INT8 CPU) ---
-    const ch2Alpha = smoothstep(0.35, 0.40, p) * (1 - smoothstep(0.53, 0.58, p));
+    // --- CHAPTER 2: COMPRESSER (Neural Network + OpenVINO INT8 CPU) ---
+    const ch2Alpha = smoothstep(0.36, 0.40, p) * (1 - smoothstep(0.52, 0.56, p));
     ch2Group.visible = ch2Alpha > 0.001;
     if (ch2Group.visible) {
-      const pruneT = smoothstep(0.39, 0.49, p);
-      nnGroup.scale.setScalar(Math.max(0.001, 1 - pruneT * 0.85));
-      nnGroup.position.y = pruneT * -0.35;
-      synapseMat.opacity = (1 - pruneT * 0.8) * 0.45 * ch2Alpha;
+      ch2Group.position.y = 0.05 - (1 - ch2Alpha) * 0.3;
+      const pruneT = smoothstep(0.38, 0.50, p);
 
-      const chipScale = smoothstep(0.41, 0.50, p);
-      cpuGroup.scale.setScalar(Math.max(0.001, chipScale));
-      cpuGroup.rotation.x = 0.52;
-      cpuGroup.rotation.y = t * 0.25 + p * 1.1;
+      // Neural network sits cleanly above, pruning down into the CPU die below
+      nnGroup.scale.setScalar(0.62 - pruneT * 0.12);
+      nnGroup.position.set(0, 0.65, 0);
+      synapseMat.opacity = (0.55 - pruneT * 0.25) * ch2Alpha;
 
-      fp32Mat.opacity = (1 - pruneT) * ch2Alpha;
-      int8Mat.opacity = chipScale * ch2Alpha;
+      cpuGroup.scale.setScalar(0.95);
+      cpuGroup.position.set(0, -0.62, 0.2);
+      cpuGroup.rotation.x = 0.58;
+      cpuGroup.rotation.y = Math.sin(t * 0.4) * 0.18;
+
+      fp32Mat.opacity = ch2Alpha;
+      int8Mat.opacity = ch2Alpha;
     }
 
-    // --- SORTING LINE CELL (Active in Ch 1 [0.18..0.34] and Ch 3–4 [0.56..1.00]) ---
-    const cellWin1 = smoothstep(0.14, 0.20, p) * (1 - smoothstep(0.34, 0.39, p));
-    const cellWin2 = smoothstep(0.54, 0.60, p);
+    // --- SORTING LINE CELL (Active in Ch 1 [0.16..0.36] and Ch 3–4 [0.56..1.00]) ---
+    const cellWin1 = smoothstep(0.16, 0.20, p) * (1 - smoothstep(0.32, 0.36, p));
+    const cellWin2 = smoothstep(0.56, 0.60, p);
     const cellAlpha = Math.max(cellWin1, cellWin2);
     cellGroup.visible = cellAlpha > 0.001;
 

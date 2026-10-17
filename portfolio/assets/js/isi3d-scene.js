@@ -121,9 +121,16 @@ function init() {
     const border = opts.border || 'rgba(163, 230, 53, 0.5)';
 
     const cv = document.createElement('canvas');
-    cv.width = 560;
+    let ctx = cv.getContext('2d');
+    ctx.font = font;
+    let maxW = 0;
+    lines.forEach((l) => {
+      const w = ctx.measureText(l).width;
+      if (w > maxW) maxW = w;
+    });
+    cv.width = Math.max(540, Math.ceil(maxW + 76));
     cv.height = 128 * lines.length;
-    const ctx = cv.getContext('2d');
+    ctx = cv.getContext('2d');
 
     ctx.fillStyle = bg;
     ctx.strokeStyle = border;
@@ -1049,9 +1056,10 @@ function init() {
     dustPoints.rotation.x = t * 0.008;
 
     // --- CHAPTER 0: HERO (Dual-Camera Digital Twin Core) ---
-    const ch0Alpha = 1 - smoothstep(0.13, 0.19, p);
+    const ch0Alpha = 1 - smoothstep(0.12, 0.16, p);
     ch0Group.visible = ch0Alpha > 0.001;
     if (ch0Group.visible) {
+      ch0Group.position.y = 0.1 - (1 - ch0Alpha) * 0.3;
       twinCore.rotation.y = 0.32 + Math.sin(t * 0.45) * 0.08 + p * 0.4;
       ch0CamA.labelMat.opacity = ch0Alpha;
       ch0CamB.labelMat.opacity = ch0Alpha;
@@ -1060,9 +1068,10 @@ function init() {
     }
 
     // --- CHAPTER 1: CALIBRER (ChArUco & AprilGrid Stage) ---
-    const ch1Alpha = smoothstep(0.14, 0.20, p) * (1 - smoothstep(0.33, 0.39, p));
+    const ch1Alpha = smoothstep(0.16, 0.20, p) * (1 - smoothstep(0.32, 0.36, p));
     ch1Group.visible = ch1Alpha > 0.001;
     if (ch1Group.visible) {
+      ch1Group.position.y = -0.1 - (1 - ch1Alpha) * 0.3;
       boardGroup.rotation.y = Math.sin(t * 0.5) * 0.08;
       calCamA.labelMat.opacity = ch1Alpha;
       calCamB.labelMat.opacity = ch1Alpha;
@@ -1071,9 +1080,10 @@ function init() {
     }
 
     // --- CHAPTER 2: DÉTECTER (Conveyor, Pallet & 3×3 Rack) ---
-    const ch2Alpha = smoothstep(0.34, 0.40, p) * (1 - smoothstep(0.53, 0.59, p));
+    const ch2Alpha = smoothstep(0.36, 0.40, p) * (1 - smoothstep(0.52, 0.56, p));
     ch2Group.visible = ch2Alpha > 0.001;
     if (ch2Group.visible) {
+      ch2Group.position.y = -(1 - ch2Alpha) * 0.3;
       const beltSpeed = 0.85;
       ch2Rollers.forEach((r) => {
         r.rotation.y = t * beltSpeed * 4;
@@ -1099,11 +1109,12 @@ function init() {
     }
 
     // --- CHAPTER 3: TRIANGULER & SUIVRE (DLT Rays & Metric Track) ---
-    const ch3Alpha = smoothstep(0.54, 0.60, p) * (1 - smoothstep(0.75, 0.81, p));
+    const ch3Alpha = smoothstep(0.56, 0.60, p) * (1 - smoothstep(0.75, 0.79, p));
     ch3Group.visible = ch3Alpha > 0.001;
     if (ch3Group.visible) {
+      ch3Group.position.y = -0.1 - (1 - ch3Alpha) * 0.3;
       const trackU = clamp(
-        smoothstep(0.56, 0.76, p) * 0.75 + (0.5 + 0.5 * Math.sin(t * 0.8)) * 0.25,
+        smoothstep(0.58, 0.76, p) * 0.75 + (0.5 + 0.5 * Math.sin(t * 0.8)) * 0.25,
         0,
         1
       );
@@ -1130,9 +1141,10 @@ function init() {
     }
 
     // --- CHAPTER 4: PUBLIER (Industrial AGV & UDP/MQTT Telemetry) ---
-    const ch4Alpha = smoothstep(0.76, 0.83, p);
+    const ch4Alpha = smoothstep(0.79, 0.83, p);
     ch4Group.visible = ch4Alpha > 0.001;
     if (ch4Group.visible) {
+      ch4Group.position.y = -0.1 - (1 - ch4Alpha) * 0.3;
       const agvZ = -0.2 + Math.sin(t * 0.65) * 1.45;
       agvGroup.position.z = agvZ;
       const wheelRot = agvZ / wheelR;
