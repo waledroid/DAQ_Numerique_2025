@@ -132,7 +132,7 @@
           </a>
         </div>
 
-        <div class="grid lg:grid-cols-2 gap-6">
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <!-- IsiMonitor 3D -->
           <a href="isimonitor3d.html" class="panel group relative overflow-hidden flex flex-col" data-reveal
             data-delay="1">
@@ -145,11 +145,11 @@
               </video>
               <span class="absolute top-3 left-3 chip bg-ink/70 backdrop-blur"><span class="w-1.5 h-1.5 rounded-full bg-accent inline-block"></span>LIVE</span>
             </div>
-            <div class="p-8">
+            <div class="p-8 flex flex-col flex-1">
               <p class="font-mono text-xs uppercase tracking-widest text-accent">Vision multi-caméras · ONNX/TensorRT
                 · Three.js</p>
               <h3 class="font-display text-2xl font-semibold mt-3">ISI Monitor 3D</h3>
-              <p class="text-muted text-sm leading-relaxed mt-3">
+              <p class="text-muted text-sm leading-relaxed mt-3 flex-1">
                 Suivi métrique 2D/3D en temps réel dans un jumeau numérique d'entrepôt.
               </p>
               <span class="link-u w-fit mt-5 font-mono text-sm text-accent inline-flex items-center gap-2">
@@ -170,13 +170,46 @@
               </video>
               <span class="absolute top-3 left-3 chip bg-ink/70 backdrop-blur"><span class="w-1.5 h-1.5 rounded-full bg-accent inline-block"></span>LIVE</span>
             </div>
-            <div class="p-8">
+            <div class="p-8 flex flex-col flex-1">
               <p class="font-mono text-xs uppercase tracking-widest text-accent">YOLO/RF-DETR · OpenVINO INT8 · UDP
               </p>
               <h3 class="font-display text-2xl font-semibold mt-3">IsiDetector</h3>
-              <p class="text-muted text-sm leading-relaxed mt-3">
+              <p class="text-muted text-sm leading-relaxed mt-3 flex-1">
                 Tri de colis sur convoyeur, déployé en production sur CPU — un trigger UDP par colis
                 vers l'automate.
+              </p>
+              <span class="link-u w-fit mt-5 font-mono text-sm text-accent inline-flex items-center gap-2">
+                <i class="fa-solid fa-cube" aria-hidden="true"></i> Étude de cas immersive 3D
+              </span>
+            </div>
+          </a>
+
+          <!-- izifill (izi_filler) -->
+          <a href="izi_filler.html" class="panel group relative overflow-hidden flex flex-col" data-reveal
+            data-delay="3">
+            <div class="overflow-hidden rounded-t-[26px] aspect-[16/10] relative bg-ink grid-bg">
+              <span class="absolute top-3 left-3 chip bg-ink/70 backdrop-blur"><span class="w-1.5 h-1.5 rounded-full bg-emerald inline-block"></span>CHROME MV3</span>
+              <span class="absolute top-3 right-3 chip bg-ink/70 backdrop-blur">FR / EN</span>
+              <div class="absolute inset-x-5 top-[34%] flex items-center justify-between gap-1.5 font-mono text-[0.58rem]">
+                <span class="border border-emerald/60 bg-emerald/10 rounded px-2 py-1 text-emerald">● PROFIL</span>
+                <span class="text-accent">⟶</span>
+                <span class="border border-amber-400/60 bg-amber-400/10 rounded px-2 py-1 text-amber-300">● DÉDUIT</span>
+                <span class="text-accent">⟶</span>
+                <span class="border border-rose-500/60 bg-rose-500/10 rounded px-2 py-1 text-rose-300">● Q→R</span>
+              </div>
+              <div class="absolute inset-x-5 top-[60%] font-mono text-[0.58rem] text-muted leading-relaxed">
+                31 clés FR/EN · ChunkedStore 7 Ko · Tracker intégré
+              </div>
+              <span class="absolute bottom-3 left-3 font-mono text-[0.56rem] tracking-widest text-muted">178 TESTS VITEST</span>
+              <span class="absolute bottom-3 right-3 font-mono text-[0.56rem] tracking-widest text-emerald">0 RÉSEAU</span>
+            </div>
+            <div class="p-8 flex flex-col flex-1">
+              <p class="font-mono text-xs uppercase tracking-widest text-accent">TypeScript · WXT · Chrome MV3 · 100% Local
+              </p>
+              <h3 class="font-display text-2xl font-semibold mt-3">izifill (izi_filler)</h3>
+              <p class="text-muted text-sm leading-relaxed mt-3 flex-1">
+                Automatise le remplissage des formulaires de candidature pour éliminer la fatigue
+                répétitive et postuler à plus d'offres en quelques minutes.
               </p>
               <span class="link-u w-fit mt-5 font-mono text-sm text-accent inline-flex items-center gap-2">
                 <i class="fa-solid fa-cube" aria-hidden="true"></i> Étude de cas immersive 3D

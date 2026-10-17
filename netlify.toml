@@ -13,3 +13,24 @@
   # The CV save function holds the GitHub token; set GITHUB_TOKEN and
   # EDITOR_PASSWORD in Site settings → Environment variables.
   functions = "netlify/functions"
+
+[[redirects]]
+  from = "/izi_filler"
+  to = "/izi_filler.html"
+  status = 200
+
+[[redirects]]
+  from = "/izifill"
+  to = "/izi_filler.html"
+  status = 200
+
+[[redirects]]
+  from = "/isidetector/izi_filler"
+  to = "/izi_filler.html"
+  status = 301
+
+[[redirects]]
+  from = "/isidetector/izi_filler/*"
+  to = "/izi_filler.html"
+  status = 301
+

@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="izifill (izi_filler) — étude de cas immersive : extension Chrome Manifest V3 bilingue FR/EN qui automatise le remplissage des formulaires de candidature, élimine la fatigue répétitive et permet de postuler en quelques minutes, 100 % en local." />
+  <title>izifill (izi_filler) — Atanda Abdullahi</title>
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://portfolio-waledroid.netlify.app/izi_filler.html" />
+  <meta property="og:title" content="izifill — Automatisation intelligente de candidatures (Chrome MV3)" />
+  <meta property="og:description" content="Extension Chrome MV3 bilingue FR/EN : remplissage automatique de formulaires d'emploi, code couleur de confiance, mémoire adaptative Q→R et suivi intégré — zéro serveur, zéro appel réseau." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="assets/js/tw-config.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://db.onlinewebfonts.com/c/b8cc7a4c2204f4530415a8552c2d827d?family=ANAPOLINO" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+</head>
+<body class="bg-ink text-mist">
+  <div id="cursor-dot"></div><div id="cursor-ring"></div>
+  <header data-site-nav></header>
+
+  <main>
+    <!-- ====== IMMERSIVE STORY (scroll-driven 3D split-screen) ====== -->
+    <section id="story" class="relative" style="height:640vh">
+      <div class="story-sticky sticky top-0 h-screen overflow-hidden">
+        <div id="story-canvas" class="absolute inset-0"></div>
+
+        <!-- Chapter 0 — HERO -->
+        <article class="story-card panel p-7 sm:p-10 left-4 right-4 bottom-8 md:bottom-auto md:left-auto md:right-[6%] lg:right-[8%] md:top-1/2 md:-translate-y-1/2 md:max-w-md lg:max-w-lg text-left"
+          data-chapter="0">
+          <p class="label">Extension Chrome MV3 · Automatisation de candidatures</p>
+          <h1 class="font-display font-bold tracking-tight leading-[0.95] text-[clamp(2.2rem,6vw,3.6rem)] mt-3">
+            izi<span class="text-gradient">fill</span>
+          </h1>
+          <p class="text-muted text-sm sm:text-base leading-relaxed mt-4 max-w-md">
+            Postuler sans l'épuisement ni le stress répétitif. Un profil enregistré une seule fois
+            remplit automatiquement les formulaires de candidature — pour postuler à davantage
+            d'offres en quelques minutes, 100&nbsp;% en local.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-6">
+            <span class="chip">CHROME MV3 · WXT</span>
+            <span class="chip">ZÉRO RÉSEAU</span>
+            <span class="chip">FR / EN</span>
+          </div>
+          <p class="font-mono text-[0.62rem] tracking-widest text-muted mt-7">
+            <i class="fa-solid fa-angles-down text-accent" aria-hidden="true"></i> FAITES DÉFILER
+          </p>
+        </article>
+
+        <!-- Chapter 1 — DÉTECTER & MATCHER -->
+        <article class="story-card panel p-7 sm:p-10 left-4 right-4 bottom-8 md:bottom-auto md:left-auto md:right-[6%] lg:right-[8%] md:top-1/2 md:-translate-y-1/2 md:max-w-md lg:max-w-lg text-left"
+          data-chapter="1">
+          <p class="label">01 · Détecter &amp; Matcher</p>
+          <h2 class="font-display font-bold tracking-tight text-[clamp(1.5rem,3.6vw,2.2rem)] mt-4 leading-tight">
+            Comprendre le formulaire, sans serveur.
+          </h2>
+          <p class="text-muted text-sm sm:text-base leading-relaxed mt-3">
+            Le moteur heuristique en TypeScript pur inspecte chaque contrôle du DOM
+            (<span class="text-mist">label</span>, <span class="text-mist">aria-label</span>,
+            <span class="text-mist">autocomplete</span>, <span class="text-mist">placeholder</span>,
+            contexte) et l'associe à <span class="text-mist">31 clés de profil</span> bilingues
+            FR/EN — générique dès le premier jour sur Workday, Greenhouse, Lever, HelloWork ou Indeed.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-6">
+            <span class="chip">31 CLÉS PROFIL</span>
+            <span class="chip">SYNONYMES FR / EN</span>
+            <span class="chip">SANS ADAPTATEUR</span>
+          </div>
+        </article>
+
+        <!-- Chapter 2 — REMPLIR EN 1 CLIC -->
+        <article class="story-card panel p-7 sm:p-10 left-4 right-4 bottom-8 md:bottom-auto md:left-auto md:right-[6%] lg:right-[8%] md:top-1/2 md:-translate-y-1/2 md:max-w-md lg:max-w-lg text-left"
+          data-chapter="2">
+          <p class="label">02 · Remplir &amp; Guider</p>
+          <h2 class="font-display font-bold tracking-tight text-[clamp(1.5rem,3.6vw,2.2rem)] mt-4 leading-tight">
+            Des heures de saisie réduites à quelques minutes.
+          </h2>
+          <p class="text-muted text-sm sm:text-base leading-relaxed mt-3">
+            Injection compatible React/Vue/Angular via setters natifs et
+            <span class="text-mist">DataTransfer</span> pour le CV et la lettre de motivation.
+            Chaque champ reçoit un code couleur de confiance :
+            <span class="text-emerald">vert</span> (profil exact),
+            <span class="text-amber-400">orange</span> (déduit / tranche salariale),
+            <span class="text-rose-400">rouge</span> (inconnu, laissé à la main).
+          </p>
+          <div class="flex flex-wrap gap-2 mt-6">
+            <span class="chip">VERT · HAUTE CONFIANCE</span>
+            <span class="chip">ORANGE · DÉDUIT</span>
+            <span class="chip">ROUGE · MANUEL</span>
+          </div>
+        </article>
+
+        <!-- Chapter 3 — APPRENDRE EN CONTINU -->
+        <article class="story-card panel p-7 sm:p-10 left-4 right-4 bottom-8 md:bottom-auto md:left-auto md:right-[6%] lg:right-[8%] md:top-1/2 md:-translate-y-1/2 md:max-w-md lg:max-w-lg text-left"
+          data-chapter="3">
+          <p class="label">03 · Apprendre</p>
+          <h2 class="font-display font-bold tracking-tight text-[clamp(1.5rem,3.6vw,2.2rem)] mt-4 leading-tight">
+            Une question saisie une fois ne se retape plus.
+          </h2>
+          <p class="text-muted text-sm sm:text-base leading-relaxed mt-3">
+            Dès que l'utilisateur répond à une question recruteur inédite,
+            <span class="text-mist">izifill</span> propose d'enregistrer la paire
+            <span class="text-mist">Question → Réponse</span>. Normalisée et stockée dans
+            <span class="text-mist">ChunkedStore</span> (blocs de 7&nbsp;Ko sur
+            <span class="text-mist">chrome.storage.sync</span>), elle est réinjectée
+            automatiquement sur les candidatures suivantes.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-6">
+            <span class="chip">MÉMOIRE Q→R</span>
+            <span class="chip">CHUNKEDSTORE · 7 KO</span>
+            <span class="chip">MULTI-PROFILS</span>
+          </div>
+        </article>
+
+        <!-- Chapter 4 — PILOTER & SUIVRE -->
+        <article class="story-card panel p-7 sm:p-10 left-4 right-4 bottom-8 md:bottom-auto md:left-auto md:right-[6%] lg:right-[8%] md:top-1/2 md:-translate-y-1/2 md:max-w-md lg:max-w-lg text-left"
+          data-chapter="4">
+          <p class="label">04 · Piloter &amp; Suivre</p>
+          <h2 class="font-display font-bold tracking-tight text-[clamp(1.5rem,3.6vw,2.2rem)] mt-4 leading-tight">
+            De l'étape suivante jusqu'au tableau de suivi.
+          </h2>
+          <p class="text-muted text-sm sm:text-base leading-relaxed mt-3">
+            Le mode <span class="text-mist">Pilot</span> accompagne les formulaires multi-étapes
+            (navigation SPA, cases RGPD requises sans cocher le marketing, pause sur CAPTCHA)
+            sans jamais soumettre à votre place — puis journalise chaque candidature envoyée
+            dans le <span class="text-mist">Tracker intégré</span>.
+          </p>
+          <div class="flex flex-wrap gap-2 mt-6">
+            <span class="chip">178 TESTS VITEST</span>
+            <span class="chip">TRACKER INTÉGRÉ</span>
+            <span class="chip">0 OCTET ENVOYÉ</span>
+          </div>
+          <div class="flex flex-wrap items-center gap-4 mt-8">
+            <a href="#simulateur" class="btn" data-magnetic>
+              <i class="fa-solid fa-wand-magic-sparkles" aria-hidden="true"></i> Tester la simulation
+            </a>
+            <a href="https://github.com/waledroid/DAQ_Numerique_2025/tree/main/izi_filler" target="_blank" rel="noopener" class="btn btn--ghost" data-magnetic>
+              <i class="fa-brands fa-github" aria-hidden="true"></i> Voir le dépôt
+            </a>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ====== ARCHITECTURE ====== -->
+    <section id="architecture" class="border-t border-line bg-surface/30 scroll-mt-24">
+      <div class="max-w-shell mx-auto px-5 sm:px-8 py-24">
+        <p class="label" data-reveal>Architecture logicielle</p>
+        <h2 class="font-display font-bold tracking-tight text-[clamp(2rem,4.5vw,3.2rem)] mt-4" data-reveal data-delay="1">
+          Du profil local au formulaire rempli, <span class="text-gradient">sans aucun serveur</span>
+        </h2>
+        <p class="text-muted max-w-2xl mt-5 leading-relaxed" data-reveal data-delay="2">
+          Conçu pour éliminer la fatigue cognitive et la répétition mécanique des candidatures en
+          ligne : quatre couches TypeScript découplées, testées hors navigateur et exécutées
+          intégralement dans l'environnement isolé de Chrome Manifest&nbsp;V3.
+        </p>
+
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mt-12">
+          <article class="panel p-7" data-reveal>
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">01 · Moteur heuristique</p>
+            <h3 class="font-display text-xl font-semibold mt-3">Matching bilingue FR / EN</h3>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Fonctions pures (<code class="text-mist font-mono text-xs">matcher.ts</code>,
+              <code class="text-mist font-mono text-xs">dictionaries.ts</code>) : pondération des
+              signaux forts (labels, <code class="text-mist font-mono text-xs">aria-label</code>,
+              <code class="text-mist font-mono text-xs">autocomplete</code>) et faibles
+              (placeholders, noms, contexte), équivalences inter-langues (<span class="text-mist">Oui ↔ Yes</span>)
+              et résolution de tranches numériques (<span class="text-mist">38&nbsp;000 → «&nbsp;35&nbsp;000 à 45&nbsp;000&nbsp;»</span>).
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">31 CLÉS</span><span class="chip">OUI ↔ YES</span><span class="chip">TRANCHES NUMÉRIQUES</span>
+            </div>
+          </article>
+
+          <article class="panel p-7" data-reveal data-delay="1">
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">02 · Injection DOM</p>
+            <h3 class="font-display text-xl font-semibold mt-3">Frameworks &amp; fichiers PDF</h3>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Utilisation des descripteurs natifs (<code class="text-mist font-mono text-xs">HTMLInputElement</code>,
+              <code class="text-mist font-mono text-xs">HTMLSelectElement</code>,
+              <code class="text-mist font-mono text-xs">HTMLTextAreaElement</code>) suivie d'événements
+              <code class="text-mist font-mono text-xs">input</code> et
+              <code class="text-mist font-mono text-xs">change</code> bullés pour que React, Vue et
+              Angular acceptent les valeurs. Injection du CV et de la lettre via
+              <code class="text-mist font-mono text-xs">DataTransfer</code>.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">REACT / VUE / ANGULAR</span><span class="chip">DATATRANSFER</span><span class="chip">CV &amp; LETTRE</span>
+            </div>
+          </article>
+
+          <article class="panel p-7" data-reveal data-delay="2">
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">03 · Parcours multi-étapes</p>
+            <h3 class="font-display text-xl font-semibold mt-3">Mode Pilot &amp; garde-fous</h3>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Surveillance SPA (<code class="text-mist font-mono text-xs">MutationObserver</code> +
+              URL) pour remplir chaque étape dès que le candidat avance. Coche uniquement les cases de
+              consentement RGPD/CGU obligatoires en excluant les opt-ins marketing, et se met en pause
+              devant un CAPTCHA ou la validation finale.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">SPA OBSERVER</span><span class="chip">GARDE-FOU RGPD</span><span class="chip">HUMAIN DANS LA BOUCLE</span>
+            </div>
+          </article>
+
+          <article class="panel p-7" data-reveal>
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">04 · Apprentissage continu</p>
+            <h3 class="font-display text-xl font-semibold mt-3">Mémoire Q→R en un clic</h3>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Sur un champ rouge inconnu rempli manuellement, une puce propose de sauvegarder la
+              réponse au <code class="text-mist font-mono text-xs">blur</code>. La question est
+              normalisée (sans accents, ponctuation ni mots vides) pour être reconnue avec un score de
+              confiance sur les formulaires futurs.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">NORMALISATION</span><span class="chip">FUZZY MATCH</span><span class="chip">1 CLIC</span>
+            </div>
+          </article>
+
+          <article class="panel p-7" data-reveal data-delay="1">
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">05 · Stockage résilient</p>
+            <h3 class="font-display text-xl font-semibold mt-3">ChunkedStore &amp; multi-profils</h3>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              <code class="text-mist font-mono text-xs">ChunkedStore</code> découpe automatiquement le
+              JSON en segments de 7&nbsp;Ko pour respecter les quotas stricts de
+              <code class="text-mist font-mono text-xs">chrome.storage.sync</code> (8&nbsp;Ko/item),
+              nettoie les fragments obsolètes et bascule sur
+              <code class="text-mist font-mono text-xs">chrome.storage.local</code> en cas de saturation.
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">CHUNKS 7 KO</span><span class="chip">FALLBACK LOCAL</span><span class="chip">MULTI-PROFILS</span>
+            </div>
+          </article>
+
+          <article class="panel p-7" data-reveal data-delay="2">
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">06 · Suivi intégré</p>
+            <h3 class="font-display text-xl font-semibold mt-3">Application Tracker</h3>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Détecte le clic sur <em>Postuler / Submit</em> combiné à un indice de confirmation de
+              fin de flux, extrait l'entreprise, l'intitulé du poste, le domaine et la date, puis
+              alimente un tableau de bord local avec statuts éditables (<em>Postulé, Entretien, Offre, Refus</em>).
+            </p>
+            <div class="flex flex-wrap gap-2 mt-5">
+              <span class="chip">AUTO-TRACKING</span><span class="chip">STATUTS ÉDITABLES</span><span class="chip">HISTORIQUE LOCAL</span>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== INTERACTIVE SIMULATION (Live Autofill Demo) ====== -->
+    <section id="simulateur" class="py-24 scroll-mt-24">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <div class="flex flex-wrap items-end justify-between gap-4 mb-10">
+          <div>
+            <p class="label" data-reveal>Simulateur interactif</p>
+            <h2 class="font-display font-bold tracking-tight text-[clamp(1.8rem,4vw,2.8rem)] mt-4" data-reveal data-delay="1">
+              Le remplissage <span class="text-gradient">izifill</span> en action.
+            </h2>
+          </div>
+          <p class="font-mono text-xs text-muted max-w-md" data-reveal data-delay="2">
+            Cliquez sur «&nbsp;Remplir avec izifill&nbsp;» pour observer le matching bilingue, le code
+            couleur de confiance (vert / orange / rouge) et l'apprentissage d'une question inédite.
+          </p>
+        </div>
+
+        <div class="panel overflow-hidden rounded-[22px] border border-line" data-reveal data-delay="2">
+          <!-- Top Browser / Extension Bar -->
+          <div class="flex flex-wrap items-center justify-between gap-3 px-5 py-3.5 border-b border-line bg-surface/60 font-mono text-xs">
+            <div class="flex items-center gap-2.5">
+              <span class="w-2.5 h-2.5 rounded-full bg-rose-500/80 inline-block"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400/80 inline-block"></span>
+              <span class="w-2.5 h-2.5 rounded-full bg-emerald/80 inline-block"></span>
+              <span class="ml-2 text-muted truncate">boards.greenhouse.io/edge-robotics/jobs/cv-engineer#apply</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span id="sim-badge" class="chip bg-ink/80 text-accent border-accent/40">
+                <span class="w-1.5 h-1.5 rounded-full bg-accent inline-block"></span>
+                izifill · Formulaire détecté (score 92%)
+              </span>
+            </div>
+          </div>
+
+          <div class="grid lg:grid-cols-[1.55fr_1fr] divide-y lg:divide-y-0 lg:divide-x divide-line">
+            <!-- Left: Simulated Job Application Form -->
+            <div class="p-6 sm:p-8 space-y-5">
+              <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-line">
+                <div>
+                  <p class="font-mono text-[0.65rem] uppercase tracking-widest text-muted">Candidature · Étape 1/2</p>
+                  <h3 class="font-display text-lg font-semibold mt-1">Computer Vision &amp; Edge AI Engineer (H/F)</h3>
+                </div>
+                <div class="flex items-center gap-2">
+                  <button id="sim-fill-btn" type="button" class="btn text-xs py-2.5 px-4">
+                    <i class="fa-solid fa-bolt" aria-hidden="true"></i> Remplir avec izifill
+                  </button>
+                  <button id="sim-reset-btn" type="button" class="btn btn--ghost text-xs py-2.5 px-3.5">
+                    Réinitialiser
+                  </button>
+                </div>
+              </div>
+
+              <div class="grid sm:grid-cols-2 gap-4">
+                <!-- Field 1: First & Last Name -->
+                <div id="sim-f1" class="rounded-xl border border-line bg-ink/60 p-3.5 transition-all duration-300">
+                  <div class="flex items-center justify-between text-xs font-mono">
+                    <label for="sim-in-1" class="text-muted">Nom complet / Full Name *</label>
+                    <span class="sim-tag hidden text-[0.62rem] px-2 py-0.5 rounded-full bg-emerald/15 text-emerald border border-emerald/40">VERT · identity.fullName</span>
+                  </div>
+                  <input id="sim-in-1" type="text" readonly placeholder="Ex: Jean Dupont"
+                         class="mt-2 w-full bg-transparent text-sm text-mist font-medium focus:outline-none" />
+                </div>
+
+                <!-- Field 2: Email -->
+                <div id="sim-f2" class="rounded-xl border border-line bg-ink/60 p-3.5 transition-all duration-300">
+                  <div class="flex items-center justify-between text-xs font-mono">
+                    <label for="sim-in-2" class="text-muted">Courriel / Email address *</label>
+                    <span class="sim-tag hidden text-[0.62rem] px-2 py-0.5 rounded-full bg-emerald/15 text-emerald border border-emerald/40">VERT · contact.email</span>
+                  </div>
+                  <input id="sim-in-2" type="text" readonly placeholder="prenom.nom@exemple.fr"
+                         class="mt-2 w-full bg-transparent text-sm text-mist font-medium focus:outline-none" />
+                </div>
+
+                <!-- Field 3: CV File Upload -->
+                <div id="sim-f3" class="rounded-xl border border-line bg-ink/60 p-3.5 transition-all duration-300">
+                  <div class="flex items-center justify-between text-xs font-mono">
+                    <span class="text-muted">Curriculum Vitae / Resume (PDF) *</span>
+                    <span class="sim-tag hidden text-[0.62rem] px-2 py-0.5 rounded-full bg-emerald/15 text-emerald border border-emerald/40">VERT · DataTransfer</span>
+                  </div>
+                  <div id="sim-in-3" class="mt-2 text-sm text-muted font-mono truncate">
+                    Aucun fichier sélectionné
+                  </div>
+                </div>
+
+                <!-- Field 4: Work Permit (Cross-language Oui <-> Yes) -->
+                <div id="sim-f4" class="rounded-xl border border-line bg-ink/60 p-3.5 transition-all duration-300">
+                  <div class="flex items-center justify-between text-xs font-mono">
+                    <span class="text-muted">Authorized to work in EU? *</span>
+                    <span class="sim-tag hidden text-[0.62rem] px-2 py-0.5 rounded-full bg-emerald/15 text-emerald border border-emerald/40">VERT · Oui ↔ Yes</span>
+                  </div>
+                  <div id="sim-in-4" class="mt-2 text-sm text-muted font-medium">
+                    — Sélectionner / Select —
+                  </div>
+                </div>
+
+                <!-- Field 5: Salary Range (Orange / Inferred bracket) -->
+                <div id="sim-f5" class="rounded-xl border border-line bg-ink/60 p-3.5 transition-all duration-300">
+                  <div class="flex items-center justify-between text-xs font-mono">
+                    <span class="text-muted">Fourchette salariale (brut/an)</span>
+                    <span class="sim-tag hidden text-[0.62rem] px-2 py-0.5 rounded-full bg-amber-400/15 text-amber-300 border border-amber-400/40">ORANGE · Tranche déduite</span>
+                  </div>
+                  <div id="sim-in-5" class="mt-2 text-sm text-muted font-medium">
+                    — Choisir une tranche —
+                  </div>
+                </div>
+
+                <!-- Field 6: Custom Recruiter Question (Red -> Learned Green) -->
+                <div id="sim-f6" class="rounded-xl border border-line bg-ink/60 p-3.5 transition-all duration-300">
+                  <div class="flex items-center justify-between text-xs font-mono">
+                    <label for="sim-in-6" class="text-muted">Expérience sur Jetson / TensorRT ?</label>
+                    <span id="sim-tag-6" class="sim-tag hidden text-[0.62rem] px-2 py-0.5 rounded-full bg-rose-500/15 text-rose-300 border border-rose-500/40">ROUGE · À compléter</span>
+                  </div>
+                  <input id="sim-in-6" type="text" placeholder="Saisissez une réponse ou cliquez sur Mémoriser…"
+                         class="mt-2 w-full bg-transparent text-sm text-mist font-medium focus:outline-none" />
+                  <div id="sim-learn-bar" class="hidden mt-2.5 pt-2 border-t border-line flex items-center justify-between gap-2">
+                    <span class="font-mono text-[0.62rem] text-muted">Question inédite détectée</span>
+                    <button id="sim-learn-btn" type="button" class="font-mono text-[0.64rem] px-2.5 py-1 rounded-full bg-accent/15 text-accent border border-accent/40 hover:bg-accent/25 transition">
+                      + Mémoriser cette réponse (Q→R)
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Right: Extension Overlay & Telemetry Panel -->
+            <div class="p-6 sm:p-8 bg-surface/25 flex flex-col justify-between">
+              <div>
+                <p class="font-mono text-xs uppercase tracking-widest text-accent">Panneau izifill · En direct</p>
+                <h4 class="font-display text-lg font-semibold mt-2">Résumé d'exécution</h4>
+                <p id="sim-summary-text" class="text-muted text-xs leading-relaxed mt-2">
+                  En attente d'action utilisateur. L'extension ne remplit jamais un formulaire sans
+                  votre accord explicite.
+                </p>
+
+                <div class="grid grid-cols-3 gap-2.5 mt-5 text-center font-mono">
+                  <div class="rounded-xl border border-emerald/30 bg-emerald/5 p-3">
+                    <div id="sim-cnt-green" class="text-xl font-bold text-emerald">0</div>
+                    <div class="text-[0.6rem] uppercase tracking-wider text-muted mt-1">Remplis</div>
+                  </div>
+                  <div class="rounded-xl border border-amber-400/30 bg-amber-400/5 p-3">
+                    <div id="sim-cnt-orange" class="text-xl font-bold text-amber-300">0</div>
+                    <div class="text-[0.6rem] uppercase tracking-wider text-muted mt-1">Déduits</div>
+                  </div>
+                  <div class="rounded-xl border border-rose-500/30 bg-rose-500/5 p-3">
+                    <div id="sim-cnt-red" class="text-xl font-bold text-rose-300">0</div>
+                    <div class="text-[0.6rem] uppercase tracking-wider text-muted mt-1">Manuels</div>
+                  </div>
+                </div>
+
+                <!-- Event Log -->
+                <div class="mt-6">
+                  <p class="font-mono text-[0.62rem] uppercase tracking-widest text-muted mb-2">Journal du moteur (local)</p>
+                  <div id="sim-log" class="rounded-xl border border-line bg-ink/80 p-3.5 font-mono text-[0.65rem] text-muted space-y-1.5 h-36 overflow-y-auto">
+                    <div>[content] Page analysée : score candidature 0.92</div>
+                    <div>[storage] Profil « Principal » chargé (ChunkedStore)</div>
+                    <div>[ui] Prêt — cliquez sur « Remplir avec izifill »</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-6 pt-4 border-t border-line flex items-center justify-between font-mono text-[0.65rem] text-muted">
+                <span><i class="fa-solid fa-shield-halved text-emerald mr-1"></i> 0 requête HTTP sortante</span>
+                <span>Manifest V3 · TypeScript</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== MEASURED METRICS ====== -->
+    <section class="border-t border-line py-24 bg-surface/30">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <p class="label" data-reveal>Ingénierie &amp; fiabilité</p>
+        <h2 class="font-display font-bold tracking-tight text-[clamp(1.8rem,4vw,2.8rem)] mt-4" data-reveal data-delay="1">
+          Testé sur des fixtures réelles, <span class="text-gradient">100&nbsp;% hors ligne</span>.
+        </h2>
+        <p class="text-muted max-w-2xl mt-5 leading-relaxed" data-reveal data-delay="2">
+          Chaque brique du moteur heuristique, du découpage <code class="text-mist font-mono text-xs">ChunkedStore</code>
+          et de l'injection DOM est validée par une suite de tests automatisés Vitest + happy-dom avant
+          empaquetage Chrome MV3.
+        </p>
+
+        <dl class="grid grid-cols-2 lg:grid-cols-4 gap-px mt-12 border border-line rounded-2xl overflow-hidden bg-line" data-reveal data-delay="3">
+          <div class="bg-ink p-6">
+            <dt class="font-mono text-[0.62rem] tracking-widest uppercase text-muted">Suite automatisée</dt>
+            <dd class="stat__num text-3xl sm:text-4xl mt-2 text-gradient">178</dd>
+            <dd class="font-mono text-xs text-muted mt-2">tests unitaires &amp; DOM · Vitest + happy-dom</dd>
+          </div>
+          <div class="bg-ink p-6">
+            <dt class="font-mono text-[0.62rem] tracking-widest uppercase text-muted">Dictionnaire bilingue</dt>
+            <dd class="stat__num text-3xl sm:text-4xl mt-2 text-gradient">31 clés</dd>
+            <dd class="font-mono text-xs text-muted mt-2">FR + EN · identité, contact, prétentions, EEO, CV</dd>
+          </div>
+          <div class="bg-ink p-6">
+            <dt class="font-mono text-[0.62rem] tracking-widest uppercase text-muted">ChunkedStore Sync</dt>
+            <dd class="stat__num text-3xl sm:text-4xl mt-2 text-gradient">7 Ko</dd>
+            <dd class="font-mono text-xs text-muted mt-2">blocs UTF-8 sous le quota 8 Ko · repli local</dd>
+          </div>
+          <div class="bg-ink p-6">
+            <dt class="font-mono text-[0.62rem] tracking-widest uppercase text-muted">Appels réseau</dt>
+            <dd class="stat__num text-3xl sm:text-4xl mt-2 text-gradient">0 octet</dd>
+            <dd class="font-mono text-xs text-muted mt-2">permission unique : storage · confidentialité totale</dd>
+          </div>
+        </dl>
+
+        <div class="grid md:grid-cols-3 gap-6 mt-10">
+          <article class="panel p-6" data-reveal>
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">Générique dès le jour 1</p>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Aucun adaptateur fragile codé en dur par site : le scoreur de page et le matcher de
+              synonymes FR/EN s'adaptent aux portails français (<span class="text-mist">HelloWork,
+              Welcome to the Jungle, Indeed</span>) comme internationaux (<span class="text-mist">Workday,
+              Greenhouse, Lever</span>).
+            </p>
+          </article>
+          <article class="panel p-6" data-reveal data-delay="1">
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">Zéro soumission aveugle</p>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              Un mauvais remplissage silencieux coûte une candidature : <span class="text-mist">izifill</span>
+              met en évidence chaque champ par niveau de confiance et laisse toujours la validation
+              finale au candidat.
+            </p>
+          </article>
+          <article class="panel p-6" data-reveal data-delay="2">
+            <p class="font-mono text-xs uppercase tracking-widest text-accent">Moins de fatigue, plus d'impact</p>
+            <p class="text-muted text-sm leading-relaxed mt-3">
+              En supprimant la ressaisie mécanique de l'identité, des expériences, des liens et du
+              CV, le candidat concentre son énergie sur la pertinence de ses réponses et postule en
+              quelques minutes.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== OTHER FLAGSHIP PROJECTS ====== -->
+    <section class="py-24">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <div class="panel relative overflow-hidden p-8 sm:p-12" data-reveal>
+          <div class="grid-bg absolute inset-0 opacity-30" aria-hidden="true"></div>
+          <div class="relative grid lg:grid-cols-[1.5fr_1fr] gap-8 items-center">
+            <div>
+              <p class="label">Autres études de cas 3D</p>
+              <h2 class="font-display font-bold tracking-tight text-[clamp(1.5rem,3.2vw,2.2rem)] mt-4 leading-tight">
+                Vision industrielle &amp; Edge AI en production.
+              </h2>
+              <p class="text-muted text-sm sm:text-base leading-relaxed mt-3">
+                Découvrez également <span class="text-mist">ISI Monitor 3D</span> (jumeau numérique
+                d'entrepôt et suivi métrique multi-caméras) et <span class="text-mist">IsiDetector</span>
+                (segmentation de colis temps réel sur CPU et déclenchement automate UDP).
+              </p>
+            </div>
+            <div class="flex flex-wrap lg:justify-end gap-3">
+              <a href="isimonitor3d.html" class="btn" data-magnetic>
+                <i class="fa-solid fa-cube" aria-hidden="true"></i> ISI Monitor 3D
+              </a>
+              <a href="isidetector.html" class="btn btn--ghost" data-magnetic>
+                <i class="fa-solid fa-cube" aria-hidden="true"></i> IsiDetector
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====== CTA ====== -->
+    <section class="pb-28">
+      <div class="max-w-shell mx-auto px-5 sm:px-8">
+        <div class="panel p-10 sm:p-14 text-center" data-reveal>
+          <p class="label justify-center">Et ensuite</p>
+          <h2 class="font-display font-bold mt-5 leading-tight" style="font-size: clamp(1.8rem, 4vw, 3rem)">
+            Un outil sur mesure ou un système <span class="text-gradient">à automatiser</span>&nbsp;?
+          </h2>
+          <div class="flex flex-wrap justify-center gap-4 mt-9">
+            <a href="contact.html" class="btn" data-magnetic>
+              <i class="fa-solid fa-paper-plane" aria-hidden="true"></i> Me contacter
+            </a>
+            <a href="projects.html" class="btn btn--ghost" data-magnetic>
+              <i class="fa-solid fa-diagram-project" aria-hidden="true"></i> Tous les projets
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer data-site-footer></footer>
+
+  <!-- libs (order matters) -->
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@studio-freight/lenis@1.0.42/dist/lenis.min.js"></script>
+  <script type="importmap">
+  { "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  } }
+  </script>
+  <script type="module" src="assets/js/izifill-scene.js"></script>
+  <script src="assets/js/main.js"></script>
+
+  <!-- ====== PAGE LOGIC: Interactive Autofill Simulator ====== -->
+  <script>
+    (function () {
+      'use strict';
+      var fillBtn = document.getElementById('sim-fill-btn');
+      var resetBtn = document.getElementById('sim-reset-btn');
+      var learnBtn = document.getElementById('sim-learn-btn');
+      var learnBar = document.getElementById('sim-learn-bar');
+      var logBox = document.getElementById('sim-log');
+      var summaryText = document.getElementById('sim-summary-text');
+      var cntGreen = document.getElementById('sim-cnt-green');
+      var cntOrange = document.getElementById('sim-cnt-orange');
+      var cntRed = document.getElementById('sim-cnt-red');
+
+      var f1 = document.getElementById('sim-f1');
+      var f2 = document.getElementById('sim-f2');
+      var f3 = document.getElementById('sim-f3');
+      var f4 = document.getElementById('sim-f4');
+      var f5 = document.getElementById('sim-f5');
+      var f6 = document.getElementById('sim-f6');
+
+      var in1 = document.getElementById('sim-in-1');
+      var in2 = document.getElementById('sim-in-2');
+      var in3 = document.getElementById('sim-in-3');
+      var in4 = document.getElementById('sim-in-4');
+      var in5 = document.getElementById('sim-in-5');
+      var in6 = document.getElementById('sim-in-6');
+      var tag6 = document.getElementById('sim-tag-6');
+      var tags = document.querySelectorAll('.sim-tag');
+
+      function pushLog(msg) {
+        if (!logBox) return;
+        var row = document.createElement('div');
+        row.textContent = msg;
+        logBox.appendChild(row);
+        logBox.scrollTop = logBox.scrollHeight;
+      }
+
+      function applyFill() {
+        if (in1) in1.value = 'Atanda Abdullahi';
+        if (in2) in2.value = 'atanda.abdullahi@grenoble-inp.org';
+        if (in3) {
+          in3.textContent = '📎 CV_Atanda_Abdullahi_2026.pdf (injecté via DataTransfer)';
+          in3.className = 'mt-2 text-sm text-emerald font-mono truncate';
+        }
+        if (in4) {
+          in4.textContent = 'Yes (équivalent FR « Oui » résolu)';
+          in4.className = 'mt-2 text-sm text-mist font-medium';
+        }
+        if (in5) {
+          in5.textContent = '35 000 € – 45 000 € (déduit de 40 000 €)';
+          in5.className = 'mt-2 text-sm text-amber-300 font-medium';
+        }
+        if (in6 && !in6.value) {
+          in6.value = '3 ans — PyTorch, ONNX Runtime, TensorRT & OpenVINO sur Jetson / CPU';
+        }
+
+        [f1, f2, f3, f4].forEach(function (el) {
+          if (!el) return;
+          el.classList.remove('border-line');
+          el.classList.add('border-emerald/60', 'bg-emerald/5');
+        });
+        if (f5) {
+          f5.classList.remove('border-line');
+          f5.classList.add('border-amber-400/60', 'bg-amber-400/5');
+        }
+        if (f6) {
+          f6.classList.remove('border-line', 'border-emerald/60', 'bg-emerald/5');
+          f6.classList.add('border-rose-500/60', 'bg-rose-500/5');
+        }
+        if (tag6) {
+          tag6.textContent = 'ROUGE · Question inédite';
+          tag6.className = 'sim-tag text-[0.62rem] px-2 py-0.5 rounded-full bg-rose-500/15 text-rose-300 border border-rose-500/40';
+        }
+        tags.forEach(function (t) { t.classList.remove('hidden'); });
+        if (learnBar) learnBar.classList.remove('hidden');
+
+        if (cntGreen) cntGreen.textContent = '4';
+        if (cntOrange) cntOrange.textContent = '1';
+        if (cntRed) cntRed.textContent = '1';
+        if (summaryText) {
+          summaryText.textContent = '4 champs remplis avec confiance haute (vert), 1 tranche salariale déduite (orange) et 1 question recruteur prête à être mémorisée (rouge).';
+        }
+
+        pushLog('[matcher] 4 correspondances exactes + 1 tranche numérique résolue');
+        pushLog('[fill] Setters natifs + DataTransfer CV PDF appliqués en 14 ms');
+        pushLog('[learned] 1 champ inconnu signalé en rouge — prêt à apprendre');
+      }
+
+      function resetSim() {
+        if (in1) in1.value = '';
+        if (in2) in2.value = '';
+        if (in3) {
+          in3.textContent = 'Aucun fichier sélectionné';
+          in3.className = 'mt-2 text-sm text-muted font-mono truncate';
+        }
+        if (in4) {
+          in4.textContent = '— Sélectionner / Select —';
+          in4.className = 'mt-2 text-sm text-muted font-medium';
+        }
+        if (in5) {
+          in5.textContent = '— Choisir une tranche —';
+          in5.className = 'mt-2 text-sm text-muted font-medium';
+        }
+        if (in6) in6.value = '';
+
+        [f1, f2, f3, f4, f5, f6].forEach(function (el) {
+          if (!el) return;
+          el.className = 'rounded-xl border border-line bg-ink/60 p-3.5 transition-all duration-300';
+        });
+        tags.forEach(function (t) { t.classList.add('hidden'); });
+        if (learnBar) learnBar.classList.add('hidden');
+
+        if (cntGreen) cntGreen.textContent = '0';
+        if (cntOrange) cntOrange.textContent = '0';
+        if (cntRed) cntRed.textContent = '0';
+        if (summaryText) {
+          summaryText.textContent = 'Formulaire réinitialisé. Cliquez sur « Remplir avec izifill » pour relancer la simulation.';
+        }
+        pushLog('[session] Formulaire réinitialisé');
+      }
+
+      if (fillBtn) fillBtn.addEventListener('click', applyFill);
+      if (resetBtn) resetBtn.addEventListener('click', resetSim);
+      if (learnBtn) {
+        learnBtn.addEventListener('click', function () {
+          if (f6) {
+            f6.classList.remove('border-rose-500/60', 'bg-rose-500/5');
+            f6.classList.add('border-emerald/60', 'bg-emerald/5');
+          }
+          if (tag6) {
+            tag6.textContent = 'VERT · Appris (learnedAnswers)';
+            tag6.className = 'sim-tag text-[0.62rem] px-2 py-0.5 rounded-full bg-emerald/15 text-emerald border border-emerald/40';
+          }
+          if (learnBar) learnBar.classList.add('hidden');
+          if (cntGreen) cntGreen.textContent = '5';
+          if (cntRed) cntRed.textContent = '0';
+          if (summaryText) {
+            summaryText.textContent = 'Réponse enregistrée dans ChunkedStore ! Lors des prochaines candidatures, cette question sera remplie automatiquement en vert.';
+          }
+          pushLog('[learned] Clé normalisée « experience sur jetson tensorrt » sauvegardée dans chrome.storage.sync');
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
+
