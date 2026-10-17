@@ -213,7 +213,7 @@ function init() {
   const dustPoints = new THREE.Points(dustGeo, dustMat);
   scene.add(dustPoints);
 
-  const STAGE_X = -1.45;
+  const STAGE_X = -1.8;
 
   // Shared Floor Grid & Anchor Ring on the Left Stage
   const stageFloorGroup = new THREE.Group();
@@ -227,10 +227,10 @@ function init() {
 
   /* ==========================================================
      CHAPTER 0: HERO — 3D Chrome MV3 Extension Vault & Local Core
-     Anchored at x = -1.45.
+     Anchored at x = -1.8.
      ========================================================== */
   const ch0Group = new THREE.Group();
-  ch0Group.position.set(STAGE_X, 0.05, 0);
+  ch0Group.position.set(STAGE_X, 0.15, 0);
   scene.add(ch0Group);
 
   const vaultCore = new THREE.Group();
@@ -335,9 +335,9 @@ function init() {
   ch0Group.add(orbitCardsGroup);
 
   const ch0CardSpecs = [
-    { label: ['PROFIL LOCAL · 31 CLÉS', 'chrome.storage.sync'], pos: [-0.95, 1.38, 0.6], color: ACCENT_HEX, border: 'rgba(163,230,53,0.6)' },
-    { label: ['CV & LETTRE · PDF', 'DataTransfer · local'], pos: [1.32, 0.72, 0.5], color: CYAN_HEX, border: 'rgba(56,189,248,0.6)' },
-    { label: ['0 APPEL RÉSEAU', '100% Navigateur · FR/EN'], pos: [0.0, -1.38, 0.75], color: EMERALD_HEX, border: 'rgba(52,211,153,0.6)' },
+    { label: ['PROFIL LOCAL · 31 CLÉS', 'chrome.storage.sync'], pos: [-1.45, 0.95, 0.6], color: ACCENT_HEX, border: 'rgba(163,230,53,0.6)' },
+    { label: ['CV & LETTRE · PDF', 'DataTransfer · local'], pos: [1.45, 0.75, 0.5], color: CYAN_HEX, border: 'rgba(56,189,248,0.6)' },
+    { label: ['0 APPEL RÉSEAU', '100% Navigateur · FR/EN'], pos: [0.0, -1.35, 0.75], color: EMERALD_HEX, border: 'rgba(52,211,153,0.6)' },
   ];
   const ch0Sprites = ch0CardSpecs.map((spec) => {
     const s = makeTextSprite(spec.label, {
@@ -356,13 +356,13 @@ function init() {
      FR/EN Synonym Engine connected by glowing matching arcs.
      ========================================================== */
   const ch1Group = new THREE.Group();
-  ch1Group.position.set(STAGE_X, 0.0, 0);
+  ch1Group.position.set(STAGE_X, 0.1, 0);
   ch1Group.visible = false;
   scene.add(ch1Group);
 
   // Left sub-panel: DOM Snapshot Frame
   const domFrame = new THREE.Group();
-  domFrame.position.set(-1.05, 0.0, 0);
+  domFrame.position.set(-1.15, 0.05, 0);
   domFrame.rotation.y = 0.22;
   ch1Group.add(domFrame);
 
@@ -412,7 +412,7 @@ function init() {
 
   // Right sub-panel: Heuristic Dictionary Nodes (FR / EN)
   const dictFrame = new THREE.Group();
-  dictFrame.position.set(1.15, 0.0, 0.15);
+  dictFrame.position.set(1.2, 0.05, 0.15);
   dictFrame.rotation.y = -0.22;
   ch1Group.add(dictFrame);
 
@@ -452,9 +452,9 @@ function init() {
   const matchArcs = [];
   const matchPulses = [];
   domFieldY.forEach((y, idx) => {
-    const start = new THREE.Vector3(-0.35, y, 0.12);
-    const mid = new THREE.Vector3(0.0, y + 0.25, 0.65);
-    const end = new THREE.Vector3(0.45, dictNodeY[idx], 0.22);
+    const start = new THREE.Vector3(-0.35, y + 0.05, 0.12);
+    const mid = new THREE.Vector3(0.0, y + 0.28, 0.65);
+    const end = new THREE.Vector3(0.45, dictNodeY[idx] + 0.05, 0.22);
     const curve = new THREE.QuadraticBezierCurve3(start, mid, end);
     const pts = curve.getPoints(28);
     const arcGeo = new THREE.BufferGeometry().setFromPoints(pts);
@@ -482,14 +482,14 @@ function init() {
     ['DOM SNAPSHOT · FR / EN', 'label · aria · autocomplete'],
     { scale: 0.32, color: CYAN_HEX, border: 'rgba(56,189,248,0.55)' }
   );
-  ch1HudDom.sprite.position.set(-1.05, 1.48, 0.2);
+  ch1HudDom.sprite.position.set(-1.15, 1.58, 0.2);
   ch1Group.add(ch1HudDom.sprite);
 
   const ch1HudDict = makeTextSprite(
     ['MATCHER HEURISTIQUE', '31 clés · Oui↔Yes · Plages'],
     { scale: 0.32, color: ACCENT_HEX, border: 'rgba(163,230,53,0.6)' }
   );
-  ch1HudDict.sprite.position.set(1.15, 1.48, 0.25);
+  ch1HudDict.sprite.position.set(1.15, 1.58, 0.25);
   ch1Group.add(ch1HudDict.sprite);
 
   /* ==========================================================
@@ -497,7 +497,7 @@ function init() {
      Green / Orange / Red Confidence Color-Coding
      ========================================================== */
   const ch2Group = new THREE.Group();
-  ch2Group.position.set(STAGE_X, -0.05, 0);
+  ch2Group.position.set(STAGE_X, 0.1, 0);
   ch2Group.visible = false;
   scene.add(ch2Group);
 
@@ -597,30 +597,30 @@ function init() {
   // Floating Confidence Legend HUD Badges around the 3D Form
   const ch2HudSummary = makeTextSprite(
     ['IZIFILL · REMPLISSAGE EN 1 CLIC', '4 Verts · 1 Orange · 1 Rouge'],
-    { scale: 0.34, color: ACCENT_HEX, border: 'rgba(163,230,53,0.65)' }
+    { scale: 0.35, color: ACCENT_HEX, border: 'rgba(163,230,53,0.65)' }
   );
-  ch2HudSummary.sprite.position.set(0.0, 1.56, 0.35);
+  ch2HudSummary.sprite.position.set(0.0, 1.82, 0.35);
   ch2Group.add(ch2HudSummary.sprite);
 
   const ch2HudGreen = makeTextSprite(
     ['● VERT : PROFIL & CV PDF (HAUTE)'],
     { scale: 0.22, color: EMERALD_HEX, border: 'rgba(52,211,153,0.6)' }
   );
-  ch2HudGreen.sprite.position.set(1.65, 0.45, 0.55);
+  ch2HudGreen.sprite.position.set(1.75, 0.45, 0.55);
   ch2Group.add(ch2HudGreen.sprite);
 
   const ch2HudOrange = makeTextSprite(
     ['● ORANGE : TRANCHE DÉDUITE'],
     { scale: 0.22, color: AMBER_HEX, border: 'rgba(245,158,11,0.6)' }
   );
-  ch2HudOrange.sprite.position.set(1.65, -0.58, 0.55);
+  ch2HudOrange.sprite.position.set(1.75, -0.58, 0.55);
   ch2Group.add(ch2HudOrange.sprite);
 
   const ch2HudRed = makeTextSprite(
     ['● ROUGE : À COMPLÉTER / APPRENDRE'],
     { scale: 0.22, color: ROSE_HEX, border: 'rgba(244,63,94,0.6)' }
   );
-  ch2HudRed.sprite.position.set(1.65, -1.12, 0.55);
+  ch2HudRed.sprite.position.set(1.75, -1.12, 0.55);
   ch2Group.add(ch2HudRed.sprite);
 
   /* ==========================================================
@@ -629,7 +629,7 @@ function init() {
      crystal block and slotting into a 3D grid of 7 KB sync chunks.
      ========================================================== */
   const ch3Group = new THREE.Group();
-  ch3Group.position.set(STAGE_X, 0.0, 0);
+  ch3Group.position.set(STAGE_X, 0.1, 0);
   ch3Group.visible = false;
   scene.add(ch3Group);
 
@@ -705,14 +705,14 @@ function init() {
     ['APPRENTISSAGE Q → R EN 1 CLIC', 'Question normalisée · Réponse mémorisée'],
     { scale: 0.34, color: EMERALD_HEX, border: 'rgba(52,211,153,0.65)' }
   );
-  ch3HudLearn.sprite.position.set(0.0, 1.42, 0.35);
+  ch3HudLearn.sprite.position.set(0.0, 1.58, 0.35);
   ch3Group.add(ch3HudLearn.sprite);
 
   const ch3HudSync = makeTextSprite(
     ['CHUNKEDSTORE · BLOCS DE 7 KO', 'chrome.storage.sync ⇄ repli local'],
     { scale: 0.32, color: CYAN_HEX, border: 'rgba(56,189,248,0.6)' }
   );
-  ch3HudSync.sprite.position.set(0.0, -1.48, 0.35);
+  ch3HudSync.sprite.position.set(0.0, -1.52, 0.35);
   ch3Group.add(ch3HudSync.sprite);
 
   /* ==========================================================
@@ -721,16 +721,16 @@ function init() {
      Confirmation ✔). Lower stage: 3D Kanban/Table Tracker Board.
      ========================================================== */
   const ch4Group = new THREE.Group();
-  ch4Group.position.set(STAGE_X, -0.05, 0);
+  ch4Group.position.set(STAGE_X, 0.1, 0);
   ch4Group.visible = false;
   scene.add(ch4Group);
 
   // Upper 3-step Pilot Progression
   const pilotStepGroup = new THREE.Group();
-  pilotStepGroup.position.set(0, 0.95, 0.15);
+  pilotStepGroup.position.set(0, 1.05, 0.15);
   ch4Group.add(pilotStepGroup);
 
-  const stepPositions = [-1.25, 0.0, 1.25];
+  const stepPositions = [-1.35, 0.0, 1.35];
   const stepNodes = stepPositions.map((sx, idx) => {
     const col = idx === 2 ? EMERALD : ACCENT;
     const mat = new THREE.MeshStandardMaterial({
@@ -742,7 +742,7 @@ function init() {
       opacity: 0.95,
     });
     const node = new THREE.Mesh(
-      new RoundedBoxGeometry(0.84, 0.34, 0.16, 3, 0.05),
+      new RoundedBoxGeometry(0.88, 0.36, 0.16, 3, 0.05),
       mat
     );
     node.position.set(sx, 0, 0);
@@ -757,25 +757,25 @@ function init() {
     opacity: 0.6,
   });
   const stepRail = new THREE.Mesh(
-    new THREE.BoxGeometry(2.5, 0.04, 0.04),
+    new THREE.BoxGeometry(2.7, 0.04, 0.04),
     stepRailMat
   );
   pilotStepGroup.add(stepRail);
 
   // Lower 3D Application Tracker Dashboard Board
   const trackerBoard = new THREE.Group();
-  trackerBoard.position.set(0, -0.38, 0);
+  trackerBoard.position.set(0, -0.35, 0);
   trackerBoard.rotation.set(0.14, 0.18, 0);
   ch4Group.add(trackerBoard);
 
   const trackerSlab = new THREE.Mesh(
-    new RoundedBoxGeometry(3.25, 2.0, 0.14, 5, 0.08),
+    new RoundedBoxGeometry(3.35, 2.05, 0.14, 5, 0.08),
     darkChassisMat
   );
   trackerBoard.add(trackerSlab);
 
   const trackerBorder = new THREE.LineSegments(
-    new THREE.EdgesGeometry(new THREE.BoxGeometry(3.27, 2.02, 0.15)),
+    new THREE.EdgesGeometry(new THREE.BoxGeometry(3.37, 2.07, 0.15)),
     new THREE.LineBasicMaterial({ color: EMERALD, transparent: true, opacity: 0.55 })
   );
   trackerBoard.add(trackerBorder);
@@ -784,9 +784,9 @@ function init() {
   const trackerRowColors = [EMERALD, CYAN, ACCENT, EMERALD];
   const trackerRows = [];
   for (let i = 0; i < 4; i++) {
-    const y = 0.56 - i * 0.38;
+    const y = 0.58 - i * 0.39;
     const rowMesh = new THREE.Mesh(
-      new RoundedBoxGeometry(2.88, 0.27, 0.06, 2, 0.03),
+      new RoundedBoxGeometry(2.96, 0.28, 0.06, 2, 0.03),
       new THREE.MeshStandardMaterial({
         color: 0x101722,
         metalness: 0.4,
@@ -809,22 +809,22 @@ function init() {
       opacity: 0.95,
     });
     const badge = new THREE.Mesh(
-      new RoundedBoxGeometry(0.66, 0.16, 0.08, 2, 0.03),
+      new RoundedBoxGeometry(0.68, 0.16, 0.08, 2, 0.03),
       badgeMat
     );
-    badge.position.set(0.95, y, 0.11);
+    badge.position.set(0.98, y, 0.11);
     trackerBoard.add(badge);
 
     // Company/title bar on the left side of the row
     const titleBar = new THREE.Mesh(
-      new RoundedBoxGeometry(1.6, 0.12, 0.07, 2, 0.02),
+      new RoundedBoxGeometry(1.65, 0.12, 0.07, 2, 0.02),
       new THREE.MeshBasicMaterial({
         color: 0x94a3b8,
         transparent: true,
         opacity: 0.75,
       })
     );
-    titleBar.position.set(-0.5, y, 0.1);
+    titleBar.position.set(-0.52, y, 0.1);
     trackerBoard.add(titleBar);
 
     trackerRows.push({ rowMesh, badgeMat });
@@ -832,30 +832,30 @@ function init() {
 
   const ch4HudPilot = makeTextSprite(
     ['PILOT MULTI-ÉTAPES → TRACKER ✔', 'Candidature journalisée automatiquement'],
-    { scale: 0.34, color: EMERALD_HEX, border: 'rgba(52,211,153,0.65)' }
+    { scale: 0.35, color: EMERALD_HEX, border: 'rgba(52,211,153,0.65)' }
   );
-  ch4HudPilot.sprite.position.set(0.0, 1.48, 0.35);
+  ch4HudPilot.sprite.position.set(0.0, 1.68, 0.35);
   ch4Group.add(ch4HudPilot.sprite);
 
   const ch4HudStats = makeTextSprite(
     ['POSTULÉ · ENTRETIEN · OFFRE', '178 tests Vitest · Zéro réseau'],
     { scale: 0.32, color: ACCENT_HEX, border: 'rgba(163,230,53,0.6)' }
   );
-  ch4HudStats.sprite.position.set(0.0, -1.55, 0.35);
+  ch4HudStats.sprite.position.set(0.0, -1.62, 0.35);
   ch4Group.add(ch4HudStats.sprite);
 
   /* ==========================================================
      CAMERA CHOREOGRAPHY (Split-Screen Left Stage, Same as Homepage)
      On desktop (>= 768px), camera sits at x = +0.60 and looks at
-     x = +0.60 while the 3D scene is anchored at STAGE_X = -1.45.
+     x = +0.60 while the 3D scene is anchored at STAGE_X = -1.8.
      ========================================================== */
   const CAM_KF = [
-    { p: 0.00, pos: [0.0, 0.30, 6.8], look: [0.0, 0.05, 0.0] },
-    { p: 0.25, pos: [0.0, 0.22, 7.0], look: [0.0, 0.05, 0.0] },
-    { p: 0.46, pos: [0.0, 0.18, 6.9], look: [0.0, 0.02, 0.0] },
-    { p: 0.66, pos: [0.0, 0.28, 6.8], look: [0.0, 0.02, 0.0] },
-    { p: 0.90, pos: [0.0, 0.22, 7.0], look: [0.0, 0.02, 0.0] },
-    { p: 1.00, pos: [0.0, 0.22, 7.0], look: [0.0, 0.02, 0.0] },
+    { p: 0.00, pos: [0.0, 0.35, 6.2], look: [0.0, 0.10, 0.0] },
+    { p: 0.25, pos: [0.0, 0.25, 6.5], look: [0.0, 0.08, 0.0] },
+    { p: 0.46, pos: [0.0, 0.20, 6.4], look: [0.0, 0.05, 0.0] },
+    { p: 0.66, pos: [0.0, 0.35, 6.2], look: [0.0, 0.05, 0.0] },
+    { p: 0.90, pos: [0.0, 0.25, 6.5], look: [0.0, 0.05, 0.0] },
+    { p: 1.00, pos: [0.0, 0.25, 6.5], look: [0.0, 0.05, 0.0] },
   ];
 
   const camPos = new THREE.Vector3();
@@ -863,7 +863,7 @@ function init() {
 
   function sampleCamera(p) {
     const isDesktop = width >= 768;
-    const offsetX = isDesktop ? 0.6 : -1.45;
+    const offsetX = isDesktop ? 0.6 : -1.8;
 
     let i = 0;
     while (i < CAM_KF.length - 2 && p > CAM_KF[i + 1].p) i++;
@@ -1186,4 +1186,3 @@ try {
   document.body.classList.add('story-static');
   if (window.console && console.warn) console.warn('[izifill-scene] fallback:', err);
 }
-
