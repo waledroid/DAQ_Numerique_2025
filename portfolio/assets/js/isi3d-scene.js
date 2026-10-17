@@ -17,6 +17,7 @@
    ============================================================ */
 
 import * as THREE from 'three';
+import { RoundedBoxGeometry } from 'three/addons/geometries/RoundedBoxGeometry.js';
 
 /* ---------- Tokens ------------------------------------------- */
 const ACCENT = 0xa3e635;         // site --accent
@@ -372,89 +373,10 @@ function init() {
 
   // The tracked pallet (moves in chapter 3) + two static objects.
   const trackedPallet = addDetected(makePallet, [-4.2, 0, 2.4], [1.3, 0.85, 0.95], 'palette 0.98', 0.42);
-  addDetected(makeCarton, [-2.4, 0, 3.1], [0.75, 0.55, 0.6], 'carton 0.97', 0.45);
-  addDetected(makePolybag, [0.9, 0, 3.3], [0.85, 0.45, 0.75], 'polybag 0.95', 0.48);
+  addDetected(makeCarton, [-2.2, 0, 3.0], [0.75, 0.55, 0.6], 'carton 0.97', 0.45);
+  addDetected(makePolybag, [-0.3, 0, 3.2], [0.85, 0.45, 0.75], 'polybag 0.95', 0.48);
 
-  /* ==========================================================
-     POSE SKELETON — a person walking through the scene, drawn
-     as live keypoints + bones (YOLO11-pose on the real rig; the
-     dashboard renders these skeletons with zero extra inference).
-     Soft cyan like the production UI.
-     ========================================================== */
-  const POSE_COLOR = 0x7cc4e8;
-  const person = new THREE.Group();
-  scene.add(person);
-  const J = 15; // head, neck, shL, shR, elL, elR, wrL, wrR, pelvis, hipL, hipR, kneeL, kneeR, ankL, ankR
-  const jointMat = new THREE.MeshBasicMaterial({ color: POSE_COLOR, transparent: true, opacity: 0, blending: THREE.AdditiveBlending, depthWrite: false });
-  const jointGeo = new THREE.SphereGeometry(0.038, 8, 8);
-  const joints = [];
-  for (let i = 0; i < J; i++) {
-    const s = new THREE.Mesh(jointGeo, jointMat);
-    person.add(s);
-    joints.push(s);
-  }
-  const BONES = [
-    [0, 1], [1, 2], [1, 3], [2, 4], [4, 6], [3, 5], [5, 7],
-    [1, 8], [8, 9], [8, 10], [9, 11], [11, 13], [10, 12], [12, 14],
-  ];
-  const boneArr = new Float32Array(BONES.length * 6);
-  const boneGeo = new THREE.BufferGeometry();
-  const boneAttr = new THREE.BufferAttribute(boneArr, 3);
-  boneGeo.setAttribute('position', boneAttr);
-  const boneMat = new THREE.LineBasicMaterial({ color: POSE_COLOR, transparent: true, opacity: 0, blending: THREE.AdditiveBlending });
-  person.add(new THREE.LineSegments(boneGeo, boneMat));
-  const poseLabel = makeLabel('#3 person · pose 0.93', '#7CC4E8', 0.18);
-  poseLabel.sprite.position.set(0, 1.92, 0);
-  person.add(poseLabel.sprite);
 
-  const _jp = []; // reusable local joint positions
-  for (let i = 0; i < J; i++) _jp.push(new THREE.Vector3());
-
-  function updatePerson(t) {
-    // Ping-pong walk along x at z = -1.2, facing the walk direction.
-    const SPAN = 10, V = 0.6;
-    const u = (t * V) % (SPAN * 2);
-    const dir = u < SPAN ? 1 : -1;
-    const x = u < SPAN ? -5 + u : 5 - (u - SPAN);
-    person.position.set(x, 0, -1.2);
-    person.rotation.y = dir > 0 ? 0 : Math.PI;
-
-    const ph = t * 4.4;                       // step phase
-    const bob = 0.03 * Math.sin(ph * 2);
-    _jp[8].set(0, 0.98 + bob, 0);             // pelvis
-    _jp[1].set(0, 1.44 + bob, 0);             // neck
-    _jp[0].set(0.03, 1.62 + bob, 0);          // head
-    _jp[2].set(0, 1.4 + bob, 0.19);           // shoulders
-    _jp[3].set(0, 1.4 + bob, -0.19);
-    _jp[9].set(0, 0.95 + bob, 0.11);          // hips
-    _jp[10].set(0, 0.95 + bob, -0.11);
-    for (const side of [0, 1]) {              // 0 = left, 1 = right
-      const sp = side === 0 ? 0 : Math.PI;
-      // Legs
-      const a = 0.55 * Math.sin(ph + sp);
-      const hip = _jp[9 + side];
-      const knee = _jp[11 + side];
-      const ank = _jp[13 + side];
-      knee.set(hip.x + 0.44 * Math.sin(a), hip.y - 0.44 * Math.cos(a), hip.z);
-      const bend = 0.55 * Math.max(0, Math.sin(ph + sp + 0.9));
-      const a2 = a - bend;
-      ank.set(knee.x + 0.46 * Math.sin(a2), knee.y - 0.46 * Math.cos(a2), knee.z);
-      // Arms swing opposite the legs
-      const aa = 0.45 * Math.sin(ph + sp + Math.PI);
-      const sh = _jp[2 + side];
-      const el = _jp[4 + side];
-      const wr = _jp[6 + side];
-      el.set(sh.x + 0.3 * Math.sin(aa), sh.y - 0.3 * Math.cos(aa), sh.z);
-      wr.set(el.x + 0.28 * Math.sin(aa + 0.4), el.y - 0.28 * Math.cos(aa + 0.4), el.z);
-    }
-    for (let i = 0; i < J; i++) joints[i].position.copy(_jp[i]);
-    for (let b = 0; b < BONES.length; b++) {
-      const p0 = _jp[BONES[b][0]], p1 = _jp[BONES[b][1]];
-      boneArr[b * 6] = p0.x; boneArr[b * 6 + 1] = p0.y; boneArr[b * 6 + 2] = p0.z;
-      boneArr[b * 6 + 3] = p1.x; boneArr[b * 6 + 4] = p1.y; boneArr[b * 6 + 5] = p1.z;
-    }
-    boneAttr.needsUpdate = true;
-  }
 
   /* ==========================================================
      ÉTAGÈRE — a rack with the operator's 3×3 grid: each cell
@@ -589,19 +511,19 @@ function init() {
   const beacon = new THREE.Mesh(new THREE.SphereGeometry(0.12, 14, 12), beaconMat);
   beacon.position.y = 2.42;
   gateway.add(beacon);
-  gateway.position.set(8.2, 0, -1.6);
+  gateway.position.set(3.8, 0, -1.4);
   scene.add(gateway);
   const gwLabel = makeLabel('isiComms · UDP / MQTT', MIST_CSS, 0.2);
-  gwLabel.sprite.position.set(8.2, 3.0, -1.6);
+  gwLabel.sprite.position.set(3.8, 3.0, -1.4);
   scene.add(gwLabel.sprite);
   const latLabel = makeLabel('capture→publish 40.3 ms', ACCENT_CSS, 0.2);
-  latLabel.sprite.position.set(5.4, 1.9, -0.6);
+  latLabel.sprite.position.set(2.4, 1.9, -0.5);
   scene.add(latLabel.sprite);
 
   const pulseCurve = new THREE.QuadraticBezierCurve3(
     new THREE.Vector3(2.6, 0.6, 0.3),
-    new THREE.Vector3(5.4, 2.6, -0.8),
-    new THREE.Vector3(8.2, 2.42, -1.6)
+    new THREE.Vector3(3.2, 2.2, -0.6),
+    new THREE.Vector3(3.8, 2.42, -1.4)
   );
   const PULSES = 4;
   const pulses = [];
@@ -613,24 +535,86 @@ function init() {
     pulses.push({ mesh: s, mat: m, off: i / PULSES });
   }
 
-  // AGV consumer: a small dark vehicle that pulls away once fed.
+  // High-Fidelity Industrial AGV Fleet Unit
   const agv = new THREE.Group();
-  const agvBody = new THREE.Mesh(
-    new THREE.BoxGeometry(0.9, 0.3, 0.6),
-    new THREE.MeshStandardMaterial({ color: 0x1d2329, roughness: 0.5, metalness: 0.3 })
+  const AGV_L = 1.9;
+  const AGV_W = 1.1;
+  const AGV_H = 0.40;
+
+  const agvBodyMat = new THREE.MeshPhysicalMaterial({
+    color: 0xf59e0b,
+    metalness: 0.4,
+    roughness: 0.38,
+    clearcoat: 0.3,
+  });
+  const agvChassis = new THREE.Mesh(new RoundedBoxGeometry(AGV_W, AGV_H, AGV_L, 4, 0.05), agvBodyMat);
+  agvChassis.position.y = AGV_H / 2 + 0.1;
+  agv.add(agvChassis);
+
+  // Front & Rear heavy bumpers
+  const agvBumperMat = new THREE.MeshStandardMaterial({ color: 0x12151a, roughness: 0.7 });
+  for (const bz of [-AGV_L / 2 + 0.06, AGV_L / 2 - 0.06]) {
+    const bumper = new THREE.Mesh(new THREE.BoxGeometry(AGV_W + 0.04, 0.16, 0.12), agvBumperMat);
+    bumper.position.set(0, 0.20, bz);
+    agv.add(bumper);
+  }
+
+  // 4 Drive Wheels with hubs
+  const wheelMat = new THREE.MeshStandardMaterial({ color: 0x181c22, roughness: 0.85 });
+  const wheelHubMat = new THREE.MeshStandardMaterial({ color: 0x3d4652, roughness: 0.4, metalness: 0.7 });
+  const wheelR = 0.16;
+  const wheelGeo = new THREE.CylinderGeometry(wheelR, wheelR, 0.12, 18);
+  const hubGeo = new THREE.CylinderGeometry(wheelR * 0.4, wheelR * 0.4, 0.13, 14);
+  const agvWheels = [];
+  for (let wx of [-AGV_W / 2 + 0.02, AGV_W / 2 - 0.02]) {
+    for (let wz of [-AGV_L / 2 + 0.36, AGV_L / 2 - 0.36]) {
+      const whGroup = new THREE.Group();
+      whGroup.position.set(wx, wheelR, wz);
+      const tire = new THREE.Mesh(wheelGeo, wheelMat);
+      tire.rotation.z = Math.PI / 2;
+      whGroup.add(tire);
+      const hub = new THREE.Mesh(hubGeo, wheelHubMat);
+      hub.rotation.z = Math.PI / 2;
+      whGroup.add(hub);
+      agv.add(whGroup);
+      agvWheels.push(tire);
+    }
+  }
+
+  // Front 270° Safety Lidar Bar (pulsing emerald)
+  const agvLidarMat = new THREE.MeshBasicMaterial({ color: ACCENT });
+  const agvLidar = new THREE.Mesh(new THREE.BoxGeometry(AGV_W * 0.75, 0.04, 0.06), agvLidarMat);
+  agvLidar.position.set(0, 0.36, AGV_L / 2 + 0.02);
+  agv.add(agvLidar);
+
+  // Cargo on top deck: Euro-pallet carrying a dark logistics container
+  const agvCargo = new THREE.Group();
+  agvCargo.position.set(0, AGV_H + 0.12, 0);
+  agv.add(agvCargo);
+  const agvPallet = new THREE.Mesh(
+    new THREE.BoxGeometry(AGV_W * 0.85, 0.08, AGV_L * 0.75),
+    new THREE.MeshStandardMaterial({ color: 0x8a6a42, roughness: 0.8 })
   );
-  agvBody.position.y = 0.22;
-  agv.add(agvBody);
-  const agvStripe = new THREE.Mesh(
-    new THREE.BoxGeometry(0.6, 0.02, 0.42),
-    new THREE.MeshBasicMaterial({ color: ACCENT, transparent: true, opacity: 0.85 })
+  agvPallet.position.y = 0.04;
+  agvCargo.add(agvPallet);
+
+  const agvBox = new THREE.Mesh(
+    new RoundedBoxGeometry(AGV_W * 0.75, 0.46, AGV_L * 0.65, 4, 0.03),
+    new THREE.MeshStandardMaterial({ color: 0x22303c, roughness: 0.5, metalness: 0.4 })
   );
-  agvStripe.position.y = 0.39;
-  agv.add(agvStripe);
-  const agvLabel = makeLabel('AGV', MIST_CSS, 0.16);
-  agvLabel.sprite.position.set(0, 0.85, 0);
+  agvBox.position.y = 0.31;
+  agvCargo.add(agvBox);
+
+  // Amber Warning Strobe Beacon
+  const agvBeaconMat = new THREE.MeshBasicMaterial({ color: 0xffaa00 });
+  const agvBeacon = new THREE.Mesh(new THREE.CylinderGeometry(0.04, 0.04, 0.08, 12), agvBeaconMat);
+  agvBeacon.position.set(0, 0.58, 0);
+  agvCargo.add(agvBeacon);
+
+  const agvLabel = makeLabel('AGV FLEET #4 · UDP / MQTT', MIST_CSS, 0.18);
+  agvLabel.sprite.position.set(0, AGV_H + 0.95, 0);
   agv.add(agvLabel.sprite);
-  agv.position.set(8.4, 0, 2.6);
+  agv.position.set(3.6, 0, 2.2);
   scene.add(agv);
 
   /* ==========================================================
@@ -642,10 +626,13 @@ function init() {
     { at: 0.36, pos: new THREE.Vector3(-0.8, 2.2, 8.6), look: new THREE.Vector3(-1.6, 0.3, 1.6) },
     { at: 0.52, pos: new THREE.Vector3(-2.4, 3.4, 7.6), look: new THREE.Vector3(-1.4, 0.2, 1.4) },
     { at: 0.68, pos: new THREE.Vector3(0.4, 7.4, 8.0), look: new THREE.Vector3(0, 0, 0) },
-    { at: 0.86, pos: new THREE.Vector3(2.0, 4.2, 10.8), look: new THREE.Vector3(5.4, 1.2, -1.2) },
-    { at: 1.00, pos: new THREE.Vector3(0, 4.6, 13.6), look: new THREE.Vector3(0.6, 0.8, 0) },
+    { at: 0.86, pos: new THREE.Vector3(-1.0, 3.8, 10.2), look: new THREE.Vector3(-0.8, 0.8, 0.2) },
+    { at: 1.00, pos: new THREE.Vector3(-1.0, 4.2, 11.4), look: new THREE.Vector3(-0.8, 0.8, 0.2) },
   ];
   const _look = new THREE.Vector3();
+  const mqSm = window.matchMedia('(min-width:640px)');
+  const mqMd = window.matchMedia('(min-width:768px)');
+
   function setCamera(p) {
     let i = 0;
     while (i < KEYS.length - 2 && p > KEYS[i + 1].at) i++;
@@ -653,13 +640,20 @@ function init() {
     const t = smoothstep(a.at, b.at, p);
     camera.position.lerpVectors(a.pos, b.pos, t);
     _look.lerpVectors(a.look, b.look, t);
+
+    // On desktop, shift camera rightwards by 2.6 so the 3D digital twin
+    // is cleanly framed in the left half (~25-30% screen width),
+    // leaving the right half open for the text cards without overlap.
+    const camXOffset = mqMd.matches ? 2.6 : 0;
+    camera.position.x += camXOffset;
+    _look.x += camXOffset;
+
     camera.lookAt(_look);
   }
 
   /* ==========================================================
      CARDS — same per-frame reveal machinery as the home story.
      ========================================================== */
-  const mqSm = window.matchMedia('(min-width:640px)');
   const cardEls = Array.from(document.querySelectorAll('.story-card'));
   const cards = cardEls.map((el, idx) => {
     el.style.transition = 'none';
@@ -673,12 +667,16 @@ function init() {
     };
   });
   function computeCardBases() {
-    const wide = mqSm.matches;
+    const wide = mqMd.matches || mqSm.matches;
     for (const c of cards) {
       const cl = c.el.classList;
       let t = '';
-      if (cl.contains('-translate-x-1/2') || (wide && cl.contains('sm:-translate-x-1/2'))) t += 'translateX(-50%) ';
-      if (cl.contains('-translate-y-1/2') || (wide && cl.contains('sm:-translate-y-1/2'))) t += 'translateY(-50%) ';
+      if (cl.contains('-translate-x-1/2') || (wide && (cl.contains('sm:-translate-x-1/2') || cl.contains('md:-translate-x-1/2')))) {
+        t += 'translateX(-50%) ';
+      }
+      if (cl.contains('-translate-y-1/2') || (wide && (cl.contains('sm:-translate-y-1/2') || cl.contains('md:-translate-y-1/2')))) {
+        t += 'translateY(-50%) ';
+      }
       c.base = t;
     }
   }
@@ -748,12 +746,7 @@ function init() {
       m.opacity = kCone * (0.036 + 0.01 * Math.sin(t * 1.7 + i * 2.1));
     });
 
-    /* --- Pose skeleton (visible from the detection chapter on) --- */
-    const kPose = smoothstep(0.36, 0.42, p);
-    updatePerson(t);
-    jointMat.opacity = kPose * 0.95;
-    boneMat.opacity = kPose * 0.85;
-    poseLabel.mat.opacity = kPose;
+
 
     /* --- Étagère 3×3 (with the detections; centre cell flips live) --- */
     const kEta = smoothstep(0.4, 0.46, p);
@@ -818,8 +811,16 @@ function init() {
       pu.mesh.position.copy(_v);
       pu.mat.opacity = kPub * Math.sin(Math.PI * s) * 0.95;
     }
-    const agvT = smoothstep(0.88, 0.99, p);
-    agv.position.x = 8.4 - agvT * 4.6;
+    const agvT = smoothstep(0.82, 0.98, p);
+    const curAgvX = 3.6 - agvT * 5.2;
+    agv.position.x = curAgvX;
+    agv.position.z = 2.2;
+    const wheelRot = curAgvX / wheelR;
+    agvWheels.forEach((w) => {
+      w.rotation.x = -wheelRot;
+    });
+    agvLidar.scale.x = 1.0 + Math.sin(t * 6) * 0.08;
+    agvBeaconMat.opacity = kPub * (0.6 + 0.4 * Math.sin(t * 8));
     agvLabel.mat.opacity = kPub;
 
     setCamera(p);
