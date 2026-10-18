@@ -8,7 +8,7 @@
     "contact": [
       {
         "label": "E-mail",
-        "value": "waledroid@gmail.com"
+        "value": "abdou.atanda@gmail.com"
       },
       {
         "label": "Téléphone",
@@ -65,14 +65,14 @@
     ],
     "education": [
       {
-        "degree": "Master 2 (M2) — Vision par Ordinateur",
+        "degree": "Master 2 — Vision par ordinateur et robotique",
         "school": "Université Bourgogne Europe",
-        "dates": "Juillet 2024"
+        "dates": "Août 2024"
       },
       {
         "degree": "Master 2 (M2) — AI for One Health",
         "school": "Université Grenoble Alpes",
-        "dates": "Juillet 2026"
+        "dates": "Août 2026"
       },
       {
         "degree": "Diplôme d'Études Supérieures en Informatique",
@@ -127,7 +127,7 @@
       },
       {
         "name": "Français",
-        "level": "Niveau B2 (Pro)"
+        "level": "Niveau B2, opérationnel"
       }
     ],
     "projects": [
@@ -190,7 +190,7 @@
     "contact": [
       {
         "label": "Email",
-        "value": "waledroid@gmail.com"
+        "value": "abdou.atanda@gmail.com"
       },
       {
         "label": "Phone",
@@ -247,14 +247,14 @@
     ],
     "education": [
       {
-        "degree": "MSc (M2) — Computer Vision",
+        "degree": "MSc (M2) — Computer Vision and Robotics",
         "school": "Université de Bourgogne",
-        "dates": "July 2024"
+        "dates": "August 2024"
       },
       {
         "degree": "MSc (M2) — AI for One Health",
         "school": "Université Grenoble Alpes (UGA)",
-        "dates": "July 2026"
+        "dates": "August 2026"
       },
       {
         "degree": "Postgraduate Diploma in Computer Science",
@@ -309,7 +309,7 @@
       },
       {
         "name": "French",
-        "level": "B2 (Professional)"
+        "level": "B2, Operational"
       }
     ],
     "projects": [
