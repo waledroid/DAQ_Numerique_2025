@@ -233,9 +233,8 @@
       const itemsEl = $('[data-field="items"]', node);
       if (itemsEl) {
         itemsEl.innerHTML = '';
-        const itemsArr = Array.isArray(data.items)
-          ? data.items
-          : String(data.items || '').split(/\s*[·,;]\s*/);
+        const rawArr = Array.isArray(data.items) ? data.items : [String(data.items || '')];
+        const itemsArr = rawArr.flatMap((s) => String(s || '').split(/\s*[·,;]\s*/));
         itemsArr.forEach((itemText) => {
           const txt = itemText.trim();
           if (!txt) return;

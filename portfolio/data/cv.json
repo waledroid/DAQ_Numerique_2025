@@ -85,18 +85,21 @@
         "category": "Langages",
         "items": [
           "Python",
+          "JavaScript",
           "C++",
           "PyTorch",
-          "SQL",
-          "JavaScript"
+          "SQL"
         ]
       },
       {
         "category": "Vision & Deep Learning",
         "items": [
           "Détection temps réel (YOLO / RF-DETR)",
-          "Distillation ViT · OpenVINO · LoRA",
-          "Vision stéréo & Perception 3D",
+          "Distillation ViT",
+          "OpenVINO",
+          "LoRA",
+          "Vision stéréo",
+          "Perception 3D",
           "Données synthétiques (SDXL / SAM2)"
         ]
       },
@@ -104,9 +107,9 @@
         "category": "Edge & Robotique",
         "items": [
           "Nvidia Jetson Orin",
+          "MQTT",
           "ROS 2 / MoveIt",
-          "GStreamer",
-          "MQTT"
+          "GStreamer"
         ]
       },
       {
@@ -116,7 +119,8 @@
           "FastAPI",
           "AWS",
           "Google Cloud",
-          "Git · CI/CD"
+          "Git",
+          "CI/CD"
         ]
       }
     ],
@@ -267,28 +271,31 @@
         "category": "Languages",
         "items": [
           "Python",
+          "JavaScript",
           "C++",
           "PyTorch",
-          "SQL",
-          "JavaScript"
+          "SQL"
         ]
       },
       {
         "category": "Vision & Deep Learning",
         "items": [
           "Real-time detection (YOLO / RF-DETR)",
-          "ViT distillation · OpenVINO · LoRA",
-          "Stereo vision & 3D perception",
-          "Auto-annotated synthetic data (SDXL / SAM2)"
+          "ViT distillation",
+          "OpenVINO",
+          "LoRA",
+          "Stereo vision",
+          "3D perception",
+          "Synthetic data (SDXL / SAM2)"
         ]
       },
       {
         "category": "Edge & Robotics",
         "items": [
           "Nvidia Jetson Orin",
+          "MQTT",
           "ROS 2 / MoveIt",
-          "GStreamer",
-          "MQTT"
+          "GStreamer"
         ]
       },
       {
@@ -298,7 +305,8 @@
           "FastAPI",
           "AWS",
           "Google Cloud",
-          "Git · CI/CD"
+          "Git",
+          "CI/CD"
         ]
       }
     ],
