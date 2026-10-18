@@ -107,9 +107,10 @@
         "category": "Edge & Robotique",
         "items": [
           "Nvidia Jetson Orin",
-          "MQTT",
+          "GStreamer",
           "ROS 2 / MoveIt",
-          "GStreamer"
+          "OpenCV",
+          "MQTT"
         ]
       },
       {
@@ -293,9 +294,10 @@
         "category": "Edge & Robotics",
         "items": [
           "Nvidia Jetson Orin",
-          "MQTT",
+          "GStreamer",
           "ROS 2 / MoveIt",
-          "GStreamer"
+          "OpenCV",
+          "MQTT"
         ]
       },
       {
