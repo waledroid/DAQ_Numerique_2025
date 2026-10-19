@@ -1224,7 +1224,7 @@
       "fr": {
         "identity": {
           "name": "Abdullahi Atanda",
-          "title": "Réceptionniste polyvalent · Employé d'étage",
+          "title": "Réceptionniste polyvalent",
           "tagline": "Alternance · Contrat de professionnalisation — Réception hôtelière"
         },
         "contact": [
@@ -1244,7 +1244,7 @@
         "profile": "Réceptionniste polyvalent, expérimenté en réception, hébergement et petit-déjeuner. Formé au PMS FOLS chez Ibis Budget Beaune : accueil, check-in/out, réservations et encaissement. Sérieux et orienté client, je recherche un contrat de professionnalisation en réception, avec une bonne flexibilité horaire, y compris la nuit, les week-ends et jours fériés.",
         "experience": [
           {
-            "role": "Réceptionniste polyvalent · Employé d'étage",
+            "role": "Réceptionniste polyvalent / Employé d’étage",
             "company": "Hôtel Ibis Budget",
             "location": "Beaune (21)",
             "dates": "Sept. 2025 – Nov. 2025",
@@ -1296,14 +1296,19 @@
         ],
         "education": [
           {
-            "degree": "Bachelor en Informatique",
-            "school": "Dijon",
-            "dates": "2022 – 2024"
+            "degree": "TP Réceptionniste en hôtellerie et hôtellerie de plein air",
+            "school": "STELO Formation, Chagny (71)",
+            "dates": "Admission confirmée"
           },
           {
-            "degree": "Formation interne — Réception hôtelière",
-            "school": "Hôtel Ibis Budget Beaune — FOLS, procédures d'accueil, standards qualité",
+            "degree": "Formation interne en réception hôtelière",
+            "school": "Hôtel Ibis Budget Beaune — PMS FOLS, procédures d’accueil et standards qualité",
             "dates": "2025"
+          },
+          {
+            "degree": "Bachelor en informatique",
+            "school": "Dijon",
+            "dates": "2022 – 2024"
           }
         ],
         "skills": [
@@ -1401,7 +1406,7 @@
       "en": {
         "identity": {
           "name": "Abdullahi Atanda",
-          "title": "Versatile Receptionist · Room Attendant",
+          "title": "Versatile Receptionist",
           "tagline": "Work-study · Professionalisation contract — Hotel reception"
         },
         "contact": [
@@ -1421,7 +1426,7 @@
         "profile": "Versatile receptionist experienced in front desk, housekeeping and breakfast service. Trained on the FOLS PMS at Ibis Budget Beaune: welcome, check-in/out, bookings and payments. Reliable and customer-focused, I am looking for a professionalisation contract in reception, with strong schedule flexibility, including nights, weekends and public holidays.",
         "experience": [
           {
-            "role": "Versatile Receptionist · Room Attendant",
+            "role": "Versatile Receptionist / Room Attendant",
             "company": "Hôtel Ibis Budget",
             "location": "Beaune (21)",
             "dates": "Sept. 2025 – Nov. 2025",
@@ -1473,14 +1478,19 @@
         ],
         "education": [
           {
-            "degree": "Bachelor's Degree in Computer Science",
-            "school": "Dijon, France",
-            "dates": "2022 – 2024"
+            "degree": "Professional Title — Hotel & Outdoor Hospitality Receptionist",
+            "school": "STELO Formation, Chagny (71)",
+            "dates": "Confirmed admission"
           },
           {
-            "degree": "In-house training — Hotel reception",
-            "school": "Hôtel Ibis Budget Beaune — FOLS, front-desk procedures, quality standards",
+            "degree": "In-house training in hotel reception",
+            "school": "Hôtel Ibis Budget Beaune — FOLS PMS, welcome procedures and quality standards",
             "dates": "2025"
+          },
+          {
+            "degree": "Bachelor’s Degree in Computer Science",
+            "school": "Dijon",
+            "dates": "2022 – 2024"
           }
         ],
         "skills": [
