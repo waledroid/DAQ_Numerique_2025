@@ -1255,16 +1255,14 @@
                 "points": [
                   "Accueil, check-in/out et encaissement sur FOLS",
                   "Gestion des réservations et demandes clients",
-                  "Autonomie, notamment en horaires de nuit",
-                  "Coordination avec le housekeeping"
+                  "Autonomie, notamment en horaires de nuit"
                 ]
               },
               {
                 "title": "Hébergement & petit-déjeuner",
                 "points": [
                   "Nettoyage et remise en état des chambres",
-                  "Entretien des espaces communs",
-                  "Gestion du linge et des produits d’accueil",
+                  "Entretien des espaces communs et gestion du linge",
                   "Préparation et réapprovisionnement du buffet petit-déjeuner"
                 ]
               }
@@ -1437,16 +1435,14 @@
                 "points": [
                   "Welcome, check-in/out and payments on FOLS",
                   "Managing bookings and guest requests",
-                  "Autonomy, including night shifts",
-                  "Coordination with housekeeping"
+                  "Autonomy, including night shifts"
                 ]
               },
               {
                 "title": "Housekeeping & breakfast",
                 "points": [
                   "Cleaning and preparing rooms",
-                  "Upkeep of common areas",
-                  "Managing linen and guest amenities",
+                  "Upkeep of common areas and linen management",
                   "Preparing and restocking the breakfast buffet"
                 ]
               }
