@@ -1280,13 +1280,12 @@
           },
           {
             "role": "Équipier polyvalent",
-            "company": "McDonald's",
+            "company": "McDonald’s",
             "location": "Le Creusot (71)",
             "dates": "Nov. 2022 – Oct. 2024",
             "points": [
               "Accueil et service client",
-              "Gestion des flux en période de forte activité",
-              "Préparation selon standards qualité et HACCP",
+              "Préparation des commandes selon les normes qualité et HACCP",
               "Hygiène, entretien et travail en équipe"
             ]
           }
@@ -1459,13 +1458,12 @@
           },
           {
             "role": "Crew Member",
-            "company": "McDonald's",
+            "company": "McDonald’s",
             "location": "Le Creusot (71)",
             "dates": "Nov. 2022 – Oct. 2024",
             "points": [
-              "Customer service",
-              "Managing flows during peak periods",
-              "Preparation to quality and HACCP standards",
+              "Welcome and customer service",
+              "Order preparation according to quality and HACCP standards",
               "Hygiene, cleaning and teamwork"
             ]
           }
