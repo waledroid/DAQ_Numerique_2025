@@ -353,6 +353,16 @@
             ]
           },
           {
+            "role": "Valet de chambre",
+            "company": "Hôtel Campanile & Première Classe",
+            "location": "Beaune (21)",
+            "dates": "Sept. 2026 – Oct. 2026",
+            "points": [
+              "Nettoyage et remise en état des chambres et espaces communs",
+              "Gestion du linge, réapprovisionnement des produits d’accueil et contrôle de la propreté"
+            ]
+          },
+          {
             "role": "Équipier polyvalent",
             "company": "McDonald's",
             "location": "Le Creusot (71)",
@@ -361,16 +371,6 @@
               "Service client au comptoir et en salle ; gestion des flux",
               "Préparation des commandes selon standards qualité et HACCP",
               "Entretien et respect des protocoles d'hygiène des espaces"
-            ]
-          },
-          {
-            "role": "Valet de chambre",
-            "company": "Hôtel Campanile & Première Classe",
-            "location": "Beaune (21)",
-            "dates": "Sept. 2026 – Oct. 2026",
-            "points": [
-              "Nettoyage et remise en état des chambres et espaces communs",
-              "Gestion du linge, réapprovisionnement des produits d’accueil et contrôle de la propreté"
             ]
           }
         ],
@@ -499,6 +499,16 @@
             ]
           },
           {
+            "role": "Room Attendant",
+            "company": "Hôtel Campanile & Première Classe",
+            "location": "Beaune (21)",
+            "dates": "Sept. 2026 – Oct. 2026",
+            "points": [
+              "Cleaning and preparing guest rooms and common areas",
+              "Linen management, restocking guest amenities and cleanliness checks"
+            ]
+          },
+          {
             "role": "Crew Member",
             "company": "McDonald's",
             "location": "Le Creusot (71)",
@@ -507,16 +517,6 @@
               "Customer service at the counter and in the dining area; managing rush periods",
               "Order preparation to quality and HACCP standards",
               "Cleaning and compliance with hygiene protocols"
-            ]
-          },
-          {
-            "role": "Room Attendant",
-            "company": "Hôtel Campanile & Première Classe",
-            "location": "Beaune (21)",
-            "dates": "Sept. 2026 – Oct. 2026",
-            "points": [
-              "Cleaning and preparing guest rooms and common areas",
-              "Linen management, restocking guest amenities and cleanliness checks"
             ]
           }
         ],
@@ -655,6 +655,16 @@
             ]
           },
           {
+            "role": "Valet de chambre",
+            "company": "Hôtel Campanile & Première Classe",
+            "location": "Beaune (21)",
+            "dates": "Sept. 2026 – Oct. 2026",
+            "points": [
+              "Nettoyage et remise en état des chambres et espaces communs",
+              "Gestion du linge, réapprovisionnement des produits d’accueil et contrôle de la propreté"
+            ]
+          },
+          {
             "role": "Équipier polyvalent",
             "company": "McDonald’s",
             "location": "Le Creusot (71)",
@@ -663,16 +673,6 @@
               "Entretien et nettoyage des espaces de travail, de la salle et des équipements",
               "Respect strict des protocoles d’hygiène",
               "Organisation du travail dans un environnement à forte activité et travail en équipe, respect des standards de qualité"
-            ]
-          },
-          {
-            "role": "Valet de chambre",
-            "company": "Hôtel Campanile & Première Classe",
-            "location": "Beaune (21)",
-            "dates": "Sept. 2026 – Oct. 2026",
-            "points": [
-              "Nettoyage et remise en état des chambres et espaces communs",
-              "Gestion du linge, réapprovisionnement des produits d’accueil et contrôle de la propreté"
             ]
           }
         ],
@@ -798,6 +798,16 @@
             ]
           },
           {
+            "role": "Room Attendant",
+            "company": "Hôtel Campanile & Première Classe",
+            "location": "Beaune (21)",
+            "dates": "Sept. 2026 – Oct. 2026",
+            "points": [
+              "Cleaning and preparing guest rooms and common areas",
+              "Linen management, restocking guest amenities and cleanliness checks"
+            ]
+          },
+          {
             "role": "Crew Member",
             "company": "McDonald’s",
             "location": "Le Creusot (71)",
@@ -806,16 +816,6 @@
               "Cleaning and upkeep of work areas, dining room and equipment",
               "Strict compliance with hygiene protocols",
               "Organised work in a high-volume environment, teamwork and quality standards"
-            ]
-          },
-          {
-            "role": "Room Attendant",
-            "company": "Hôtel Campanile & Première Classe",
-            "location": "Beaune (21)",
-            "dates": "Sept. 2026 – Oct. 2026",
-            "points": [
-              "Cleaning and preparing guest rooms and common areas",
-              "Linen management, restocking guest amenities and cleanliness checks"
             ]
           }
         ],
