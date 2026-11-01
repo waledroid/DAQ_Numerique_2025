@@ -140,7 +140,7 @@
         "name": "IsiMonitor 3D – Vision industrielle",
         "year": "2026",
         "stack": "GStreamer · ONNX Runtime · MQTT",
-        "desc": "Suivi 2D/3D multi-caméras d'entrepôt avec jumeau numérique temps réel, calibration assistée (isiCal) et génération de données synthétiques (isiGen)."
+        "desc": "Suivi 2D/3D multi-caméras pour jumeau numérique d'entrepôt temps réel, avec calibration caméra automatisée (isiCal) et génération de données synthétiques (isiGen)."
       },
       {
         "name": "IsiDetector – Détection Edge & IA",
@@ -326,7 +326,7 @@
       {
         "name": "IsiMonitor 3D – Industrial Vision",
         "stack": "GStreamer · ONNX Runtime · MQTT",
-        "desc": "Multi-camera 2D/3D warehouse tracking with a real-time digital twin, assisted calibration (isiCal) and synthetic data generation (isiGen).",
+        "desc": "Multi-camera 2D/3D tracking for real-time warehouse digital twins, with automated camera calibration (isiCal) and synthetic data generation (isiGen).",
         "year": "2026"
       },
       {
