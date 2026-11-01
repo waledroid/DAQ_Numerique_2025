@@ -152,7 +152,7 @@
         "name": "ROSBot Harmony – Robotique autonome",
         "year": "2024",
         "stack": "C++ · RTAB-Map · ROS 2 · MoveIt · PyTorch",
-        "desc": "Navigation autonome, Visual SLAM, coordination multi-robots et planification de mouvements pour flottes de robots mobiles."
+        "desc": "Navigation autonome, Visual SLAM, coordination multi-robots et planification de mouvements."
       }
     ],
     "certifications": [
@@ -338,7 +338,7 @@
       {
         "name": "ROSBot Harmony – Autonomous Robotics",
         "stack": "C++ · RTAB-Map · ROS 2 · MoveIt · PyTorch",
-        "desc": "Autonomous navigation, Visual SLAM, multi-robot coordination and motion planning for mobile robot fleets",
+        "desc": "Autonomous navigation, Visual SLAM, multi-robot coordination and motion planning.",
         "year": "2024"
       }
     ],
