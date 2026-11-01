@@ -317,13 +317,13 @@
       let best = 1.0;
 
       el.style.setProperty('--sp', high.toFixed(3));
-      if (el.scrollHeight <= el.clientHeight + 2) {
+      if (el.scrollHeight <= el.clientHeight) {
         best = high;
       } else {
         for (let step = 0; step < 8; step++) {
           const mid = (low + high) / 2;
           el.style.setProperty('--sp', mid.toFixed(3));
-          if (el.scrollHeight <= el.clientHeight + 2) {
+          if (el.scrollHeight <= el.clientHeight) {
             best = mid;
             low = mid;
           } else {
@@ -432,7 +432,7 @@
     if (wasEditing) body.classList.remove('editing');
     const over = ['.side', '.mainc', '.ltc'].some((sel) => {
       const el = $(sel);
-      return el && el.scrollHeight > el.clientHeight + 2;
+      return el && el.scrollHeight > el.clientHeight;
     });
     if (wasEditing) body.classList.add('editing');
     $('#overflow-warn').hidden = !over;
@@ -508,6 +508,13 @@
     }
     setEditing(false);
     render();
+    if (document.fonts && document.fonts.ready) {
+      try {
+        await document.fonts.ready;
+        autoSpace();
+        checkOverflow();
+      } catch (err) {}
+    }
   }
 
   async function load() {
@@ -544,6 +551,13 @@
     const resetBtn = $('#btn-reset');
     if (resetBtn) resetBtn.hidden = !localStorage.getItem(DRAFT_KEY);
     render();
+    if (document.fonts && document.fonts.ready) {
+      try {
+        await document.fonts.ready;
+        autoSpace();
+        checkOverflow();
+      } catch (err) {}
+    }
   }
 
   // ---- Online login (password) --------------------------------------------
@@ -785,8 +799,11 @@
   });
   window.addEventListener('resize', () => { autoSpace(); checkOverflow(); });
   // Re-measure once webfonts and the portrait have real metrics
-  if (document.fonts && document.fonts.ready) {
-    document.fonts.ready.then(() => { autoSpace(); checkOverflow(); });
+  if (document.fonts) {
+    if (document.fonts.ready) {
+      document.fonts.ready.then(() => { autoSpace(); checkOverflow(); });
+    }
+    document.fonts.addEventListener('loadingdone', () => { autoSpace(); checkOverflow(); });
   }
   window.addEventListener('load', () => { autoSpace(); checkOverflow(); });
 
