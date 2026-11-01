@@ -146,7 +146,7 @@
         "name": "IsiDetector – Détection Edge & IA",
         "year": "2026",
         "stack": "YOLOv26/RF-DETR · TensorRT/OpenVINO · ByteTrack · Docker",
-        "desc": "Détection et segmentation de colis sur convoyeur (mAP@50 ≈ 0,96) avec optimisation INT8/FP16 et pilotage d'automates."
+        "desc": "Détection et segmentation temps réel de colis sur convoyeur (mAP@50 ≈ 0,96), optimisation FP16/INT8 et intégration automate de tri."
       },
       {
         "name": "ROSBot Harmony – Robotique autonome",
@@ -332,7 +332,7 @@
       {
         "name": "IsiDetector – AI Parcel Detection & Sorting",
         "stack": "YOLOv26/RF-DETR · TensorRT/OpenVINO · ByteTrack · Docker",
-        "desc": "Real-time parcel detection and segmentation on conveyor belts (mAP@50 ≈ 0.96), INT8/FP16 model optimization, and UDP-triggered PLC sorting control.",
+        "desc": "Real-time conveyor parcel detection and segmentation (mAP@50 ≈ 0.96), FP16/INT8 optimization and PLC sorting integration.",
         "year": "2026"
       },
       {
