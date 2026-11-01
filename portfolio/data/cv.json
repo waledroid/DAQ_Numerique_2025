@@ -50,7 +50,7 @@
         "location": "Le Creusot 71200",
         "dates": "Fév. 2024 – Juil. 2024",
         "points": [
-          "Encodeur d'images NanoSAM — Compression ViT : distillation et optimisation TensorRT sur Jetson Orin Nano, +25 % de débit de segmentation et −40 % de latence d'inférence."
+          "Encodeur d'images NanoSAM : compression ViT, distillation et optimisation TensorRT sur Jetson Orin Nano, +25 % de débit de segmentation et −40 % de latence d'inférence."
         ]
       },
       {
@@ -65,12 +65,12 @@
     ],
     "education": [
       {
-        "degree": "Master 2 — Vision par ordinateur et robotique",
+        "degree": "Master 2 en Vision par ordinateur et robotique",
         "school": "Université Bourgogne Europe",
         "dates": "Août 2024"
       },
       {
-        "degree": "Master 2 — Intelligence artificielle pour One Health",
+        "degree": "Master 2 en Intelligence artificielle pour One Health",
         "school": "Université Grenoble Alpes",
         "dates": "Août 2026"
       },
@@ -137,19 +137,19 @@
     ],
     "projects": [
       {
-        "name": "IsiMonitor 3D — Vision industrielle",
+        "name": "IsiMonitor 3D – Vision industrielle",
         "year": "2026",
         "stack": "GStreamer · ONNX Runtime · MQTT",
         "desc": "Suivi 2D/3D multi-caméras d'entrepôt avec jumeau numérique temps réel, calibration assistée (isiCal) et génération de données synthétiques (isiGen)."
       },
       {
-        "name": "IsiDetector — Détection Edge & IA",
+        "name": "IsiDetector – Détection Edge & IA",
         "year": "2026",
         "stack": "YOLOv26/RF-DETR · TensorRT/OpenVINO · ByteTrack · Docker",
         "desc": "Détection et segmentation de colis sur convoyeur (mAP@50 ≈ 0,96) avec optimisation INT8/FP16 et pilotage d'automates."
       },
       {
-        "name": "ROSBot Harmony — Robotique autonome",
+        "name": "ROSBot Harmony – Robotique autonome",
         "year": "2024",
         "stack": "C++ · RTAB-Map · ROS 2 · MoveIt · PyTorch",
         "desc": "Navigation autonome, Visual SLAM, coordination multi-robots et planification de mouvements pour flottes de robots mobiles."
@@ -237,7 +237,7 @@
         "location": "Le Creusot 71200",
         "dates": "Feb 2024 – Jul 2024",
         "points": [
-          "NanoSAM image encoder — Vision Transformer (ViT) compression: distillation and TensorRT optimization on Jetson Orin Nano, +25% segmentation throughput and −40% inference latency."
+          "NanoSAM image encoder: Vision Transformer (ViT) compression, distillation and TensorRT optimization on Jetson Orin Nano, +25% segmentation throughput and −40% inference latency."
         ]
       },
       {
@@ -252,12 +252,12 @@
     ],
     "education": [
       {
-        "degree": "MSc (M2) — Computer Vision and Robotics",
+        "degree": "MSc in Computer Vision and Robotics",
         "school": "Université de Bourgogne",
         "dates": "August 2024"
       },
       {
-        "degree": "MSc (M2) — Artificial Intelligence for One Health",
+        "degree": "MSc in Artificial Intelligence for One Health",
         "school": "Université Grenoble Alpes (UGA)",
         "dates": "August 2026"
       },
@@ -324,19 +324,19 @@
     ],
     "projects": [
       {
-        "name": "IsiMonitor 3D — Industrial Vision",
+        "name": "IsiMonitor 3D – Industrial Vision",
         "stack": "GStreamer · ONNX Runtime · MQTT",
         "desc": "Multi-camera 2D/3D warehouse tracking with a real-time digital twin, assisted calibration (isiCal) and synthetic data generation (isiGen).",
         "year": "2026"
       },
       {
-        "name": "IsiDetector — AI Parcel Detection & Sorting",
+        "name": "IsiDetector – AI Parcel Detection & Sorting",
         "stack": "YOLOv26/RF-DETR · TensorRT/OpenVINO · ByteTrack · Docker",
         "desc": "Real-time parcel detection and segmentation on conveyor belts (mAP@50 ≈ 0.96), INT8/FP16 model optimization, and UDP-triggered PLC sorting control.",
         "year": "2026"
       },
       {
-        "name": "ROSBot Harmony — Autonomous Robotics",
+        "name": "ROSBot Harmony – Autonomous Robotics",
         "stack": "C++ · RTAB-Map · ROS 2 · MoveIt · PyTorch",
         "desc": "Autonomous navigation, Visual SLAM, multi-robot coordination and motion planning for mobile robot fleets",
         "year": "2024"

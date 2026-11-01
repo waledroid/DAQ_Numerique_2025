@@ -29,8 +29,8 @@
   // print button then produces the displayed language's PDF.
   const I18N = {
     fr: {
-      title: 'CV — Atanda Abdullahi',
-      letterTitle: 'Lettre de motivation — Atanda Abdullahi',
+      title: 'CV – Atanda Abdullahi',
+      letterTitle: 'Lettre de motivation – Atanda Abdullahi',
       tabCv: 'CV', tabLetter: 'Lettre de motivation',
       objetPrefix: 'Objet : Candidature au poste de ',
       contact: 'Contact',
@@ -43,8 +43,8 @@
       dateSuffix: (d) => `, le ${d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}`,
     },
     en: {
-      title: 'Resume — Atanda Abdullahi',
-      letterTitle: 'Cover Letter — Atanda Abdullahi',
+      title: 'Resume – Atanda Abdullahi',
+      letterTitle: 'Cover Letter – Atanda Abdullahi',
       tabCv: 'Resume', tabLetter: 'Cover letter',
       objetPrefix: 'Re: Application for ',
       contact: 'Contact',
