@@ -299,10 +299,11 @@
   }
 
   // ---- Auto spacing --------------------------------------------------------
-  // Scale each column's vertical rhythm (the --sp CSS variable) so the
-  // content breathes into exactly one A4 page: sparse content relaxes,
-  // dense content tightens. Measured with edit chrome hidden so the result
-  // matches what prints.
+  // Calibre le rythme vertical (variable CSS --sp) pour que le contenu occupe
+  // harmonieusement la page A4 (jusqu'à 1.65×), sans aucun débordement.
+  // Une recherche dichotomique en 8 étapes converge avec une précision de 0,0035,
+  // garantissant un remplissage identique et stable dès le premier affichage et lors
+  // du basculement de langue.
   function autoSpace() {
     const body = document.body;
     const wasEditing = body.classList.contains('editing');
@@ -310,25 +311,27 @@
     ['.side', '.mainc'].forEach((sel) => {
       const el = $(sel);
       if (!el || el.clientHeight === 0) return; // feuille masquée (onglet Lettre actif)
-      el.style.setProperty('--sp', 1);
-      // 8 passes : le ratio ne réduit que les marges, la convergence est lente
-      for (let i = 0; i < 8; i++) {
-        const cs = getComputedStyle(el);
-        const padTop = parseFloat(cs.paddingTop) || 0;
-        const padBot = parseFloat(cs.paddingBottom) || 0;
-        const avail = el.clientHeight - padTop - padBot;
-        let last = el.lastElementChild;
-        while (last && last.offsetHeight === 0) last = last.previousElementSibling;
-        if (!last) break;
-        const content = last.offsetTop + last.offsetHeight - padTop;
-        // Convergence asymétrique : ne s'arrêter que si le contenu TIENT (sinon la
-        // garde une-page, à ±2px, resterait déclenchée à 3px de dépassement).
-        if (content <= 0 || (content <= avail && avail - content < 3)) break;
-        const prev = parseFloat(el.style.getPropertyValue('--sp')) || 1;
-        const next = Math.min(1.65, Math.max(0.75, prev * (avail / content)));
-        el.style.setProperty('--sp', next.toFixed(3));
-        if (next === prev) break;
+
+      let low = 0.75;
+      let high = 1.65;
+      let best = 1.0;
+
+      el.style.setProperty('--sp', high.toFixed(3));
+      if (el.scrollHeight <= el.clientHeight + 2) {
+        best = high;
+      } else {
+        for (let step = 0; step < 8; step++) {
+          const mid = (low + high) / 2;
+          el.style.setProperty('--sp', mid.toFixed(3));
+          if (el.scrollHeight <= el.clientHeight + 2) {
+            best = mid;
+            low = mid;
+          } else {
+            high = mid;
+          }
+        }
       }
+      el.style.setProperty('--sp', best.toFixed(3));
     });
     if (wasEditing) body.classList.add('editing');
   }
