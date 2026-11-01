@@ -37,7 +37,7 @@
         "role": "Ingénieur Vision par Ordinateur",
         "company": "Isitec International",
         "location": "Millery, Lyon 69390",
-        "dates": "Mars 2026 – présent",
+        "dates": "Mars 2026 – Sept. 2026",
         "points": [
           "Développement d'un système de perception multi-caméras temps réel (~60 FPS) pour le suivi 2D/3D de colis et la communication avec des AGV.",
           "IsiDetector : Segmentation de colis convoyeur (mAP@50 ≈ 0,96), compression FP16/INT8, déploiement OpenVINO/TensorRT + intégration automate de tri.",
@@ -224,7 +224,7 @@
         "role": "Computer Vision Engineer",
         "company": "Isitec International",
         "location": "Millery, Lyon 69390",
-        "dates": "Mar 2026 – present",
+        "dates": "Mar 2026 – Sept 2026",
         "points": [
           "Developed a real-time multi-camera perception system (~60 FPS) for 2D/3D parcel tracking and AGV communication.",
           "Tooling: built isiCal (guided ChArUco/Multical calibration) and isiGen (auto-annotated synthetic data via SDXL/SAM2).",
