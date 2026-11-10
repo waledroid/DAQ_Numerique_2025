@@ -84,8 +84,8 @@
               "Emballage des commandes",
               "Service client",
               "Gestion du rush",
-              "Polyvalence",
-              "Rapidité d'exécution"
+              "Travail en équipe",
+              "Rapidité & efficacité"
             ]
           },
           {
@@ -94,16 +94,9 @@
               "Procédures HACCP",
               "Hygiène alimentaire",
               "Nettoyage & désinfection",
-              "Standards qualité"
-            ]
-          },
-          {
-            "category": "Qualités professionnelles",
-            "items": [
-              "Très rapide et efficace",
-              "Polyvalent",
-              "Travail en équipe",
-              "Réactif sous pression"
+              "Standards qualité",
+              "Polyvalence",
+              "Réactivité sous pression"
             ]
           }
         ],
@@ -238,8 +231,8 @@
               "Order packaging",
               "Customer service",
               "Rush management",
-              "Versatility",
-              "Speed of execution"
+              "Teamwork",
+              "Speed & efficiency"
             ]
           },
           {
@@ -248,15 +241,8 @@
               "HACCP procedures",
               "Food hygiene",
               "Cleaning & sanitising",
-              "Quality standards"
-            ]
-          },
-          {
-            "category": "Professional Qualities",
-            "items": [
-              "Very fast and efficient",
-              "Versatile",
-              "Team player",
+              "Quality standards",
+              "Versatility",
               "Calm under pressure"
             ]
           }
