@@ -351,7 +351,7 @@
       blank: { name: 'Certification', year: 'Année' },
     },
     interests: {
-      host: '#interest-list', tpl: 'tpl-cert',
+      host: '#interest-list', tpl: 'tpl-interest',
       blank: { name: 'Intérêt', year: '' },
     },
     experience: {
@@ -371,6 +371,9 @@
   function appendItem(key, data) {
     const cfg = LISTS[key];
     const node = tpl(cfg.tpl, cfg.map ? cfg.map(data) : data);
+    if (key === 'interests' && data && data.name) {
+      node.setAttribute('data-name', data.name);
+    }
     if (key === 'experience') {
       const groupsHost = $('[data-groups]', node);
       const flat = $('[data-flatpoints]', node);
@@ -997,6 +1000,10 @@
   // Keep the spacing and one-page warning honest while typing
   document.addEventListener('input', (e) => {
     if (!editing) return;
+    const it = e.target.closest('.interest-item');
+    if (it && e.target.matches('[data-field="name"]')) {
+      it.setAttribute('data-name', e.target.textContent.trim());
+    }
     if (e.target.closest('#cv-sheet')) {
       autoSpace();
       checkOverflow();

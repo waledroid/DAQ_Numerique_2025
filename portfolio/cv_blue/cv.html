@@ -200,6 +200,43 @@
     }
     .proj .pdesc { color: #334155; display: block; margin-top: 0.6mm; line-height: 1.38; font-size: 8.2pt; text-align: justify; text-justify: auto; }
 
+    /* Centres d’intérêt inline avec petits icônes */
+    .interest-row {
+      display: flex; flex-wrap: wrap; align-items: center; gap: 2.5mm 6mm;
+      margin-top: calc(1.5mm * var(--sp, 1));
+    }
+    .interest-item {
+      display: inline-flex; align-items: center; gap: 1.8mm;
+      font-size: 8.5pt; font-weight: 500; color: #1e293b;
+      position: relative;
+    }
+    .interest-icon {
+      display: inline-flex; align-items: center; justify-content: center;
+      width: 4.8mm; height: 4.8mm; flex-shrink: 0;
+      background: rgba(27, 89, 53, 0.08); border-radius: 1.2mm;
+    }
+    .interest-icon svg { display: none; width: 3.2mm; height: 3.2mm; fill: var(--accentx); }
+    .interest-icon svg.icon-default { display: inline-block; }
+
+    .interest-item[data-name*="Voyage" i] svg.icon-travel,
+    .interest-item[data-name*="Travel" i] svg.icon-travel { display: inline-block; }
+
+    .interest-item[data-name*="Photo" i] svg.icon-photo { display: inline-block; }
+
+    .interest-item[data-name*="Foot" i] svg.icon-football,
+    .interest-item[data-name*="Sport" i] svg.icon-football { display: inline-block; }
+
+    .interest-item[data-name*="Cuisine" i] svg.icon-cooking,
+    .interest-item[data-name*="Cook" i] svg.icon-cooking { display: inline-block; }
+
+    .interest-item[data-name*="Voyage" i] svg.icon-default,
+    .interest-item[data-name*="Travel" i] svg.icon-default,
+    .interest-item[data-name*="Photo" i] svg.icon-default,
+    .interest-item[data-name*="Foot" i] svg.icon-default,
+    .interest-item[data-name*="Sport" i] svg.icon-default,
+    .interest-item[data-name*="Cuisine" i] svg.icon-default,
+    .interest-item[data-name*="Cook" i] svg.icon-default { display: none; }
+
     /* ====== Lettre de motivation — même feuille A4, en-tête assorti ====== */
     /* `hidden` doit gagner sur le display:grid/block des feuilles */
     .sheet[hidden] { display: none !important; }
@@ -249,10 +286,10 @@
     body[data-cv="alternance-reception"] .side .sec { margin: 2mm 0 1.2mm; padding-bottom: 0.6mm; }
     body[data-cv="alternance-reception"] .mainc .sec { margin: 5mm 0 1.8mm; }
     body[data-cv="alternance-reception"] .mainc .sec:first-of-type { margin-top: 3mm; }
-    body[data-cv="alternance-reception"] .item { margin-bottom: 2.2mm; }
-    body[data-cv="alternance-reception"] .exp-group { margin-top: 1.1mm; }
-    body[data-cv="alternance-reception"] .points { margin-top: 0.8mm; }
-    body[data-cv="alternance-reception"] .points li { margin-bottom: 0.45mm; line-height: 1.33; }
+    body[data-cv="alternance-reception"] .item { margin-bottom: calc(1.8mm * var(--sp, 1)); }
+    body[data-cv="alternance-reception"] .exp-group { margin-top: calc(0.8mm * var(--sp, 1)); }
+    body[data-cv="alternance-reception"] .points { margin-top: calc(0.5mm * var(--sp, 1)); }
+    body[data-cv="alternance-reception"] .points li { margin-bottom: calc(0.35mm * var(--sp, 1)); line-height: 1.32; }
     /* Section vide : masquée hors édition */
     .sec.is-empty { display: none; }
     body.editing .sec.is-empty { display: block; opacity: .55; }
@@ -385,6 +422,10 @@
 
         <h2 class="sec" data-i18n="availability">Disponibilité</h2>
         <p style="font-size:8.8pt;color:#1e293b;line-height:1.45;text-align:justify;text-justify:auto;" data-edit="availability"></p>
+
+        <h2 class="sec" data-i18n="interests">Centres d’intérêt</h2>
+        <div id="interest-list" class="interest-row"></div>
+        <button type="button" class="add edit-only" data-add="interests">+ intérêt</button>
       </section>
 
       <!-- Sidebar -->
@@ -404,10 +445,6 @@
         <h2 class="sec" data-i18n="languages">Langues</h2>
         <div id="lang-list"></div>
         <button type="button" class="add edit-only" data-add="languages">+ langue</button>
-
-        <h2 class="sec" data-i18n="interests">Centres d’intérêt</h2>
-        <div id="interest-list"></div>
-        <button type="button" class="add edit-only" data-add="interests">+ intérêt</button>
       </aside>
 
     </div>
@@ -557,6 +594,21 @@
       <button type="button" class="rm edit-only" data-rm aria-label="Supprimer">×</button>
       <span class="cname" data-field="name">{{name}}</span><span class="year" data-field="year">{{year}}</span>
     </p>
+  </template>
+
+  <template id="tpl-interest">
+    <div class="interest-item" data-item data-name="{{name}}">
+      <button type="button" class="rm edit-only" data-rm aria-label="Supprimer">×</button>
+      <span class="interest-icon">
+        <svg class="icon-travel" viewBox="0 0 24 24"><path d="M21 16v-2l-8-5V3.5c0-.83-.67-1.5-1.5-1.5S10 2.67 10 3.5V9l-8 5v2l8-2.5V19l-2 1.5V22l3.5-1 3.5 1v-1.5L13 19v-5.5l8 2.5z"/></svg>
+        <svg class="icon-photo" viewBox="0 0 24 24"><path d="M12 12m-3.2 0a3.2 3.2 0 1 0 6.4 0 3.2 3.2 0 1 0-6.4 0M9 2L7.17 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2h-3.17L15 2H9zm3 15c-2.76 0-5-2.24-5-5s2.24-5 5-5 5 2.24 5 5-2.24 5-5 5z"/></svg>
+        <svg class="icon-football" viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 2c1.85 0 3.55.63 4.9 1.69L14.6 8.3a1 1 0 0 1-.77.37H10.17a1 1 0 0 1-.77-.37L7.1 5.69A7.95 7.95 0 0 1 12 4zm-6.48 3.12 2.1 2.45a1 1 0 0 1 .23.83l-.7 3.51a1 1 0 0 1-.62.74L3.6 15.77a8.03 8.03 0 0 1 1.92-8.65zm3.1 11.53 2.13-1.63a1 1 0 0 1 .61-.22h1.28c.22 0 .43.08.61.22l2.13 1.63a7.98 7.98 0 0 1-6.76 0zm8.76-2.88-2.93-1.12a1 1 0 0 1-.62-.74l-.7-3.51a1 1 0 0 1 .23-.83l2.1-2.45a8.03 8.03 0 0 1 1.92 8.65z"/></svg>
+        <svg class="icon-cooking" viewBox="0 0 24 24"><path d="M11 9H9V2H7v7H5V2H3v7c0 2.12 1.66 3.84 3.75 3.97V22h2.5v-9.03C11.34 12.84 13 11.12 13 9V2h-2v7zm5-3v8h2.5v8H21V2c-2.76 0-5 2.24-5 4z"/></svg>
+        <svg class="icon-default" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+      </span>
+      <span class="cname" data-field="name">{{name}}</span>
+      <span class="year" data-field="year" style="display:none;">{{year}}</span>
+    </div>
   </template>
 
   <template id="tpl-exp">
