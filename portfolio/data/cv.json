@@ -189,7 +189,7 @@
   "en": {
     "identity": {
       "name": "Atanda Abdullahi",
-      "title": "Computer Vision & Edge-AI Engineer",
+      "title": "Computer Vision & Edge-AI Engineer - Forward Deployed Engineer",
       "tagline": "Specialist in embedded Deep Learning, model compression (INT8/FP16) and real-time deployment on industrial and robotics hardware."
     },
     "contact": [
@@ -218,7 +218,7 @@
         "value": "portfolio-waledroid.netlify.app"
       }
     ],
-    "profile": "Computer Vision Engineer specialized in designing real-time vision systems for embedded and industrial environments. Expertise in multi-camera vision, multi-object tracking and 3D localization, model acceleration (TensorRT, FP16/INT8) and integration with industrial PLCs",
+    "profile": "Computer Vision Engineer specialized in designing real-time vision systems for embedded and industrial environments. Expertise in multi-camera vision, multi-object tracking and 3D localization, model acceleration (TensorRT) and integration with industrial PLCs",
     "experience": [
       {
         "role": "Computer Vision Engineer",
@@ -325,21 +325,21 @@
     "projects": [
       {
         "name": "IsiMonitor 3D – Industrial Vision",
+        "year": "2026",
         "stack": "GStreamer · ONNX Runtime · MQTT",
-        "desc": "Multi-camera 2D/3D tracking for real-time warehouse digital twins, with automated camera calibration (isiCal) and synthetic data generation (isiGen).",
-        "year": "2026"
+        "desc": "Multi-camera 2D/3D tracking for real-time warehouse digital twins, with automated camera calibration (isiCal) and synthetic data generation (isiGen)."
       },
       {
         "name": "IsiDetector – AI Parcel Detection & Sorting",
+        "year": "2026",
         "stack": "YOLOv26/RF-DETR · TensorRT/OpenVINO · ByteTrack · Docker",
-        "desc": "Real-time conveyor parcel detection and segmentation (mAP@50 ≈ 0.96), FP16/INT8 optimization and PLC sorting integration.",
-        "year": "2026"
+        "desc": "Real-time conveyor parcel detection and segmentation (mAP@50 ≈ 0.96), FP16/INT8 optimization and PLC sorting integration."
       },
       {
         "name": "ROSBot Harmony – Autonomous Robotics",
+        "year": "2024",
         "stack": "C++ · RTAB-Map · ROS 2 · MoveIt · PyTorch",
-        "desc": "Autonomous navigation, Visual SLAM, multi-robot coordination and motion planning.",
-        "year": "2024"
+        "desc": "Autonomous navigation, Visual SLAM, multi-robot coordination and motion planning."
       }
     ],
     "certifications": [
@@ -352,20 +352,7 @@
         "year": "2024"
       }
     ],
-    "interests": [
-      {
-        "name": "AI research & tech watch",
-        "year": ""
-      },
-      {
-        "name": "Acrylic painting",
-        "year": ""
-      },
-      {
-        "name": "Football",
-        "year": ""
-      }
-    ],
+    "interests": [],
     "letter": {
       "offer": {
         "texte": "",
